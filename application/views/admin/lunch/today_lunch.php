@@ -115,11 +115,13 @@ if($session['role_id']==1 || $session['role_id']==2 ){?>
                         $pay_status='<span style="color:red;">Not Paid</span>';
                     }
                 } else {
-                    if ($raw->p_stutus == 'Present' && !isset($raw->meal_amount)) {
+                    if (!isset($raw->meal_amount)) {
                         $set = 1;
                     } else {
                         $set = 0;
                     }
+
+                    
                     $this->load->model("Lunch_model");
                     $emp_data = $this->Lunch_model->get_payment_status($raw->emp_id, $date);
                     if ($emp_data == 0) {

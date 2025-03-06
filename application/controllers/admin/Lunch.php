@@ -186,7 +186,7 @@ class Lunch extends MY_Controller
             redirect('admin/lunch/index');
         }
         if ($query->num_rows() > 0) {
-            $data['results'] = $this->Lunch_model->get_lunch_info(1, $date);
+        $data['results'] = $this->Lunch_model->get_lunch_info(1, $date);
             $data['guest'] = $query->row();
         } else {
             $data['results'] = $this->Lunch_model->get_lunch_info(false, $date);
@@ -1238,6 +1238,26 @@ class Lunch extends MY_Controller
         
         
             $this->load->view('admin/lunch/temp_data', $data);
+    }
+    public function emp_lunch_payment_report(){
+        $sql = $this->input->post('sql');
+        $emp_id = explode(',', trim($sql));
+        $employeeLunchDetails = [];
+        foreach ($emp_id as $employeeId) {
+            $this->db->where('emp_id', $employeeId);
+            $this->db->order_by('from_date', 'asc');
+            $employeeLunchPaymentData = $this->db->get('lunch_payment')->result();
+            $this->db->where('user_id', $employeeId);
+            $employee = $this->db->select('first_name, last_name')->get('xin_employees')->row();
+            $employeeLunchDetails[] = [
+                'employee_details' => $employee,
+                'emp_lunch_payment_data' => $employeeLunchPaymentData,
+            ];
+
+        }
+        $data['employeeLunchDetails']= $employeeLunchDetails;
+        $this->load->view('admin/lunch/emp_lunch_payment_report', $data);
+
     }
     public function temp_data_ex(){
         $first_date =date('2023-12-15');

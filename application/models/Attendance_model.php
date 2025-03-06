@@ -7,6 +7,7 @@ class Attendance_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('Zklibrary');
     }
 
     public function attn_process($process_date, $emp_ids, $status = null){
@@ -22,12 +23,12 @@ class Attendance_model extends CI_Model
         //     exit;
         // }
 
-        if (date('2024-03-23') == $process_date ||
-        date('2024-08-10') == $process_date  ||
-        date('2024-08-31') == $process_date ||
+        if (date('2024-03-23') == $process_date || 
+        date('2024-08-10') == $process_date  || 
+        date('2024-08-31') == $process_date || 
         date('2024-08-24') == $process_date ||
         date('2024-09-14') == $process_date ||
-        date('2024-09-21') == $process_date
+        date('2024-09-21') == $process_date 
         ) {
             $off_day = false;
             $holiday_day = false;
@@ -103,7 +104,37 @@ class Attendance_model extends CI_Model
             $shift_schedule  = $this->get_shift_schedule($emp_id, $process_date, $shift_id);
 
             $proxi_id   = $this->get_proxi($emp_id);
-            if (strtotime('2024-04-31') <= strtotime($process_date)) {
+            if (strtotime('2025-04-01') <= strtotime($process_date)) {
+                $shift_schedule = (object) array(
+                    'office_shift_id' => 1,
+                    'company_id' => 1,
+                    'shift_name' => 'Morning Shift',
+                    'default_shift' => 1,
+                    'in_start_time' => '06:30:00',
+                    'in_time' => '09:30:00',
+                    'late_start' => '09:40:01',
+                    'lunch_time' => '13:10:00',
+                    'lunch_minute' => 60,
+                    'out_start_time' => '13:00:00',
+                    'ot_start_time' => '18:30:00',
+                    'out_end_time' => '23:59:59',
+                );
+            }elseif (strtotime('2025-03-01') <= strtotime($process_date)) {
+                $shift_schedule = (object) array(
+                    'office_shift_id' => 1,
+                    'company_id' => 1,
+                    'shift_name' => 'Morning Shift',
+                    'default_shift' => 1,
+                    'in_start_time' => '06:30:00',
+                    'in_time' => '09:00:00',
+                    'late_start' => '09:10:01',
+                    'lunch_time' => '13:10:00',
+                    'lunch_minute' => 20,
+                    'out_start_time' => '13:00:00',
+                    'ot_start_time' => '16:30:00',
+                    'out_end_time' => '23:59:59',
+                );
+            }elseif (strtotime('2024-04-31') <= strtotime($process_date)) {
                 $shift_schedule = (object) array(
                     'office_shift_id' => 1,
                     'company_id' => 1,
@@ -166,7 +197,6 @@ class Attendance_model extends CI_Model
             }else {
                 $shift_schedule  = $this->get_shift_schedule($emp_id, $process_date, $shift_id);
             }
-            // dd($shift_schedule);
 
             $in_start_time   = $shift_schedule->in_start_time;
             $late_start_time = $shift_schedule->late_start;
@@ -320,7 +350,7 @@ class Attendance_model extends CI_Model
             // get extra present of off day
             $extra_p_day = date('Y-m-d H:i:s', strtotime($early_out_time. ' -1 hours'));
             if ($off_day == true || $holiday_day == true) {
-                if (($in_time != '' && strtotime($in_time)<strtotime($out_start_time)) && ($out_time !='' && strtotime($out_time)>=strtotime($extra_p_day))) {
+                if (($off_day == true) && ($in_time != '' && strtotime($in_time)<strtotime($out_start_time)) && ($out_time !='' && strtotime($out_time)>=strtotime($extra_p_day))) {
                     $astatus = 'Present';
                     $status = 'Off Day';
                     $late_status= 0;
@@ -508,7 +538,7 @@ class Attendance_model extends CI_Model
     public function checking_absent_after_offday_holiday($emp_id, $check_day)
     {
 		$prev_st = $this->check_off_day_prev($check_day, 'xin_holioff_days');
-
+       
 		if ($prev_st['status'] == true) {
             $query = $this->db->where('employee_id', $emp_id)->where('attendance_date', $prev_st['date'])->get('xin_attendance_time')->row();
             if($query->status == 'Absent') {
@@ -538,7 +568,7 @@ class Attendance_model extends CI_Model
                 $interval = $date1->diff($date2)->days - 1;
                 $qqs = $this->db->where('employee_id', $emp_id)->where('attendance_date', $check_day)->get('xin_attendance_time')->row();
 
-                if ($qqs->status != 'Leave' && $qqs->attendance_status != 'Leave') {
+                if (!empty($qqs) && $qqs->status != 'Leave' && $qqs->attendance_status != 'Leave') {
                     $this->db->where('attendance_date', $check_day);
                     $this->db->where('employee_id', $emp_id);
                     $this->db->update('xin_attendance_time', array('status' => 'Absent', 'attendance_status' => 'Absent'));
@@ -546,7 +576,7 @@ class Attendance_model extends CI_Model
 
                 for ($i=0; $i < $interval; $i++) {
                     $check_day = date("Y-m-d", strtotime("-1 day", strtotime($check_day)));
-                    if ($qqs->status != 'Leave' && $qqs->attendance_status != 'Leave') {
+                    if (!empty($qqs) && $qqs->status != 'Leave' && $qqs->attendance_status != 'Leave') {
                         $this->db->where('attendance_date', $check_day);
                         $this->db->where('employee_id', $emp_id);
                         $this->db->update('xin_attendance_time', array('status' => 'Absent', 'attendance_status' => 'Absent'));
@@ -567,7 +597,7 @@ class Attendance_model extends CI_Model
                 $query = $this->db->where('employee_id', $emp_id)->where('attendance_date', $check_day)->get('xin_attendance_time')->row();
                 $check_day = date('Y-m-d', strtotime('-1 days'. $check_day));
                if (!empty($query)) {
-
+              
                 if ($query->status == 'Absent') {
                     $this->db->where('attendance_date', $check_day);
                     $this->db->where('employee_id', $emp_id);
@@ -658,7 +688,7 @@ class Attendance_model extends CI_Model
             $this->db->insert_batch("xin_att_machine", $batchData);
         }
     }
-    /* function retrieveAttendance($ip, $port, $startTime, $endTime)
+    function retrieveAttendance($ip, $port, $startTime, $endTime)
     {
         $zk = new ZKLibrary($ip, $port);
         $zk->connect();
@@ -674,7 +704,7 @@ class Attendance_model extends CI_Model
             }
         }
         return $filteredAttendance;
-    } */
+    }
 
     // public function lunch_auto_off($date)
     // {
@@ -1531,7 +1561,7 @@ class Attendance_model extends CI_Model
         $left_employee=[];
         if ($salary_month != null) {
             $first_date=date('Y-m-01', strtotime($salary_month));
-            $second_date=date('Y-m-t', strtotime($salary_month . ' +1 month'));
+            $second_date=date('Y-m-t', strtotime($salary_month));
             $this->db->select('emp_id');
             $this->db->from('xin_employee_left_resign');
             $this->db->where('effective_date >=', $first_date);

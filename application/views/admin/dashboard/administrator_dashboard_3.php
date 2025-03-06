@@ -1,79 +1,82 @@
 <?php
-    $session = $this->session->userdata('username');
-    $user = $this->Xin_model->read_employee_info($session['user_id']);
+$session = $this->session->userdata('username');
+$user = $this->Xin_model->read_employee_info($session['user_id']);
+
 ?>
 <script src="https://kit.fontawesome.com/d23f82b51c.js" crossorigin="anonymous"></script>
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-    .p-0 {
-        padding: 0 !important;
-    }
-
-    .d_card {
-        border-radius: 10px;
-        padding: 20px;
-        margin: 9px 0px;
-        box-shadow: 0px 0px 10px 2px darkgrey;
-    }
-    h5,h4 {
-        color: #000000;
-    }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 
-    .c_card {
-        border-radius: 10px;
-        padding: 5px;
-        display: flex;
-        margin: 9px 0px;
-        cursor: pointer;
-        color: #0177bc;
-        box-shadow: 0px 0px 8px 2px #bdbdbd;
-        flex-direction: column;
-    }
+.p-0 {
+    padding: 0 !important;
+}
 
-    .c_card:hover {
-        box-shadow: 0px 0px 35px 4px #8f8f8f
-    }
+.d_card {
+    border-radius: 10px;
+    padding: 20px;
+    margin: 9px 0px;
+    box-shadow: 0px 0px 10px 2px darkgrey;
+}
+h5,h4 {
+    color: #000000;
+}
 
-    .c_cardn {
-        border-radius: 10px;
-        padding: 5px;
-        color: #0177bc;
 
-        display: flex;
-        margin: 9px 0px;
-        cursor: pointer;
-        box-shadow: 0px 0px 8px 2px #bdbdbd;
-        flex-direction: column;
-    }
+.c_card {
+    border-radius: 10px;
+    padding: 5px;
+    display: flex;
+    margin: 9px 0px;
+    cursor: pointer;
+    color: #0177bc;
+    box-shadow: 0px 0px 8px 2px #bdbdbd;
+    flex-direction: column;
+}
 
-    .c_cardn:hover {
-        box-shadow: 0px 0px 35px 4px #8f8f8f
-    }
+.c_card:hover {
+    box-shadow: 0px 0px 35px 4px #8f8f8f
+}
 
-    #floatingDiv {
-        height: 247px;
-        width: 200px;
-        background-image: linear-gradient(141deg, #cdd0ff, #a9f1c3);
-        border-radius: 10px;
-        padding: 10px;
-        z-index: 999;
-        overflow-y: scroll;
-    }
+.c_cardn {
+    border-radius: 10px;
+    padding: 5px;
+    color: #0177bc;
 
-    .fli {
-        list-style: none;
-        border: 1px solid;
-        width: 174px;
-        padding: 6px;
-        border-radius: 8px;
-        margin-bottom: 4px;
-    }
+    display: flex;
+    margin: 9px 0px;
+    cursor: pointer;
+    box-shadow: 0px 0px 8px 2px #bdbdbd;
+    flex-direction: column;
+}
 
-    #floatingDiv::-webkit-scrollbar {
-        display: none;
+.c_cardn:hover {
+    box-shadow: 0px 0px 35px 4px #8f8f8f
+}
 
-    }
+#floatingDiv {
+    height: 247px;
+    width: 200px;
+    background-image: linear-gradient(141deg, #cdd0ff, #a9f1c3);
+    border-radius: 10px;
+    padding: 10px;
+    z-index: 999;
+    overflow-y: scroll;
+}
+
+.fli {
+    list-style: none;
+    border: 1px solid;
+    width: 174px;
+    padding: 6px;
+    border-radius: 8px;
+    margin-bottom: 4px;
+}
+
+#floatingDiv::-webkit-scrollbar {
+    display: none;
+
+}
 </style>
 
 
@@ -89,7 +92,6 @@
     <div id="all_late_list">
     </div>
 </div>
-
 <div class="row">
     <div class='col-md-12'>
         <h2><?php echo $this->lang->line('dashboard_title'); ?></h2>
@@ -259,7 +261,7 @@
                         <a class="c_cardn" href="<?php echo site_url('admin/inventory/index');?>">
                             <div class="col-md-12 p-0">
                                 <h5 class="col-md-6 p-0">All Requisition</h5>
-
+                             
                             </div>
                             <div class="col-md-12">
                                 <h3 class="count-all-employees col-md-6" id="count_requisition_all">0</h3>
@@ -272,7 +274,7 @@
                         <a class="c_cardn" href="<?php echo site_url('admin/inventory/pending_list');?>">
                             <div class="col-md-12 p-0">
                                 <h5 class="col-md-6 p-0">Pending</h5>
-
+                                
                             </div>
                             <div class="col-md-12">
                                 <h3 class="count-all-employees col-md-6" id="count_requisition_pending">0</h3>
@@ -287,7 +289,7 @@
                         <a class="c_cardn" href="<?php echo site_url('admin/inventory/aproved_list');?>">
                             <div class="col-md-12 p-0">
                                 <h5 class="col-md-6 p-0">Approved</h5>
-
+                                
                             </div>
                             <div class="col-md-12">
                                 <h3 class="count-all-employees col-md-6" id="count_requisition_approved">0</h3>
@@ -301,7 +303,7 @@
                         <a class="c_cardn" href="<?php echo site_url('admin/inventory/delivery_list');?>">
                             <div class="col-md-12 p-0">
                                 <h5 class="col-md-6 p-0">Handover</h5>
-
+                              
                             </div>
                             <div class="col-md-12">
                                 <h3 class="count-all-employees col-md-6" id="count_requisition_handover">0</h3>
@@ -326,6 +328,11 @@
                         <input class="col-md-4" type="date" onchange="get_data_purchase_count()"
                             value="<?= date('Y-m-d') ?>" name="date" id="date_2_purchase"
                             style="border: 1px solid #009cf5;background: transparent;padding: 3px;border-radius: 7px;">
+                        <!-- <div class="col-md-3" style="margin-top: 3px;">
+                            <a onclick="daily_report('all')" class="btn btn-primary btn-sm"
+                                style="text-align: -webkit-center; cursor: pointer;">Get Report <i
+                                    class="fa fa-file-excel-o" aria-hidden="true"></i></a>
+                        </div> -->
                     </div>
                 </div>
                 <div class="row">
@@ -375,7 +382,7 @@
                             </div>
                             <div class="col-md-12">
                                 <h3 class="count-all-employees col-md-6" id="count_purchase_received">0</h3>
-
+                               
                                 <i class="fa-solid fa-money-bills col-md-6 fa-3x"
                                     style="height: -webkit-fill-available;text-align: -webkit-center;margin: 6px -3px;"></i>
                             </div>
@@ -384,7 +391,7 @@
                 </div>
             </div>
         </div>
-
+        
 
     </div>
 
@@ -401,6 +408,11 @@
                         <input class="col-md-4" type="date" onchange="get_data_payroll_count()"
                             value="<?= date('Y-m-d') ?>" name="date" id="date_2_payroll"
                             style="border: 1px solid #009cf5;background: transparent;padding: 3px;border-radius: 7px;">
+                        <!-- <div class="col-md-3" style="margin-top: 3px;">
+                            <a onclick="daily_report('all')" class="btn btn-primary btn-sm"
+                                style="text-align: -webkit-center; cursor: pointer;">Get Report <i
+                                    class="fa fa-file-excel-o" aria-hidden="true"></i></a>
+                        </div> -->
                     </div>
                 </div>
                 <div class="row">
@@ -462,7 +474,7 @@
                             </div>
                             <div class="col-md-12">
                                 <h3 class="count-all-employees col-md-6" id="count_lunch_unpaid">0</h3>
-
+                               
                                 <i class="fa-solid fa-money-bills col-md-6 fa-3x"
                                     style="height: -webkit-fill-available;text-align: -webkit-center;margin: 6px -3px;"></i>
                             </div>
@@ -525,7 +537,7 @@
                                     <i class="fa-solid fa-user fa-2x"></i>
                                 </div>
                             </div>
-                        </a>
+                        </a> 
                     </div>
                     <div class="col-md-6">
                         <a href="<?=base_url('admin/reports/employee_leave_report')?>">
@@ -565,12 +577,70 @@
 </div>
 
 <script>
+// $(document).ready(function() {
+//     $('.c_card').hover(function() {
+//         var $this = $(this);
+//         // setTimeout(function() {
+//         $('#floatingDiv').remove();
+//         $('<div id="floatingDiv"></div>').css({
+//             position: 'absolute',
+//             top: $this.offset().top / 10,
+//             left: $this.offset().left / 3,
+//             backgroundColor: 'lightgray'
+//         }).appendTo($this);
+//         get_data($this);
+//         //},300); // 1000 milliseconds = 1 second
+//     }, function() {
+//         $('#floatingDiv').remove();
+//     });
+// });
+
+// function get_data($element) {
+//     var who = $element.attr('id');
+//     if (who === 'all-employees') {
+//         // Copy the content of 'all_employee_list'
+//         var allEmployeeListContent = $('#all_employee_list').html();
+
+//         // Append the content to 'floatingDiv'
+//         $('#floatingDiv').empty();
+//         $('#floatingDiv').append(allEmployeeListContent);
+//     }
+//     if (who === 'present') {
+//         // Copy the content of 'all_employee_list'
+//         var allEmployeeListContent = $('#all_present_list').html();
+//         $('#floatingDiv').empty();
+//         $('#floatingDiv').append(allEmployeeListContent);
+//     }
+//     if (who === 'absent') {
+//         // Copy the content of 'all_employee_list'
+//         var allEmployeeListContent = $('#all_absent_list').html();
+//         $('#floatingDiv').empty();
+//         $('#floatingDiv').append(allEmployeeListContent);
+//     }
+//     if (who === 'leave') {
+//         // Copy the content of 'all_employee_list'
+//         var allEmployeeListContent = $('#all_leave_list').html();
+//         $('#floatingDiv').empty();
+//         $('#floatingDiv').append(allEmployeeListContent);
+//     }
+//     if (who === 'late') {
+//         // Copy the content of 'all_employee_list'
+//         var allEmployeeListContent = $('#all_late_list').html();
+//         $('#floatingDiv').empty();
+//         $('#floatingDiv').append(allEmployeeListContent);
+//     }
+// }
+</script>
+
+<script>
 $(document).ready(function() {
-    // get_data_count()
-    // get_monthly_data()
-    // get_data_payroll_count()
-    // get_data_requisition_count()
-    // get_data_purchase_count()
+    get_data_count()
+    get_monthly_data()
+    get_data_payroll_count()
+    get_data_requisition_count()
+    get_data_purchase_count()
+
+
 })
 
 function get_data_count() {
@@ -1008,6 +1078,6 @@ function get_lunch_unpaid(e) {
             }
         );
         });
-
+        
     }
 </script>

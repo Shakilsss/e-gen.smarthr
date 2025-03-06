@@ -31,7 +31,6 @@ class Inventory extends MY_Controller {
 	//================= Requisition here =======================
 
 	public function index($id = null){
-		// dd('test');
 		$session = $this->session->userdata('username');
 		$data['title'] = 'Store | '.$this->Xin_model->site_title();
 		$data['breadcrumbs'] = 'Store';
@@ -458,7 +457,6 @@ public function add_daily_package()
 					'quantity'		  => $_POST['quantity'][$i],
 					'approx_amount'	  => $_POST['approx_amount'][$i],
 					'approx_t_amount' => $_POST['total_amount'][$i],
-					'created_at'	  => date('Y-m-d'),
 					// 'status' => [$i],
 				);
 			}
@@ -1323,7 +1321,7 @@ public function move_create(){
 	$insert = $this->db->insert('move_list',$data);
 	if($insert){
 		if($_POST['role_id']!=3){
-			$this->db->where('device_model',$_POST['device_id'])->update('product_accessories',['move_status'=>2]);
+			$this->db->where('device_model',$_POST['device_id'])->update('product_accessories',['move_status'=>2,'user_id'=>$_POST['emp_id']]);
 		}
 		$this->session->set_flashdata('success', 'Successfully Insert Done');
 	}else{
@@ -1382,7 +1380,7 @@ function free_device($id){
 
 	$free_device = $this->db->select('user_id,device_id')->where('id',$id)->get('move_list')->row();
 
-	$this->db->where('device_model',$free_device->device_id)->update('product_accessories', ['move_status' => 1]);
+	$this->db->where('user_id',$free_device->user_id)->where('device_model',$free_device->device_id)->update('product_accessories', ['move_status' => 1]);
 	$this->db->where('user_id',$free_device->user_id)->where('device_id',$free_device->device_id)->update('move_list', ['status' => 1,'close_time'=>date('Y-m-d H:i:s')]);
 					 
 	if($free_device){
