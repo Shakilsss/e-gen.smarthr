@@ -119,6 +119,10 @@ if($theme[0]->sub_menu_icons != ''){
           <li class="sidenav-link <?php if(!empty($arr_mod['dep_active']))echo $arr_mod['dep_active'];?>"><a href="<?php echo site_url('admin/department');?>"><i class="fa <?php echo $submenuicon;?>"></i> <?php echo $this->lang->line('left_department');?></a></li>
           <?php } ?>
 
+          <?php if(in_array('96',$role_resources_ids)) { ?>
+          <li class="sidenav-link <?php if(!empty($arr_mod['sch_active']))echo $arr_mod['sch_active'];?>"><a href="<?php echo site_url('admin/schedules');?>"><i class="fa <?php echo $submenuicon;?>"></i>Schedule</a></li>
+          <?php } ?>
+
           <?php if(in_array('4',$role_resources_ids)) { ?>
           <li class="sidenav-link <?php if(!empty($arr_mod['des_active']))echo $arr_mod['des_active'];?>"><a href="<?php echo site_url('admin/designation');?>"><i class="fa <?php echo $submenuicon;?>"></i> <?php echo $this->lang->line('left_designation');?></a></li>
           <?php } ?>
