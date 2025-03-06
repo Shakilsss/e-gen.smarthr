@@ -246,6 +246,7 @@ input:checked+.slider:after {
         </div>
     </div>
 </div>
+
 <div id="warning_add_modal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -279,6 +280,7 @@ input:checked+.slider:after {
         </div>
     </div>
 </div>
+
 <div id="salary_review_modal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -318,32 +320,34 @@ input:checked+.slider:after {
         </div>
     </div>
 </div>
+
 <style>
-.boxm {
-    padding: 20px;
-    border: 2px solid #3F51B5;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    background-color: #F5F5F5;
-    margin: 18px;
-}
+    .boxm {
+        padding: 20px;
+        border: 2px solid #3F51B5;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        background-color: #F5F5F5;
+        margin: 18px;
+    }
 
-p {
-    margin: 0;
-    font-size: 18px;
-    color: #333;
-}
+    p {
+        margin: 0;
+        font-size: 18px;
+        color: #333;
+    }
 
-#location {
-    font-weight: bold;
-    color: #3F51B5;
-}
+    #location {
+        font-weight: bold;
+        color: #3F51B5;
+    }
 
-#outtime,
-#outreason {
-    font-style: italic;
-}
+    #outtime,
+    #outreason {
+        font-style: italic;
+    }
 </style>
+
 <header class="main-header">
     <!-- Logo -->
     <a href="<?php echo site_url('admin/dashboard/');?>" class="logo">
@@ -364,38 +368,40 @@ p {
             <span class="sr-only">Toggle navigation</span>
         </a>
         <?php if($system[0]->module_chat_box=='true') {?>
-        <a href="<?php echo site_url('admin/chat');?>" class="sidebar-toggle sidebar-toggle-hrsale-chat" role="button"
-            title="<?php echo $this->lang->line('xin_hr_chat_box');?>">
-            <?php $unread_msgs = $this->Xin_model->get_single_unread_message($session['user_id']);?>
-            <?php if($unread_msgs > 0) {?><span class="chat-badge label label-aqua"
-                id="msgs_count"><?php echo $unread_msgs;?></span><?php } ?>
-        </a>
+            <a href="<?php echo site_url('admin/chat');?>" class="sidebar-toggle sidebar-toggle-hrsale-chat" role="button"
+                title="<?php echo $this->lang->line('xin_hr_chat_box');?>">
+                <?php $unread_msgs = $this->Xin_model->get_single_unread_message($session['user_id']);?>
+                <?php if($unread_msgs > 0) {?><span class="chat-badge label label-aqua"
+                    id="msgs_count"><?php echo $unread_msgs;?></span><?php } ?>
+            </a>
         <?php } ?>
+
         <style>
-        .notli {
-            padding: 1px;
-            margin: 10px;
-            border-radius: 11px;
-            box-shadow: 0px 0px 1px 3px #c3c3c3;
-        }
+            .notli {
+                padding: 1px;
+                margin: 10px;
+                border-radius: 11px;
+                box-shadow: 0px 0px 1px 3px #c3c3c3;
+            }
 
-        .menu::-webkit-scrollbar-track {
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            background-color: #F5F5F5;
-        }
+            .menu::-webkit-scrollbar-track {
+                -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+                border-radius: 10px;
+                background-color: #F5F5F5;
+            }
 
-        .menu::-webkit-scrollbar {
-            width: 7px;
-            background-color: #F5F5F5;
-        }
+            .menu::-webkit-scrollbar {
+                width: 7px;
+                background-color: #F5F5F5;
+            }
 
-        .menu::-webkit-scrollbar-thumb {
-            border-radius: 10px;
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-            background-color: #555;
-        }
+            .menu::-webkit-scrollbar-thumb {
+                border-radius: 10px;
+                -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+                background-color: #555;
+            }
         </style>
+
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
                 <li>
@@ -415,9 +421,7 @@ p {
                     $probationapp = $this->Xin_model->get_notify_incr_prob_applications($start_date, $end_date, 5);
                     $internapp = $this->Xin_model->get_notify_incr_prob_applications($start_date, $end_date, 4);
                     $fcount = count($leaveapp) + count($incrementapp) + count($probationapp) + count($internapp);
-                    ?>
-
-
+                ?>
                 <?php } elseif ($user[0]->user_role_id == 3) {
                     $leaveapp = $this->Xin_model->get_notify_leave_applications_by_userid($user[0]->user_id);
                     $incrementapp =[];
@@ -425,39 +429,42 @@ p {
                     $internapp=[];
                     $fcount = count($leaveapp) + count($incrementapp) + count($probationapp);
                 }  ?>
+
                 <style>
-                .lir {
-                    cursor: pointer !important;
-                }
+                    .lir {
+                        cursor: pointer !important;
+                    }
 
-                .menu>li>a>.nrcolor {
-                    color: #ff0101 !important;
-                }
+                    .menu>li>a>.nrcolor {
+                        color: #ff0101 !important;
+                    }
 
-                .menu>li>a>.ngcolor {
-                    color: #037c29 !important;
-                }
+                    .menu>li>a>.ngcolor {
+                        color: #037c29 !important;
+                    }
 
-                .navbar-nav>.messages-menu>.dropdown-menu>li .menu>li>a {
-                    margin: 0;
-                    padding: 3px 1px;
-                }
+                    .navbar-nav>.messages-menu>.dropdown-menu>li .menu>li>a {
+                        margin: 0;
+                        padding: 3px 1px;
+                    }
 
-                .navbar-custom-menu>.navbar-nav>li>.dropdown-menu {
-                    position: absolute;
-                    right: 0;
-                    left: auto;
-                    box-shadow: 0px 0px 11px 4px #686868;
-                }
+                    .navbar-custom-menu>.navbar-nav>li>.dropdown-menu {
+                        position: absolute;
+                        right: 0;
+                        left: auto;
+                        box-shadow: 0px 0px 11px 4px #686868;
+                    }
                 </style>
+
+                <!-- leave notifiation -->
                 <?php if (in_array($user[0]->user_role_id, array(1,2,3,4))) { ?>
                 <li class="dropdown messages-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true"
                         title="<?php echo $this->lang->line('header_notifications');?>">
                         <i class="fa fa-bell-o"></i>
-                        <span class="label"
-                            style="font-size: 12px !important; background: #fb0202 !important"><?php echo $fcount;?></span>
+                        <span class="label" style="font-size: 12px !important; background: #fb0202 !important"><?php echo $fcount;?></span>
                     </a>
+
                     <?php if($fcount > 0) {?>
                     <ul class="dropdown-menu menu <?php echo $animated;?>">
                         <li>
@@ -465,371 +472,90 @@ p {
                             <?php if(count($leaveapp) > 0) {?>
                             <ul class="menu">
                                 <div class="callout callout-hrsale-bg-leave callout-hrsale">
-                                    <p><?php echo $this->lang->line('xin_leave_notifications');?><span
-                                            style="color: #d30505; padding: 4px; font-weight: bolder;"><?=count($leaveapp) ?>
+                                    <p><?php echo $this->lang->line('xin_leave_notifications');?><span style="color: #d30505; padding: 4px; font-weight: bolder;"><?=count($leaveapp) ?>
                                     </p>
                                 </div>
                                 <?php foreach($leaveapp as $row) {?>
-                                <?php
-                              $emp_info = $this->Xin_model->read_user_info($row->employee_id);?>
-                                <?php
-                            if(!is_null($emp_info)) {
-                                $emp_name = $emp_info[0]->first_name. ' '.$emp_info[0]->last_name;
-                            } else {
-                                $emp_name = '--';
-                            }
-                            if($row->status==1) {
-                                $statuss="Pending. Please wait";
-                            } elseif ($row->status==2) {
-                                $statuss="Approved";
-                            } elseif ($row->status==3) {
-                                $statuss="Rejected";
-                            } elseif ($row->status==4) {
-                                $statuss="First Stage Approval.";
-                            } else {
-                                $statuss="--";
-                            }
-                                    ?>
-                                <li class="notli">
-                                    <!-- start message -->
+                                    <?php $emp_info = $this->Xin_model->read_user_info($row->employee_id);?>
                                     <?php
-                                    $roolid=$session['role_id'];
-                                    if($roolid==3) {
-                                        ?>
-                                    <a onclick='modal_leave_data_ajax(<?php echo $row->leave_id ?>)'
-                                        data-target="#edit-leave-modal-data" data-toggle="modal"
-                                        style="cursor: pointer;" data-leave_id="<?php echo $row->leave_id ?>"
-                                        data-emname="<?php echo $emp_name ?>"
-                                        data-company_id="<?php echo $row->company_id ?>"
-                                        data-employee_id="<?php echo $row->employee_id ?>"
-                                        data-department_id="<?php echo $row->department_id ?>"
-                                        data-leave_type_id="<?php echo $row->leave_type_id ?>"
-                                        data-leave_type="<?php echo $row->leave_type ?>"
-                                        data-qty="<?php echo $row->qty ?>"
-                                        data-from_date="<?php echo $row->from_date ?>"
-                                        data-to_date="<?php echo $row->to_date ?>"
-                                        data-applied_on="<?php echo $row->applied_on ?>"
-                                        data-reason="<?php echo $row->reason ?>"
-                                        data-remarks="<?php echo $row->remarks ?>"
-                                        data-status="<?php echo $row->status ?>"
-                                        data-is_half_day="<?php echo $row->is_half_day ?>"
-                                        data-notify_leave="<?php echo $row->notify_leave ?>"
-                                        data-leave_attachment="<?php echo $row->leave_attachment ?>"
-                                        data-created_at="<?php echo $row->created_at ?>"
-                                        data-current_year="<?php echo $row->current_year ?>">
+                                        if(!is_null($emp_info)) {
+                                            $emp_name = $emp_info[0]->first_name. ' '.$emp_info[0]->last_name;
+                                        } else {
+                                            $emp_name = '--';
+                                        }
+                                        if($row->status==1) {
+                                            $statuss="Pending. Please wait";
+                                        } elseif ($row->status==2) {
+                                            $statuss="Approved";
+                                        } elseif ($row->status==3) {
+                                            $statuss="Rejected";
+                                        } elseif ($row->status==4) {
+                                            $statuss="First Stage Approval.";
+                                        } else {
+                                            $statuss="--";
+                                        }
+                                    ?>
+
+                                    <li class="notli">
                                         <?php
-                                    } else {
-                                        ?>
-                                        <a
-                                            href="<?php echo site_url('admin/timesheet/leave_details/id')?>/<?php echo $row->leave_id;?>/">
-                                            <?php } ?>
-                                            <div class="pull-left">
-                                                <?php  if($emp_info[0]->profile_picture!='' && $emp_info[0]->profile_picture!='no file') {?>
-                                                <img src="<?php  echo base_url().'uploads/profile/'.$emp_info[0]->profile_picture;?>"
-                                                    alt="" id="user_avatar" class="img-circle user_profile_avatar">
-                                                <?php } else {?>
-                                                <?php  if($emp_info[0]->gender=='Male') { ?>
-                                                <?php 	$de_file = base_url().'uploads/profile/default_male.jpg';?>
-                                                <?php } else { ?>
-                                                <?php 	$de_file = base_url().'uploads/profile/default_female.jpg';?>
+                                        $roolid=$session['role_id'];
+                                        if($roolid==3) {
+                                            ?>
+                                        <a onclick='modal_leave_data_ajax(<?php echo $row->leave_id ?>)'
+                                            data-target="#edit-leave-modal-data" data-toggle="modal"
+                                            style="cursor: pointer;" data-leave_id="<?php echo $row->leave_id ?>"
+                                            data-emname="<?php echo $emp_name ?>"
+                                            data-company_id="<?php echo $row->company_id ?>"
+                                            data-employee_id="<?php echo $row->employee_id ?>"
+                                            data-department_id="<?php echo $row->department_id ?>"
+                                            data-leave_type_id="<?php echo $row->leave_type_id ?>"
+                                            data-leave_type="<?php echo $row->leave_type ?>"
+                                            data-qty="<?php echo $row->qty ?>"
+                                            data-from_date="<?php echo $row->from_date ?>"
+                                            data-to_date="<?php echo $row->to_date ?>"
+                                            data-applied_on="<?php echo $row->applied_on ?>"
+                                            data-reason="<?php echo $row->reason ?>"
+                                            data-remarks="<?php echo $row->remarks ?>"
+                                            data-status="<?php echo $row->status ?>"
+                                            data-is_half_day="<?php echo $row->is_half_day ?>"
+                                            data-notify_leave="<?php echo $row->notify_leave ?>"
+                                            data-leave_attachment="<?php echo $row->leave_attachment ?>"
+                                            data-created_at="<?php echo $row->created_at ?>"
+                                            data-current_year="<?php echo $row->current_year ?>">
+                                            <?php
+                                        } else { ?>
+                                            <a href="<?php echo site_url('admin/timesheet/leave_details/id')?>/<?php echo $row->leave_id;?>/">
                                                 <?php } ?>
-                                                <img src="<?php  echo $de_file;?>" alt="" id="user_avatar"
-                                                    class="img-circle user_profile_avatar">
-                                                <?php  } ?>
-                                            </div>
-                                            <h4> <?php echo $emp_name;?> </h4>
-                                            <p>applied for leave
-                                                <?php echo $this->Xin_model->set_date_format($row->applied_on);?></p>
-                                            <p><?= $statuss ?></p>
-                                        </a>
-                                </li>
+                                                <div class="pull-left">
+                                                    <?php  if($emp_info[0]->profile_picture!='' && $emp_info[0]->profile_picture!='no file') {?>
+                                                    <img src="<?php  echo base_url().'uploads/profile/'.$emp_info[0]->profile_picture;?>"
+                                                        alt="" id="user_avatar" class="img-circle user_profile_avatar">
+                                                    <?php } else {?>
+                                                    <?php  if($emp_info[0]->gender=='Male') { ?>
+                                                    <?php 	$de_file = base_url().'uploads/profile/default_male.jpg';?>
+                                                    <?php } else { ?>
+                                                    <?php 	$de_file = base_url().'uploads/profile/default_female.jpg';?>
+                                                    <?php } ?>
+                                                    <img src="<?php  echo $de_file;?>" alt="" id="user_avatar"
+                                                        class="img-circle user_profile_avatar">
+                                                    <?php  } ?>
+                                                </div>
+                                                <h4> <?php echo $emp_name;?> </h4>
+                                                <p>applied for leave <?php echo $this->Xin_model->set_date_format($row->applied_on);?></p>
+                                                <p><?= $statuss ?></p>
+                                            </a>
+                                    </li>
                                 <?php } ?>
                             </ul>
                             <br>
-                            <?php } ?>
-                            <?php if(count($incrementapp) > 0) {?>
-                            <ul class="menu">
-                                <div class="callout callout-hrsale" style="background: #0691d3; color: white;">
-                                    <p>Increment notifications <span
-                                            style="color: #d30505; padding: 4px; font-weight: bolder;"><?=count($incrementapp) ?>
-                                    </p>
-                                </div>
-                                <?php foreach($incrementapp as $row) {?>
-                                <?php
-                                        $ipdate = $row->notify_incre_prob;
-                                    $red_zone = date('Y-m-d', strtotime('-20 days', strtotime(date($ipdate))));
-                                    ?>
-                                <li class="lir notli">
-                                    <!-- start message -->
-                                    <a onclick="incrementFun(<?php echo $row->user_id; ?>)">
-                                        <div class="pull-left">
-                                            <?php  if($row->profile_picture!='' && $row->profile_picture!='no file') {?>
-                                            <img src="<?php  echo base_url('uploads/profile/'.$row->profile_picture);?>"
-                                                alt="" id="user_avatar" class="img-circle user_profile_avatar">
-                                            <?php } else {?>
-                                            <?php  if($row->gender=='Male') { ?>
-                                            <?php   $de_file = base_url().'uploads/profile/default_male.jpg';?>
-                                            <?php } else { ?>
-                                            <?php   $de_file = base_url().'uploads/profile/default_female.jpg';?>
-                                            <?php } ?>
-                                            <img src="<?php  echo $de_file;?>" alt="" id="user_avatar"
-                                                class="img-circle user_profile_avatar">
-                                            <?php  } ?>
-                                        </div>
-                                        <h4 class="<?php echo ($red_zone < date('Y-m-d')) ? 'nrcolor' : 'ngcolor' ?>">
-                                            <?php echo $row->first_name. ' '.$row->last_name;?> </h4>
-                                        <p class="<?php echo ($red_zone < date('Y-m-d')) ? 'nrcolor' : 'ngcolor' ?>">
-                                            Increment on <?php echo date("d-M-Y", strtotime($ipdate));?> </p>
-                                    </a>
-                                </li>
-                                <?php } ?>
-
-                                <?php
-                                $this->db->select('*');
-                                $this->db->from('xin_employees');
-                                $this->db->where('salary_review_is',1);
-                                $this->db->where('salary_review_date between "'.date('Y-m-d', strtotime('-1 month')).'" and "'.date('Y-m-d', strtotime('+2 month')).'"');
-                                $review_list= $this->db->get()->result();
-                                foreach( $review_list as $row){?>
-
-                                <li class="lir notli">
-                                    <!-- start message -->
-                                    <a onclick="salary_review_modal_a(<?php echo $row->user_id; ?>)">
-                                        <div class="pull-left">
-                                            <?php  if($row->profile_picture!='' && $row->profile_picture!='no file') {?>
-                                            <img src="<?php  echo base_url('uploads/profile/'.$row->profile_picture);?>"
-                                                alt="" id="user_avatar" class="img-circle user_profile_avatar">
-                                            <?php } else {?>
-                                            <?php  if($row->gender=='Male') { ?>
-                                            <?php   $de_file = base_url().'uploads/profile/default_male.jpg';?>
-                                            <?php } else { ?>
-                                            <?php   $de_file = base_url().'uploads/profile/default_female.jpg';?>
-                                            <?php } ?>
-                                            <img src="<?php  echo $de_file;?>" alt="" id="user_avatar"
-                                                class="img-circle user_profile_avatar">
-                                            <?php  } ?>
-                                        </div>
-                                        <h4 class="">
-                                            <?php echo $row->first_name. ' '.$row->last_name;?> </h4>
-                                        <p class="">
-                                            Review on <?php echo date("d-M-Y", strtotime($row->salary_review_date));?>
-                                        </p>
-                                    </a>
-                                </li>
-                                <?php }
-
-                                ?>
-
-
-
-
-                            </ul>
-                            <br>
-                            <?php } ?>
-                            <?php if(count($internapp) > 0) {?>
-                            <ul class="menu">
-                                <div class="callout callout-hrsale" style="background: #0691d3; color: white;">
-                                    <p>Intern notifications <span
-                                            style="color: #d30505; padding: 4px; font-weight: bolder;"><?=count($internapp) ?>
-                                    </p>
-                                </div>
-                                <?php foreach($internapp as $row) {?>
-                                <?php
-                                        $ipdate = $row->notify_incre_prob;
-                                    $red_zone = date('Y-m-d', strtotime('-20 days', strtotime(date($ipdate))));
-                                    ?>
-                                <li class="lir notli">
-                                    <!-- start message -->
-                                    <a onclick="incrementFun(<?php echo $row->user_id; ?>)">
-                                        <div class="pull-left">
-                                            <?php  if($row->profile_picture!='' && $row->profile_picture!='no file') {?>
-                                            <img src="<?php  echo base_url('uploads/profile/'.$row->profile_picture);?>"
-                                                alt="" id="user_avatar" class="img-circle user_profile_avatar">
-                                            <?php } else {?>
-                                            <?php  if($row->gender=='Male') { ?>
-                                            <?php   $de_file = base_url().'uploads/profile/default_male.jpg';?>
-                                            <?php } else { ?>
-                                            <?php   $de_file = base_url().'uploads/profile/default_female.jpg';?>
-                                            <?php } ?>
-                                            <img src="<?php  echo $de_file;?>" alt="" id="user_avatar"
-                                                class="img-circle user_profile_avatar">
-                                            <?php  } ?>
-                                        </div>
-                                        <h4 class="<?php echo ($red_zone < date('Y-m-d')) ? 'nrcolor' : 'ngcolor' ?>">
-                                            <?php echo $row->first_name. ' '.$row->last_name;?> </h4>
-                                        <p class="<?php echo ($red_zone < date('Y-m-d')) ? 'nrcolor' : 'ngcolor' ?>">
-                                            Intern on <?php echo date("d-M-Y", strtotime($ipdate));?> </p>
-                                    </a>
-                                </li>
-                                <?php } ?>
-                            </ul>
-                            <br>
-                            <?php } ?>
-                            <?php if(count($probationapp) > 0) {?>
-                            <ul class="menu">
-                                <div class="callout callout-hrsale" style="background: #6266df; color: white;">
-                                    <p>Probation notifications <span
-                                            style="color: #d30505; padding: 4px; font-weight: bolder;"><?=count($probationapp) ?></span>
-                                    </p>
-                                </div>
-                                <?php foreach($probationapp as $row) {?>
-                                <?php
-                                      $ipdate = $row->notify_incre_prob;
-                                    $red_zone = date('Y-m-d', strtotime('-20 days', strtotime(date($ipdate))));
-                                    ?>
-                                <li class="lir notli">
-                                    <!-- start message -->
-                                    <a onclick="incrementFun(<?php echo $row->user_id; ?>)">
-                                        <div class="pull-left">
-                                            <?php  if($row->profile_picture!='' && $row->profile_picture!='no file') {?>
-                                            <img src="<?php  echo base_url('uploads/profile/'.$row->profile_picture);?>"
-                                                alt="" id="user_avatar" class="img-circle user_profile_avatar">
-                                            <?php } else {?>
-                                            <?php  if($row->gender=='Male') { ?>
-                                            <?php   $de_file = base_url().'uploads/profile/default_male.jpg';?>
-                                            <?php } else { ?>
-                                            <?php   $de_file = base_url().'uploads/profile/default_female.jpg';?>
-                                            <?php } ?>
-                                            <img src="<?php  echo $de_file;?>" alt="" id="user_avatar"
-                                                class="img-circle user_profile_avatar">
-                                            <?php  } ?>
-                                        </div>
-                                        <h4 class="<?php echo ($red_zone < date('Y-m-d')) ? 'nrcolor' : 'ngcolor' ?>">
-                                            <?php echo $row->first_name. ' '.$row->last_name;?> </h4>
-                                        <p class="<?php echo ($red_zone < date('Y-m-d')) ? 'nrcolor' : 'ngcolor' ?>">
-                                            Probation on <?php echo date("d-M-Y", strtotime($ipdate));?> </p>
-                                    </a>
-                                </li>
-                                <?php } ?>
-                            </ul>
                             <?php } ?>
                         </li>
                     </ul>
                     <?php } ?>
                 </li>
-                <!-- Tasks: style can be found in dropdown.less -->
-                <!-- User Account: style can be found in dropdown.less -->
-                <?php }  if($user[0]->user_role_id == 1) { ?>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true"
-                        title="<?php echo $this->lang->line('header_configuration');?>">
-                        <i class="fa fa-qrcode"></i>
-                    </a>
-                    <ul class="dropdown-menu <?php echo $animated;?>">
-                        <?php if($system[0]->module_recruitment=='true') {?>
-                        <?php if($system[0]->enable_job_application_candidates=='1') {?>
-                        <?php  if(in_array('50', $role_resources_ids)) { ?>
-                        <li role="presentation">
-                            <a role="menuitem" tabindex="-1" target="_blank" href="<?php echo site_url('jobs');?>"><i
-                                    class="fa fa-newspaper-o"></i><?php echo $this->lang->line('left_jobs_listing');?>
-                            </a>
-                        </li>
-                        <?php  } ?>
-                        <?php  } ?>
-                        <?php  } ?>
-                        <?php  if($user[0]->user_role_id == 1) { ?>
-                        <li role="presentation">
-                            <a role="menuitem" tabindex="-1" href="<?php echo site_url('admin/settings/constants');?>">
-                                <i class="fa fa-align-justify"></i><?php echo $this->lang->line('left_constants');?></a>
-                        </li>
-                        <?php } ?>
-                        <?php  if($user[0]->user_role_id == 1) { ?>
-                        <li role="presentation">
-                            <a role="menuitem" tabindex="-1" href="<?php echo site_url('admin/custom_fields');?>"> <i
-                                    class="fa fa-sliders"></i><?php echo $this->lang->line('xin_hrsale_custom_fields');?></a>
-                        </li>
-                        <?php } ?>
-                        <?php  if($user[0]->user_role_id==1) { ?>
-                        <li role="presentation">
-                            <a role="menuitem" tabindex="-1" href="<?php echo site_url('admin/roles');?>"> <i
-                                    class="fa fa-unlock-alt"></i><?php echo $this->lang->line('xin_role_urole');?></a>
-                        </li>
-                        <?php } ?>
-                        <?php  if(in_array('93', $role_resources_ids)) { ?>
-                        <li role="presentation">
-                            <a role="menuitem" tabindex="-1" href="<?php echo site_url('admin/settings/modules');?>"> <i
-                                    class="fa fa-life-ring"></i><?php echo $this->lang->line('xin_setup_modules');?></a>
-                        </li>
-                        <?php } ?>
-                        <?php  if(in_array('63', $role_resources_ids)) { ?>
-                        <li role="presentation">
-                            <a role="menuitem" tabindex="-1"
-                                href="<?php echo site_url('admin/settings/email_template');?>"> <i
-                                    class="fa fa-envelope"></i><?php echo $this->lang->line('left_email_templates');?></a>
-                        </li>
-                        <?php } ?>
-                        <?php  if(in_array('92', $role_resources_ids)) { ?>
-                        <li role="presentation">
-                            <a role="menuitem" tabindex="-1" href="<?php echo site_url('admin/employees/import');?>"> <i
-                                    class="fa fa-users"></i><?php echo $this->lang->line('xin_import_employees');?></a>
-                        </li>
-                        <?php } ?>
-                        <?php  if(in_array('62', $role_resources_ids)) { ?>
-                        <li role="presentation">
-                            <a role="menuitem" tabindex="-1"
-                                href="<?php echo site_url('admin/settings/database_backup');?>"> <i
-                                    class="fa fa-database"></i><?php echo $this->lang->line('header_db_log');?></a>
-                        </li>
-                        <?php } ?>
-                        <?php  if(in_array('94', $role_resources_ids)) { ?>
-                        <li role="presentation">
-                            <a role="menuitem" tabindex="-1" href="<?php echo site_url('admin/theme');?>"> <i
-                                    class="fa fa-columns"></i><?php echo $this->lang->line('xin_theme_settings');?></a>
-                        </li>
-                        <?php } ?>
-                        <?php if(in_array('118', $role_resources_ids)) { ?>
-                        <li role="presentation">
-                            <a role="menuitem" tabindex="-1"
-                                href="<?php echo site_url('admin/settings/payment_gateway');?>"> <i
-                                    class="fa fa-cc-visa"></i><?php echo $this->lang->line('xin_acc_payment_gateway');?></a>
-                        </li>
-                        <?php } ?>
-                        <?php if($system[0]->module_orgchart=='true') {?>
-                        <?php if(in_array('96', $role_resources_ids)) { ?>
-                        <li role="presentation">
-                            <a role="menuitem" tabindex="-1" href="<?php echo site_url('admin/organization/chart');?>">
-                                <i class="fa fa-sitemap"></i><?php echo $this->lang->line('xin_org_chart_title');?></a>
-                        </li>
-                        <?php } ?>
-                        <?php } ?>
-                        <?php if(in_array('60', $role_resources_ids)) { ?>
-                        <li class="divider"></li>
-                        <li role="presentation">
-                            <a role="menuitem" tabindex="-1" href="<?php echo site_url('admin/settings');?>"> <i
-                                    class="fa fa-cog text-aqua"></i><?php echo $this->lang->line('header_configuration');?></a>
-                        </li>
-                        <?php } ?>
-                    </ul>
-                </li>
                 <?php } ?>
-                <?php if($user[0]->user_role_id == 1) {?>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true"
-                        title="<?php echo $this->lang->line('xin_languages');?>">
-                        <?php echo $flg_icn;?>
-                    </a>
-                    <ul class="dropdown-menu <?php echo $animated;?>">
-                        <?php $languages = $this->Xin_model->all_languages();?>
-                        <?php foreach($languages as $lang):?>
-                        <?php $flag = '<img src="'.base_url().'uploads/languages_flag/'.$lang->language_flag.'">';?>
-                        <li role="presentation">
-                            <a role="menuitem" tabindex="-1"
-                                href="<?php echo site_url('admin/dashboard/set_language/').$lang->language_code;?>"><?php echo $flag;?>
-                                &nbsp; <?php echo $lang->language_name;?></a>
-                        </li>
-                        <?php endforeach;?>
-                        <?php if($system[0]->module_language=='true') {?>
-                        <?php  if(in_array('89', $role_resources_ids)) { ?>
-                        <li class="divider"></li>
-                        <li role="presentation">
-                            <a role="menuitem" tabindex="-1" href="<?php echo site_url('admin/languages');?>"> <i
-                                    class="fa fa-cog text-aqua"></i><?php echo $this->lang->line('left_settings');?></a>
-                        </li>
-                        <?php } ?>
-                        <?php } ?>
-                    </ul>
-                </li>
-                <?php } ?>
+
+                <!-- user -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true"
                         title="<?php echo $this->lang->line('header_my_profile');?>">
@@ -837,88 +563,75 @@ p {
                     </a>
                     <ul class="dropdown-menu <?php echo $animated;?>">
                         <li role="presentation">
-                            <a role="menuitem" tabindex="-1" href="<?php echo site_url('admin/profile');?>"> <i
-                                    class="ion ion-person"></i><?php echo $this->lang->line('header_my_profile');?></a>
+                            <a role="menuitem" tabindex="-1" href="<?php echo site_url('admin/profile');?>">
+                                <i class="ion ion-person"></i><?php echo $this->lang->line('header_my_profile');?>
+                            </a>
                         </li>
+
                         <?php if($user[0]->user_role_id == 1) { ?>
                         <li role="presentation">
-                            <a data-toggle="modal" data-target=".policy" href="#"> <i
-                                    class="fa fa-flag-o"></i><?php echo $this->lang->line('header_policies');?></a>
+                            <a data-toggle="modal" data-target=".policy" href="#">
+                                <i class="fa fa-flag-o"></i><?php echo $this->lang->line('header_policies');?>
+                            </a>
                         </li>
-
                         <li role="presentation">
-                            <a role="menuitem" tabindex="-1" href="<?php echo site_url('admin/settings');?>"> <i
-                                    class="ion ion-settings"></i><?php echo $this->lang->line('left_settings');?></a>
+                            <a role="menuitem" tabindex="-1" href="<?php echo site_url('admin/settings');?>">
+                                <i class="ion ion-settings"></i><?php echo $this->lang->line('left_settings');?>
+                            </a>
                         </li>
-
-
                         <li role="presentation">
-                            <a role="menuitem" tabindex="-1"
-                                href="<?php echo site_url('admin/profile?change_password=true');?>"> <i
-                                    class="fa fa-key"></i><?php echo $this->lang->line('header_change_password');?></a>
+                            <a role="menuitem" tabindex="-1"  href="<?php echo site_url('admin/profile?change_password=true');?>">
+                                <i class="fa fa-key"></i><?php echo $this->lang->line('header_change_password');?>
+                            </a>
                         </li>
                         <li class="divider"></li>
-                        <li role="presentation">
-                            <a role="menuitem" tabindex="-1" href="<?php echo site_url('admin/auth/lock');?>"> <i
-                                    class="fa fa-lock"></i><?php echo $this->lang->line('xin_lock_user');?></a>
-                        </li>
                         <?php } ?>
                         <li role="presentation">
-                            <a role="menuitem" tabindex="-1" href="<?php echo site_url('admin/logout');?>"> <i
-                                    class="fa fa-power-off text-red"></i><?php echo $this->lang->line('header_sign_out');?></a>
+                            <a role="menuitem" tabindex="-1" href="<?php echo site_url('admin/logout');?>">
+                                <i class="fa fa-power-off text-red"></i><?php echo $this->lang->line('header_sign_out');?>
+                            </a>
                         </li>
                     </ul>
                 </li>
-                <!-- Control Sidebar Toggle Button -->
-                <?php if ($user[0]->user_role_id == 1) {?>
-
-                <!-- <li>
-                    <a href="#" data-toggle="control-sidebar"
-                        title="<?php echo $this->lang->line('xin_role_layout_settings');?>"><i
-                            class="fa fa-cog fa-spin"></i></a>
-                </li> -->
-
-                <?php }
-                ?>
-
             </ul>
         </div>
     </nav>
 </header>
+
 <style>
-.myboxx {
-    display: flex;
-    padding: 0;
-    margin: 0;
-    border-radius: 5px;
-    box-shadow: 0px 0px 2px 2px #e5e5e5;
-    flex-direction: column;
-}
+    .myboxx {
+        display: flex;
+        padding: 0;
+        margin: 0;
+        border-radius: 5px;
+        box-shadow: 0px 0px 2px 2px #e5e5e5;
+        flex-direction: column;
+    }
 
-.myboxx_header {
-    background: #dddddd;
-    color: black;
-    font-size: 17px;
-    width: -webkit-fill-available;
-    border-bottom: 1px solid #979797;
-    text-align: center;
-}
+    .myboxx_header {
+        background: #dddddd;
+        color: black;
+        font-size: 17px;
+        width: -webkit-fill-available;
+        border-bottom: 1px solid #979797;
+        text-align: center;
+    }
 
-.myboxx_body {
-    color: black;
-    font-size: 15px;
-    padding: 5px;
-    width: -webkit-fill-available;
-}
+    .myboxx_body {
+        color: black;
+        font-size: 15px;
+        padding: 5px;
+        width: -webkit-fill-available;
+    }
 
-td,
-th {
-    padding: 0 !important;
-}
+    td,
+    th {
+        padding: 0 !important;
+    }
 </style>
+
 <div id="edit-leave-modal-data" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg">
-
         <form action="<?= base_url('admin/timesheet/modal_leave_update') ?>" method="post">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1085,7 +798,6 @@ th {
 </div>
 
 <!-- policy modal -->
-
 <div class="modal fade" id="companyPolicyModal" tabindex="-1" role="dialog" aria-labelledby="companyPolicyModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -1121,7 +833,6 @@ th {
         </div>
     </div>
 </div>
-
 
 <!-- Increment modal -->
 <div class="modal fade " id="increment-modal" aria-hidden="true">
@@ -1245,414 +956,403 @@ th {
 </div>
 
 <script>
-$(document).ready(function() {
-    $('#movementform').on('submit', function(event) {
-        event.preventDefault(); // Prevent the default form submission
+    $(document).ready(function() {
+        $('#movementform').on('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
 
-        // Get the form data
-        var formData = $(this).serialize();
+            // Get the form data
+            var formData = $(this).serialize();
 
-        // Make an AJAX post request to the controller
-        $.ajax({
-            url: '<?= base_url('admin/movement_floor/outformsub') ?>', // Replace 'controller/method' with your actual controller and method
-            method: 'POST',
-            data: formData,
-            success: function(response) {
-                // Handle the success response
+            // Make an AJAX post request to the controller
+            $.ajax({
+                url: '<?= base_url('admin/movement_floor/outformsub') ?>', // Replace 'controller/method' with your actual controller and method
+                method: 'POST',
+                data: formData,
+                success: function(response) {
+                    // Handle the success response
 
-                alert(response);
-                location.reload();
-                // Process the response data returned from the controller
-            },
-            error: function(xhr, status, error) {
-                // Handle any errors that occur during the request
+                    alert(response);
+                    location.reload();
+                    // Process the response data returned from the controller
+                },
+                error: function(xhr, status, error) {
+                    // Handle any errors that occur during the request
 
-                alert(error);
-                location.reload();
+                    alert(error);
+                    location.reload();
+                }
+            });
+        });
+        $('#movementinform').on('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Get the form data
+            var formData = $(this).serialize();
+
+            // Make an AJAX post request to the controller
+            $.ajax({
+                url: '<?= base_url('admin/movement_floor/informsub') ?>', // Replace 'controller/method' with your actual controller and method
+                method: 'POST',
+                data: formData,
+                success: function(response) {
+                    // Handle the success response
+
+                    alert(response);
+                    location.reload();
+                    // Process the response data returned from the controller
+                },
+                error: function(xhr, status, error) {
+                    // Handle any errors that occur during the request
+
+                    alert(error);
+                    location.reload();
+                }
+            });
+        });
+
+        // Month & Year
+        $('.attendance_date').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            // maxDate: '0',
+            dateFormat: 'yy-mm-dd',
+            altField: "#date_format",
+            altFormat: js_date_format,
+            yearRange: '1970:' + addOneYear(),
+            beforeShow: function(input) {
+                $(input).datepicker("widget").show();
             }
         });
-    });
-    $('#movementinform').on('submit', function(event) {
-        event.preventDefault(); // Prevent the default form submission
 
-        // Get the form data
-        var formData = $(this).serialize();
+        // form submit to insert participant list
+        $("#modal_form").on("submit", function(e) {
+            e.preventDefault();
 
-        // Make an AJAX post request to the controller
-        $.ajax({
-            url: '<?= base_url('admin/movement_floor/informsub') ?>', // Replace 'controller/method' with your actual controller and method
-            method: 'POST',
-            data: formData,
-            success: function(response) {
-                // Handle the success response
+            // validation here
+            if ($('#emp_status').val() === null) {
+                $('#emp_status').focus();
+                $('#emp_status').attr('style', 'border: 1px solid red !important');
+                return false;
+            } else {
+                $("#emp_status").attr('style', 'border: 1px solid #ccd6e6 !important');
+                if ($('#emp_status').val() != 2) {
+                    if ($('#new_dept_id').val() === null) {
+                        $('#new_dept_id').focus();
+                        $('#new_dept_id').attr('style', 'border: 1px solid red !important');
+                        return false;
+                    } else {
+                        $("#new_dept_id").attr('style', 'border: 1px solid #ccd6e6 !important');
+                    }
 
-                alert(response);
-                location.reload();
-                // Process the response data returned from the controller
-            },
-            error: function(xhr, status, error) {
-                // Handle any errors that occur during the request
-
-                alert(error);
-                location.reload();
+                    if ($('#new_desig_id').val() === null) {
+                        $('#new_desig_id').focus();
+                        $('#new_desig_id').attr('style', 'border: 1px solid red !important');
+                        return false;
+                    } else {
+                        $("#new_desig_id").attr('style', 'border: 1px solid #ccd6e6 !important');
+                    }
+                }
             }
+
+            if ($('#new_salary').val() == '') {
+                $('#new_salary').focus();
+                $('#new_salary').attr('style', 'border: 1px solid red !important');
+                return false;
+            } else {
+                $("#new_salary").attr('style', 'border: 1px solid #ccd6e6 !important');
+            }
+
+            if ($('#effective_date').val() == '') {
+                $('#effective_date').focus();
+                $('#effective_date').attr('style', 'border: 1px solid red !important');
+                return false;
+            } else {
+                $("#effective_date").attr('style', 'border: 1px solid #ccd6e6 !important');
+            }
+
+            if ($('#notify_incre_prob').val() == '') {
+                $('#notify_incre_prob').focus();
+                $('#notify_incre_prob').attr('style', 'border: 1px solid red !important');
+                return false;
+            } else {
+                $("#notify_incre_prob").attr('style', 'border: 1px solid #ccd6e6 !important');
+            }
+            // end validation
+
+            // ajax request on form submit
+            var emp_id = $('#hidden_emp_id').val();
+            var sendData = $(this).serialize();
+            var targetUrl = "<?=base_url('admin/employees/incre_prob_prom_add/')?>" + emp_id;
+            $.ajax({
+                url: targetUrl,
+                type: "POST",
+                data: sendData,
+                dataType: "json",
+                success: function(response) {
+                    if (response.success == true) {
+                        alert(response.message);
+                    } else {
+                        alert(response.message);
+                    }
+                    location.reload();
+                },
+            });
+
         });
-    });
 
-
-
-
-
-
-
-
-    // Month & Year
-    $('.attendance_date').datepicker({
-        changeMonth: true,
-        changeYear: true,
-        // maxDate: '0',
-        dateFormat: 'yy-mm-dd',
-        altField: "#date_format",
-        altFormat: js_date_format,
-        yearRange: '1970:' + addOneYear(),
-        beforeShow: function(input) {
-            $(input).datepicker("widget").show();
-        }
-    });
-
-    // form submit to insert participant list
-    $("#modal_form").on("submit", function(e) {
-        e.preventDefault();
-
-        // validation here
-        if ($('#emp_status').val() === null) {
-            $('#emp_status').focus();
-            $('#emp_status').attr('style', 'border: 1px solid red !important');
-            return false;
-        } else {
-            $("#emp_status").attr('style', 'border: 1px solid #ccd6e6 !important');
-            if ($('#emp_status').val() != 2) {
-                if ($('#new_dept_id').val() === null) {
-                    $('#new_dept_id').focus();
-                    $('#new_dept_id').attr('style', 'border: 1px solid red !important');
-                    return false;
-                } else {
-                    $("#new_dept_id").attr('style', 'border: 1px solid #ccd6e6 !important');
-                }
-
-                if ($('#new_desig_id').val() === null) {
-                    $('#new_desig_id').focus();
-                    $('#new_desig_id').attr('style', 'border: 1px solid red !important');
-                    return false;
-                } else {
-                    $("#new_desig_id").attr('style', 'border: 1px solid #ccd6e6 !important');
-                }
-            }
-        }
-
-        if ($('#new_salary').val() == '') {
-            $('#new_salary').focus();
-            $('#new_salary').attr('style', 'border: 1px solid red !important');
-            return false;
-        } else {
+        // reset modal value
+        $('#modal_form').on('hidden.bs.modal', function() {
+            $('#new_salary').val('');
+            $('#effective_date').val('');
+            $('#notify_incre_prob').val('');
             $("#new_salary").attr('style', 'border: 1px solid #ccd6e6 !important');
-        }
-
-        if ($('#effective_date').val() == '') {
-            $('#effective_date').focus();
-            $('#effective_date').attr('style', 'border: 1px solid red !important');
-            return false;
-        } else {
             $("#effective_date").attr('style', 'border: 1px solid #ccd6e6 !important');
-        }
-
-        if ($('#notify_incre_prob').val() == '') {
-            $('#notify_incre_prob').focus();
-            $('#notify_incre_prob').attr('style', 'border: 1px solid red !important');
-            return false;
-        } else {
             $("#notify_incre_prob").attr('style', 'border: 1px solid #ccd6e6 !important');
-        }
-        // end validation
+        });
+    });
 
-        // ajax request on form submit
-        var emp_id = $('#hidden_emp_id').val();
-        var sendData = $(this).serialize();
-        var targetUrl = "<?=base_url('admin/employees/incre_prob_prom_add/')?>" + emp_id;
+    function addOneYear() {
+        date = new Date().getFullYear();
+        return date + 2;
+    }
+</script>
+
+<script>
+    function incrementFun(id) {
+        $('#new_dept').hide();
+        $('#new_desig').hide();
+
+        var url = "<?php echo base_url('admin/employees/fetch_user_info_ajax/');?>" + id;
+        $.ajax({
+            url: url,
+            type: 'POST',
+            dataType: 'json',
+            success: function(response) {
+                // console.log(response);
+                $('#hidden_emp_id').val(id);
+                $('#emp_id').val(response[0].first_name + ' ' + response[0].last_name);
+                $('#old_dept_id').val(response[0].department_name);
+                $('#old_desig_id').val(response[0].designation_name);
+                $('#joining_date').val(response[0].date_of_joining);
+                $('#old_salary').val(response[0].basic_salary);
+
+
+                $('#designation_id').val(response[0].designation_id);
+                $('#designation').val(response[0].designation_name);
+            }
+        });
+        $("#increment-modal").modal("show");
+    }
+
+    $("#emp_status").change(function() {
+        if ($("#emp_status").val() == 2) {
+            $('#new_dept').hide();
+            $('#new_desig').hide();
+        } else {
+            $('#new_dept').show();
+            $('#new_desig').show();
+        }
+    })
+</script>
+<script>
+    $(document).ready(function() {
+        $('#myModal').on('show.bs.modal', function(e) {
+            var button = $(e.relatedTarget);
+            var leaveId = button.data('leave_id');
+            var emname = button.data('emname');
+            var companyId = button.data('company_id');
+            var employeeId = button.data('employee_id');
+            var departmentId = button.data('department_id');
+            var leaveTypeId = button.data('leave_type_id');
+            var leaveType = button.data('leave_type');
+            var qty = button.data('qty');
+            var fromDate = button.data('from_date');
+            var toDate = button.data('to_date');
+            var appliedOn = button.data('applied_on');
+            var reason = button.data('reason');
+            var remarks = button.data('remarks');
+            var status = button.data('status');
+            var isHalfDay = button.data('is_half_day');
+            var notifyLeave = button.data('notify_leave');
+            var leaveAttachment = button.data('leave_attachment');
+            var createdAt = button.data('created_at');
+            var currentYear = button.data('current_year');
+            if (status == 1) {
+                statuss = "Pending";
+            } else if (status == 2) {
+                statuss = "First Stage Approval";
+            } else if (status == 3) {
+                statuss = "Rejected";
+            } else if (status == 4) {
+                statuss = "Approved";
+            } else {
+                statuss = "--";
+            }
+
+            $('#emname').text(emname);
+            $('#leaveType').text(leaveType);
+            $('#qty').text(qty);
+            $('#fromDate').text(fromDate);
+            $('#toDate').text(toDate);
+            $('#appliedOn').text(appliedOn);
+            $('#reason').text(reason);
+            $('#remarks').text(remarks);
+            $('#statuss').text(statuss);
+            var url = "<?php echo site_url('admin/timesheet/leave_details/id')?>/" + leaveId + "/";
+            var button = document.getElementById("details");
+            button.href = url;
+        });
+    });
+</script>
+<script>
+    function movetype() {
+        $("#floorform").toggle();
+        $("#meetingform").toggle();
+        $("#sub").toggle();
+    }
+</script>
+<script>
+    function modal_leave_data_ajax(id) {
+        $.ajax({
+            type: 'get',
+            url: '<?= base_url("admin/timesheet/modal_leave_data_ajax/") ?>' + id,
+            success: function(response) {
+                if (response) {
+                    var result = JSON.parse(response).result;
+
+                    var leave_calel = JSON.parse(response).leave_calel;
+                    var leave_calel_percent = JSON.parse(response).leave_calel_percent;
+                    var leave_calsl = JSON.parse(response).leave_calsl;
+                    var leave_calsl_percent = JSON.parse(response).leave_calls_percent;
+
+                    var leave_totalsl = JSON.parse(response).leave_totalsl;
+                    var leave_totalel = JSON.parse(response).leave_totalel;
+
+                    $('#employee_name_m').html(result.first_name + ' ' + result.last_name);
+                    $('#leave_id_m').val(result.leave_id);
+                    $('#department_name_m').html(result.department_name);
+                    $('#designation_name_m').html(result.designation_name);
+                    $('#basic_salary_m').html(result.basic_salary);
+                    $('#team_lead_comment').html(result.team_lead_comment);
+                    if (result.team_lead_approved == 1) {
+                        $('#team_lead_approved').val(1);
+                    }
+
+                    $('#leave_count_el_p').html(leave_calel);
+                    $('#leave_count_sl_p').html(leave_calsl);
+
+                    $('#leave_count_sl_total').html(leave_totalsl);
+                    $('#leave_count_el_total').html(leave_totalel);
+
+                    $('#leave_count_el_prog').css('width', `${leave_calel_percent}%`);
+                    $('#leave_count_sl_prog').css('width', `${leave_calsl_percent}%`);
+                    console.log(result.leave_type_id);
+                    if (result.leave_type === 'el') {
+                        $('#leave_type_m').html('Earn Leave');
+                    } else {
+                        $('#leave_type_m').html('Sick Leave');
+                    }
+
+                    $('#application_date_m').html(result.applied_on);
+                    if (result.leave_attachment == '') {
+                        $('#attachment_m').css("display", "none");
+
+                    }
+                    $('#attachment_m').attr('href', '<?= base_url('uploads/leave') ?>' + result
+                        .leave_attachment);
+                    $('#from_date_m').val(result.from_date);
+                    $('#to_date_m').val(result.to_date);
+                    $('#total_days_m').val(result.qty);
+                    $('#reason_m').val(result.reason);
+                    if (result.is_half_day == 1) {
+                        $('#Half_Day_m').attr('checked', 'checked');
+                    } else {
+                        $('#Half_Day_m').removeAttr('checked');
+                    }
+
+                    $('#status_m').val(result.status);
+
+                    $('#remark_m').val(result.remarks);
+                    $('#emp_id_m').val(result.employee_id);
+                }
+            },
+            error: function(response) {
+
+            }
+        })
+    }
+</script>
+<script>
+    function employee_warning(id) {
+        $('#warning_user_id').val(id);
+        $('#warning_add_modal').modal('show');
+    }
+</script>
+<script>
+    function salary_review_modal_a(id) {
+        $('#salary_review_user_id').val(id);
+        $('#salary_review_emp_name').empty();
+        $('#salary_review_old_amount').empty();
+        $('#salary_review_new_amount').empty();
+        $('#salary_review_remark').empty();
+        $('#salary_review_modal').modal('show');
+        $.ajax({
+            type: 'post',
+            url: '<?= base_url('admin/employees/get_imployee_info') ?>',
+            data: {
+                id: id
+            },
+            success: function(response) {
+                var data = JSON.parse(response);
+                $('#salary_review_emp_name').text(data.first_name + ' ' + data.last_name);
+                $('#salary_review_old_amount').val(data.salary);
+            }
+
+
+        })
+
+    }
+</script>
+<script>
+    $('#salary_review_form').submit(function(e) {
+        e.preventDefault();
+        var salary_review_user_id = $('#salary_review_user_id').val();
+        var salary_review_new_amount = $('#salary_review_new_amount').val();
+        var salary_review_remark = $('#salary_review_remark').val();
+        var targetUrl = "<?=base_url('admin/employees/salary_review_form/')?>"
         $.ajax({
             url: targetUrl,
             type: "POST",
-            data: sendData,
-            dataType: "json",
-            success: function(response) {
-                if (response.success == true) {
-                    alert(response.message);
-                } else {
-                    alert(response.message);
-                }
-                location.reload();
+            data: {
+                salary_review_user_id: salary_review_user_id,
+                salary_review_new_amount: salary_review_new_amount,
+                salary_review_remark: salary_review_remark
             },
-        });
-
-    });
-
-    // reset modal value
-    $('#modal_form').on('hidden.bs.modal', function() {
-        $('#new_salary').val('');
-        $('#effective_date').val('');
-        $('#notify_incre_prob').val('');
-        $("#new_salary").attr('style', 'border: 1px solid #ccd6e6 !important');
-        $("#effective_date").attr('style', 'border: 1px solid #ccd6e6 !important');
-        $("#notify_incre_prob").attr('style', 'border: 1px solid #ccd6e6 !important');
-    });
-});
-
-
-function addOneYear() {
-    date = new Date().getFullYear();
-    return date + 2;
-}
-</script>
-
-<script>
-function incrementFun(id) {
-    $('#new_dept').hide();
-    $('#new_desig').hide();
-
-    var url = "<?php echo base_url('admin/employees/fetch_user_info_ajax/');?>" + id;
-    $.ajax({
-        url: url,
-        type: 'POST',
-        dataType: 'json',
-        success: function(response) {
-            // console.log(response);
-            $('#hidden_emp_id').val(id);
-            $('#emp_id').val(response[0].first_name + ' ' + response[0].last_name);
-            $('#old_dept_id').val(response[0].department_name);
-            $('#old_desig_id').val(response[0].designation_name);
-            $('#joining_date').val(response[0].date_of_joining);
-            $('#old_salary').val(response[0].basic_salary);
-
-
-            $('#designation_id').val(response[0].designation_id);
-            $('#designation').val(response[0].designation_name);
-        }
-    });
-    $("#increment-modal").modal("show");
-}
-
-$("#emp_status").change(function() {
-    if ($("#emp_status").val() == 2) {
-        $('#new_dept').hide();
-        $('#new_desig').hide();
-    } else {
-        $('#new_dept').show();
-        $('#new_desig').show();
-    }
-})
-</script>
-<script>
-$(document).ready(function() {
-    $('#myModal').on('show.bs.modal', function(e) {
-        var button = $(e.relatedTarget);
-        var leaveId = button.data('leave_id');
-        var emname = button.data('emname');
-        var companyId = button.data('company_id');
-        var employeeId = button.data('employee_id');
-        var departmentId = button.data('department_id');
-        var leaveTypeId = button.data('leave_type_id');
-        var leaveType = button.data('leave_type');
-        var qty = button.data('qty');
-        var fromDate = button.data('from_date');
-        var toDate = button.data('to_date');
-        var appliedOn = button.data('applied_on');
-        var reason = button.data('reason');
-        var remarks = button.data('remarks');
-        var status = button.data('status');
-        var isHalfDay = button.data('is_half_day');
-        var notifyLeave = button.data('notify_leave');
-        var leaveAttachment = button.data('leave_attachment');
-        var createdAt = button.data('created_at');
-        var currentYear = button.data('current_year');
-        if (status == 1) {
-            statuss = "Pending";
-        } else if (status == 2) {
-            statuss = "First Stage Approval";
-        } else if (status == 3) {
-            statuss = "Rejected";
-        } else if (status == 4) {
-            statuss = "Approved";
-        } else {
-            statuss = "--";
-        }
-
-        $('#emname').text(emname);
-        $('#leaveType').text(leaveType);
-        $('#qty').text(qty);
-        $('#fromDate').text(fromDate);
-        $('#toDate').text(toDate);
-        $('#appliedOn').text(appliedOn);
-        $('#reason').text(reason);
-        $('#remarks').text(remarks);
-        $('#statuss').text(statuss);
-        var url = "<?php echo site_url('admin/timesheet/leave_details/id')?>/" + leaveId + "/";
-        var button = document.getElementById("details");
-        button.href = url;
-    });
-});
-</script>
-<script>
-function movetype() {
-    $("#floorform").toggle();
-    $("#meetingform").toggle();
-    $("#sub").toggle();
-
-}
-</script>
-<script>
-function modal_leave_data_ajax(id) {
-    $.ajax({
-        type: 'get',
-        url: '<?= base_url("admin/timesheet/modal_leave_data_ajax/") ?>' + id,
-        success: function(response) {
-            if (response) {
-                var result = JSON.parse(response).result;
-
-                var leave_calel = JSON.parse(response).leave_calel;
-                var leave_calel_percent = JSON.parse(response).leave_calel_percent;
-                var leave_calsl = JSON.parse(response).leave_calsl;
-                var leave_calsl_percent = JSON.parse(response).leave_calls_percent;
-
-                var leave_totalsl = JSON.parse(response).leave_totalsl;
-                var leave_totalel = JSON.parse(response).leave_totalel;
-
-                $('#employee_name_m').html(result.first_name + ' ' + result.last_name);
-                $('#leave_id_m').val(result.leave_id);
-                $('#department_name_m').html(result.department_name);
-                $('#designation_name_m').html(result.designation_name);
-                $('#basic_salary_m').html(result.basic_salary);
-                $('#team_lead_comment').html(result.team_lead_comment);
-                if (result.team_lead_approved == 1) {
-                    $('#team_lead_approved').val(1);
-                }
-
-                $('#leave_count_el_p').html(leave_calel);
-                $('#leave_count_sl_p').html(leave_calsl);
-
-                $('#leave_count_sl_total').html(leave_totalsl);
-                $('#leave_count_el_total').html(leave_totalel);
-
-                $('#leave_count_el_prog').css('width', `${leave_calel_percent}%`);
-                $('#leave_count_sl_prog').css('width', `${leave_calsl_percent}%`);
-                console.log(result.leave_type_id);
-                if (result.leave_type === 'el') {
-                    $('#leave_type_m').html('Earn Leave');
-                } else {
-                    $('#leave_type_m').html('Sick Leave');
-                }
-
-                $('#application_date_m').html(result.applied_on);
-                if (result.leave_attachment == '') {
-                    $('#attachment_m').css("display", "none");
-
-                }
-                $('#attachment_m').attr('href', '<?= base_url('uploads/leave') ?>' + result
-                    .leave_attachment);
-                $('#from_date_m').val(result.from_date);
-                $('#to_date_m').val(result.to_date);
-                $('#total_days_m').val(result.qty);
-                $('#reason_m').val(result.reason);
-                if (result.is_half_day == 1) {
-                    $('#Half_Day_m').attr('checked', 'checked');
-                } else {
-                    $('#Half_Day_m').removeAttr('checked');
-                }
-
-                $('#status_m').val(result.status);
-
-                $('#remark_m').val(result.remarks);
-                $('#emp_id_m').val(result.employee_id);
+            success: function(response) {
+                showSuccessAlert('Update Success');
             }
-        },
-        error: function(response) {
-
-        }
+        })
     })
-}
 </script>
 <script>
-function employee_warning(id) {
-    $('#warning_user_id').val(id);
-    $('#warning_add_modal').modal('show');
-}
-</script>
-<script>
-function salary_review_modal_a(id) {
-    $('#salary_review_user_id').val(id);
-    $('#salary_review_emp_name').empty();
-    $('#salary_review_old_amount').empty();
-    $('#salary_review_new_amount').empty();
-    $('#salary_review_remark').empty();
-    $('#salary_review_modal').modal('show');
-    $.ajax({
-        type: 'post',
-        url: '<?= base_url('admin/employees/get_imployee_info') ?>',
-        data: {
-            id: id
-        },
-        success: function(response) {
-            var data = JSON.parse(response);
-            $('#salary_review_emp_name').text(data.first_name + ' ' + data.last_name);
-            $('#salary_review_old_amount').val(data.salary);
-        }
+    $('#salary_review_form').submit(function(e) {
+        e.preventDefault();
+        var warning_user_id = $('#warning_user_id').val();
+        var warning_date = $('#warning_date').val();
+        var warning_remarks = $('#warning_remarks').val();
+        var targetUrl = "<?=base_url('admin/employees/add_employee_warning/')?>"
+        $.ajax({
+            url: targetUrl,
+            type: "POST",
+            data: {
+                warning_user_id: warning_user_id,
+                warning_date: warning_date,
+                warning_remarks: warning_remarks
+            },
+            success: function(response) {
+                showSuccessAlert('Successfully added');
+            }
 
-
+        })
     })
-
-}
-</script>
-<script>
-$('#salary_review_form').submit(function(e) {
-    e.preventDefault();
-    var salary_review_user_id = $('#salary_review_user_id').val();
-    var salary_review_new_amount = $('#salary_review_new_amount').val();
-    var salary_review_remark = $('#salary_review_remark').val();
-    var targetUrl = "<?=base_url('admin/employees/salary_review_form/')?>"
-    $.ajax({
-        url: targetUrl,
-        type: "POST",
-        data: {
-            salary_review_user_id: salary_review_user_id,
-            salary_review_new_amount: salary_review_new_amount,
-            salary_review_remark: salary_review_remark
-        },
-        success: function(response) {
-            showSuccessAlert('Update Success');
-        }
-    })
-})
-</script>
-<script>
-$('#salary_review_form').submit(function(e) {
-    e.preventDefault();
-    var warning_user_id = $('#warning_user_id').val();
-    var warning_date = $('#warning_date').val();
-    var warning_remarks = $('#warning_remarks').val();
-    var targetUrl = "<?=base_url('admin/employees/add_employee_warning/')?>"
-    $.ajax({
-        url: targetUrl,
-        type: "POST",
-        data: {
-            warning_user_id: warning_user_id,
-            warning_date: warning_date,
-            warning_remarks: warning_remarks
-        },
-        success: function(response) {
-            showSuccessAlert('Successfully added');
-        }
-
-    })
-
-
-})
 </script>
