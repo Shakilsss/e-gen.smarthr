@@ -17,29 +17,9 @@ if(isset($_GET['jd']) && isset($_GET['company_id']) && $_GET['data']=='company')
           <label for="company_name"><?php echo $this->lang->line('xin_company_name');?></label>
           <input class="form-control" placeholder="<?php echo $this->lang->line('xin_company_name');?>" name="name" type="text" value="<?php echo $name;?>">
         </div>
+      
         <div class="form-group">
           <div class="row">
-            <div class="col-md-6">
-              <label for="email"><?php echo $this->lang->line('xin_company_type');?></label>
-              <select class="form-control" name="company_type" data-plugin="select_hrm" data-placeholder="<?php echo $this->lang->line('xin_company_type');?>">
-                <option value=""><?php echo $this->lang->line('xin_select_one');?></option>
-                <?php foreach($get_company_types as $ctype) {?>
-                <option value="<?php echo $ctype->type_id;?>" <?php if($type_id==$ctype->type_id){?> selected="selected" <?php } ?>> <?php echo $ctype->name;?></option>
-                <?php } ?>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label for="trading_name"><?php echo $this->lang->line('xin_company_trading');?></label>
-              <input class="form-control" placeholder="<?php echo $this->lang->line('xin_company_trading');?>" name="trading_name" type="text" value="<?php echo $trading_name;?>">
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="row">
-            <div class="col-md-6">
-              <label for="registration_no"><?php echo $this->lang->line('xin_company_registration');?></label>
-              <input class="form-control" placeholder="<?php echo $this->lang->line('xin_company_registration');?>" name="registration_no" type="text" value="<?php echo $registration_no;?>">
-            </div>
             <div class="col-md-6">
               <label for="contact_number"><?php echo $this->lang->line('xin_contact_number');?></label>
               <input class="form-control" placeholder="<?php echo $this->lang->line('xin_contact_number');?>" name="contact_number" type="text" value="<?php echo $contact_number;?>">
@@ -60,10 +40,7 @@ if(isset($_GET['jd']) && isset($_GET['company_id']) && $_GET['data']=='company')
         </div>
       </div>
       <div class="col-sm-6">
-        <div class="form-group">
-          <label for="xin_gtax"><?php echo $this->lang->line('xin_gtax');?></label>
-          <input class="form-control" placeholder="<?php echo $this->lang->line('xin_gtax');?>" name="xin_gtax" value="<?php echo $government_tax;?>" type="text">
-        </div>
+       
         <div class="form-group">
           <label for="address"><?php echo $this->lang->line('xin_address');?></label>
           <input class="form-control" placeholder="<?php echo $this->lang->line('xin_address_1');?>" name="address_1" type="text" value="<?php echo $address_1;?>">
@@ -92,10 +69,7 @@ if(isset($_GET['jd']) && isset($_GET['company_id']) && $_GET['data']=='company')
       </div>
     </div>
     <div class="row">
-      <div class="col-md-3">
-        <label for="email"><?php echo $this->lang->line('dashboard_username');?></label>
-        <input class="form-control" placeholder="<?php echo $this->lang->line('dashboard_username');?>" name="username" type="text" value="<?php echo $username;?>">
-      </div>
+     
       <div class="col-md-6">
         <fieldset class="form-group">
             <label for="logo"><?php echo $this->lang->line('xin_company_logo');?></label>
@@ -105,6 +79,13 @@ if(isset($_GET['jd']) && isset($_GET['company_id']) && $_GET['data']=='company')
           <?php if($logo!='' || $logo!='no-file'){?>
            <span class="avatar box-48 mr-0-5"> <img class="d-block ui-w-100 rounded-circle" width="50" src="<?php echo base_url();?>uploads/company/<?php echo $logo;?>" alt=""> </span>
           <?php } ?>    
+      </div>
+      <div class="col-md-6">
+        <fieldset class="form-group">
+            <label for="logo">Signature</label>
+            <small><?php echo $this->lang->line('xin_company_file_type');?></small> 
+            <input type="file" class="form-control-file" id="signature" name="signature">
+          </fieldset>
       </div>
     </div>
     <?php $count_module_attributes = $this->Custom_fields_model->count_company_module_attributes();?>
@@ -268,25 +249,8 @@ if(isset($_GET['jd']) && isset($_GET['company_id']) && $_GET['data']=='company')
           <th><?php echo $this->lang->line('xin_company_name');?></th>
           <td style="display: table-cell;"><?php echo $name;?></td>
         </tr>
-        <tr>
-          <th><?php echo $this->lang->line('xin_company_type');?></th>
-          <td style="display: table-cell;"><?php foreach($get_company_types as $ctype) {?>
-            <?php if($type_id==$ctype->type_id){?>
-            <?php echo $ctype->name;?>
-            <?php } } ?></td>
-        </tr>
-        <tr>
-          <th><?php echo $this->lang->line('xin_company_trading');?></th>
-          <td style="display: table-cell;"><?php echo $trading_name;?></td>
-        </tr>
-        <tr>
-          <th><?php echo $this->lang->line('xin_company_registration');?></th>
-          <td style="display: table-cell;"><?php echo $registration_no;?></span></td>
-        </tr>
-        <tr>
-          <th><?php echo $this->lang->line('dashboard_username');?></th>
-          <td style="display: table-cell;"><?php echo $username;?></span></td>
-        </tr>
+        
+       
         <tr>
           <th><?php echo $this->lang->line('xin_contact_number');?></th>
           <td style="display: table-cell;"><?php echo $contact_number;?></span></td>
@@ -299,10 +263,7 @@ if(isset($_GET['jd']) && isset($_GET['company_id']) && $_GET['data']=='company')
           <th><?php echo $this->lang->line('xin_website');?></th>
           <td style="display: table-cell;"><?php echo $website_url;?></span></td>
         </tr>
-        <tr>
-          <th><?php echo $this->lang->line('xin_gtax');?></th>
-          <td style="display: table-cell;"><?php echo $government_tax;?></span></td>
-        </tr>
+       
         <tr>
           <th><?php echo $this->lang->line('xin_address');?></th>
           <td style="display: table-cell;"><?php echo $address_1;?></span></td>

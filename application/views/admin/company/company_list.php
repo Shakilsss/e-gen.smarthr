@@ -23,39 +23,21 @@
         <div class="form-body">
           <div class="row">
             <div class="col-md-6">
-              <div class="form-group">
-                <label for="company_name"><?php echo $this->lang->line('xin_company_name');?></label>
-                <input class="form-control" placeholder="<?php echo $this->lang->line('xin_company_name');?>" name="name" type="text">
-              </div>
-              <div class="form-group">
-                <div class="row">
-                  <div class="col-md-6">
-                    <label for="email"><?php echo $this->lang->line('xin_company_type');?></label>
-                    <select class="form-control" name="company_type" data-plugin="xin_select" data-placeholder="<?php echo $this->lang->line('xin_company_type');?>">
-                      <option value=""><?php echo $this->lang->line('xin_select_one');?></option>
-                      <?php foreach($get_company_types as $ctype) {?>
-                      <option value="<?php echo $ctype->type_id;?>"> <?php echo $ctype->name;?></option>
-                      <?php } ?>
-                    </select>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="company_name"><?php echo $this->lang->line('xin_company_name');?></label>
+                    <input class="form-control" placeholder="<?php echo $this->lang->line('xin_company_name');?>" name="name" type="text">
                   </div>
-                  <div class="col-md-6">
-                    <label for="trading_name"><?php echo $this->lang->line('xin_company_trading');?></label>
-                    <input class="form-control" placeholder="<?php echo $this->lang->line('xin_company_trading');?>" name="trading_name" type="text">
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                        <label for="contact_number"><?php echo $this->lang->line('xin_contact_number');?></label>
+                        <input class="form-control" placeholder="<?php echo $this->lang->line('xin_contact_number');?>" name="contact_number" type="text">
                   </div>
                 </div>
               </div>
-              <div class="form-group">
-                <div class="row">
-                  <div class="col-md-6">
-                    <label for="registration_no"><?php echo $this->lang->line('xin_company_registration');?></label>
-                    <input class="form-control" placeholder="<?php echo $this->lang->line('xin_company_registration');?>" name="registration_no" type="text">
-                  </div>
-                  <div class="col-md-6">
-                    <label for="contact_number"><?php echo $this->lang->line('xin_contact_number');?></label>
-                    <input class="form-control" placeholder="<?php echo $this->lang->line('xin_contact_number');?>" name="contact_number" type="text">
-                  </div>
-                </div>
-              </div>
+              
               <div class="form-group">
                 <div class="row">
                   <div class="col-md-6">
@@ -66,14 +48,26 @@
                     <label for="website"><?php echo $this->lang->line('xin_website');?></label>
                     <input class="form-control" placeholder="<?php echo $this->lang->line('xin_website_url');?>" name="website" type="text">
                   </div>
+                  <div class="col-md-6">
+                    <fieldset class="form-group">
+                      <label for="logo"><?php echo $this->lang->line('xin_company_logo');?></label>
+                      <input type="file" class="form-control-file" id="logo" name="logo">
+                      <small><?php echo $this->lang->line('xin_company_file_type');?></small>
+                    </fieldset>
+                  </div>
+                  <div class="col-md-6">
+                    <fieldset class="form-group">
+                      <label for="logo">Signature</label>
+                      <input type="file" class="form-control-file" id="signature" name="signature">
+                      <small><?php echo $this->lang->line('xin_company_file_type');?></small>
+
+                    </fieldset>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="col-md-6">
-              <div class="form-group">
-                <label for="xin_gtax"><?php echo $this->lang->line('xin_gtax');?></label>
-                <input class="form-control" placeholder="<?php echo $this->lang->line('xin_gtax');?>" name="xin_gtax" type="text">
-              </div>
+             
               <div class="form-group">
                 <label for="address"><?php echo $this->lang->line('xin_address');?></label>
                 <input class="form-control" placeholder="<?php echo $this->lang->line('xin_address_1');?>" name="address_1" type="text">
@@ -101,23 +95,7 @@
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-md-3">
-              <label for="email"><?php echo $this->lang->line('dashboard_username');?></label>
-              <input class="form-control" placeholder="<?php echo $this->lang->line('dashboard_username');?>" name="username" type="text">
-            </div>
-            <div class="col-md-3">
-              <label for="website"><?php echo $this->lang->line('xin_employee_password');?></label>
-              <input class="form-control" placeholder="<?php echo $this->lang->line('xin_employee_password');?>" name="password" type="text">
-            </div>
-            <div class="col-md-6">
-              <fieldset class="form-group">
-                <label for="logo"><?php echo $this->lang->line('xin_company_logo');?></label>
-                <input type="file" class="form-control-file" id="logo" name="logo">
-                <small><?php echo $this->lang->line('xin_company_file_type');?></small>
-              </fieldset>
-            </div>
-          </div>
+        
         </div>
         <?php $count_module_attributes = $this->Custom_fields_model->count_company_module_attributes();?>
             <?php if($count_module_attributes > 0):?>
