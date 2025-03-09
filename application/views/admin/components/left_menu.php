@@ -106,39 +106,6 @@ if($theme[0]->sub_menu_icons != ''){
       </li>
     <?php } ?>
 
-
-    <!-- Organization -->
-    <?php  if(in_array('2',$role_resources_ids) || in_array('3',$role_resources_ids) || in_array('5',$role_resources_ids) || in_array('6',$role_resources_ids) || in_array('4',$role_resources_ids) || in_array('11',$role_resources_ids) || in_array('9',$role_resources_ids) || in_array('96',$role_resources_ids)){?>
-      <li class="<?php if(!empty($arr_mod['adm_open']))echo $arr_mod['adm_open'];?> treeview"> <a href="#"> <i class="fa fa-building"></i> <span>Setup</span> <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span> </a>
-        <ul class="treeview-menu">
-          <?php if(in_array('5',$role_resources_ids)) { ?>
-          <li class="sidenav-link <?php if(!empty($arr_mod['com_active']))echo $arr_mod['com_active'];?>"><a href="<?php echo site_url('admin/company')?>"><i class="fa <?php echo $submenuicon;?>"></i> <?php echo $this->lang->line('left_company');?></a></li>
-          <?php } ?>
-
-          <?php if(in_array('3',$role_resources_ids)) { ?>
-          <li class="sidenav-link <?php if(!empty($arr_mod['dep_active']))echo $arr_mod['dep_active'];?>"><a href="<?php echo site_url('admin/department');?>"><i class="fa <?php echo $submenuicon;?>"></i> <?php echo $this->lang->line('left_department');?></a></li>
-          <?php } ?>
-
-          <?php if(in_array('96',$role_resources_ids)) { ?>
-          <li class="sidenav-link <?php if(!empty($arr_mod['sch_active']))echo $arr_mod['sch_active'];?>"><a href="<?php echo site_url('admin/schedules');?>"><i class="fa <?php echo $submenuicon;?>"></i>Schedule</a></li>
-
-          <li class="sidenav-link <?php if(!empty($arr_mod['mch_active']))echo $arr_mod['mch_active'];?>"><a href="<?php echo site_url('admin/schedules/shift_manage');?>"><i class="fa <?php echo $submenuicon;?>"></i>Manage Shift</a></li>
-          <?php } ?>
-
-          <?php if(in_array('4',$role_resources_ids)) { ?>
-          <li class="sidenav-link <?php if(!empty($arr_mod['des_active']))echo $arr_mod['des_active'];?>"><a href="<?php echo site_url('admin/designation');?>"><i class="fa <?php echo $submenuicon;?>"></i> <?php echo $this->lang->line('left_designation');?></a></li>
-          <?php } ?>
-          <?php if(in_array('11',$role_resources_ids)) { ?>
-          <li class="sidenav-link <?php if(!empty($arr_mod['ann_active']))echo $arr_mod['ann_active'];?>"><a href="<?php echo site_url('admin/announcement');?>"><i class="fa <?php echo $submenuicon;?>"></i> <?php echo $this->lang->line('left_announcements');?></a></li>
-          <?php } ?>
-          <?php if(in_array('9',$role_resources_ids)) { ?>
-          <li class="sidenav-link <?php if(!empty($arr_mod['pol_active']))echo $arr_mod['pol_active'];?>"><a href="<?php echo site_url('admin/policy');?>"><i class="fa <?php echo $submenuicon;?>"></i> <?php echo $this->lang->line('left_policies');?></a></li>
-          <?php } ?>
-        </ul>
-      </li>
-    <?php } ?>
-    <!-- Organization -->
-
     <!-- employees -->
     <?php  if( in_array('389',$role_resources_ids) || in_array('123',$role_resources_ids) || in_array('124',$role_resources_ids) || in_array('130',$role_resources_ids) ) {?>
       <li class="<?php if(!empty($arr_mod['attnd_open']))echo $arr_mod['attnd_open'];?> treeview"> <a href="#"> <i class="fa fa-users"></i> <span> HR </span> <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span> </a>
@@ -346,6 +313,38 @@ if($theme[0]->sub_menu_icons != ''){
         </ul>
       </li>
     <?php } ?>
+
+    <!-- setup -->
+    <?php  if(in_array('2',$role_resources_ids) || in_array('3',$role_resources_ids) || in_array('5',$role_resources_ids) || in_array('6',$role_resources_ids) || in_array('4',$role_resources_ids) || in_array('11',$role_resources_ids) || in_array('9',$role_resources_ids) || in_array('96',$role_resources_ids)){?>
+      <li class="<?php if(!empty($arr_mod['adm_open']))echo $arr_mod['adm_open'];?> treeview"> <a href="#"> <i class="fa fa-building"></i> <span>Setup</span> <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span> </a>
+        <ul class="treeview-menu">
+          <?php if(in_array('5',$role_resources_ids)) { ?>
+          <li class="sidenav-link <?php if(!empty($arr_mod['com_active']))echo $arr_mod['com_active'];?>"><a href="<?php echo site_url('admin/company')?>"><i class="fa <?php echo $submenuicon;?>"></i> <?php echo $this->lang->line('left_company');?></a></li>
+          <?php } ?>
+
+          <?php if(in_array('3',$role_resources_ids)) { ?>
+          <li class="sidenav-link <?php if(!empty($arr_mod['dep_active']))echo $arr_mod['dep_active'];?>"><a href="<?php echo site_url('admin/department');?>"><i class="fa <?php echo $submenuicon;?>"></i> <?php echo $this->lang->line('left_department');?></a></li>
+          <?php } ?>
+
+          <?php if(in_array('96',$role_resources_ids)) { ?>
+          <li class="sidenav-link <?php if(!empty($arr_mod['sch_active']))echo $arr_mod['sch_active'];?>"><a href="<?php echo site_url('admin/schedules');?>"><i class="fa <?php echo $submenuicon;?>"></i>Schedule</a></li>
+
+          <li class="sidenav-link <?php if(!empty($arr_mod['mch_active']))echo $arr_mod['mch_active'];?>"><a href="<?php echo site_url('admin/schedules/shift_manage');?>"><i class="fa <?php echo $submenuicon;?>"></i>Manage Shift</a></li>
+          <?php } ?>
+
+          <?php if(in_array('4',$role_resources_ids)) { ?>
+          <li class="sidenav-link <?php if(!empty($arr_mod['des_active']))echo $arr_mod['des_active'];?>"><a href="<?php echo site_url('admin/designation');?>"><i class="fa <?php echo $submenuicon;?>"></i> <?php echo $this->lang->line('left_designation');?></a></li>
+          <?php } ?>
+          <?php if(in_array('11',$role_resources_ids)) { ?>
+          <li class="sidenav-link <?php if(!empty($arr_mod['ann_active']))echo $arr_mod['ann_active'];?>"><a href="<?php echo site_url('admin/announcement');?>"><i class="fa <?php echo $submenuicon;?>"></i> <?php echo $this->lang->line('left_announcements');?></a></li>
+          <?php } ?>
+          <?php if(in_array('9',$role_resources_ids)) { ?>
+          <li class="sidenav-link <?php if(!empty($arr_mod['pol_active']))echo $arr_mod['pol_active'];?>"><a href="<?php echo site_url('admin/policy');?>"><i class="fa <?php echo $submenuicon;?>"></i> <?php echo $this->lang->line('left_policies');?></a></li>
+          <?php } ?>
+        </ul>
+      </li>
+    <?php } ?>
+    <!-- setup -->
 
     <!-- system -->
     <?php  if(in_array('57',$role_resources_ids) || in_array('60',$role_resources_ids) || in_array('61',$role_resources_ids) || in_array('61',$role_resources_ids) || in_array('62',$role_resources_ids) || in_array('63',$role_resources_ids) || in_array('89',$role_resources_ids) || in_array('93',$role_resources_ids)) {?>
