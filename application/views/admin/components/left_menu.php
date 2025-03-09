@@ -121,6 +121,8 @@ if($theme[0]->sub_menu_icons != ''){
 
           <?php if(in_array('96',$role_resources_ids)) { ?>
           <li class="sidenav-link <?php if(!empty($arr_mod['sch_active']))echo $arr_mod['sch_active'];?>"><a href="<?php echo site_url('admin/schedules');?>"><i class="fa <?php echo $submenuicon;?>"></i>Schedule</a></li>
+
+          <li class="sidenav-link <?php if(!empty($arr_mod['mch_active']))echo $arr_mod['mch_active'];?>"><a href="<?php echo site_url('admin/schedules/shift_manage');?>"><i class="fa <?php echo $submenuicon;?>"></i>Manage Shift</a></li>
           <?php } ?>
 
           <?php if(in_array('4',$role_resources_ids)) { ?>

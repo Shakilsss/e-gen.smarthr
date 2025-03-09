@@ -2,8 +2,7 @@
 <?php $session = $this->session->userdata('username');?>
 
 <div class="row">
-  <div class="col-md-12">
-    <div class="card">
+    <div class="col-md-12">
         <?php if($this->session->flashdata('success')):?>
             <div class="alert alert-success">
                 <?=$this->session->flashdata('success');;?>
@@ -123,11 +122,56 @@
 
         <div class="box mb-4 <?php echo $get_animate;?>">
             <div class="box-header with-border">
-                <?php dd($results) ?>
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Sl.</th>
+                            <th>Company</th>
+                            <th>Schedule</th>
+                            <th>In Start</th>
+                            <th>In Time</th>
+                            <th>Late Start</th>
+                            <th>In End</th>
+                            <th>Out Start</th>
+                            <th>Out Time</th>
+                            <th>Out End</th>
+                            <th>Off Days</th>
+                            <th>Action</th>
+                        </tr>
+                        <?php foreach($results as $res) { ?>
+                        <tr>
+                            <td><?php echo $res->id;?></td>
+                            <td><?php echo $res->name;?></td>
+                            <td><?php echo $res->sh_type;?></td>
+                            <td><?php echo $res->in_start;?></td>
+                            <td><?php echo $res->in_time;?></td>
+                            <td><?php echo $res->late_start;?></td>
+                            <td><?php echo $res->in_end;?></td>
+                            <td><?php echo $res->out_start;?></td>
+                            <td><?php echo $res->out_time;?></td>
+                            <td><?php echo $res->out_end;?></td>
+                            <?php if (!empty($res->of_day)) {  ?>
+                                <?php $days = json_decode($res->of_day); ?>
+                                <td><?php echo implode(', ', $days); ?></td>
+                            <?php } else { ?>
+                                <td></td>
+                            <?php } ?>
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-xs btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Action <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li><a href="<?php echo base_url();?>admin/schedules/edit/<?php echo $res->id;?>"><i class="fa fa-pencil-square-o"></i> Edit</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php } ?>
+                    </thead>
+                </table>
             </div>
         </div>
     </div>
-  </div>
 </div>
 
 <script type="text/javascript">

@@ -167,6 +167,10 @@ class Xin_model extends CI_Model {
 			$arr['dep_active'] = 'active';
 			$arr['adm_open'] = 'active';
 			return $arr;
+		} else if($mClass=='schedules' && $mMethod=='shift_manage') {
+			$arr['mch_active'] = 'active';
+			$arr['adm_open'] = 'active';
+			return $arr;
 		} else if($mClass=='schedules') {
 			$arr['sch_active'] = 'active';
 			$arr['adm_open'] = 'active';
