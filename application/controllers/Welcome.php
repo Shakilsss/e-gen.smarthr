@@ -40,8 +40,9 @@ class Welcome extends MY_Controller {
 	
 	 public function index()
      {
+
 		$system = $this->Xin_model->read_setting_info(1);
-		if($system[0]->module_recruitment=='true'){
+		if($system[0]->module_recruitment=='true44'){
 			$data['title'] = 'HOME';
 			$data['path_url'] = 'job_home';
 			$data['all_jobs'] = $this->Recruitment_model->get_all_jobs_last_desc();

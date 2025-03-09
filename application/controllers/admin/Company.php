@@ -204,13 +204,7 @@ class Company extends MY_Controller {
 			  } else {
 				  $full_name = '--';	
 			  }
-			  // company type
-			  $ctype = $this->Company_model->read_company_type($r->type_id);
-			  if(!is_null($ctype)){
-			  	$type_name = $ctype[0]->name;
-			  } else {
-				 $type_name = '--';	
-			  }
+			  
 			  
 			  if(in_array('247',$role_resources_ids)) { //edit
 				$edit = '<span data-toggle="tooltip" data-placement="top" title="'.$this->lang->line('xin_edit').'"><button type="button" class="btn icon-btn btn-xs btn-default waves-effect waves-light"  data-toggle="modal" data-target=".edit-modal-data"  data-company_id="'. $r->company_id . '"><span class="fa fa-pencil"></span></button></span>';
@@ -228,7 +222,7 @@ class Company extends MY_Controller {
 				$view = '';
 			}
 			$combhr = $edit.$view.$delete;//
-			$icname = $r->name.'<br><small class="text-muted"><i>'.$this->lang->line('xin_type').': '.$type_name.'<i></i></i></small><br><small class="text-muted"><i>'.$this->lang->line('dashboard_contact').'#: '.$r->contact_number.'<i></i></i></small><br><small class="text-muted"><i>'.$this->lang->line('xin_website').': '.$r->website_url.'<i></i></i></small>';
+			$icname = $r->name.'<br><small class="text-muted"><i>'.$this->lang->line('xin_type').': <i></i></i></small><br><small class="text-muted"><i>'.$this->lang->line('dashboard_contact').'#: '.$r->contact_number.'<i></i></i></small><br><small class="text-muted"><i>'.$this->lang->line('xin_website').': '.$r->website_url.'<i></i></i></small>';
 		   $data[] = array(
 				$combhr,
 				$icname,
@@ -261,12 +255,7 @@ class Company extends MY_Controller {
 		$data = array(
 				'company_id' => $result[0]->company_id,
 				'name' => $result[0]->name,
-				'username' => $result[0]->username,
-				'password' => $result[0]->password,
-				'type_id' => $result[0]->type_id,
-				'government_tax' => $result[0]->government_tax,
-				'trading_name' => $result[0]->trading_name,
-				'registration_no' => $result[0]->registration_no,
+				
 				'email' => $result[0]->email,
 				'logo' => $result[0]->logo,
 				'contact_number' => $result[0]->contact_number,
@@ -354,8 +343,6 @@ class Company extends MY_Controller {
 		$this->form_validation->set_rules('city', 'City', 'trim|required|xss_clean');
 		
 		$name = $this->input->post('name');
-		$trading_name = $this->input->post('trading_name');
-		$registration_no = $this->input->post('registration_no');
 		$email = $this->input->post('email');
 		$contact_number = $this->input->post('contact_number');
 		$website = $this->input->post('website');
@@ -420,6 +407,24 @@ class Company extends MY_Controller {
 				}
 			}
 		}
+		if(is_uploaded_file($_FILES['signature']['tmp_name'])) {
+			//checking image type
+			$allowed =  array('png','jpg','jpeg','gif');
+			$filename = $_FILES['signature']['name'];
+			$ext = pathinfo($filename, PATHINFO_EXTENSION);
+			if(in_array($ext,$allowed)){
+				$tmp_name = $_FILES["signature"]["tmp_name"];
+				$bill_copy = "uploads/company/";
+				$lname = basename($_FILES["signature"]["name"]);
+				$newfilename = 'signature_'.round(microtime(true)).'.'.$ext;
+				move_uploaded_file($tmp_name, $bill_copy.$newfilename);
+				$signature = $newfilename;
+			} else {
+				$Return['error'] = $this->lang->line('xin_error_attatchment_type');
+			}
+		}else{
+			$signature = '';
+		}
 		
 		if($Return['error']!=''){
        		$this->output($Return);
@@ -442,12 +447,6 @@ class Company extends MY_Controller {
 		}
 		$data = array(
 		'name' => $this->input->post('name'),
-		'type_id' => $this->input->post('company_type'),
-		'username' => $this->input->post('username'),
-		'password' => $this->input->post('password'),
-		'government_tax' => $this->input->post('xin_gtax'),
-		'trading_name' => $this->input->post('trading_name'),
-		'registration_no' => $this->input->post('registration_no'),
 		'email' => $this->input->post('email'),
 		'contact_number' => $this->input->post('contact_number'),
 		'website_url' => $this->input->post('website'),
@@ -459,6 +458,7 @@ class Company extends MY_Controller {
 		'country' => $this->input->post('country'),
 		'added_by' => $this->input->post('user_id'),
 		'logo' => $fname,
+		'signature' => $signature,
 		'created_at' => date('d-m-Y'),
 		
 		);
@@ -642,10 +642,7 @@ class Company extends MY_Controller {
 		if($this->input->post('edit_type')=='document') {
 		$id = $this->uri->segment(4);
 		// Check validation for user input
-		$this->form_validation->set_rules('license_name', 'Name', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('company_id', 'Company', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('license_number', 'Number', 'trim|required|xss_clean');
-		$license_name = $this->input->post('license_name');
 		$company_id = $this->input->post('company_id');
 		$expiry_date = $this->input->post('expiry_date');
 		$license_number = $this->input->post('license_number');
@@ -738,8 +735,6 @@ class Company extends MY_Controller {
 		$this->form_validation->set_rules('website', 'Website', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('city', 'City', 'trim|required|xss_clean');
 		$name = $this->input->post('name');
-		$trading_name = $this->input->post('trading_name');
-		$registration_no = $this->input->post('registration_no');
 		$email = $this->input->post('email');
 		$contact_number = $this->input->post('contact_number');
 		$website = $this->input->post('website');
@@ -755,6 +750,24 @@ class Company extends MY_Controller {
 		/* Define return | here result is used to return user data and error for error message */
 		$Return = array('result'=>'', 'error'=>'', 'csrf_hash'=>'');
 		$Return['csrf_hash'] = $this->security->get_csrf_hash();
+
+
+		if(is_uploaded_file($_FILES['signature']['tmp_name'])) {
+			//checking image type
+			$allowed =  array('png','jpg','jpeg','gif');
+			$filename = $_FILES['signature']['name'];
+			$ext = pathinfo($filename, PATHINFO_EXTENSION);
+			if(in_array($ext,$allowed)){
+				$tmp_name = $_FILES["signature"]["tmp_name"];
+				$bill_copy = "uploads/company/";
+				$lname = basename($_FILES["signature"]["name"]);
+				$newfilename = 'signature_'.round(microtime(true)).'.'.$ext;
+				move_uploaded_file($tmp_name, $bill_copy.$newfilename);
+				$signature = $newfilename;
+			} else {
+				$Return['error'] = $this->lang->line('xin_error_attatchment_type');
+			}
+		}
 			
 		/* Server side PHP input validation */
 		if($name==='') {
@@ -798,12 +811,6 @@ class Company extends MY_Controller {
 			}
 			 $no_logo_data = array(
 			'name' => $this->input->post('name'),
-			'type_id' => $this->input->post('company_type'),
-			'username' => $this->input->post('username'),
-			'password' => $this->input->post('password'),
-			'government_tax' => $this->input->post('xin_gtax'),
-			'trading_name' => $this->input->post('trading_name'),
-			'registration_no' => $this->input->post('registration_no'),
 			'email' => $this->input->post('email'),
 			'contact_number' => $this->input->post('contact_number'),
 			'website_url' => $this->input->post('website'),
@@ -814,6 +821,10 @@ class Company extends MY_Controller {
 			'zipcode' => $this->input->post('zipcode'),
 			'country' => $this->input->post('country'),
 			);
+			if(isset($signature)){
+				$no_logo_data['signature'] = $signature;
+			}
+
 			 $result = $this->Company_model->update_record_no_logo($no_logo_data,$id);
 			 if($count_module_attributes > 0){
 			foreach($module_attributes as $mattribute) {
@@ -968,10 +979,6 @@ class Company extends MY_Controller {
 					$fname = $newfilename;
 					$data = array(
 					'name' => $this->input->post('name'),
-					'type_id' => $this->input->post('company_type'),
-					'government_tax' => $this->input->post('xin_gtax'),
-					'trading_name' => $this->input->post('trading_name'),
-					'registration_no' => $this->input->post('registration_no'),
 					'email' => $this->input->post('email'),
 					'contact_number' => $this->input->post('contact_number'),
 					'website_url' => $this->input->post('website'),
@@ -983,6 +990,9 @@ class Company extends MY_Controller {
 					'country' => $this->input->post('country'),
 					'logo' => $fname,		
 					);
+					if(isset($signature)){
+						$data['signature'] = $signature;
+					}
 					// update record > model
 					$result = $this->Company_model->update_record($data,$id);
 					if($count_module_attributes > 0){
