@@ -35,7 +35,7 @@ class Schedules extends MY_Controller
 		exit(json_encode($Return));
 	}
 
-	//leave calendar
+	//Schedule
 	public function index() {
 
 		$session = $this->session->userdata('username');
@@ -52,6 +52,7 @@ class Schedules extends MY_Controller
 		$this->form_validation->set_rules('out_start', 'Out Start', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('out_time', 'Out Time', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('out_end', 'Out End', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('of_day[]', 'Day', 'trim|required|xss_clean');
 
 		if ($this->form_validation->run() == TRUE) {
 			$data = array(
@@ -70,6 +71,7 @@ class Schedules extends MY_Controller
 			// insert data
 			if ($this->db->insert('emp_shift_schedule', $data)) {
 				$this->session->set_flashdata('success', 'Inserted successfully.');
+				redirect('admin/schedules/');
 			}
 		}
 
@@ -85,6 +87,7 @@ class Schedules extends MY_Controller
         $this->load->view('admin/layout/layout_main', $data); //page load
 	}
 
+	// Schedule edit
 	public function edit($id = null) {
 		$session = $this->session->userdata('username');
 		if(empty($session)){
@@ -100,6 +103,7 @@ class Schedules extends MY_Controller
 		$this->form_validation->set_rules('out_start', 'Out Start', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('out_time', 'Out Time', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('out_end', 'Out End', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('of_day[]', 'Day', 'trim|required|xss_clean');
 
 		if ($this->form_validation->run() == TRUE) {
 			$data = array(
@@ -132,6 +136,7 @@ class Schedules extends MY_Controller
         $this->load->view('admin/layout/layout_main', $data); //page load
 	}
 
+	// Schedule manage
 	public function shift_manage() {
 		$session = $this->session->userdata('username');
 		if(empty($session)){
@@ -152,6 +157,7 @@ class Schedules extends MY_Controller
 			// insert data
 			if ($this->db->insert('emp_shift_manage', $data)) {
 				$this->session->set_flashdata('success', 'Inserted information successfully.');
+				redirect('admin/schedules/shift_manage/');
 			}
 		}
 
@@ -168,6 +174,7 @@ class Schedules extends MY_Controller
         $this->load->view('admin/layout/layout_main', $data); //page load
 	}
 
+	// Schedule manage update
 	public function manage_edit($id = null) {
 		$session = $this->session->userdata('username');
 		if(empty($session)){
@@ -201,5 +208,150 @@ class Schedules extends MY_Controller
         $data['subview'] = $this->load->view("admin/schedule/manage_edit", $data, TRUE);
         $this->load->view('admin/layout/layout_main', $data); //page load
 	}
+
+	// Leave type
+	public function leave_type() {
+		$session = $this->session->userdata('username');
+		if(empty($session)){
+			redirect('admin/');
+		}
+
+		$this->form_validation->set_rules('name', 'Leave Type', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('balance', 'Leave Amount', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('status', 'Status', 'trim|required|xss_clean');
+
+		if ($this->form_validation->run() == TRUE) {
+			$data = array(
+				'name' => $this->input->post('name'),
+				'balance' => $this->input->post('balance'),
+				'status' => $this->input->post('status'),
+			);
+
+			// insert data
+			if ($this->db->insert('leave_type', $data)) {
+				$this->session->set_flashdata('success', 'Inserted information successfully.');
+				redirect('admin/schedules/leave_type/');
+			}
+		}
+
+		$data['results'] = $this->db->get('leave_type')->result();
+
+		$data['title'] = 'Leave Setup';
+		$data['breadcrumbs'] = 'Leave Setup';
+		$data['path_url'] = 'schedules';
+
+        $data['subview'] = $this->load->view("admin/schedule/leave_type", $data, TRUE);
+        $this->load->view('admin/layout/layout_main', $data); //page load
+	}
+
+	// Leave type
+	public function leave_type_edit($id = null) {
+		$session = $this->session->userdata('username');
+		if(empty($session)){
+			redirect('admin/');
+		}
+
+		$this->form_validation->set_rules('name', 'Leave Type', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('balance', 'Leave Amount', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('status', 'Status', 'trim|required|xss_clean');
+
+		if ($this->form_validation->run() == TRUE) {
+			$data = array(
+				'name' => $this->input->post('name'),
+				'balance' => $this->input->post('balance'),
+				'status' => $this->input->post('status'),
+			);
+
+			// update data
+			if ($this->db->where('id', $id)->update('leave_type', $data)) {
+				$this->session->set_flashdata('success', 'Update information successfully.');
+				redirect('admin/schedules/leave_type/');
+			}
+		}
+
+		$data['row'] = $this->db->where("id", $id)->get('leave_type')->row();
+
+		$data['title'] = 'Leave Setup';
+		$data['breadcrumbs'] = 'Leave Setup';
+		$data['path_url'] = 'schedules';
+
+        $data['subview'] = $this->load->view("admin/schedule/leave_type_edit", $data, TRUE);
+        $this->load->view('admin/layout/layout_main', $data); //page load
+	}
+
+	// Leave setting
+	public function leave_setting() {
+		$session = $this->session->userdata('username');
+		if(empty($session)){
+			redirect('admin/');
+		}
+
+		$this->form_validation->set_rules('replace_leave', 'Leave Replace', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('deduct_leave', 'Leave Deduct (Late)', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('more_deduct', 'Leave More (Late)', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('status', 'Status', 'trim|required|xss_clean');
+
+		if ($this->form_validation->run() == TRUE) {
+			$data = array(
+				'replace_leave' => $this->input->post('replace_leave'),
+				'deduct_leave' => $this->input->post('deduct_leave'),
+				'more_deduct' => $this->input->post('more_deduct'),
+				'status' => $this->input->post('status'),
+			);
+
+			// insert data
+			if ($this->db->insert('leave_settings', $data)) {
+				$this->session->set_flashdata('success', 'Inserted information successfully.');
+				redirect('admin/schedules/leave_setting/');
+			}
+		}
+
+		$data['results'] = $this->db->get('leave_settings')->result();
+
+		$data['title'] = 'Leave Setting';
+		$data['breadcrumbs'] = 'Leave Setting';
+		$data['path_url'] = 'schedules';
+
+        $data['subview'] = $this->load->view("admin/schedule/leave_setting", $data, TRUE);
+        $this->load->view('admin/layout/layout_main', $data); //page load
+	}
+
+	public function leave_setting_edit($id = null) {
+		$session = $this->session->userdata('username');
+		if(empty($session)){
+			redirect('admin/');
+		}
+
+		$this->form_validation->set_rules('replace_leave', 'Leave Replace', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('deduct_leave', 'Leave Deduct (Late)', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('more_deduct', 'Leave More (Late)', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('status', 'Status', 'trim|required|xss_clean');
+
+		if ($this->form_validation->run() == TRUE) {
+			$data = array(
+				'replace_leave' => $this->input->post('replace_leave'),
+				'deduct_leave' => $this->input->post('deduct_leave'),
+				'more_deduct' => $this->input->post('more_deduct'),
+				'status' => $this->input->post('status'),
+			);
+
+			// update data
+			if ($this->db->where('id', $id)->update('leave_settings', $data)) {
+				$this->session->set_flashdata('success', 'Update information successfully.');
+				redirect('admin/schedules/leave_setting/');
+			}
+		}
+
+		$data['row'] = $this->db->where("id", $id)->get('leave_settings')->row();
+
+		$data['title'] = 'Leave Setting';
+		$data['breadcrumbs'] = 'Leave Setting';
+		$data['path_url'] = 'schedules';
+
+        $data['subview'] = $this->load->view("admin/schedule/leave_setting_edit", $data, TRUE);
+        $this->load->view('admin/layout/layout_main', $data); //page load
+	}
+
+
 }
 ?>

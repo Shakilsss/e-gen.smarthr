@@ -32,7 +32,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label> Organization <span style="color:red">*</span></label>
-                                <select class="form-control" name="unit_id" >
+                                <select required class="form-control" name="unit_id" >
                                     <option value="">select one</option>
                                     <?php foreach ($coms as $key => $r) { ?>
                                         <option <?php if($row->unit_id == $r->company_id):?> selected="selected"<?php endif;?> value="<?= $r->company_id ?>"><?= $r->name ?></option>
@@ -43,25 +43,25 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label> Name <i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
-                                <input class="form-control" value="<?= $row->sh_type;?>" name="sh_type" >
+                                <input required class="form-control" value="<?= $row->sh_type;?>" name="sh_type" >
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label> In Start <i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
-                                <input class="form-control" type="time" value="<?= $row->in_start;?>" name="in_start" >
+                                <input required class="form-control" type="time" value="<?= $row->in_start;?>" name="in_start" >
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label> In Time <i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
-                                <input class="form-control" type="time" value="<?= $row->in_time;?>" name="in_time" >
+                                <input required class="form-control" type="time" value="<?= $row->in_time;?>" name="in_time" >
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label> Late Start <i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
-                                <input class="form-control" type="time" value="<?= $row->late_start;?>" name="late_start" >
+                                <input required class="form-control" type="time" value="<?= $row->late_start;?>" name="late_start" >
                             </div>
                         </div>
                     </div>
@@ -70,31 +70,31 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label> In End <i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
-                                <input class="form-control" type="time" value="<?= $row->in_end;?>" name="in_end" >
+                                <input required class="form-control" type="time" value="<?= $row->in_end;?>" name="in_end" >
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label> Out Start <i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
-                                <input class="form-control" type="time" value="<?= $row->out_start;?>" name="out_start" >
+                                <input required class="form-control" type="time" value="<?= $row->out_start;?>" name="out_start" >
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label> Out Time <i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
-                                <input class="form-control" type="time" value="<?= $row->out_time;?>" name="out_time" >
+                                <input required class="form-control" type="time" value="<?= $row->out_time;?>" name="out_time" >
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label> Out End <i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
-                                <input class="form-control" type="time" value="<?= $row->out_end;?>" name="out_end" >
+                                <input required class="form-control" type="time" value="<?= $row->out_end;?>" name="out_end" >
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label> Off Days <i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
-                                <select multiple="multiple" class="form-control" name="of_day[]" data-plugin="select_hrm" data-placeholder="select one">
+                                <select required multiple="multiple" class="form-control" name="of_day[]" data-plugin="select_hrm" data-placeholder="select one">
                                     <option value="Fri">Friday</option>
                                     <option value="Sat">Saturday</option>
                                     <option value="Sun">Sunday</option>

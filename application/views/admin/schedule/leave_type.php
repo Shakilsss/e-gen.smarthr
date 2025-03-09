@@ -12,7 +12,7 @@
         <div class="box mb-4 <?php echo $get_animate;?>">
             <div id="accordion">
                 <div class="box-header  with-border">
-                    <h3 class="box-title">Manage Shift Schedule</h3>
+                    <h3 class="box-title">Leave Setup</h3>
                     <div class="box-tools pull-right">
                         <a class="text-dark collapsed" data-toggle="collapse" href="#add_form" aria-expanded="false">
                             <button type="button" class="btn btn-xs btn-primary"> <span class="ion ion-md-add"></span>
@@ -30,34 +30,25 @@
 
                         <div class="form-body">
                             <div class="row">
-                                <?php $coms = $this->db->get('xin_companies')->result(); ?>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label> Organization <span style="color:red">*</span></label>
-                                        <select required class="form-control" name="unit_id" >
-                                            <option value="">select one</option>
-                                            <?php foreach ($coms as $key => $r) { ?>
-                                                <option value="<?= $r->company_id ?>"><?= $r->name ?></option>
-                                            <?php } ?>
-                                        </select>
+                                        <label> Leave Type <i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                        <input required class="form-control" placeholder="leave name" name="name" >
                                     </div>
                                 </div>
-                                <?php $scoms = $this->db->get('emp_shift_schedule')->result(); ?>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label> Schedule <span style="color:red">*</span></label>
-                                        <select required class="form-control" name="schedule_id" >
-                                            <option value="">select one</option>
-                                            <?php foreach ($scoms as $key => $r) { ?>
-                                                <option value="<?= $r->id ?>"><?= $r->sh_type ?></option>
-                                            <?php } ?>
-                                        </select>
+                                        <label> Leave Amount <i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                        <input required class="form-control" placeholder="balance" name="balance" >
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label> Name <i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
-                                        <input required class="form-control" placeholder="Shift name" name="shift_name" >
+                                        <label> Status <i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                        <select name="status" class="form-control">
+                                            <option value="1">Active</option>
+                                            <option value="2">Inactive</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -79,23 +70,23 @@
                     <thead>
                         <tr>
                             <th>Sl.</th>
-                            <th>Company</th>
-                            <th>Shift Name</th>
-                            <th>Schedule Name</th>
+                            <th>Type</th>
+                            <th>Balance</th>
+                            <th>status</th>
                             <th>Action</th>
                         </tr>
                         <?php foreach($results as $k => $res) { ?>
                         <tr>
-                            <td><?php echo $k++; ?></td>
+                            <td><?php echo $k+1; ?></td>
                             <td><?php echo $res->name;?></td>
-                            <td><?php echo $res->sh_type;?></td>
-                            <td><?php echo $res->shift_name;?></td>
+                            <td><?php echo $res->balance;?></td>
+                            <td><?= $res->status == 1 ? 'Active' : 'Inactive'; ?></td>
                             <td>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-xs btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Action <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right">
-                                        <li><a href="<?php echo base_url();?>admin/schedules/manage_edit/<?php echo $res->id;?>"><i class="fa fa-pencil-square-o"></i> Edit</a></li>
+                                        <li><a href="<?php echo base_url();?>admin/schedules/leave_type_edit/<?php echo $res->id;?>"><i class="fa fa-pencil-square-o"></i> Edit</a></li>
                                     </ul>
                                 </div>
                             </td>

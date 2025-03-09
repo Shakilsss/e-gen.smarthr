@@ -11,7 +11,7 @@
 
         <div class="box <?php echo $get_animate;?>">
             <div class="box-header  with-border">
-                <h3 class="box-title">Update manage Schedule</h3>
+                <h3 class="box-title">Update Leave Setting</h3>
                 <div class="box-tools pull-right">
                     <a class="text-dark collapsed" data-toggle="collapse" href="#add_form" aria-expanded="false">
                         <button type="button" class="btn btn-xs btn-primary"> <span class="ion ion-md-add"></span>
@@ -28,35 +28,32 @@
 
                 <div class="form-body">
                     <div class="row">
-                        <?php $coms = $this->db->get('xin_companies')->result(); ?>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
-                                <label> Organization <span style="color:red">*</span></label>
-                                <select required class="form-control" name="unit_id" >
-                                    <option value="">select one</option>
-                                    <?php foreach ($coms as $key => $r) { ?>
-                                        <option <?php if($row->unit_id == $r->company_id):?> selected="selected"<?php endif;?> value="<?= $r->company_id ?>"><?= $r->name ?></option>
-                                    <?php } ?>
-                                </select>
+                                <label> Leave Replace <i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                <input required class="form-control" value="<?= $row->replace_leave ?>" name="replace_leave" >
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label> Leave Deduct (Late) <i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                <input required class="form-control" value="<?= $row->deduct_leave ?>" name="deduct_leave" >
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label> Leave More (Late) <i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                <input required class="form-control" value="<?= $row->more_deduct ?>" name="more_deduct" >
                             </div>
                         </div>
 
-                        <?php $soms = $this->db->get('emp_shift_schedule')->result(); ?>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
-                                <label> Schedule <span style="color:red">*</span></label>
-                                <select required class="form-control" name="schedule_id" >
-                                    <option value="">select one</option>
-                                    <?php foreach ($soms as $key => $r) { ?>
-                                        <option <?php if($row->schedule_id == $r->id):?> selected="selected"<?php endif;?> value="<?= $r->id ?>"><?= $r->sh_type ?></option>
-                                    <?php } ?>
+                                <label> Status <i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                <select name="status" class="form-control">
+                                    <option <?= $row->status==1? 'selected':'' ?> value="1">Active</option>
+                                    <option <?= $row->status==2? 'selected':'' ?> value="2">Inactive</option>
                                 </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label> Shift Name <i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
-                                <input required class="form-control" value="<?= $row->shift_name;?>" name="shift_name" >
                             </div>
                         </div>
                     </div>

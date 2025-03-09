@@ -12,7 +12,7 @@
         <div class="box mb-4 <?php echo $get_animate;?>">
             <div id="accordion">
                 <div class="box-header  with-border">
-                    <h3 class="box-title">Manage Shift Schedule</h3>
+                    <h3 class="box-title">Leave Setting</h3>
                     <div class="box-tools pull-right">
                         <a class="text-dark collapsed" data-toggle="collapse" href="#add_form" aria-expanded="false">
                             <button type="button" class="btn btn-xs btn-primary"> <span class="ion ion-md-add"></span>
@@ -30,34 +30,32 @@
 
                         <div class="form-body">
                             <div class="row">
-                                <?php $coms = $this->db->get('xin_companies')->result(); ?>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label> Organization <span style="color:red">*</span></label>
-                                        <select required class="form-control" name="unit_id" >
-                                            <option value="">select one</option>
-                                            <?php foreach ($coms as $key => $r) { ?>
-                                                <option value="<?= $r->company_id ?>"><?= $r->name ?></option>
-                                            <?php } ?>
-                                        </select>
+                                        <label> Leave Replace <i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                        <input required class="form-control" name="replace_leave" >
                                     </div>
                                 </div>
-                                <?php $scoms = $this->db->get('emp_shift_schedule')->result(); ?>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label> Schedule <span style="color:red">*</span></label>
-                                        <select required class="form-control" name="schedule_id" >
-                                            <option value="">select one</option>
-                                            <?php foreach ($scoms as $key => $r) { ?>
-                                                <option value="<?= $r->id ?>"><?= $r->sh_type ?></option>
-                                            <?php } ?>
-                                        </select>
+                                        <label> Leave Deduct (Late) <i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                        <input required class="form-control" name="deduct_leave" >
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label> Name <i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
-                                        <input required class="form-control" placeholder="Shift name" name="shift_name" >
+                                        <label> Leave More (Late) <i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                        <input required class="form-control" name="more_deduct" >
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label> Status <i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                        <select name="status" class="form-control">
+                                            <option value="1">Active</option>
+                                            <option value="2">Inactive</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -79,23 +77,25 @@
                     <thead>
                         <tr>
                             <th>Sl.</th>
-                            <th>Company</th>
-                            <th>Shift Name</th>
-                            <th>Schedule Name</th>
+                            <th>Leave Replace</th>
+                            <th>Leave Deduct (Late)</th>
+                            <th>Leave More (Late)</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                         <?php foreach($results as $k => $res) { ?>
                         <tr>
-                            <td><?php echo $k++; ?></td>
-                            <td><?php echo $res->name;?></td>
-                            <td><?php echo $res->sh_type;?></td>
-                            <td><?php echo $res->shift_name;?></td>
+                            <td><?php echo $k+1; ?></td>
+                            <td><?php echo $res->replace_leave;?></td>
+                            <td><?php echo $res->deduct_leave;?></td>
+                            <td><?php echo $res->more_deduct;?></td>
+                            <td><?= $res->status == 1 ? 'Active' : 'Inactive'; ?></td>
                             <td>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-xs btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Action <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right">
-                                        <li><a href="<?php echo base_url();?>admin/schedules/manage_edit/<?php echo $res->id;?>"><i class="fa fa-pencil-square-o"></i> Edit</a></li>
+                                        <li><a href="<?php echo base_url();?>admin/schedules/leave_setting_edit/<?php echo $res->id;?>"><i class="fa fa-pencil-square-o"></i> Edit</a></li>
                                     </ul>
                                 </div>
                             </td>
