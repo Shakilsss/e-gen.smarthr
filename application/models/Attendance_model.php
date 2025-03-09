@@ -23,12 +23,12 @@ class Attendance_model extends CI_Model
         //     exit;
         // }
 
-        if (date('2024-03-23') == $process_date || 
-        date('2024-08-10') == $process_date  || 
-        date('2024-08-31') == $process_date || 
+        if (date('2024-03-23') == $process_date ||
+        date('2024-08-10') == $process_date  ||
+        date('2024-08-31') == $process_date ||
         date('2024-08-24') == $process_date ||
         date('2024-09-14') == $process_date ||
-        date('2024-09-21') == $process_date 
+        date('2024-09-21') == $process_date
         ) {
             $off_day = false;
             $holiday_day = false;
@@ -115,7 +115,7 @@ class Attendance_model extends CI_Model
                     'late_start' => '09:40:01',
                     'lunch_time' => '13:10:00',
                     'lunch_minute' => 60,
-                    'out_start_time' => '13:00:00',
+                    'out_start_time' => '11:00:00',
                     'ot_start_time' => '18:30:00',
                     'out_end_time' => '23:59:59',
                 );
@@ -130,7 +130,7 @@ class Attendance_model extends CI_Model
                     'late_start' => '09:10:01',
                     'lunch_time' => '13:10:00',
                     'lunch_minute' => 20,
-                    'out_start_time' => '13:00:00',
+                    'out_start_time' => '11:00:00',
                     'ot_start_time' => '16:30:00',
                     'out_end_time' => '23:59:59',
                 );
@@ -145,7 +145,7 @@ class Attendance_model extends CI_Model
                     'late_start' => '09:40:01',
                     'lunch_time' => '13:10:00',
                     'lunch_minute' => 60,
-                    'out_start_time' => '13:00:00',
+                    'out_start_time' => '11:00:00',
                     'ot_start_time' => '18:30:00',
                     'out_end_time' => '23:59:59',
                 );
@@ -160,7 +160,7 @@ class Attendance_model extends CI_Model
                     'late_start' => '09:10:01',
                     'lunch_time' => '13:10:00',
                     'lunch_minute' => 60,
-                    'out_start_time' => '13:00:00',
+                    'out_start_time' => '11:00:00',
                     'ot_start_time' => '18:00:00',
                     'out_end_time' => '23:59:59',
                 );
@@ -175,7 +175,7 @@ class Attendance_model extends CI_Model
                     'late_start' => '09:40:01',
                     'lunch_time' => '13:10:00',
                     'lunch_minute' => 60,
-                    'out_start_time' => '13:00:00',
+                    'out_start_time' => '11:00:00',
                     'ot_start_time' => '18:30:00',
                     'out_end_time' => '23:59:59',
                 );
@@ -190,7 +190,7 @@ class Attendance_model extends CI_Model
                     'late_start' => '09:10:01',
                     'lunch_time' => '13:10:00',
                     'lunch_minute' => 20,
-                    'out_start_time' => '13:00:00',
+                    'out_start_time' => '11:00:00',
                     'ot_start_time' => '17:00:00',
                     'out_end_time' => '23:59:59',
                 );
@@ -538,7 +538,7 @@ class Attendance_model extends CI_Model
     public function checking_absent_after_offday_holiday($emp_id, $check_day)
     {
 		$prev_st = $this->check_off_day_prev($check_day, 'xin_holioff_days');
-       
+
 		if ($prev_st['status'] == true) {
             $query = $this->db->where('employee_id', $emp_id)->where('attendance_date', $prev_st['date'])->get('xin_attendance_time')->row();
             if($query->status == 'Absent') {
@@ -597,7 +597,7 @@ class Attendance_model extends CI_Model
                 $query = $this->db->where('employee_id', $emp_id)->where('attendance_date', $check_day)->get('xin_attendance_time')->row();
                 $check_day = date('Y-m-d', strtotime('-1 days'. $check_day));
                if (!empty($query)) {
-              
+
                 if ($query->status == 'Absent') {
                     $this->db->where('attendance_date', $check_day);
                     $this->db->where('employee_id', $emp_id);
