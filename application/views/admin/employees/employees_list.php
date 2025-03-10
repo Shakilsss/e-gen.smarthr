@@ -450,11 +450,26 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label for="address"><?php echo $this->lang->line('xin_employee_address');?></label>
                                 <input type="text" class="form-control"
                                     placeholder="<?php echo $this->lang->line('xin_employee_address');?>"
                                     name="address">
+                            </div> -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="address">Division</label>
+                                        <select name="division" id="division">
+                                            <?php 
+                                            $emp_divisions=$this->db->select('*')->from('emp_divisions')->get()->result();
+                                            foreach($emp_divisions as $division) {
+                                                ?>
+                                            <option value="<?php echo $division->id?>"><?php echo $division->name_en?></option>
+                                            <?php }?>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
