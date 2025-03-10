@@ -361,6 +361,10 @@ class Xin_model extends CI_Model {
 			$arr['emp_leaveo'] = 'active';
 			$arr['attnd_open'] = 'active';
 			return $arr;
+		} else if($mClass=='leave' && $mMethod=='approve_os_leave') {
+			$arr['os_leaveo'] = 'active';
+			$arr['attnd_open'] = 'active';
+			return $arr;
 		} else if($mClass=='leave' && $mMethod=='emp_holyday') {
 			$arr['emp_holyday'] = 'active';
 			$arr['attnd_open'] = 'active';

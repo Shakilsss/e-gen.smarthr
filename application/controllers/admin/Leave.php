@@ -18,17 +18,17 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Leave extends MY_Controller
 {
-	
+
 	public function __construct()
-   {
-      parent::__construct();
-      //load the login model
-      $this->load->model('Company_model');
+   	{
+      	parent::__construct();
+      	//load the login model
+      	$this->load->model('Company_model');
 		$this->load->model('Xin_model');
 		$this->load->model('Timesheet_model');
-   }
+   	}
 
-   /*Function to set JSON output*/
+   	/*Function to set JSON output*/
 	public function output($Return=array()){
 		/*Set response header*/
 		header("Access-Control-Allow-Origin: *");
@@ -37,12 +37,133 @@ class Leave extends MY_Controller
 		exit(json_encode($Return));
 	}
 
-	
+	// emp_outstaton_leave
+	function emp_outstaton_leave() {
+		$session = $this->session->userdata('username');
+		if(empty($session)){
+			redirect('admin/');
+		}
+
+		$this->form_validation->set_rules('from_date', 'Apply From Date', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('to_date', 'Apply To Date', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('control_person', 'Leave Approver', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('status', 'Status', 'trim|required|xss_clean');
+
+		if ($this->form_validation->run() == TRUE) {
+			$data = array(
+				'from_date' 		=> $this->input->post('from_date'),
+				'to_date' 			=> $this->input->post('to_date'),
+				'control_person' 	=> $this->input->post('control_person'),
+				'ap_date' 			=> date('Y-m-d'),
+				'status' 			=> $this->input->post('status'),
+				'remark' 			=> $this->input->post('remark'),
+				'emp_id' 			=> $session['user_id'],
+			);
+
+			// insert data
+			if ($this->db->insert('leave_out_station', $data)) {
+				$this->session->set_flashdata('success', 'Inserted information successfully.');
+				redirect('admin/leave/emp_outstaton_leave/');
+			}
+		}
+
+		$data['title'] = 'Out Station Leave';
+		$data['breadcrumbs'] = 'Out Station Leave';
+		$data['path_url'] = 'leave';
+		$data['user'] = $session;
+
+		$data['results'] = $this->db->where('status !=',5)->where('emp_id',$session['user_id'])->get('leave_out_station')->result();
+
+        $data['subview'] = $this->load->view("admin/leave/emp_outstaton_leave", $data, TRUE);
+        $this->load->view('admin/layout/layout_main', $data); //page load
+	}
+
+	// emp_outstaton_edit
+	public function emp_outstaton_edit($id = null) {
+		$session = $this->session->userdata('username');
+		if(empty($session)){
+			redirect('admin/');
+		}
+
+		$this->form_validation->set_rules('from_date', 'Apply From Date', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('to_date', 'Apply To Date', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('control_person', 'Leave Approver', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('status', 'Status', 'trim|required|xss_clean');
+
+		if ($this->form_validation->run() == TRUE) {
+			$data = array(
+				'from_date' 		=> $this->input->post('from_date'),
+				'to_date' 			=> $this->input->post('to_date'),
+				'control_person' 	=> $this->input->post('control_person'),
+				'status' 			=> $this->input->post('status'),
+				'remark' 			=> $this->input->post('remark'),
+			);
+
+			// update data
+			if ($this->db->where('id', $id)->update('leave_out_station', $data)) {
+				$this->session->set_flashdata('success', 'Update information successfully.');
+				redirect('admin/leave/emp_outstaton_leave');
+			}
+		}
+
+		$data['row'] = $this->db->where("id", $id)->get('leave_out_station')->row();
+
+		$data['title'] = 'Out Station Leave';
+		$data['breadcrumbs'] = 'Out Station Leave';
+		$data['path_url'] = 'leave';
+		$data['user'] = $session;
+
+        $data['subview'] = $this->load->view("admin/leave/emp_outstaton_edit", $data, TRUE);
+        $this->load->view('admin/layout/layout_main', $data); //page load
+	}
+
+	// approve os leave
+	function approve_os_leave() {
+		$session = $this->session->userdata('username');
+		if(empty($session)){
+			redirect('admin/');
+		}
+
+		$this->form_validation->set_rules('from_date', 'Apply From Date', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('to_date', 'Apply To Date', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('control_person', 'Leave Approver', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('status', 'Status', 'trim|required|xss_clean');
+
+		if ($this->form_validation->run() == TRUE) {
+			$data = array(
+				'from_date' 		=> $this->input->post('from_date'),
+				'to_date' 			=> $this->input->post('to_date'),
+				'control_person' 	=> $this->input->post('control_person'),
+				'ap_date' 			=> date('Y-m-d'),
+				'status' 			=> $this->input->post('status'),
+				'remark' 			=> $this->input->post('remark'),
+				'emp_id' 			=> $session['user_id'],
+			);
+
+			// insert data
+			if ($this->db->insert('leave_out_station', $data)) {
+				$this->session->set_flashdata('success', 'Inserted information successfully.');
+				redirect('admin/leave/emp_outstaton_leave/');
+			}
+		}
+
+		$data['title'] = 'Out Station Leave';
+		$data['breadcrumbs'] = 'Out Station Leave';
+		$data['path_url'] = 'leave';
+		$data['user'] = $session;
+
+		$data['results'] = $this->db->where('status !=',1)->where('control_person',$session['user_id'])->get('leave_out_station')->result();
+
+        $data['subview'] = $this->load->view("admin/leave/emp_outstaton_leave", $data, TRUE);
+        $this->load->view('admin/layout/layout_main', $data); //page load
+	}
+
+
 	//leave calendar
 	public function calendar() {
-	
+
 		$session = $this->session->userdata('username');
-		if(empty($session)){ 
+		if(empty($session)){
 			redirect('admin/');
 		}
 		$data['title'] = $this->lang->line('xin_hr_leave_calendar');
@@ -56,11 +177,11 @@ class Leave extends MY_Controller
 			redirect('admin/dashboard');
 		}
 	}
-	
+
 	// attandance view code here
 	public function emp_leave(){
-      $session = $this->session->userdata('username');
-		// if(empty($session)){ 
+      	$session = $this->session->userdata('username');
+		// if(empty($session)){
 		// 	redirect('admin/');
 		// }
 
@@ -91,9 +212,9 @@ class Leave extends MY_Controller
 			$data['breadcrumbs']	= 'Leave | Employee Leave';
 			$data['tablebody'] 		= $this->load->view("admin/leave/emp_leave_table", $data, TRUE);
 			$data['subview'] 		= $this->load->view("admin/leave/emp_leave", $data, TRUE);
-									$this->load->view('admin/layout/layout_main', $data); 
+									$this->load->view('admin/layout/layout_main', $data);
 	    }
-   }
+   	}
 
 
    public function leave_delete($id)
@@ -103,11 +224,11 @@ class Leave extends MY_Controller
 		$this->session->set_flashdata('error', 'Successfully Delete Done');
 		redirect('admin/leave/emp_leave');
    }
-	
-   public function emp_holyday(){
+
+   	public function emp_holyday(){
 		$session = $this->session->userdata('username');
 		//  dd($session['user_id']);
-		if(empty($session)){ 
+		if(empty($session)){
 			redirect('admin/');
 		}
 		$session = $this->session->userdata( 'username' );
@@ -131,11 +252,11 @@ class Leave extends MY_Controller
 			$data['title'] 		 = 'Holyday | '.$this->Xin_model->site_title();
 			$data['breadcrumbs'] = 'Holyday';
 			$data['tablebody'] 	 = $this->load->view("admin/leave/emp_holyday_table", $data, TRUE);
-			
+
 
 			$data['subview'] 	 = $this->load->view("admin/leave/emp_holyday", $data, TRUE);
-								   $this->load->view('admin/layout/layout_main', $data); 
+								   $this->load->view('admin/layout/layout_main', $data);
 		}
 	}
-} 
+}
 ?>
