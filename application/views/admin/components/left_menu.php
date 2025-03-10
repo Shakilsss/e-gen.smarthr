@@ -120,6 +120,8 @@ if($theme[0]->sub_menu_icons != ''){
 
           <?php if(in_array('124',$role_resources_ids)) { ?>
             <li class="sidenav-link <?php if(!empty($arr_mod['emp_leave']))echo $arr_mod['emp_leave'];?>"> <a href="<?php echo site_url("admin/leave/emp_leave");?>"><i class="fa <?php echo $submenuicon;?>"></i>Leave</a></li>
+
+            <li class="sidenav-link <?php if(!empty($arr_mod['emp_leaveo']))echo $arr_mod['emp_leaveo'];?>"> <a href="<?php echo site_url("admin/leave/emp_outstaton_leave");?>"><i class="fa <?php echo $submenuicon;?>"></i>Out Station Leave</a></li>
           <?php } ?>
 
           <?php if(in_array('130',$role_resources_ids)) { ?>
