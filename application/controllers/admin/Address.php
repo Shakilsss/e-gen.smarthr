@@ -146,7 +146,7 @@ class Address extends MY_Controller
         $this->db->from('emp_upazilas u');
         $this->db->join('emp_districts d', 'u.dis_id = d.id', 'LEFT');
         $this->db->join('emp_divisions dv', 'd.div_id = dv.id', 'LEFT');
-        $data['upazilas'] = $this->db->get()->result();
+        $data['Upazilas'] = $this->db->get()->result();
         $data['subview'] = $this->load->view("admin/upazila/index", $data, true);
         $this->load->view('admin/layout/layout_main', $data); 
     }
@@ -195,5 +195,70 @@ class Address extends MY_Controller
         redirect('admin/address/upazila/');
     }
     //////   upazila  end /////
+
+    ////// post_office Start
+    public function post_office()
+    {
+        $data['title'] = 'post_office | ' . $this->Xin_model->site_title();
+        $data['breadcrumbs'] ='post_office';
+        $this->db->select('p.id,p.name_en,dv.name_en as division_name,d.name_en as district_name,up.name_en as upazila_name');
+        $this->db->from('emp_post_offices p');
+        $this->db->join('emp_districts d', 'p.dis_id = d.id', 'LEFT');
+        $this->db->join('emp_divisions dv', 'd.div_id = dv.id', 'LEFT');
+        $this->db->join('emp_upazilas up', 'p.div_id = up.id', 'LEFT');
+        $data['post_offices'] = $this->db->get()->result();
+        $data['subview'] = $this->load->view("admin/post_office/index", $data, true);
+        $this->load->view('admin/layout/layout_main', $data); 
+    }
+    public function add_post_office()
+    {
+        if ($this->input->post('name_en')) {
+            $data = array(
+                'name_en' => $this->input->post('name_en'),
+                'div_id' => $this->input->post('div_id'),
+                'dis_id' => $this->input->post('dis_id'),
+                'upa_id' => $this->input->post('up_id'),
+            );
+            $this->db->insert('emp_post_offices', $data);
+            redirect('admin/address/post_office/');
+        }
+        $data['divisions'] = $this->db->select('*')->from('emp_divisions')->get()->result();
+        $data['title'] = 'post_office Add | ' . $this->Xin_model->site_title();
+        $data['breadcrumbs'] ='post_office Add';
+        $data['subview'] = $this->load->view("admin/post_office/create", $data, true);
+        $this->load->view('admin/layout/layout_main', $data); //page load
+    }
+    public function edit_post_office($post_office_id)
+    {
+        if ($this->input->post('name_en')) {
+            $data = array(
+                'name_en' => $this->input->post('name_en'),
+                'div_id' => $this->input->post('div_id'),
+                'dis_id' => $this->input->post('dis_id'),
+                'upa_id' => $this->input->post('up_id'),
+            );
+            $this->db->where('id', $post_office_id);
+            $this->db->update('emp_post_offices', $data);
+            redirect('admin/address/post_office/');
+        }
+        $this->db->where('id', $post_office_id);
+        $data['post_office'] = $this->db->get('emp_post_offices')->row();
+        $data['divisions'] = $this->db->select('*')->from('emp_divisions')->get()->result();
+        $data['districts'] = $this->db->select('*')->where('id', $data['post_office']->dis_id)->from('emp_districts')->get()->result();
+        $data['upazilas'] = $this->db->select('*')->where('id', $data['post_office']->upa_id)->from('emp_upazilas')->get()->result();
+
+        $data['post_office_id'] = $post_office_id;
+        $data['title'] = 'post_office Add | ' . $this->Xin_model->site_title();
+        $data['breadcrumbs'] ='post_office Add';
+        $data['subview'] = $this->load->view("admin/post_office/edit", $data, true);
+        $this->load->view('admin/layout/layout_main', $data); //page load
+    }
+    public function delete_post_office($post_office_id)
+    {
+        $this->db->where('id', $post_office_id);
+        $this->db->delete('emp_post_offices');
+        redirect('admin/address/post_office/');
+    }
+    //////   post_office  end /////
 
 }
