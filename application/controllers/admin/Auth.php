@@ -18,7 +18,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Auth extends MY_Controller
 {
-	
+
 	public function __construct()
      {
           parent::__construct();
@@ -29,7 +29,7 @@ class Auth extends MY_Controller
 			$this->load->helper('html');
 			$this->load->database();
 			$this->load->library('form_validation');*/
-		
+
 			$this->load->model('Login_model');
 			$this->load->model('Employees_model');
 			$this->load->model('Users_model');
@@ -39,7 +39,7 @@ class Auth extends MY_Controller
 			$this->load->model("Department_model");
 			$this->load->model("Location_model");
      }
-	 
+
 	 /*Function to set JSON output*/
 	public function output($Return=array()){
 		/*Set response header*/
@@ -48,13 +48,13 @@ class Auth extends MY_Controller
 		/*Final JSON response*/
 		exit(json_encode($Return));
 	}
-	 
+
 	public function login() {
-	
+
 		$this->form_validation->set_rules('iusername', 'Username', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('ipassword', 'Password', 'trim|required|xss_clean');
 		//$Return = array('result'=>'', 'error'=>'', 'csrf_hash'=>'');
-		
+
 		/*if ($this->form_validation->run() == FALSE)
 		{
 				//$this->load->view('myform');
@@ -63,7 +63,7 @@ class Auth extends MY_Controller
 		$password = $this->input->post('ipassword');
 		/* Define return | here result is used to return user data and error for error message */
 		$Return = array('result'=>'', 'error'=>'', 'csrf_hash'=>'');
-		
+
 		$Return['csrf_hash'] = $this->security->get_csrf_hash();
 		/* Server side PHP input validation */
 		if($username==='') {
@@ -74,19 +74,20 @@ class Auth extends MY_Controller
 		if($Return['error']!=''){
 			$this->output($Return);
 		}
-		
+
 		$data = array(
 			'username' => $username,
 			'password' => $password
 			);
-		$result = $this->Login_model->login($data);	
-		
+		$result = $this->Login_model->login($data);
+
 		if ($result == TRUE) {
-			
+
 				$result = $this->Login_model->read_user_information($username);
 				$session_data = array(
 				'user_id' => $result[0]->user_id,
 				'role_id' => $result[0]->user_role_id,
+				'unit_id' => $result[0]->company_id,
 				'username' => $result[0]->username,
 				'email' => $result[0]->email,
 				'base_url' =>base_url(),
@@ -95,23 +96,23 @@ class Auth extends MY_Controller
 				$this->session->set_userdata('username', $session_data);
 				$this->session->set_userdata('user_id', $session_data);
 				$Return['result'] = $this->lang->line('xin_success_logged_in');
-				
+
 				// update last login info
 				$ipaddress = $this->input->ip_address();
-				  
+
 				 $last_data = array(
 					'last_login_date' => date('d-m-Y H:i:s'),
 					'last_login_ip' => $ipaddress,
 					'is_logged_in' => '1'
-				); 
-				
+				);
+
 				$id = $result[0]->user_id; // user id
-				  
+
 				$this->Xin_model->login_update_record($last_data, $id);
 				$Return['csrf_hash'] = $this->security->get_csrf_hash();
 				$this->session->set_flashdata('expire_official_document', 'expire_official_document');
 				$this->output($Return);
-				
+
 			} else {
 				$Return['error'] = $this->lang->line('xin_error_invalid_credentials');
 				/*Return*/
@@ -119,16 +120,16 @@ class Auth extends MY_Controller
 				$this->output($Return);
 			}
 	}
-	
-	// forgot password.	
+
+	// forgot password.
 	public function forgot_password() {
 		$data['title'] = $this->lang->line('xin_forgot_password_link');
 		$this->load->view('admin/auth/forgot_password', $data);
 	}
-	
-	// unlock user.	
+
+	// unlock user.
 	public function lock() {
-		
+
 		//$session_id = $this->session->userdata('user_id');
 		$data['title'] = $this->lang->line('xin_lock_user');
 
@@ -137,19 +138,19 @@ class Auth extends MY_Controller
 		$Return['result'] = 'Locked User.';
 		$this->load->view('admin/auth/user_lock', $data);
 	}
-	
+
 	//unlock user.
 	public function unlock() {
-	
+
 		$this->form_validation->set_rules('ipassword', 'Password', 'trim|required|xss_clean');
 		$Return = array('result'=>'', 'error'=>'', 'csrf_hash'=>'');
-		
+
 		$Return['csrf_hash'] = $this->security->get_csrf_hash();
-		
+
 		$password = $this->input->post('ipassword');
 		$session_id = $this->session->userdata('user_id');
 		$iresult = $this->Login_model->read_user_info_session_id($session_id['user_id']);
-		
+
 		/* Server side PHP input validation */
 		if($password===''){
 			$Return['error'] = $this->lang->line('xin_employee_error_password');
@@ -157,16 +158,16 @@ class Auth extends MY_Controller
 		if($Return['error']!=''){
 			$this->output($Return);
 		}
-		
+
 		$username = $iresult[0]->username;
 		$data = array(
 			'username' => $username,
 			'password' => $password
 			);
-		$result = $this->Login_model->login($data);	
-		
+		$result = $this->Login_model->login($data);
+
 		if ($result == TRUE) {
-			
+
 				$result = $this->Login_model->read_user_information($username);
 				$session_data = array(
 				'user_id' => $result[0]->user_id,
@@ -177,28 +178,28 @@ class Auth extends MY_Controller
 				$this->session->set_userdata('username', $session_data);
 				$this->session->set_userdata('user_id', $session_data);
 				$Return['result'] = $this->lang->line('xin_success_logged_in');
-				
+
 				// update last login info
 				$ipaddress = $this->input->ip_address();
-				  
+
 				$last_data = array(
 					'last_login_date' => date('d-m-Y H:i:s'),
 					'last_login_ip' => $ipaddress,
 					'is_logged_in' => '1'
-				); 
-				
+				);
+
 				$id = $result[0]->user_id; // user id
-				  
+
 				$this->Xin_model->login_update_record($last_data, $id);
 				$this->output($Return);
-				
+
 			} else {
 				$Return['error'] = $this->lang->line('xin_error_invalid_credentials');
 				/*Return*/
 				$this->output($Return);
 			}
 		}
-	
+
 	public static function AlphaNumeric($length)
       {
           $chars = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -210,12 +211,12 @@ class Auth extends MY_Controller
           }
           return ($id);
       }
-	  
+
 	public function send_mail() {
-				
+
 		/* Define return | here result is used to return user data and error for error message */
 		$Return = array('result'=>'', 'error'=>'', 'csrf_hash'=>'');
-		
+
 		$Return['csrf_hash'] = $this->security->get_csrf_hash();
 		/* Server side PHP input validation */
 		if($this->input->post('iemail')==='') {
@@ -223,13 +224,13 @@ class Auth extends MY_Controller
 		} else if(!filter_var($this->input->post('iemail'), FILTER_VALIDATE_EMAIL)) {
 			$Return['error'] = $this->lang->line('xin_employee_error_invalid_email');
 		}
-		
+
 		if($Return['error']!=''){
 			$this->output($Return);
 		}
-		
+
 		if($this->input->post('iemail')) {
-	
+
 			$this->email->set_mailtype("html");
 			//get company info
 			$cinfo = $this->Xin_model->read_company_setting_info(1);
@@ -237,20 +238,20 @@ class Auth extends MY_Controller
 			$template = $this->Xin_model->read_email_template(2);
 			//get employee info
 			$query = $this->Xin_model->read_user_info_byemail($this->input->post('iemail'));
-			
+
 			$user = $query->num_rows();
 			if($user > 0) {
-				
+
 				$user_info = $query->result();
 				$full_name = $user_info[0]->first_name.' '.$user_info[0]->last_name;
-				
+
 				$subject = $template[0]->subject.' - '.$cinfo[0]->company_name;
-				$logo = base_url().'uploads/logo/signin/'.$cinfo[0]->sign_in_logo;				
+				$logo = base_url().'uploads/logo/signin/'.$cinfo[0]->sign_in_logo;
 				$body = '
 					<div style="background:#f6f6f6;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:12px;margin:0;padding:0;padding: 20px;">
 					<img src="'.$logo.'" title="'.$cinfo[0]->company_name.'"><br>'.str_replace(array("{var site_name}","{var site_url}","{var email}"),array($cinfo[0]->company_name,site_url(),$user_info[0]->email),htmlspecialchars_decode(stripslashes($template[0]->message))).'</div>';
-				
-				hrsale_mail($cinfo[0]->email,$cinfo[0]->company_name,$this->input->post('iemail'),$subject,$body);			
+
+				hrsale_mail($cinfo[0]->email,$cinfo[0]->company_name,$this->input->post('iemail'),$subject,$body);
 				$Return['result'] = $this->lang->line('xin_reset_password_link_success_sent_email');
 			} else {
 				/* Unsuccessful attempt: Set error message */
@@ -260,18 +261,18 @@ class Auth extends MY_Controller
 			exit;
 		}
 	}
-	
+
 	public function reset_password() {
-				
+
 		/* Define return | here result is used to return user data and error for error message */
 		$Return = array('result'=>'', 'error'=>'', 'csrf_hash'=>'');
-		
+
 		$Return['csrf_hash'] = $this->security->get_csrf_hash();
 		/* Server side PHP input validation */
 		if($this->input->get('change') == 'true'){
-				
+
 			if($this->input->get('email')) {
-		
+
 				$this->email->set_mailtype("html");
 				//get company info
 				$cinfo = $this->Xin_model->read_company_setting_info(1);
@@ -279,13 +280,13 @@ class Auth extends MY_Controller
 				$template = $this->Xin_model->read_email_template(17);
 				//get employee info
 				$query = $this->Xin_model->read_user_info_byemail($this->input->get('email'));
-				
+
 				$user = $query->num_rows();
 				if($user > 0) {
-					
+
 					$user_info = $query->result();
 					$full_name = $user_info[0]->first_name.' '.$user_info[0]->last_name;
-					
+
 					$subject = $template[0]->subject.' - '.$cinfo[0]->company_name;
 					$logo = base_url().'uploads/logo/signin/'.$cinfo[0]->sign_in_logo;
 					//$cid = $this->email->attachment_cid($logo);
@@ -294,15 +295,15 @@ class Auth extends MY_Controller
 					$password_hash = password_hash($password, PASSWORD_BCRYPT, $options);
 					$last_data = array(
 						'password' => $password_hash,
-					); 
-					
+					);
+
 					$id = $user_info[0]->user_id; // user id
-					  
+
 					$this->Xin_model->login_update_record($last_data, $id);
-					
+
 				$body = '<div style="background:#f6f6f6;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:12px;margin:0;padding:0;padding: 20px;"><img src="'.$logo.'" title="'.$cinfo[0]->company_name.'"><br>'.str_replace(array("{var site_name}","{var username}","{var email}","{var password}"),array($cinfo[0]->company_name,$user_info[0]->username,$user_info[0]->email,$password),htmlspecialchars_decode(stripslashes($template[0]->message))).'</div>';
-					
-					hrsale_mail($cinfo[0]->email,$cinfo[0]->company_name,$this->input->get('email'),$subject,$body);				
+
+					hrsale_mail($cinfo[0]->email,$cinfo[0]->company_name,$this->input->get('email'),$subject,$body);
 					$this->session->set_flashdata('reset_password_success', 'reset_password_success');
 					redirect(site_url('admin/'));
 				} else {
@@ -314,5 +315,5 @@ class Auth extends MY_Controller
 			}
 		}
 	}
-} 
+}
 ?>

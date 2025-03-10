@@ -58,6 +58,7 @@ class Leave extends MY_Controller
 				'status' 			=> $this->input->post('status'),
 				'remark' 			=> $this->input->post('remark'),
 				'emp_id' 			=> $session['user_id'],
+				'unit_id' 			=> $session['unit_id'],
 			);
 
 			// insert data
@@ -124,26 +125,56 @@ class Leave extends MY_Controller
 			redirect('admin/');
 		}
 
-		$this->form_validation->set_rules('from_date', 'Apply From Date', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('to_date', 'Apply To Date', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('control_person', 'Leave Approver', 'trim|required|xss_clean');
+		$data['title'] = 'Out Station Leave';
+		$data['breadcrumbs'] = 'Out Station Leave';
+		$data['path_url'] = 'leave';
+		$data['user'] = $session;
+
+		$this->db->select('os.*, e.first_name,e.last_name');
+		$this->db->from('leave_out_station as os');
+		$this->db->join('xin_employees as e', 'e.user_id = os.emp_id');
+		$this->db->where_not_in('os.status', array(1,5))->where('os.control_person',$session['user_id']);
+		$data['results'] = $this->db->get()->result();
+
+        $data['subview'] = $this->load->view("admin/leave/approve_os_leave", $data, TRUE);
+        $this->load->view('admin/layout/layout_main', $data); //page load
+	}
+
+	// change os leave status
+	function os_leave_change($id = null) {
+		$session = $this->session->userdata('username');
+		if(empty($session)){
+			redirect('admin/');
+		}
+
+		$this->form_validation->set_rules('ap_from_date', 'Apply From Date', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('ap_to_date', 'Apply To Date', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('status', 'Status', 'trim|required|xss_clean');
 
-		if ($this->form_validation->run() == TRUE) {
+		$fdate = date('Y-m-d', strtotime($this->input->post('ap_from_date')));
+		$tdate = date('Y-m-d', strtotime($this->input->post('ap_to_date')));
+		if ($this->form_validation->run() == TRUE && $fdate < $tdate) {
+			if ($this->input->post('status') == 3) {
+				$from_date = new DateTime($fdate);
+				$to_date = new DateTime($tdate);
+				$interval = $from_date->diff($to_date);
+				$ap_day = $interval->days + 1; // +1 to include both start and end dates
+			} else {
+				$ap_day = 0;
+			}
+
 			$data = array(
-				'from_date' 		=> $this->input->post('from_date'),
-				'to_date' 			=> $this->input->post('to_date'),
-				'control_person' 	=> $this->input->post('control_person'),
-				'ap_date' 			=> date('Y-m-d'),
-				'status' 			=> $this->input->post('status'),
-				'remark' 			=> $this->input->post('remark'),
-				'emp_id' 			=> $session['user_id'],
+				'ap_from_date' 	=> $this->input->post('ap_from_date'),
+				'ap_to_date' 	=> $this->input->post('ap_to_date'),
+				'status' 		=> $this->input->post('status'),
+				'ap_day' 		=> $ap_day,
+				'updated_at' 	=> date('Y-m-d'),
 			);
 
-			// insert data
-			if ($this->db->insert('leave_out_station', $data)) {
-				$this->session->set_flashdata('success', 'Inserted information successfully.');
-				redirect('admin/leave/emp_outstaton_leave/');
+			// update data
+			if ($this->db->where('id', $id)->update('leave_out_station', $data)) {
+				$this->session->set_flashdata('success', 'Update information successfully.');
+				redirect('admin/leave/approve_os_leave');
 			}
 		}
 
@@ -152,12 +183,32 @@ class Leave extends MY_Controller
 		$data['path_url'] = 'leave';
 		$data['user'] = $session;
 
-		$data['results'] = $this->db->where('status !=',1)->where('control_person',$session['user_id'])->get('leave_out_station')->result();
+		$data['row'] = $this->db->where('id', $id)->get('leave_out_station')->row();
 
-        $data['subview'] = $this->load->view("admin/leave/emp_outstaton_leave", $data, TRUE);
+		$this->db->select('e.*, d.department_name, de.designation_name');
+		$this->db->from('xin_employees as e');
+		$this->db->join('xin_departments as d', 'e.department_id = d.department_id');
+		$this->db->join('xin_designations as de', 'e.designation_id = de.designation_id');
+		$data['info'] = $this->db->where('e.user_id', $data['row']->emp_id)->get()->row();
+
+        $data['subview'] = $this->load->view("admin/leave/os_leave_change", $data, TRUE);
         $this->load->view('admin/layout/layout_main', $data); //page load
 	}
 
+	function os_leave_del_rej($statu = null, $id = null) {
+		$session = $this->session->userdata('username');
+		if(empty($session)){
+			redirect('admin/');
+		}
+
+		if (!empty($statu) && !empty($id)) {
+			$this->db->where('id', $id)->update('leave_out_station', array('status' => $statu));
+			$this->session->set_flashdata('success', 'Information updated successfully.');
+			redirect('admin/leave/approve_os_leave');
+		} else {
+			redirect('admin/leave/approve_os_leave');
+		}
+	}
 
 	//leave calendar
 	public function calendar() {
