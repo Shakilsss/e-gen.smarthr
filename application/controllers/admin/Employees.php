@@ -2295,7 +2295,17 @@ class Employees extends MY_Controller {
 			'profile_picture' => $fname,
 			'note_file' => $nname,
 			'remark' => $this->input->post('remark'),
-			'created_at' => date('Y-m-d h:i:s')
+			'created_at' => date('Y-m-d h:i:s'),
+			'div_id_pre' => $this->input->post('div_id_pre'),
+			'dis_id_pre' => $this->input->post('dis_id_pre'),
+			'up_id_pre' => $this->input->post('up_id_pre'),
+			'po_id_pre' => $this->input->post('po_id_pre'),
+			'village_pre' => $this->input->post('village_pre'),
+			'div_id_per' => $this->input->post('div_id_per'),
+			'dis_id_per' => $this->input->post('dis_id_per'),
+			'up_id_per' => $this->input->post('up_id_per'),
+			'po_id_per' => $this->input->post('po_id_per'),
+			'village_per' => $this->input->post('village_per'),
 		);
 		$iresult = $this->Employees_model->add($data);
 

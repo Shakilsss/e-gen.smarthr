@@ -384,7 +384,8 @@
                                         $team_leads = $this->db->select('user_id,first_name,last_name')->where('is_emp_lead',2)->get('xin_employees')->result(); 
                                         foreach($team_leads as $row){
                                     ?>
-                                    <option value="<?php echo $row->user_id?>"><?php echo $row->first_name." ".$row->last_name?></option>
+                                    <option value="<?php echo $row->user_id?>">
+                                        <?php echo $row->first_name." ".$row->last_name?></option>
                                     <?php }?>
                                 </select>
                             </div>
@@ -450,34 +451,224 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <!-- <div class="form-group">
-                                <label for="address"><?php echo $this->lang->line('xin_employee_address');?></label>
-                                <input type="text" class="form-control"
-                                    placeholder="<?php echo $this->lang->line('xin_employee_address');?>"
-                                    name="address">
-                            </div> -->
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="address">Division</label>
-                                        <select name="division" id="division">
-                                            <?php 
-                                            $emp_divisions=$this->db->select('*')->from('emp_divisions')->get()->result();
-                                            foreach($emp_divisions as $division) {
-                                                ?>
-                                            <option value="<?php echo $division->id?>"><?php echo $division->name_en?></option>
-                                            <?php }?>
-                                        </select>
-                                    </div>
+                            <div class="row p-3">
+                                <h4>Present Address</h4>
+                                <div class="form-group">
+                                    <label for="address">Division</label>
+                                    <select name="div_id_pre" id="div_id_pre" class="form-control">
+                                        <?php 
+                                        $emp_divisions=$this->db->select('*')->from('emp_divisions')->get()->result();
+                                        foreach($emp_divisions as $division) {
+                                            ?>
+                                        <option value="<?php echo $division->id?>"><?php echo $division->name_en?>
+                                        </option>
+                                        <?php }?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name_en">Select District</label>
+                                    <select name="dis_id_pre" id="dis_id_pre" class="form-control" required>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="name_en">Select Upazila</label>
+                                    <select name="up_id_pre" id="up_id_pre" class="form-control" required>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name_en">Select Post Office</label>
+                                    <select name="po_id_pre" id="po_id_pre" class="form-control" required>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name_en">Village/State</label>
+                                    <input type="text" name="village_pre" id="village_pre" class="form-control">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="address">Permanent Address</label>
-                                <input type="text" class="form-control" placeholder="Enter Permanent Address"name="per_address">
+                            <div class="row p-3">
+                                <h4>Permanent Address</h4>
+                                <div class="form-group">
+                                    <label for="address">Division</label>
+                                    <select name="div_id_per" id="div_id_per" class="form-control">
+                                        <?php 
+                                        $emp_divisions=$this->db->select('*')->from('emp_divisions')->get()->result();
+                                        foreach($emp_divisions as $division) {
+                                            ?>
+                                        <option value="<?php echo $division->id?>"><?php echo $division->name_en?>
+                                        </option>
+                                        <?php }?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name_en">Select District</label>
+                                    <select name="dis_id_per" id="dis_id_per" class="form-control" required>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="name_en">Select Upazila</label>
+                                    <select name="up_id_per" id="up_id_per" class="form-control" required>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name_en">Select Post Office</label>
+                                    <select name="po_id_per" id="po_id_per" class="form-control" required>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name_en">Village/State</label>
+                                    <input type="text" name="village_per" id="village_per" class="form-control">
+                                </div>
                             </div>
                         </div>
+                        
+                        <script>
+                        $(document).ready(function() {
+                            $('#div_id_pre').on('change', function() {
+                                var div_id = $(this).val();
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '<?php echo site_url('api/Client_attendance/get_district') ?>',
+                                    data: {
+                                        division_id: div_id
+                                    },
+                                    success: function(data) {
+                                        emp_districts = data.data.emp_districts
+                                        $('#dis_id_pre').html(
+                                            '<option value="">Select</option>');
+                                        $.each(emp_districts, function(index, value) {
+                                            $('#dis_id_pre').append('<option value="' +
+                                                value.id + '">' + value
+                                                .name_en + '</option>');
+                                        });
+                                    }
+                                });
+                            });
+                            $('#dis_id_pre').on('change', function() {
+                                var dis_id = $('#dis_id_pre').val();
+                                var div_id = $('#div_id_pre').val();
+
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '<?php echo site_url('api/Client_attendance/get_upazila') ?>',
+                                    data: {
+                                        district_id: dis_id,
+                                        division_id: div_id
+                                    },
+                                    success: function(data) {
+                                        emp_districts = data.data.emp_upazilas
+                                        $('#up_id_pre').html(
+                                        '<option value="">Select</option>');
+                                        $.each(emp_districts, function(index, value) {
+                                            $('#up_id_pre').append('<option value="' +
+                                                value.id + '">' + value
+                                                .name_en + '</option>');
+                                        });
+                                    }
+                                });
+                            });
+                            $('#up_id_pre').on('change', function() {
+                                var dis_id = $('#dis_id_pre').val();
+                                var div_id = $('#div_id_pre').val();
+                                var up_id = $('#up_id_pre').val();
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '<?php echo site_url('api/Client_attendance/get_post_office') ?>',
+                                    data: {
+                                        district_id: dis_id,
+                                        division_id: div_id,
+                                        upazila_id: up_id
+                                    },
+                                    success: function(data) {
+                                        emp_districts = data.data.emp_post_offices
+                                        $('#po_id_pre').html(
+                                        '<option value="">Select</option>');
+                                        $.each(emp_districts, function(index, value) {
+                                            $('#po_id_pre').append('<option value="' +
+                                                value.id + '">' + value
+                                                .name_en + '</option>');
+                                        });
+                                    }
+                                });
+                            });
+                        })
+                        </script>
+                         <script>
+                        $(document).ready(function() {
+                            $('#div_id_per').on('change', function() {
+                                var div_id = $(this).val();
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '<?php echo site_url('api/Client_attendance/get_district') ?>',
+                                    data: {
+                                        division_id: div_id
+                                    },
+                                    success: function(data) {
+                                        emp_districts = data.data.emp_districts
+                                        $('#dis_id_per').html(
+                                            '<option value="">Select</option>');
+                                        $.each(emp_districts, function(index, value) {
+                                            $('#dis_id_per').append('<option value="' +
+                                                value.id + '">' + value
+                                                .name_en + '</option>');
+                                        });
+                                    }
+                                });
+                            });
+                            $('#dis_id_per').on('change', function() {
+                                var dis_id = $('#dis_id_per').val();
+                                var div_id = $('#div_id_per').val();
+
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '<?php echo site_url('api/Client_attendance/get_upazila') ?>',
+                                    data: {
+                                        district_id: dis_id,
+                                        division_id: div_id
+                                    },
+                                    success: function(data) {
+                                        emp_districts = data.data.emp_upazilas
+                                        $('#up_id_per').html(
+                                        '<option value="">Select</option>');
+                                        $.each(emp_districts, function(index, value) {
+                                            $('#up_id_per').append('<option value="' +
+                                                value.id + '">' + value
+                                                .name_en + '</option>');
+                                        });
+                                    }
+                                });
+                            });
+                            $('#up_id_per').on('change', function() {
+                                var dis_id = $('#dis_id_per').val();
+                                var div_id = $('#div_id_per').val();
+                                var up_id = $('#up_id_per').val();
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '<?php echo site_url('api/Client_attendance/get_post_office') ?>',
+                                    data: {
+                                        district_id: dis_id,
+                                        division_id: div_id,
+                                        upazila_id: up_id
+                                    },
+                                    success: function(data) {
+                                        emp_districts = data.data.emp_post_offices
+                                        $('#po_id_per').html(
+                                        '<option value="">Select</option>');
+                                        $.each(emp_districts, function(index, value) {
+                                            $('#po_id_per').append('<option value="' +
+                                                value.id + '">' + value
+                                                .name_en + '</option>');
+                                        });
+                                    }
+                                });
+                            });
+                        })
+                        </script>
+
+
                     </div>
                     <div class="row">
                         <div class="col-md-12">
@@ -550,7 +741,8 @@
                                     <div class='form-group'>
                                         <fieldset class="form-group">
                                             <label for="logo">Remark</label>
-                                            <textarea class="form-control" id="remark" name="remark" rows="3"></textarea>
+                                            <textarea class="form-control" id="remark" name="remark"
+                                                rows="3"></textarea>
                                         </fieldset>
                                     </div>
                                 </div>
@@ -650,7 +842,7 @@
 
 <div class="box <?php echo $get_animate;?>">
     <div class="box-header with-border">
-        
+
 
         <h3 class="box-title">Employee List</h3>
         <!-- <?php if($user_info[0]->user_role_id==1) { ?> -->
@@ -968,4 +1160,3 @@ $(document).ready(function() {
 
 });
 </script>
-
