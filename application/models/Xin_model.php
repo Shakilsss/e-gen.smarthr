@@ -175,6 +175,10 @@ class Xin_model extends CI_Model {
 			$arr['lts_active'] = 'active';
 			$arr['adm_open'] = 'active';
 			return $arr;
+		} else if($mClass=='zk_device' && $mMethod=='attn_device') {
+			$arr['zk_active'] = 'active';
+			$arr['adm_open'] = 'active';
+			return $arr;
 		} else if($mClass=='schedules' && $mMethod=='leave_setting') {
 			$arr['lss_active'] = 'active';
 			$arr['adm_open'] = 'active';
