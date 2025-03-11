@@ -18,7 +18,6 @@ class ZK_device extends API_Controller
         $this->load->library('zklibrary');
     }
 
-
     public function get_data()
     {
         $date = date('Y-m-d');
@@ -47,11 +46,6 @@ class ZK_device extends API_Controller
         return $today_data;
     }
 
-
-
-
-
-
     public function retrieveAttendance($ip, $port, $startTime, $endTime)
     {
         $zk = new zklibrary($ip, $port);
@@ -72,6 +66,40 @@ class ZK_device extends API_Controller
         return $filteredAttendance;
     }
 
+    // attn device setup
+    function attn_device() {
+		$session = $this->session->userdata('username');
+		if(empty($session)){
+			redirect('admin/');
+		}
+
+		$this->form_validation->set_rules('name', 'Leave Type', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('balance', 'Leave Amount', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('status', 'Status', 'trim|required|xss_clean');
+
+		if ($this->form_validation->run() == TRUE) {
+			$data = array(
+				'name' => $this->input->post('name'),
+				'balance' => $this->input->post('balance'),
+				'status' => $this->input->post('status'),
+			);
+
+			// insert data
+			if ($this->db->insert('leave_type', $data)) {
+				$this->session->set_flashdata('success', 'Inserted information successfully.');
+				redirect('admin/schedules/leave_type/');
+			}
+		}
+
+		$data['results'] = $this->db->get('leave_type')->result();
+
+		$data['title'] = 'Device Setup';
+		$data['breadcrumbs'] = 'Leave Setup';
+		$data['path_url'] = 'ZK_device';
+
+        $data['subview'] = $this->load->view("admin/schedule/leave_type", $data, TRUE);
+        $this->load->view('admin/layout/layout_main', $data); //page load
+    }
 
 
 
