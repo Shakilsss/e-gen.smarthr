@@ -209,5 +209,20 @@ class Client_attendance extends API_Controller
                 'data'       =>  $data,
             ], 200);
     }
+    public function get_post_office()
+    {
+            $emp_post_offices=$this->db->select('*')
+            ->from('emp_post_offices')
+            ->where('dis_id', $this->input->post('district_id'))
+            ->where('div_id', $this->input->post('division_id'))
+            ->where('upa_id', $this->input->post('upazila_id'))
+            ->get()->result();
+            $data['emp_post_offices']=$emp_post_offices;
+            $this->api_return([
+                'status'    =>  true,
+                'message'    =>  'successful',
+                'data'       =>  $data,
+            ], 200);
+    }
    
 }
