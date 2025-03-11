@@ -37,8 +37,8 @@ class ZK_device extends API_Controller
             $attendance = $this->retrieveAttendance($device["ip"], $device["port"], $startTime, $endTime);
             foreach ($attendance as $at) {
                 $today_data[] = array(
-                    'uid' => $at[0],
-                    'id' => $at[1],
+                    'sl' => $at[0],
+                    'punch_id' => $at[1],
                     'state' => $index,
                     'time' => $at[3]
                 );
