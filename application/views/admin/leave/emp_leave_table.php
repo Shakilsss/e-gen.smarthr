@@ -17,7 +17,7 @@
     <tbody>
     <!-- admin/timesheet/leave_details/id/$data->leave_id/ -->
         <?php foreach($alldata as $key => $data){ $leave_status = ''; ?>
-        <?php 
+        <?php
             if ($data->status == '1') {
                 $leave_status = 'Pending';
             } else if($data->status == '2'){
@@ -46,7 +46,7 @@
             <td>
                 <div class="btn-group" >
                   <button type="button" class="dropdown-toggle" data-toggle="dropdown" style="border: none; background: transparent;">
-                    <span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span> 
+                    <span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
                   </button>
                   <ul class="dropdown-menu dropdown-menu-right">
                     <li>

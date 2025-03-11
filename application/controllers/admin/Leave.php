@@ -231,35 +231,36 @@ class Leave extends MY_Controller
 
 	// attandance view code here
 	public function emp_leave(){
-      	$session = $this->session->userdata('username');
-		// if(empty($session)){
-		// 	redirect('admin/');
-		// }
-
 		$session = $this->session->userdata( 'username' );
 		$userid  = $session[ 'user_id' ];
+
+		$this->db->select("
+            SUM(CASE WHEN leave_type = 'cl' THEN qty ELSE 0 END) AS cl,
+            SUM(CASE WHEN leave_type = 'sl' THEN qty ELSE 0 END) AS sl
+        ");
+        $this->db->where('employee_id', $userid)->where('status', 2);
+        $this->db->where('to_date >=', date('Y-01-01'));
+        $this->db->where('to_date <=', date('Y-12-31'));
+        $data['used_leave'] = $this->db->get('xin_leave_applications')->row();
+
 		$firstdate = $this->input->post('firstdate');
 		$seconddate = $this->input->post('seconddate');
-
 		$this->db->select("*");
 		$this->db->where("employee_id", $userid);
 		if ($firstdate!=null && $seconddate!=null){
-				$f1_date=date('Y-m-d',strtotime($firstdate));
-				$f2_date=date('Y-m-d',strtotime($seconddate));
-				$this->db->where("from_date BETWEEN '$f1_date' AND '$f2_date'");
-				$this->db->order_by("from_date", "desc");
+			$f1_date = date('Y-m-d',strtotime($firstdate));
+			$f2_date = date('Y-m-d',strtotime($seconddate));
+			$this->db->where("from_date BETWEEN '$f1_date' AND '$f2_date'");
+			$this->db->order_by("from_date", "desc");
 			$data['alldata'] = $this->db->get('xin_leave_applications')->result();
 			$data['tablebody'] 		= $this->load->view("admin/leave/emp_leave_table", $data, TRUE);
 			echo $data['tablebody'] ;
 		}else{
-
 			$this->db->order_by("from_date", "desc");
 			$data['alldata'] = $this->db->get('xin_leave_applications')->result();
-			// dd($data['alldata'] );
 
-			$data['session'] 			= $session;
+			$data['session'] 		= $session;
 			$data['title'] 			= 'Leave | '.$this->Xin_model->site_title();
-
 			$data['breadcrumbs']	= 'Leave | Employee Leave';
 			$data['tablebody'] 		= $this->load->view("admin/leave/emp_leave_table", $data, TRUE);
 			$data['subview'] 		= $this->load->view("admin/leave/emp_leave", $data, TRUE);
@@ -267,6 +268,148 @@ class Leave extends MY_Controller
 	    }
    	}
 
+	// Validate and add info in database
+	public function add_leave() {
+
+		$start_date = $this->input->post('start_date');
+		$end_date = $this->input->post('end_date');
+		$remarks = $this->input->post('remarks');
+		$emp_id = $this->input->post('employee_id');
+		// validate apply date check
+		if($start_date == '' || $end_date == ''){
+			$this->session->set_flashdata('error', 'Please select from & to date.');
+			redirect('admin/leave/emp_leave');
+		}
+		$prev_day = date('Y-m-d', strtotime('-1 days'. $start_date));
+		$next_day = date('Y-m-d', strtotime('+1 days'. $end_date));
+
+		// validate leave type
+		if($this->input->post('leave_type')==='') {
+			$this->session->set_flashdata('error', 'Please select leave type.');
+			redirect('admin/leave/emp_leave');
+		}
+		//get leave date of a employee ...
+		$leave_date = $this->db->select('*')->where('status !=',3)->where('employee_id',$emp_id)->get('xin_leave_applications')->result();
+		//check duplicate leave date
+		foreach($leave_date as $date){
+			if($date->from_date == $start_date || $date->to_date == $end_date) {
+				$this->session->set_flashdata('error', 'Leave date already exists.');
+				redirect('admin/leave/emp_leave');
+			}
+		};
+
+		$datetime1 = new DateTime($this->input->post('start_date'));
+		$datetime2 = new DateTime($this->input->post('end_date'));
+		$interval = $datetime1->diff($datetime2);
+		$no_of_days = $interval->format('%a') + 1;
+		// check half day leave
+		if($this->input->post('leave_half_day') == 1 && $no_of_days > 1 ) {
+			$this->session->set_flashdata('error', 'Please select only one day for half day leave.');
+			redirect('admin/leave/emp_leave');
+		}
+		//  half day leave set
+		if($this->input->post('leave_half_day') == 1 && $no_of_days == 1 ) {
+			$no_of_days = 0.5;
+		}
+		// half day leave yes or no
+		if($this->input->post('leave_half_day') != 1){
+			$leave_half_day_opt = 0;
+		} else {
+			$leave_half_day_opt = $this->input->post('leave_half_day');
+		}
+
+		$lt = 'rl';
+		$type_name = " Replacement leave";
+		if ($this->input->post('leave_type') == 2) {
+			$type_name = " Sick leave";
+			$lt = 'sl';
+		} else {
+			$type_name = " Casual leave";
+			$lt = 'cl';
+		}
+
+		// check balance
+		$total = $this->cal_emp_leave($emp_id, $lt);
+		if($total < $no_of_days){
+			$this->session->set_flashdata('error', 'You have only '.$total.' '.$type_name.' left.');
+			redirect('admin/leave/emp_leave');
+		}
+
+		// attachment upload
+		if($_FILES['attachment']['tmp_name']!='') {
+			$config['upload_path'] = './uploads/leave/'; // Modify this path as needed
+			$config['allowed_types'] = 'gif|jpg|png|pdf';// Add more allowed file types as needed
+			$config['encrypt_name'] = true; // Generate a unique encrypted filename
+			$config['max_size'] = 10048; // Set maximum file size in kilobytes (2MB in this case)
+			$this->upload->initialize($config);
+			$this->upload->do_upload('attachment');
+				$fileData = $this->upload->data();
+				$fileLocation ='uploads/leave/'.$fileData['file_name'];
+		} else {
+			$fileLocation = '';
+		}
+
+		$data = array(
+			'employee_id' => $this->input->post('employee_id'),
+			'company_id' => $this->input->post('company_id'),
+			'leave_type_id' => $this->input->post('leave_type'),
+			'leave_type' => $lt,
+			'from_date' => $this->input->post('start_date'),
+			'to_date' => $this->input->post('end_date'),
+			'applyed_from_date' => $this->input->post('start_date'),
+			'applyed_to_date' => $this->input->post('end_date'),
+			'applied_on' => date('Y-m-d h:i:s'),
+			'reason' => $this->input->post('remarks'),
+			'qty' => $no_of_days,
+			'leave_attachment' => $fileLocation,
+			'status' => '1',
+			'notify_leave' => '1',
+			'is_half_day' => $leave_half_day_opt,
+			'created_at' => date('Y-m-d h:i:s'),
+			'current_year' => date('Y'),
+		);
+		$result = $this->Timesheet_model->add_leave_record($data);
+
+		if ($result == TRUE) {
+			$this->session->set_flashdata('success', 'Successfully Added');
+			redirect('admin/leave/emp_leave');
+		} else {
+			$this->session->set_flashdata('error', 'There is an error');
+			redirect('admin/leave/emp_leave');
+		}
+	}
+
+	function cal_emp_leave($emp_id, $type) {
+		$sql = 'SELECT SUM(qty) as qty FROM xin_leave_applications WHERE employee_id = ? and leave_type_id = ? and status = ? and current_year = ?';
+        $binds = array($emp_id,$type,2,date("Y"));
+        $query = $this->db->query($sql, $binds);
+
+		if ($type != 'rl') {
+			$dleave = $this->db->where('type', $type)->get('xin_leave_type')->row()->days_per_year;
+			$qty = $dleave - $query->row()->qty;
+		} else {
+			$rl_rule = $this->db->where('status', 1)->get('leave_settings')->row()->replace_leave;
+			$nfdate = date('Y-m-01', strtotime('-1 months'));
+			$nsdate = date('Y-m-t', strtotime($nfdate));
+
+			$this->db->select("
+					SUM(CASE WHEN attendance_status='Present' AND status='Off Day' THEN 1 ELSE 0 END) AS rl
+				");
+			$this->db->where('employee_id', $emp_id);
+			$this->db->where('attendance_status', 'Present');
+			$this->db->where('status', 'Off Day');
+			$this->db->where('attendance_date >=', $nfdate);
+			$this->db->where('attendance_date <=', $nsdate);
+			$qqs = $this->db->get('xin_attendance_time')->row();
+			if (!empty($qqs) && $qqs->rl >= $rl_rule) {
+				$rlv = floor($qqs->rl / $rl_rule);
+				$qty = $rlv - $query->row()->qty;
+			} else {
+				$qty = 0;
+			}
+		}
+		return $qty;
+	}
 
    public function leave_delete($id)
    {
