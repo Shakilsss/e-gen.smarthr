@@ -41,41 +41,6 @@ class Settings extends MY_Controller
         exit(json_encode($Return));
     }
 
-    // attn device setup
-    function attn_device() {
-		$session = $this->session->userdata('username');
-		if(empty($session)){
-			redirect('admin/');
-		}
-
-		$this->form_validation->set_rules('name', 'Leave Type', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('balance', 'Leave Amount', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('status', 'Status', 'trim|required|xss_clean');
-
-		if ($this->form_validation->run() == TRUE) {
-			$data = array(
-				'name' => $this->input->post('name'),
-				'balance' => $this->input->post('balance'),
-				'status' => $this->input->post('status'),
-			);
-
-			// insert data
-			if ($this->db->insert('leave_type', $data)) {
-				$this->session->set_flashdata('success', 'Inserted information successfully.');
-				redirect('admin/schedules/leave_type/');
-			}
-		}
-
-		$data['results'] = $this->db->get('leave_type')->result();
-
-		$data['title'] = 'Leave Setup';
-		$data['breadcrumbs'] = 'Leave Setup';
-		$data['path_url'] = 'settings';
-
-        $data['subview'] = $this->load->view("admin/schedule/leave_type", $data, TRUE);
-        $this->load->view('admin/layout/layout_main', $data); //page load
-    }
-
     public function index()
     {
 
