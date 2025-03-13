@@ -167,6 +167,10 @@ class Xin_model extends CI_Model {
 			$arr['dep_active'] = 'active';
 			$arr['adm_open'] = 'active';
 			return $arr;
+		} else if($mClass=='employees' && $mMethod=='set_team_leads') {
+			$arr['team_leads_active'] = 'active';
+			$arr['adm_open'] = 'active';
+			return $arr;
 		} else if($mClass=='schedules' && $mMethod=='shift_manage') {
 			$arr['mch_active'] = 'active';
 			$arr['adm_open'] = 'active';
@@ -177,6 +181,22 @@ class Xin_model extends CI_Model {
 			return $arr;
 		} else if($mClass=='zk_device' && $mMethod=='attn_device') {
 			$arr['zk_active'] = 'active';
+			$arr['adm_open'] = 'active';
+			return $arr;
+		} else if($mClass=='address' && $mMethod=='division') {
+			$arr['div_active'] = 'active';
+			$arr['adm_open'] = 'active';
+			return $arr;
+		} else if($mClass=='address' && $mMethod=='district') {
+			$arr['dis_active'] = 'active';
+			$arr['adm_open'] = 'active';
+			return $arr;
+		} else if($mClass=='address' && $mMethod=='upazila') {
+			$arr['upz_active'] = 'active';
+			$arr['adm_open'] = 'active';
+			return $arr;
+		} else if($mClass=='address' && $mMethod=='post_office') {
+			$arr['pof_active'] = 'active';
 			$arr['adm_open'] = 'active';
 			return $arr;
 		} else if($mClass=='schedules' && $mMethod=='leave_setting') {
@@ -219,10 +239,6 @@ class Xin_model extends CI_Model {
 			$arr['hremp_active'] = 'active';
 			$arr['stff_open'] = 'active';
 			return $arr;
-		} else if($mClass=='employees' && $mMethod=='set_team_leads') {
-			$arr['team_leads_active'] = 'active';
-			$arr['stff_open'] = 'active';
-			return $arr;
 		} else if($mClass=='employees' && $mMethod=='import') {
 			$arr['importemp_active'] = 'active';
 			$arr['stff_open'] = 'active';
@@ -235,8 +251,7 @@ class Xin_model extends CI_Model {
 			$arr['issue_active'] = 'active';
 			$arr['attnd_open'] = 'active';
 			return $arr;
-		}
-		 else if($mClass=='employees') {
+		} else if($mClass=='employees') {
 			$arr['emp_active'] = 'active';
 			$arr['stff_open'] = 'active';
 			return $arr;
@@ -371,6 +386,10 @@ class Xin_model extends CI_Model {
 			return $arr;
 		} else if($mClass=='leave' && $mMethod=='emp_holyday') {
 			$arr['emp_holyday'] = 'active';
+			$arr['attnd_open'] = 'active';
+			return $arr;
+		} else if($mClass=='leave' && $mMethod=='out_of_office') {
+			$arr['emp_leaveot'] = 'active';
 			$arr['attnd_open'] = 'active';
 			return $arr;
 		} else if($mClass=='attendance' && $mMethod=='moveplace') {

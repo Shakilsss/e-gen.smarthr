@@ -46,14 +46,14 @@ class Leave extends MY_Controller
 
 		$this->form_validation->set_rules('from_date', 'Apply From Date', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('to_date', 'Apply To Date', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('control_person', 'Leave Approver', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('status', 'Status', 'trim|required|xss_clean');
 
 		if ($this->form_validation->run() == TRUE) {
+			$tl = $this->db->where('user_id', $session['user_id'])->get('xin_employees')->row();
 			$data = array(
 				'from_date' 		=> $this->input->post('from_date'),
 				'to_date' 			=> $this->input->post('to_date'),
-				'control_person' 	=> $this->input->post('control_person'),
+				'control_person' 	=> !empty($tl->lead_user_id)?$tl->lead_user_id:0,
 				'ap_date' 			=> date('Y-m-d'),
 				'status' 			=> $this->input->post('status'),
 				'remark' 			=> $this->input->post('remark'),
@@ -73,7 +73,7 @@ class Leave extends MY_Controller
 		$data['path_url'] = 'leave';
 		$data['user'] = $session;
 
-		$data['results'] = $this->db->where('status !=',5)->where('emp_id',$session['user_id'])->get('leave_out_station')->result();
+		$data['results'] = $this->db->where('status !=',5)->where('emp_id',$session['user_id'])->order_by('id', 'DESC')->get('leave_out_station')->result();
 
         $data['subview'] = $this->load->view("admin/leave/emp_outstaton_leave", $data, TRUE);
         $this->load->view('admin/layout/layout_main', $data); //page load
@@ -88,14 +88,12 @@ class Leave extends MY_Controller
 
 		$this->form_validation->set_rules('from_date', 'Apply From Date', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('to_date', 'Apply To Date', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('control_person', 'Leave Approver', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('status', 'Status', 'trim|required|xss_clean');
 
 		if ($this->form_validation->run() == TRUE) {
 			$data = array(
 				'from_date' 		=> $this->input->post('from_date'),
 				'to_date' 			=> $this->input->post('to_date'),
-				'control_person' 	=> $this->input->post('control_person'),
 				'status' 			=> $this->input->post('status'),
 				'remark' 			=> $this->input->post('remark'),
 			);
@@ -115,6 +113,44 @@ class Leave extends MY_Controller
 		$data['user'] = $session;
 
         $data['subview'] = $this->load->view("admin/leave/emp_outstaton_edit", $data, TRUE);
+        $this->load->view('admin/layout/layout_main', $data); //page load
+	}
+
+	// approve out off leave
+	function out_of_office() {
+		$session = $this->session->userdata('username');
+		if(empty($session)){
+			redirect('admin/');
+		}
+
+		$this->form_validation->set_rules('date', 'Date', 'trim|required');
+		$this->form_validation->set_rules('remark', 'Remark', 'trim|required');
+		if ($this->form_validation->run() == TRUE) {
+			$data = array(
+				'date' 				=> $this->input->post('date'),
+				'in_time' 			=> date('H:i:s', strtotime($this->input->post('in_time'))),
+				'out_time' 			=> date('H:i:s', strtotime($this->input->post('out_time'))),
+				'status' 			=> 1,
+				'updated_at' 		=> date('Y-m-d'),
+				'remark' 			=> $this->input->post('remark'),
+				'emp_id' 			=> $session['user_id'],
+				'unit_id' 			=> $session['unit_id'],
+			);
+
+			// insert data
+			if ($this->db->insert('leave_out_off_office', $data)) {
+				$this->session->set_flashdata('success', 'Inserted information successfully.');
+				redirect('admin/leave/out_of_office/');
+			}
+		}
+
+		$data['results'] = $this->db->get('leave_out_off_office')->result();
+		$data['title'] = 'Out Off Offie';
+		$data['breadcrumbs'] = 'Out Off Offie';
+		$data['path_url'] = 'leave';
+		$data['user'] = $session;
+
+        $data['subview'] = $this->load->view("admin/leave/out_of_office", $data, TRUE);
         $this->load->view('admin/layout/layout_main', $data); //page load
 	}
 

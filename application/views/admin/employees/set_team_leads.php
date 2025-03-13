@@ -19,8 +19,8 @@ th td{
     <tr>
       <th class="text-center">SL</th>
       <th >Employee Name</th>
-      <th class="text-center">Is Team Lead</th>
-      <th>Set Leader</th>
+      <th class="text-center">Is Department Head</th>
+      <th>Set Department Head</th>
     </tr>
   </thead>
   <tbody>
@@ -36,7 +36,7 @@ th td{
         <select name="team_lead" id="team_lead" class="team_lead" onchange="changeTeamLead(<?= $e->user_id?>,this.value)">
           <option >Select Team Lead</option>
           <?php
-            
+
             $this->db->where('is_emp_lead', 2);
             $this->db->where_not_in('user_id',$e->user_id);
             $employ = $this->db->get('xin_employees')->result();
@@ -54,10 +54,10 @@ th td{
   document.addEventListener('DOMContentLoaded', function() {
     $('.team_lead').select2();
   })
-  function setTeamLead(user_id,el){ 
+  function setTeamLead(user_id,el){
     var d
     el.checked ? d = 2 : d = 1
-   
+
     $.ajax({
       type: 'POST',
       url: '<?= base_url('admin/employees/set_team_lead_ajax') ?>',
@@ -66,9 +66,9 @@ th td{
         console.log(response);
       }
     })
-    
+
   }
-  function changeTeamLead(user_id,team_lead){ 
+  function changeTeamLead(user_id,team_lead){
 
     $.ajax({
       type: 'POST',
@@ -78,6 +78,6 @@ th td{
         console.log(response);
       }
     })
-    
+
   }
 </script>

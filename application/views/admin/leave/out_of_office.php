@@ -12,7 +12,7 @@
         <div class="box mb-4 <?php echo $get_animate;?>">
             <div id="accordion">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Out Station Leave</h3>
+                    <h3 class="box-title">Out Off Office</h3>
                     <div class="box-tools pull-right">
                         <a class="text-dark collapsed" data-toggle="collapse" href="#add_form" aria-expanded="false">
                             <button type="button" class="btn btn-xs btn-primary"> <span class="ion ion-md-add"></span>
@@ -30,32 +30,25 @@
 
                         <div class="form-body">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-2">
                                     <div class="form-group">
-                                        <label> From Date <span style="color:red">*</span></label>
-                                        <input required class="form-control" type="date" name="from_date" >
+                                        <label> Date <span style="color:red">*</span></label>
+                                        <input required class="form-control" type="date" name="date" >
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-2">
                                     <div class="form-group">
-                                        <label> To Date <span style="color:red">*</span></label>
-                                        <input required class="form-control" type="date" name="to_date" >
+                                        <label>Office In Time <span style="color:red">*</span></label>
+                                        <input type="time" class="form-control" name="in_time">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-2">
                                     <div class="form-group">
-                                        <label> Status <span style="color:red">*</span></label>
-                                        <select required name="status" class="form-control">
-                                            <option value="">select one</option>
-                                            <option value="1">Draft</option>
-                                            <option value="2">Forward to Approver</option>
-                                        </select>
+                                        <label>Office Out Time <span style="color:red">*</span></label>
+                                        <input type="time" class="form-control" name="out_time">
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label> Remark <span style="color:red">*</span></label>
                                         <textarea required class="form-control textarea" name="remark"></textarea>

@@ -92,15 +92,11 @@ if($theme[0]->sub_menu_icons != ''){
     <li class="<?php if(!empty($arr_mod['active']))echo $arr_mod['active'];?>"> <a href="<?php echo site_url('admin/dashboard');?>"> <i class="fa fa-dashboard"></i> <span><?php echo $this->lang->line('dashboard_title');?></span> </a> </li>
 
 
-    <?php if(in_array('13',$role_resources_ids) || in_array('88',$role_resources_ids) || in_array('92',$role_resources_ids) || in_array('22',$role_resources_ids) || in_array('23',$role_resources_ids) || in_array('393',$role_resources_ids) || in_array('400',$role_resources_ids) || $user_info[0]->user_role_id==1){?>
+    <?php if(in_array('13',$role_resources_ids) || in_array('88',$role_resources_ids) || in_array('92',$role_resources_ids) || in_array('22',$role_resources_ids) || in_array('23',$role_resources_ids) || in_array('393',$role_resources_ids) || $user_info[0]->user_role_id==1){?>
       <li class="<?php if(!empty($arr_mod['stff_open']))echo $arr_mod['stff_open'];?> treeview"> <a href="#"> <i class="fa fa-user"></i> <span><?php echo $this->lang->line('let_staff');?></span> <span class="pull-right-container"> <?php if($exp_count > 0):?><span class="label label-danger pull-right"><?php echo $exp_count;?></span><?php endif;?> <i class="fa fa-angle-left pull-right"></i> </span> </a>
         <ul class="treeview-menu">
           <?php if(in_array('13',$role_resources_ids)) { ?>
           <li class="<?php if(!empty($arr_mod['emp_active']))echo $arr_mod['emp_active'];?>"><a href="<?php echo site_url('admin/employees');?>"><i class="fa <?php echo $submenuicon;?>"></i> <?php echo $this->lang->line('dashboard_employees');?></a></li>
-          <?php } ?>
-
-          <?php if(in_array('400',$role_resources_ids)) { ?>
-          <li class="<?php if(!empty($arr_mod['team_leads_active']))echo $arr_mod['team_leads_active'];?>"><a href="<?php echo site_url('admin/employees/set_team_leads');?>"><i class="fa <?php echo $submenuicon;?>"></i> Set Team Lead<span class="label label-danger pull-right"></span></a></li>
           <?php } ?>
         </ul>
       </li>
@@ -114,12 +110,10 @@ if($theme[0]->sub_menu_icons != ''){
             <li class="sidenav-link <?php if(!empty($arr_mod['emp_atten_active']))echo $arr_mod['emp_atten_active'];?>"> <a href="<?php echo site_url('admin/attendance/employee_attendance');?>"><i class="fa <?php echo $submenuicon;?>"></i>Attendance</a> </li>
           <?php } ?>
 
-          <?php if(in_array('123',$role_resources_ids)) { ?>
-            <li class="sidenav-link <?php if(!empty($arr_mod['emp_move_active']))echo $arr_mod['emp_move_active'];?>"> <a href="<?php echo site_url("admin/attendance/employee_movement");?>"><i class="fa <?php echo $submenuicon;?>"></i>Movement</a></li>
-          <?php } ?>
-
           <?php if(in_array('124',$role_resources_ids)) { ?>
             <li class="sidenav-link <?php if(!empty($arr_mod['emp_leave']))echo $arr_mod['emp_leave'];?>"> <a href="<?php echo site_url("admin/leave/emp_leave");?>"><i class="fa <?php echo $submenuicon;?>"></i>Leave</a></li>
+
+            <li class="sidenav-link <?php if(!empty($arr_mod['emp_leaveot']))echo $arr_mod['emp_leaveot'];?>"> <a href="<?php echo site_url("admin/leave/out_of_office");?>"><i class="fa <?php echo $submenuicon;?>"></i>Out Off Office</a></li>
 
             <li class="sidenav-link <?php if(!empty($arr_mod['emp_leaveo']))echo $arr_mod['emp_leaveo'];?>"> <a href="<?php echo site_url("admin/leave/emp_outstaton_leave");?>"><i class="fa <?php echo $submenuicon;?>"></i>Out Station Leave</a></li>
           <?php } ?>
@@ -319,9 +313,14 @@ if($theme[0]->sub_menu_icons != ''){
     <?php } ?>
 
     <!-- setup -->
-    <?php  if(in_array('2',$role_resources_ids) || in_array('3',$role_resources_ids) || in_array('5',$role_resources_ids) || in_array('6',$role_resources_ids) || in_array('4',$role_resources_ids) || in_array('11',$role_resources_ids) || in_array('9',$role_resources_ids) || in_array('96',$role_resources_ids)){?>
+    <?php  if(in_array('2',$role_resources_ids) || in_array('400',$role_resources_ids) || in_array('3',$role_resources_ids) || in_array('5',$role_resources_ids) || in_array('6',$role_resources_ids) || in_array('4',$role_resources_ids) || in_array('11',$role_resources_ids) || in_array('9',$role_resources_ids) || in_array('96',$role_resources_ids)){?>
       <li class="<?php if(!empty($arr_mod['adm_open']))echo $arr_mod['adm_open'];?> treeview"> <a href="#"> <i class="fa fa-building"></i> <span>Setup</span> <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span> </a>
         <ul class="treeview-menu">
+
+          <?php if(in_array('400',$role_resources_ids)) { ?>
+          <li class="<?php if(!empty($arr_mod['team_leads_active']))echo $arr_mod['team_leads_active'];?>"><a href="<?php echo site_url('admin/employees/set_team_leads');?>"><i class="fa <?php echo $submenuicon;?>"></i> Set Department Head<span class="label label-danger pull-right"></span></a></li>
+          <?php } ?>
+
           <?php if(in_array('5',$role_resources_ids)) { ?>
           <li class="sidenav-link <?php if(!empty($arr_mod['com_active']))echo $arr_mod['com_active'];?>"><a href="<?php echo site_url('admin/company')?>"><i class="fa <?php echo $submenuicon;?>"></i> <?php echo $this->lang->line('left_company');?></a></li>
           <?php } ?>
@@ -346,6 +345,19 @@ if($theme[0]->sub_menu_icons != ''){
 
           <li class="sidenav-link <?php if(!empty($arr_mod['zk_active']))echo $arr_mod['zk_active'];?>"><a href="<?php echo site_url('admin/zk_device/attn_device');?>"><i class="fa <?php echo $submenuicon;?>"></i>Device Setup</a></li>
 
+          <li class="sidenav-link <?php if(!empty($arr_mod['div_active']))echo $arr_mod['div_active'];?>">
+            <a href="<?php echo site_url('admin/address/division');?>"><i class="fa <?php echo $submenuicon;?>"></i> Division</a>
+          </li>
+          <li class="sidenav-link <?php if(!empty($arr_mod['dis_active']))echo $arr_mod['dis_active'];?>">
+            <a href="<?php echo site_url('admin/address/district');?>"><i class="fa <?php echo $submenuicon;?>"></i> District</a>
+          </li>
+          <li class="sidenav-link <?php if(!empty($arr_mod['upz_active']))echo $arr_mod['upz_active'];?>">
+            <a href="<?php echo site_url('admin/address/upazila');?>"><i class="fa <?php echo $submenuicon;?>"></i> Upazila</a>
+          </li>
+          <li class="sidenav-link <?php if(!empty($arr_mod['pof_active']))echo $arr_mod['pof_active'];?>">
+            <a href="<?php echo site_url('admin/address/post_office');?>"><i class="fa <?php echo $submenuicon;?>"></i> Post Office</a>
+          </li>
+
           <?php if(in_array('11',$role_resources_ids)) { ?>
           <li class="sidenav-link <?php if(!empty($arr_mod['ann_active']))echo $arr_mod['ann_active'];?>"><a href="<?php echo site_url('admin/announcement');?>"><i class="fa <?php echo $submenuicon;?>"></i> <?php echo $this->lang->line('left_announcements');?></a></li>
           <?php } ?>
@@ -363,7 +375,7 @@ if($theme[0]->sub_menu_icons != ''){
         <ul class="treeview-menu">
 
           <?php if($user_info[0]->user_role_id==1 || $user_info[0]->user_role_id==2) { ?>
-            <li class="<?php if(!empty($arr_mod['roles_active']))echo $arr_mod['roles_active'];?>"><a href="<?php echo site_url('admin/attendance/moveplace');?>"><i class="fa <?php echo $submenuicon;?>"></i>Move Location</a></li>
+            <!-- <li class="<?php if(!empty($arr_mod['roles_active']))echo $arr_mod['roles_active'];?>"><a href="<?php echo site_url('admin/attendance/moveplace');?>"><i class="fa <?php echo $submenuicon;?>"></i>Move Location</a></li> -->
           <?php } ?>
 
           <?php if($user_info[0]->user_role_id==1) { ?>
