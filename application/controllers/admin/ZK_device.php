@@ -15,7 +15,7 @@ class ZK_device extends API_Controller
         header("Access-Control-Allow-Headers: Content-Type");
 
         parent::__construct();
-        $this->load->library('zklibrary');
+        $this->load->library('Zklibrary');
     }
 
     public function get_data()
