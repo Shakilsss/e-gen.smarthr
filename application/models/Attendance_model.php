@@ -170,6 +170,22 @@ class Attendance_model extends CI_Model
         return $leave;
     }
 
+    public function check_in_out_time($proxi_id, $start_time, $end_time, $order)
+    {
+        $date_time = '';
+        $this->db->select("date_time");
+        $this->db->where("date_time BETWEEN '$start_time' and '$end_time'");
+        $this->db->where("proxi_id", $proxi_id);
+        $this->db->order_by("date_time", $order);
+        $this->db->limit("1");
+        $query = $this->db->get('xin_att_machine');
+
+        if($query->num_rows() > 0) {
+            $date_time = $query->row()->date_time;
+        }
+        return $date_time;
+    }
+
     public function get_shift_schedule($emp_id, $process_date = null, $shift_id = null)
     {
         $this->db->select("schedule_id");
@@ -441,23 +457,6 @@ class Attendance_model extends CI_Model
         $this->db->where('attendance_date', $att_date);
         $this->db->delete('xin_attendance_time');
         return true;
-    }
-    public function check_in_out_time($proxi_id, $start_time, $end_time, $order)
-    {
-
-
-        $date_time = '';
-        $this->db->select("date_time");
-        $this->db->where("date_time BETWEEN '$start_time' and '$end_time'");
-        $this->db->where("proxi_id", $proxi_id);
-        $this->db->order_by("date_time", $order);
-        $this->db->limit("1");
-        $query = $this->db->get('xin_att_machine');
-
-        if($query->num_rows() > 0) {
-            $date_time = $query->row()->date_time;
-        }
-        return $date_time;
     }
 
     public function check_movement_time($emp_id, $process_date, $order)
