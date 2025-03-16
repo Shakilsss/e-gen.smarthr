@@ -1,5 +1,5 @@
 
-<?php 
+<?php
     $session = $this->session->userdata('username');
     $get_animate = $this->Xin_model->get_content_animate();
     $userid  = $session[ 'user_id' ];
@@ -21,7 +21,7 @@
     $taken_meal = 0;
     $paymeal = 0;
     $balanceMeal = 0;
-    
+
     if (!empty($data1)) {
         $this->load->model("Lunch_model");
         $emp_data = $this->Lunch_model->get_data_date_wise($data1->end_date, $data1->next_date, $data1->emp_id);
@@ -74,12 +74,12 @@
     // punch time
     $in_time = "00:00";
     $out_time = "00:00";
-    $punch_time = $this->db->select('clock_in, clock_out,lunch_in,lunch_out')
+    $punch_time = $this->db->select('clock_in, clock_out')
                           ->where('employee_id', $userid)
                           ->where('attendance_date', date('Y-m-d'))
                           ->get('xin_attendance_time')
                           ->row();
-    // dd($punch_time);                      
+    // dd($punch_time);
     if (!empty($punch_time)) {
         $in_time = date('h.i A', strtotime($punch_time->clock_in));
         $out_time = date('h.i A', strtotime($punch_time->clock_out));
@@ -544,12 +544,12 @@ hr {
                                     <span class="progress-label-top">Lunch Time</span>
                                     <span class="progress-count"><i class="fa fa-clock-o"  aria-hidden="true"></i></i></span>
                                     <span
-                                        class="progress-label"><?php echo !empty($punch_time && $punch_time->lunch_in)?date('h:i A', strtotime($punch_time->lunch_in)):'-' ?></span>
+                                        class="progress-label">0</span>
                                 </li>
                                 <li class="step-wizard-item <?=$lunch_end_class?>">
                                     <span class="progress-label-top">Lunch End</span>
                                     <span class="progress-count"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
-                                    <span class="progress-label"><?php echo !empty($punch_time && $punch_time->lunch_out)?date('h:i A', strtotime($punch_time->lunch_out)):'-' ?></span>
+                                    <span class="progress-label">0</span>
                                 </li>
                                 <li class="step-wizard-item <?=$out_time_class?>">
                                     <span class="progress-label-top">Punch Out</span>
@@ -593,7 +593,7 @@ hr {
                 <div class="card-body">
                     <div style="display:flex">
                         <h5>Salary Statistics</h5>
-                       
+
                         <!-- <h5 style="margin-right:0; margin-left: auto;">Yearly 1234M</h5> -->
                     </div>
                     <div id="my_div">

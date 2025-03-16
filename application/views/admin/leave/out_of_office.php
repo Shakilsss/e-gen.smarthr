@@ -73,11 +73,9 @@
                     <thead>
                         <tr>
                             <th>Sl.</th>
-                            <th>from date </th>
-                            <th>to date</th>
-                            <th>app. From date</th>
-                            <th>app. To date</th>
-                            <th>app. days<
+                            <th>date </th>
+                            <th>In Time</th>
+                            <th>Out Time</th>
                             <th>Status</th>
                             <th>Remark</th>
                             <th>Action</th>
@@ -86,17 +84,9 @@
                         <?php foreach($results as $k => $res) { ?>
                         <tr>
                             <td><?php echo $k+1; ?></td>
-                            <td><?php echo date("d-m-Y", strtotime($res->from_date)) ;?></td>
-                            <td><?php echo date("d-m-Y", strtotime($res->to_date)) ;?></td>
-                            <?php if ($res->status == 3) { ?>
-                            <td><?php echo date("d-m-Y", strtotime($res->ap_from_date)) ;?></td>
-                            <td><?php echo date("d-m-Y", strtotime($res->ap_to_date)) ;?></td>
-                            <td><?php echo $res->ap_day;?></td>
-                            <?php } else { ?>
-                            <td>--</td>
-                            <td>--</td>
-                            <td>--</td>
-                            <?php } ?>
+                            <td><?php echo date("d-m-Y", strtotime($res->date)) ;?></td>
+                            <td><?php echo $res->in_time ;?></td>
+                            <td><?php echo $res->out_time ;?></td>
                             <?php if ($res->status == 1) {
                                 $status = 'Draft';
                             } elseif ($res->status == 2) {
