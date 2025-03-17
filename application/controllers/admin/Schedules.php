@@ -170,7 +170,7 @@ class Schedules extends MY_Controller
 		$data['breadcrumbs'] = 'Manage Shift';
 		$data['path_url'] = 'schedules';
 
-        $data['subview'] = $this->load->view("admin/schedule/manage_shift", $data, TRUE);
+        $data['subview'] = $this->load->view("admin/schedule/shift_manage", $data, TRUE);
         $this->load->view('admin/layout/layout_main', $data); //page load
 	}
 

@@ -12,7 +12,7 @@ class Attendance_model extends CI_Model
 
     public function attn_process($process_date = null, $emp_ids = null, $status = null){
         // If process date is empty then current date will go to the core process
-        if (!empty($process_date)) {
+        if (empty($process_date)) {
             $process_date = date("Y-m-d");
         }
         // Advance Process Not Allowed
@@ -72,12 +72,18 @@ class Attendance_model extends CI_Model
             $out_time   = $this->check_in_out_time($punch_id, $out_start_time, $out_end_time, 'DESC');
             // check leave status
             $leave = $this->leave_chech($process_date, $emp_id);
+            $sleave = $this->chech_station_leave($process_date, $emp_id);
 
             // check attendance status
             $status = ''; $astatus = '';
             if ($leave['leave'] == true) {
                 $astatus = 'Leave';
                 $status = 'Leave';
+            } else if ($sleave['leave'] == true) {
+                $astatus = 'sLeave';
+                $status = 'sLeave';
+                $in_time    = $actual_in_time;
+                $out_time   = $actual_out_time;
             } else {
                 if ($holiday_day == true) {
                     if (($in_time != '' && strtotime($in_time) < strtotime($out_start_time)) && ($out_time !='' && strtotime($out_time) > strtotime($actual_out_time))) {
@@ -87,7 +93,7 @@ class Attendance_model extends CI_Model
                         $astatus = 'Holiday';
                         $status = 'Holiday';
                     }
-                } else if ($off_day == true) {
+                } else if (in_array(date('D', strtotime($process_date)), $of_day)) {
                     if (($in_time != '' && strtotime($in_time) < strtotime($out_start)) && ($out_time !='' && strtotime($out_time) >= strtotime($actual_out_time))) {
                         $astatus = 'Present';
                         $status = 'Off Day';
@@ -149,6 +155,25 @@ class Attendance_model extends CI_Model
             }
         }
         return true;
+    }
+
+    public function chech_station_leave($process_date, $emp_id)
+    {
+        $this->db->where("ap_from_date <=", $process_date);
+        $this->db->where("ap_to_date >=", $process_date);
+        $this->db->where("emp_id", $emp_id);
+        $this->db->where("status", 6);
+        $query = $this->db->get("leave_out_station");
+        if($query->num_rows() > 0) {
+            $leave = array(
+                'leave'  => true
+            );
+        } else {
+            $leave = array(
+                'leave'  => false
+            );
+        }
+        return $leave;
     }
 
     public function leave_chech($process_date, $emp_id)

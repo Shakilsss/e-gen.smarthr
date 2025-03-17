@@ -215,7 +215,7 @@ content: 'zfdsdf';
                     ?>
 
                     <a  class="btn btn-sm btn-primary" href="<?= base_url('admin/attendance/punch_request_list') ?>" style="padding: 6px 10px !important;">Punch Request <span class="badge badge-danger" style="background-color: red !important; color: white !important;"><?= $count ?></span></a>
-                
+
                 <button onclick="extra_present_approval()" class="btn btn-sm btn-primary"
                     style="padding: 6px 10px !important;">Extra Present Approval</button>
             </div>
@@ -479,7 +479,7 @@ function extra_present_approval_press(data, time_attendance_id) {
         data=1
     } else {
         data=0
-    } 
+    }
     var url = "<?php echo base_url('admin/attendance/extra_present_approval_press'); ?>";
     $.ajax({
         url: url,

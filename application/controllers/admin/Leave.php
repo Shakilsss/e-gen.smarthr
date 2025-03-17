@@ -116,44 +116,6 @@ class Leave extends MY_Controller
         $this->load->view('admin/layout/layout_main', $data); //page load
 	}
 
-	// approve out off leave
-	function out_of_office() {
-		$session = $this->session->userdata('username');
-		if(empty($session)){
-			redirect('admin/');
-		}
-
-		$this->form_validation->set_rules('date', 'Date', 'trim|required');
-		$this->form_validation->set_rules('remark', 'Remark', 'trim|required');
-		if ($this->form_validation->run() == TRUE) {
-			$data = array(
-				'date' 				=> $this->input->post('date'),
-				'in_time' 			=> date('H:i:s', strtotime($this->input->post('in_time'))),
-				'out_time' 			=> date('H:i:s', strtotime($this->input->post('out_time'))),
-				'status' 			=> 1,
-				'updated_at' 		=> date('Y-m-d'),
-				'remark' 			=> $this->input->post('remark'),
-				'emp_id' 			=> $session['user_id'],
-				'unit_id' 			=> $session['unit_id'],
-			);
-
-			// insert data
-			if ($this->db->insert('leave_out_off_office', $data)) {
-				$this->session->set_flashdata('success', 'Inserted information successfully.');
-				redirect('admin/leave/out_of_office/');
-			}
-		}
-
-		$data['results'] = $this->db->get('leave_out_off_office')->result();
-		$data['title'] = 'Out Off Offie';
-		$data['breadcrumbs'] = 'Out Off Offie';
-		$data['path_url'] = 'leave';
-		$data['user'] = $session;
-
-        $data['subview'] = $this->load->view("admin/leave/out_of_office", $data, TRUE);
-        $this->load->view('admin/layout/layout_main', $data); //page load
-	}
-
 	// approve os leave
 	function approve_os_leave() {
 		$session = $this->session->userdata('username');
@@ -169,7 +131,11 @@ class Leave extends MY_Controller
 		$this->db->select('os.*, e.first_name,e.last_name');
 		$this->db->from('leave_out_station as os');
 		$this->db->join('xin_employees as e', 'e.user_id = os.emp_id');
-		$this->db->where_not_in('os.status', array(1,5))->where('os.control_person',$session['user_id']);
+		if ($session['role_id'] == 3) {
+			$this->db->where_not_in('os.status', array(1,5))->where('os.control_person',$session['user_id']);
+		} else {
+			$this->db->where_not_in('os.status', array(1,2));
+		}
 		$data['results'] = $this->db->get()->result();
 
         $data['subview'] = $this->load->view("admin/leave/approve_os_leave", $data, TRUE);
@@ -231,6 +197,7 @@ class Leave extends MY_Controller
         $this->load->view('admin/layout/layout_main', $data); //page load
 	}
 
+	// delete or reject os leave
 	function os_leave_del_rej($statu = null, $id = null) {
 		$session = $this->session->userdata('username');
 		if(empty($session)){
@@ -244,6 +211,44 @@ class Leave extends MY_Controller
 		} else {
 			redirect('admin/leave/approve_os_leave');
 		}
+	}
+
+	// approve out off leave
+	function out_of_office() {
+		$session = $this->session->userdata('username');
+		if(empty($session)){
+			redirect('admin/');
+		}
+
+		$this->form_validation->set_rules('date', 'Date', 'trim|required');
+		$this->form_validation->set_rules('remark', 'Remark', 'trim|required');
+		if ($this->form_validation->run() == TRUE) {
+			$data = array(
+				'date' 				=> $this->input->post('date'),
+				'in_time' 			=> date('H:i:s', strtotime($this->input->post('in_time'))),
+				'out_time' 			=> date('H:i:s', strtotime($this->input->post('out_time'))),
+				'status' 			=> 1,
+				'updated_at' 		=> date('Y-m-d'),
+				'remark' 			=> $this->input->post('remark'),
+				'emp_id' 			=> $session['user_id'],
+				'unit_id' 			=> $session['unit_id'],
+			);
+
+			// insert data
+			if ($this->db->insert('leave_out_off_office', $data)) {
+				$this->session->set_flashdata('success', 'Inserted information successfully.');
+				redirect('admin/leave/out_of_office/');
+			}
+		}
+
+		$data['results'] = $this->db->get('leave_out_off_office')->result();
+		$data['title'] = 'Out Off Offie';
+		$data['breadcrumbs'] = 'Out Off Offie';
+		$data['path_url'] = 'leave';
+		$data['user'] = $session;
+
+        $data['subview'] = $this->load->view("admin/leave/out_of_office", $data, TRUE);
+        $this->load->view('admin/layout/layout_main', $data); //page load
 	}
 
 	//leave calendar

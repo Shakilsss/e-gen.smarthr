@@ -21,30 +21,11 @@ class Dashboard extends MY_Controller {
 	public function __construct()
      {
           parent::__construct();
-          //load the models
-          $this->load->model('Login_model');
-		  $this->load->model('Designation_model');
-		  $this->load->model('Department_model');
-		  $this->load->model('Employees_model');
-		  $this->load->model('Xin_model');
-		  $this->load->model('Exin_model');
-		  $this->load->model('Expense_model');
-		  $this->load->model('Timesheet_model');
-		  $this->load->model('Travel_model');
-		  $this->load->model('Training_model');
-		  $this->load->model('Project_model');
-		  $this->load->model('Job_post_model');
-		  $this->load->model('Goal_tracking_model');
-		  $this->load->model('Events_model');
-		  $this->load->model('Meetings_model');
-		  $this->load->model('Announcement_model');
-		   $this->load->model('Clients_model');
-		   $this->load->model("Recruitment_model");
-		   $this->load->model("Salary_model");
-		   $this->load->helper('date');
-		   $this->load->model("Lunch_model");
-		   $this->load->model('Attendance_model');
-		   $this->load->model('Reports_model');
+			//load the models
+			$this->load->model('Login_model');
+			$this->load->model('Xin_model');
+			$this->load->model('Employees_model');
+			$this->load->helper('date');
 			$d=$this->db->get('xin_system_setting')->row();
 			if($d->project_proccess_date<=date('Y-m-d')){
 				$this->save_service();
@@ -61,6 +42,46 @@ class Dashboard extends MY_Controller {
 		exit(json_encode($Return));
 	}
 
+	public function index()
+	{
+		$session = $this->session->userdata('username');
+		if(empty($session) && !is_array($session)){
+			redirect('admin/');
+		}
+		$user = $this->Xin_model->read_user_info($session['user_id']);
+		$data = array(
+			'title' => $this->lang->line('dashboard_title').' | '.$this->Xin_model->site_title(),
+			'path_url' => 'dashboard',
+			'first_name' => $user[0]->first_name,
+			'last_name' => $user[0]->last_name,
+			'employee_id' => $user[0]->employee_id,
+			'username' => $user[0]->username,
+			'email' => $user[0]->email,
+			'date_of_birth' => $user[0]->date_of_birth,
+			'date_of_joining' => $user[0]->date_of_joining,
+			'contact_no' => $user[0]->contact_no,
+		);
+		$data['subview'] = $this->load->view('admin/dashboard/index', $data, TRUE);
+		$this->load->view('admin/layout/layout_main', $data); //page load
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	// old code
 	public function save_service() {
 		$query = $this->db->query("
 			SELECT ps.*
@@ -103,105 +124,6 @@ class Dashboard extends MY_Controller {
 					}
 				};
             }
-		}
-	}
-	public function index()
-	{
-		$session = $this->session->userdata('username');
-		// dd($session);
-		if(empty($session) && !is_array($session)){
-			redirect('admin/');
-		}
-		$system = $this->Xin_model->read_setting_info(1);
-
-		if($system[0]->module_projects_tasks=='true'){
-			// get user > added by
-			$user = $this->Xin_model->read_user_info($session['user_id']);
-			// get designation
-			$designation = $this->Designation_model->read_designation_information($user[0]->designation_id);
-			if(!is_null($designation)){
-				$des_emp = $designation[0]->designation_name;
-			} else {
-				$des_emp = '--';
-			}
-
-			// get designation
-			$department = $this->Department_model->read_department_information($user[0]->department_id);
-			if(!is_null($department)){
-				$dep_emp = $department[0]->department_name;
-			} else {
-				$dep_emp = '--';
-			}
-
-			$data = array(
-				'title' => $this->lang->line('dashboard_title').' | '.$this->Xin_model->site_title(),
-				'path_url' => 'dashboard',
-				'first_name' => $user[0]->first_name,
-				'last_name' => $user[0]->last_name,
-				'employee_id' => $user[0]->employee_id,
-				'username' => $user[0]->username,
-				'email' => $user[0]->email,
-				'designation_name' => $des_emp,
-				'department_name' => $dep_emp,
-				'date_of_birth' => $user[0]->date_of_birth,
-				'date_of_joining' => $user[0]->date_of_joining,
-				'contact_no' => $user[0]->contact_no,
-				'last_four_employees' => $this->Xin_model->last_four_employees(),
-				'get_last_payment_history' => $this->Xin_model->get_last_payment_history(),
-				'all_holidays' => $this->Timesheet_model->get_holidays_calendar(),
-				'all_leaves_request_calendar' => $this->Timesheet_model->get_leaves_request_calendar(),
-				'all_upcoming_birthday' => $this->Xin_model->employees_upcoming_birthday(),
-				'all_travel_request' => $this->Travel_model->get_travel(),
-				'all_training' => $this->Training_model->get_training(),
-				'all_projects' => $this->Project_model->get_projects(),
-				'all_tasks' => $this->Timesheet_model->get_tasks(),
-				'all_goals' => $this->Goal_tracking_model->get_goal_tracking(),
-				'all_events' => $this->Events_model->get_events(),
-				'all_meetings' => $this->Meetings_model->get_meetings(),
-				'all_jobsx' => $this->Job_post_model->five_latest_jobs(),
-				'all_jobs' => $this->Recruitment_model->get_all_jobs_last_desc()
-			);
-			// dd($data);
-			$data['subview'] = $this->load->view('admin/dashboard/index', $data, TRUE);
-			$this->load->view('admin/layout/layout_main', $data); //page load
-		} else {
-			// get user > added by
-			$user = $this->Xin_model->read_user_info($session['user_id']);
-			// get designation
-			$designation = $this->Designation_model->read_designation_information($user[0]->designation_id);
-			// get designation
-			$department = $this->Department_model->read_department_information($user[0]->department_id);
-			$data = array(
-				'title' => $this->Xin_model->site_title(),
-				'path_url' => 'dashboard',
-				'first_name' => $user[0]->first_name,
-				'last_name' => $user[0]->last_name,
-				'employee_id' => $user[0]->employee_id,
-				'username' => $user[0]->username,
-				'email' => $user[0]->email,
-				'designation_name' => $designation[0]->designation_name,
-				'department_name' => $department[0]->department_name,
-				'date_of_birth' => $user[0]->date_of_birth,
-				'date_of_joining' => $user[0]->date_of_joining,
-				'contact_no' => $user[0]->contact_no,
-				'last_four_employees' => $this->Xin_model->last_four_employees(),
-				'get_last_payment_history' => $this->Xin_model->get_last_payment_history(),
-				'all_holidays' => $this->Timesheet_model->get_holidays_calendar(),
-				'all_leaves_request_calendar' => $this->Timesheet_model->get_leaves_request_calendar(),
-				'all_upcoming_birthday' => $this->Xin_model->employees_upcoming_birthday(),
-				'all_travel_request' => $this->Travel_model->get_travel(),
-				'all_training' => $this->Training_model->get_training(),
-				'all_projects' => $this->Project_model->get_projects(),
-				'all_tasks' => $this->Timesheet_model->get_tasks(),
-				'all_goals' => $this->Goal_tracking_model->get_goal_tracking(),
-				'all_events' => $this->Events_model->get_events(),
-				'all_meetings' => $this->Meetings_model->get_meetings(),
-				'all_jobsx' => $this->Job_post_model->all_jobs(),
-				'all_jobs' => $this->Recruitment_model->get_all_jobs_last_desc()
-			);
-			// dd($data);
-			$data['subview'] = $this->load->view('admin/dashboard/index', $data, TRUE);
-			$this->load->view('admin/layout/layout_main', $data); //page load
 		}
 	}
 

@@ -133,16 +133,12 @@ if($theme[0]->sub_menu_icons != ''){
       <li class="<?php if(!empty($arr_mod['attnd_open']))echo $arr_mod['attnd_open'];?> treeview"> <a href="#"> <i class="fa fa-users"></i> <span> HR </span> <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span> </a>
         <ul class="treeview-menu">
 
+          <?php if(in_array('1001',$role_resources_ids)) { ?>
+            <li class="sidenav-link <?php if(!empty($arr_mod['attnf_active']))echo $arr_mod['attnf_active'];?>"> <a href="<?php echo site_url('admin/timesheet/attn_file_upload');?>"><i class="fa <?php echo $submenuicon;?>"></i> attn file upload</a> </li>
+          <?php } ?>
+
           <?php if(in_array('1002',$role_resources_ids)) { ?>
             <li class="sidenav-link <?php if(!empty($arr_mod['attnp_active']))echo $arr_mod['attnp_active'];?>"> <a href="<?php echo site_url('admin/attendance/');?>"> <i class="fa <?php echo $submenuicon;?>"></i> attendance process</a> </li>
-          <?php } ?>
-
-          <?php if(in_array('1003',$role_resources_ids)) { ?>
-            <li class="sidenav-link <?php if(!empty($arr_mod['move_active']))echo $arr_mod['move_active'];?>"> <a href="<?php echo site_url('admin/attendance/move_register');?>"> <i class="fa <?php echo $submenuicon;?>"></i> movement register</a> </li>
-          <?php } ?>
-
-          <?php if(in_array('28',$role_resources_ids)) { ?>
-            <li class="sidenav-link <?php if(!empty($arr_mod['attnd_active']))echo $arr_mod['attnd_active'];?>"> <a href="<?php echo site_url('admin/timesheet/attendance');?>"> <i class="fa <?php echo $submenuicon;?>"></i> <?php echo $this->lang->line('left_attendance');?> </a> </li>
           <?php } ?>
 
           <?php if(in_array('8',$role_resources_ids)) { ?>
@@ -152,6 +148,8 @@ if($theme[0]->sub_menu_icons != ''){
           <?php if(in_array('46',$role_resources_ids)) { ?>
           <li class="sidenav-link <?php if(!empty($arr_mod['leave_active']))echo $arr_mod['leave_active'];?>"> <a href="<?php echo site_url('admin/timesheet/leave');?>"> <i class="fa <?php echo $submenuicon;?>"></i> <?php echo $this->lang->line('xin_manage_leaves');?> </a> </li>
           <?php } ?>
+
+          <li class="sidenav-link <?php if(!empty($arr_mod['os_leaveo']))echo $arr_mod['os_leaveo'];?>"> <a href="<?php echo site_url("admin/leave/approve_os_leave");?>"><i class="fa <?php echo $submenuicon;?>"></i> Station Leave</a></li>
 
         </ul>
       </li>

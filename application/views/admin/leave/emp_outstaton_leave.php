@@ -109,6 +109,8 @@
                             } elseif ($res->status == 2) {
                                 $status = 'On process';
                             } elseif ($res->status == 3) {
+                                $status = 'Head Approved';
+                            } else if($res->status == 6) {
                                 $status = 'Approved';
                             } else {
                                 $status = 'Rejected';

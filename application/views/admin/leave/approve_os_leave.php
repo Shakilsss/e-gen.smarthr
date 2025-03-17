@@ -43,6 +43,8 @@
                             } elseif ($res->status == 2) {
                                 $status = 'On process';
                             } elseif ($res->status == 3) {
+                                $status = 'Head Approved';
+                            } else if ($res->status == 6) {
                                 $status = 'Approved';
                             } else {
                                 $status = 'Rejected';
@@ -55,7 +57,13 @@
                                     <button type="button" class="btn btn-xs btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Action <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right">
-                                        <li><a href="<?php echo base_url();?>admin/leave/os_leave_change/<?php echo $res->id;?>"><i class="fa fa-pencil-square-o"></i> Approve</a></li>
+
+                                        <?php if ($session['role_id'] == 1) { ?>
+                                            <li><a href="<?php echo base_url();?>admin/leave/os_leave_del_rej/6/<?php echo $res->id;?>"><i class="fa fa-pencil-square-o"></i> Approve</a></li>
+                                        <?php } else { ?>
+                                            <li><a href="<?php echo base_url();?>admin/leave/os_leave_change/<?php echo $res->id;?>"><i class="fa fa-pencil-square-o"></i> Approve</a></li>
+                                        <?php } ?>
+
                                         <li><a href="<?php echo base_url();?>admin/leave/os_leave_del_rej/4/<?php echo $res->id;?>"><i class="fa fa-pencil-square-o"></i> Reject</a></li>
                                         <li><a href="<?php echo base_url();?>admin/leave/os_leave_del_rej/5/<?php echo $res->id;?>"><i class="fa fa-pencil-square-o"></i> delete</a></li>
                                     </ul>
