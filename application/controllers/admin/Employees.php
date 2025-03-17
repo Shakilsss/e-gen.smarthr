@@ -2594,6 +2594,7 @@ class Employees extends MY_Controller {
 			'status' => $this->input->post('status'),
 			'floor_status' => $this->input->post('floor_status'),
 			'user_password' => $this->input->post('user_password'),
+			'punch_id' => $this->input->post('proxi_id'),
 		);
 		if($this->input->post('letter_status')!=''){
 			$data['letter_status'] = $this->input->post('letter_status');

@@ -17,36 +17,28 @@ class ZK_device extends API_Controller
         parent::__construct();
         $this->load->library('Zklibrary');
     }
-
     public function get_data()
     {
         $date = date('Y-m-d');
         $startTime = strtotime($date . ' 00:00:00');
         $endTime = strtotime($date . ' 23:59:59');
-
-        $devices = array(
-            array("ip" => "182.160.110.58", "port" => 4372),
-            array("ip" => "182.160.110.58", "port" => 4370),
-            // Add more devices as needed
-        );
-
-
+        $devices=$this->db->where('status', 1)->get('attn_device_setup')->result();
         $today_data = array();
         foreach ($devices as $index => $device) {
-            $attendance = $this->retrieveAttendance($device["ip"], $device["port"], $startTime, $endTime);
-            foreach ($attendance as $at) {
+            $attendance = $this->retrieveAttendance($device->ip, $device->port, $device->sl);
+            foreach ($attendance as  $at) {
                 $today_data[] = array(
                     'sl' => $at[0],
                     'punch_id' => $at[1],
-                    'state' => $index,
-                    'time' => $at[3]
+                    'time' => $at[3],
+                    'device_id' => $device->id,
                 );
             }
         }
         return $today_data;
     }
 
-    public function retrieveAttendance($ip, $port, $startTime, $endTime)
+    public function retrieveAttendance($ip, $port, $sl)
     {
         $zk = new zklibrary($ip, $port);
         // $zk->testVoice();
@@ -54,19 +46,38 @@ class ZK_device extends API_Controller
         $attendance = $zk->getAttendance();
         $zk->disconnect();
 
-        // Filter attendance data based on the time range
         $filteredAttendance = array();
         foreach ($attendance as $at) {
-            $dateTime = strtotime($at[3]);
-            if ($dateTime >= $startTime && $dateTime <= $endTime) {
+            $slget = $at[0];
+            if ($slget > $sl) {
                 $filteredAttendance[] = $at;
             }
         }
-
         return $filteredAttendance;
     }
 
     // attn device setup
+   
+
+
+    public function add_attendance() {
+        $recent_data = $this->get_data();
+        foreach ($recent_data as $key => $value) {
+            $data= [
+                'proxi_id'=>$value['punch_id'],
+                'date_time'=> $value['time'],
+                'device_id'=> $value['device_id'],
+            ];
+            if($this->db->insert('xin_att_machine', $data)){
+                $data = array(
+                    'sl' => $value['sl'],
+                );
+                $this->db->where('id', $value['device_id'])->update('attn_device_setup', $data);
+            }
+        }
+    }
+
+
     function attn_device() {
         $session = $this->session->userdata('username');
         if(empty($session)){
