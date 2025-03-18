@@ -19,19 +19,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Dashboard extends MY_Controller {
 
 	public function __construct()
-     {
-          parent::__construct();
-			//load the models
-			$this->load->model('Login_model');
-			$this->load->model('Xin_model');
-			$this->load->model('Employees_model');
-			$this->load->helper('date');
-			$d=$this->db->get('xin_system_setting')->row();
-			if($d->project_proccess_date<=date('Y-m-d')){
-				$this->save_service();
+    {
+        parent::__construct();
+		//l{o{ad the models
+		$this->load->model('Xin_model');
+		$this->load->model('Dashboard_model');
+		$this->load->helper('date');
+		$d = $this->db->get('xin_system_setting')->row();
+		if($d->project_proccess_date<=date('Y-m-d')){
+			$this->save_service();
 
-			};
-     }
+		};
+	}
 
 	/*Function to set JSON output*/
 	public function output($Return=array()){
@@ -65,6 +64,13 @@ class Dashboard extends MY_Controller {
 		$this->load->view('admin/layout/layout_main', $data); //page load
 	}
 
+	function get_ajax_data() {
+		$unit_id = $this->input->post('unit_id');
+		$date    = $this->input->post('date');
+		$data['rc'] = $this->Dashboard_model->count_attendance_status_wise($date, $unit_id);
+		$data['results'] = $this->Dashboard_model->get_attn_logs($date, $unit_id);
+		return $this->output($data);
+	}
 
 
 

@@ -26,6 +26,7 @@ class Attendance_model extends CI_Model
         foreach ($employees as $key => $row) {
             $joining_date = $row->date_of_joining;
             $emp_id      = $row->user_id;
+            $unit_id     = $row->company_id;
             $shift_id    = $row->shift_id;
             $punch_id    = $row->punch_id;
 
@@ -104,7 +105,7 @@ class Attendance_model extends CI_Model
                 } else if ($in_time == '' && $out_time == '') {
                     $astatus = 'Absent';
                     $status = 'Absent';
-                } else{
+                } else {
                     $astatus = 'Absent';
                     $status = 'Present';
                 }
@@ -131,6 +132,7 @@ class Attendance_model extends CI_Model
 
             $data = array(
                 'employee_id'       => $emp_id,
+                'unit_id'           => $unit_id,
                 'shift_id'          => $shift_id,
                 'schedule_id'       => $schedule_id,
                 'attendance_date'   => $process_date,
@@ -241,7 +243,7 @@ class Attendance_model extends CI_Model
     }
     public function get_employees($emp_ids, $status = null)
     {
-        $this->db->select('user_id, office_shift_id as shift_id, punch_id, date_of_joining');
+        $this->db->select('user_id, company_id, office_shift_id as shift_id, punch_id, date_of_joining');
         if (!empty($emp_ids)) {
             $this->db->where_in('user_id', $emp_ids);
         } else {
