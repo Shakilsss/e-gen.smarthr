@@ -1,4 +1,12 @@
 <?php $session = $this->session->userdata('username');?>
+<style>
+    .back {
+        float: right;
+        margin-top: -40px;
+        position: relative;
+    }
+</style>
+<a class="back btn btn-primary btn-sm" href="<?= base_url('admin/attendance/index') ?>"> Back </a>
 
 <div class="table-responsive" style="padding: 25px;box-shadow: 0px 0px 8px 1px #d0d0d0;border-radius: 7px;">
     <table id="table_data" class="table table-bordered table-striped table-hover">
@@ -14,7 +22,7 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach($alldata as $key => $request) { 
+            <?php foreach($alldata as $key => $request) {
                 ?>
             <tr>
                 <td><?= $key+1 ?></td>

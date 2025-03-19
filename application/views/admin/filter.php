@@ -29,15 +29,18 @@
         </div>
         <div class="row">
             <div class="col-md-4">
+                <?php  $companies = $this->db->get("xin_companies")->result(); ?>
                 <div class="form-group">
-                    <label for="upload_file">Floor</label>
-                    <select class="form-control select22" name="floor" id="floor" onchange="get_user()">
+                    <label>Organization</label>
+                    <select class="form-control select22" name="company_id" id="company_id" onchange="get_user()">
                         <option value="" selected>All</option>
-                        <option value="3">3rd Floor</option>
-                        <option value="5">5th Floor</option>
+                        <?php foreach ($companies as $company) { ?>
+                            <option value="<?= $company->company_id ?>"><?= $company->name ?></option>
+                        <?php } ?>
                     </select>
                 </div>
             </div>
+
             <div class="col-md-4">
                 <div class="form-group">
                     <label>Department</label>
@@ -90,7 +93,7 @@
                 },
                 complete: function () {
                     $("#designation").select2();
-                } 
+                }
             });
         });
     });
@@ -102,85 +105,75 @@
         $("#fileDiv").html('<tr class="removeTr"><td colspan="3">Loading...</td></tr>');
 
         var status = document.getElementById('status').value;
-        var floor = document.getElementById('floor').value;
+        var company_id = document.getElementById('company_id').value;
         var department = document.getElementById('department').value;
         var designation = document.getElementById('designation').value;
-
-
-
         var url = "<?php echo base_url('admin/reports/get_employeess_v2'); ?>";
-        $.ajax({
-        url: url,
-        type: 'GET',
-        data: { 
-            "status": status,
-            "floor": floor,
-            "department": department,
-            "designation": designation
-        },
-        contentType: "application/json",
-        dataType: "json",
-        success: function (response) {
-          arr = response.employees;
-          if (arr.length != 0) {
-            var i = 1;
-            var items = '';
-            $.each(arr, function (index, value) {
-              items += '<tr class="removeTr">';
-              items += '<td><input type="checkbox" class="checkbox" id="select_emp_id" name="select_emp_id[]" value="' + value.emp_id + '" ></td>';
-              items += '<td class="success">' + (i++) + '</td>';
-              items += '<td class="warning ">' + value.first_name + ' ' + value.last_name + " (" +value.emp_id + ")" + '</td>';
-              items += '</tr>';
-            });
-            $('.removeTr').remove();
-            $('#fileDiv').html(items);
-          }else{
-            $('.removeTr').remove();
-            $('#fileDiv').html('<tr class="removeTr"><td colspan="3">No Employee Found</td></tr>');
-          }
-        }
-      });
 
+        $.ajax({
+            url: url,
+            type: 'GET',
+            data: {
+                "status": status,
+                "company_id": company_id,
+                "department": department,
+                "designation": designation
+            },
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                arr = response.employees;
+                if (arr.length != 0) {
+                    var i = 1;
+                    var items = '';
+                    $.each(arr, function (index, value) {
+                    items += '<tr class="removeTr">';
+                    items += '<td><input type="checkbox" class="checkbox" id="select_emp_id" name="select_emp_id[]" value="' + value.emp_id + '" ></td>';
+                    items += '<td class="success">' + (i++) + '</td>';
+                    items += '<td class="warning ">' + value.first_name + ' ' + value.last_name + " (" +value.emp_id + ")" + '</td>';
+                    items += '</tr>';
+                    });
+                    $('.removeTr').remove();
+                    $('#fileDiv').html(items);
+                }else{
+                    $('.removeTr').remove();
+                    $('#fileDiv').html('<tr class="removeTr"><td colspan="3">No Employee Found</td></tr>');
+                }
+            }
+        });
     }
 
 
-
     $("#status").change(function () {
-      status = document.getElementById('status').value;
-      var url = "<?php echo base_url('admin/reports/get_employeess'); ?>";
-      $("#select_all").prop("checked", false);
-      $('#fileDiv .removeTr').remove();
+        status = document.getElementById('status').value;
+        var url = "<?php echo base_url('admin/reports/get_employeess'); ?>";
+        $("#select_all").prop("checked", false);
+        $('#fileDiv .removeTr').remove();
 
-      $.ajax({
-        url: url,
-        type: 'GET',
-        data: { "status": status },
-        contentType: "application/json",
-        dataType: "json",
-        success: function (response) {
-          arr = response.employees;
-          if (arr.length != 0) {
-            var i = 1;
-            var items = '';
-            $.each(arr, function (index, value) {
-              items += '<tr class="removeTr">';
-              items += '<td><input type="checkbox" class="checkbox" id="select_emp_id" name="select_emp_id[]" value="' + value.emp_id + '" ></td>';
-              items += '<td class="success">' + (i++) + '</td>';
-              items += '<td class="warning ">' + value.first_name + ' ' + value.last_name + " (" +value.emp_id + ")" + '</td>';
-              items += '</tr>';
-            });
-            // Append the new rows
-            $('#fileDiv tr:last').after(items);
-          }
-        }
-      });
+        $.ajax({
+            url: url,
+            type: 'GET',
+            data: { "status": status },
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                arr = response.employees;
+                if (arr.length != 0) {
+                    var i = 1;
+                    var items = '';
+                    $.each(arr, function (index, value) {
+                    items += '<tr class="removeTr">';
+                    items += '<td><input type="checkbox" class="checkbox" id="select_emp_id" name="select_emp_id[]" value="' + value.emp_id + '" ></td>';
+                    items += '<td class="success">' + (i++) + '</td>';
+                    items += '<td class="warning ">' + value.first_name + ' ' + value.last_name + " (" +value.emp_id + ")" + '</td>';
+                    items += '</tr>';
+                    });
+                    // Append the new rows
+                    $('#fileDiv tr:last').after(items);
+                }
+            }
+        });
     });
-
-
-
-
-
-
 </script>
 
 

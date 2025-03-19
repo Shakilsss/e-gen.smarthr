@@ -185,7 +185,7 @@
         <?php } ?>
     </div>
     <div class="box-body">
-        <div class="box-datatable table-responsive" style="height: 100vh;">
+        <div class="box-datatable table-responsive">
             <table class="table table-striped table-bordered" id="myTable">
                 <thead>
                     <tr>
@@ -202,7 +202,6 @@
                 </thead>
                 <tbody>
                     <?php  foreach ($leaves_info as $key => $leave) :?>
-
                     <?php
                         $employee_name = '<p style="font-size: 17px;padding: 0;margin: 0;color: black;">'. $leave->first_name.' '.$leave->last_name .' </p>&nbsp;&nbsp; Designation : ' .$leave->designation_name . '<br> &nbsp;&nbsp; Department : '.$leave->department_name;
                     ?>
@@ -246,7 +245,6 @@
                             <?php endif; ?>
                         </td>
                         <td>
-
                             <div class="btn-group">
                                 <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -307,7 +305,6 @@
                                     <?php } ?>
                                 </ul>
                             </div>
-
                         </td>
                     </tr>
                     <?php endforeach; ?>
@@ -338,46 +335,43 @@
     }
 </script>
 <script>
-$(document).ready(function() {
-    var table = $('#myTable').DataTable({
-        "bSort": false
-    });
-})
+    $(document).ready(function() {
+        var table = $('#myTable').DataTable({
+            "bSort": false
+        });
+    })
 </script>
 <?php
-$error = $this->session->flashdata('error');
+    $error = $this->session->flashdata('error');
 ?>
 
 <?php
-if (isset($error)) {
-    echo "<script>
-            document.addEventListener('DOMContentLoaded', function() {
-              document.getElementById('addnew').click();
-            });
-          </script>";
-}
+    if (isset($error)) {
+        echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('addnew').click();
+                });
+            </script>";
+    }
 ?>
 <script>
-   function  print_leave(id){
-    var ajaxRequest;  // The variable that makes Ajax possible!
-      ajaxRequest = new XMLHttpRequest();
-
-      var data = "id="+id;
-      url = base_url + "/print_leave";
-      ajaxRequest.open("POST", url, true);
-      ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-       ajaxRequest.send(data);
-      ajaxRequest.onreadystatechange = function(){
-        $('#loading').css({
-          visibility: 'hidden'
-      });
-        if(ajaxRequest.readyState == 4){
-          var resp = ajaxRequest.responseText;
-          a = window.open('', '_blank', 'menubar=1,resizable=1,scrollbars=1,width=1600,height=800');
-          a.document.write(resp);
+    function  print_leave(id){
+        var ajaxRequest;  // The variable that makes Ajax possible!
+        ajaxRequest = new XMLHttpRequest();
+        var data = "id="+id;
+        url = base_url + "/print_leave";
+        ajaxRequest.open("POST", url, true);
+        ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+        ajaxRequest.send(data);
+        ajaxRequest.onreadystatechange = function(){
+            $('#loading').css({
+            visibility: 'hidden'
+            });
+            if(ajaxRequest.readyState == 4){
+            var resp = ajaxRequest.responseText;
+            a = window.open('', '_blank', 'menubar=1,resizable=1,scrollbars=1,width=1600,height=800');
+            a.document.write(resp);
+            }
         }
-      }
-
-
-  }
+    }
 </script>
