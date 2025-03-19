@@ -1,197 +1,191 @@
-<?php /* Leave Application view */ ?>
-<?php $session = $this->session->userdata('username');
 
-$error = $this->session->flashdata('error');
-$success = $this->session->flashdata('success');
+<?php
+    $session = $this->session->userdata('username');
+    $error = $this->session->flashdata('error');
+    $success = $this->session->flashdata('success');
 ?>
 <?php
-      $user = $this->Xin_model->read_employee_info($session['user_id']);
-      $user_info = $this->Xin_model->read_user_info($session['user_id']);
-      $get_animate = $this->Xin_model->get_content_animate();
-      $role_resources_ids = $this->Xin_model->user_role_resource();
-      // dd($user);
+    $user = $this->Xin_model->read_employee_info($session['user_id']);
+    $user_info = $this->Xin_model->read_user_info($session['user_id']);
+    $get_animate = $this->Xin_model->get_content_animate();
+    $role_resources_ids = $this->Xin_model->user_role_resource();
 ?>
-<?php
-if (isset($error)){
-  ?>
-<div class="alert alert-danger" role="alert">
-    <?php echo $error; ?>
-</div>
-<?php
-}
-if (isset($success)) {
-  ?>
-<div class="alert alert-success" role="alert">
-    <?php echo $success; ?>
-</div>
-<?php
-}
-?>
+
+<?php if (isset($error)){  ?>
+    <div class="alert alert-danger" role="alert">
+        <?php echo $error; ?>
+    </div>
+<?php } if (isset($success)) { ?>
+    <div class="alert alert-success" role="alert">
+        <?php echo $success; ?>
+    </div>
+<?php } ?>
 
 <?php if(in_array('287',$role_resources_ids)) {?>
-<div class="box mb-4 <?php echo $get_animate;?>">
-    <div id="accordion">
-        <div class="box-header with-border">
-            <h3 class="box-title"> <?php echo $this->lang->line('xin_add_leave');?> </h3>
-            <div class="box-tools pull-right">
-                <a class="text-dark collapsed" data-toggle="collapse" href="#add_form" id="addnew"
-                    aria-expanded="false">
-                    <button type="button" class="btn btn-xs btn-primary">
-                        <span class="ion ion-md-add"></span> <?php echo $this->lang->line('xin_add_new');?> </button>
-                </a>
-            </div>
-        </div>
-        <div id="add_form" class="collapse add-form
-  			<?php echo $get_animate;?>" data-parent="#accordion" style="">
-            <div class="box-body"> <?php $attributes = array('name' => 'add_leave', 'autocomplete' => 'off');?>
-                <?php $hidden = array('_user' => $session['user_id']);?>
-                <?php echo form_open('admin/timesheet/add_leave', $attributes, $hidden);?>
-                <div class="bg-white">
-                    <div class="box-block">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <input type="hidden" name="company_id" id="company_id"
-                                    value="<?php echo $user[0]->company_id;?>" />
-                                <?php $role_resources_ids = $this->Xin_model->user_role_resource();
-    				          if(in_array($user_info[0]->user_role_id, array(1,2,4))){ ?>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group" id="employee_ajax">
-                                            <label for="employees" class="control-label">
-                                                <?php echo $this->lang->line('xin_employee');?> </label>
-                                            <select class="form-control" name="employee_id" id="employee_id"
-                                                data-plugin="select_hrm"
-                                                data-placeholder=" <?php echo $this->lang->line('xin_choose_an_employee');?>"
-                                                required>
-                                                <option value=""></option>
-                                                <?php  $all_employees = $this->Xin_model->get_employee(1, null, array(1,4,5));
-                              foreach ($all_employees as $key => $row) { $employee_id = $row->user_id; ?>
-                                                <option value="<?php echo $employee_id; ?>">
-                                                    <?php echo $row->first_name .' '. $row->last_name; ?></option>
-                                                <?php } ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group" id="get_leave_types">
-                                            <label for="leave_type" class="control-label">
-                                                <?php echo $this->lang->line('xin_leave_type');?> </label>
-                                            <select class="form-control" id="leave_type" name="leave_type"
-                                                data-plugin="select_hrm" data-placeholder="
-          										<?php echo $this->lang->line('xin_leave_type');?>">
-                                                <option value=""></option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <?php } else {?>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group" id="employee_ajax">
-                                            <label for="employees" class="control-label">
-                                                <?php echo $this->lang->line('xin_employee');?> </label>
-                                            <select class="form-control" name="employee_id" id="employee_id"
-                                                data-placeholder=" <?php echo $this->lang->line('xin_choose_an_employee');?>"
-                                                required>
-                                                <?php  $all_employees = $this->Xin_model->get_employee(1, $session['user_id'], array(1));
-                              foreach ($all_employees as $key => $row) { ?>
-                                                <option value="<?php echo $row->user_id; ?>">
-                                                    <?php echo $row->first_name .' '. $row->last_name; ?></option>
-                                                <?php } ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group" id="get_leave_types">
-                                            <label for="leave_type" class="control-label">
-                                                <?php echo $this->lang->line('xin_leave_type');?> </label>
-                                            <select class="form-control" id="leave_type" name="leave_type"
-                                                data-plugin="select_hrm"
-                                                data-placeholder="<?php echo $this->lang->line('xin_leave_type');?>"
-                                                required>
-                                                <option value=""></option>
-                                                <?php $leaves = leave_cal($session['user_id']);?>
-                                                <?php foreach($leaves['leaves'] as $key => $row) {  ?>
-                                                <option value="<?php echo $row['id'];?>">
-                                                    <?php echo $row['leave_name'] .' ('.$row['qty'].' '.$this->lang->line('xin_remaining').')';?>
-                                                </option>
-                                                <?php } ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <?php } ?>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group col-md-4">
-                                    <label for="end_date"> <?php echo $this->lang->line('xin_start_date');?> </label>
-                                    <input class="form-control date"
-                                        placeholder="<?php echo $this->lang->line('xin_start_date');?>" readonly
-                                        name="start_date" type="text" value="" required>
-                                </div>
-
-                                <div class="form-group col-md-4">
-                                    <label for="end_date"> <?php echo $this->lang->line('xin_end_date');?> </label>
-                                    <input class="form-control date"
-                                        placeholder="<?php echo $this->lang->line('xin_end_date');?>" readonly
-                                        name="end_date" type="text" value="" required>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <br />
-                                        <input type="checkbox" class="form-control minimal" value="1"
-                                            id="leave_half_day" name="leave_half_day">
-                                        <label><?php echo $this->lang->line('xin_hr_leave_half_day');?></span> </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <fieldset class="form-group">
-                        <label for="attachment"> <?php echo $this->lang->line('xin_attachment');?></label>
-                        <input type="file" class="form-control-file" id="attachment" name="attachment">
-                        <small> <?php echo $this->lang->line('xin_company_file_type');?> </small>
-                      </fieldset>
-                    </div>
-                  </div>
-                </div> -->
-                        <div class="form-group">
-                            <label for="summary"> <?php echo $this->lang->line('xin_leave_reason');?> </label>
-                            <textarea class="form-control"
-                                placeholder="<?php echo $this->lang->line('xin_leave_reason');?>" name="reason"
-                                cols="30" rows="3" id="reason" required></textarea>
-                        </div>
-
-                        <div class="form-actions box-footer">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fa fa-check-square-o"></i> <?php echo $this->lang->line('xin_save');?>
-                            </button>
-                        </div>
-                    </div>
+    <div class="box mb-4 <?php echo $get_animate;?>">
+        <div id="accordion">
+            <div class="box-header with-border">
+                <h3 class="box-title"> <?php echo $this->lang->line('xin_add_leave');?> </h3>
+                <div class="box-tools pull-right">
+                    <a class="text-dark collapsed" data-toggle="collapse" href="#add_form" id="addnew"
+                        aria-expanded="false">
+                        <button type="button" class="btn btn-xs btn-primary">
+                            <span class="ion ion-md-add"></span> <?php echo $this->lang->line('xin_add_new');?> </button>
+                    </a>
                 </div>
-                <?php echo form_close(); ?>
+            </div>
+            <div id="add_form" class="collapse add-form
+                <?php echo $get_animate;?>" data-parent="#accordion" style="">
+                <div class="box-body"> <?php $attributes = array('name' => 'add_leave', 'autocomplete' => 'off');?>
+                    <?php $hidden = array('_user' => $session['user_id']);?>
+                    <?php echo form_open('admin/timesheet/add_leave', $attributes, $hidden);?>
+                    <div class="bg-white">
+                        <div class="box-block">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="hidden" name="company_id" id="company_id"
+                                        value="<?php echo $user[0]->company_id;?>" />
+                                    <?php $role_resources_ids = $this->Xin_model->user_role_resource();
+                                if(in_array($user_info[0]->user_role_id, array(1,2,4))){ ?>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group" id="employee_ajax">
+                                                <label for="employees" class="control-label">
+                                                    <?php echo $this->lang->line('xin_employee');?> </label>
+                                                <select class="form-control" name="employee_id" id="employee_id"
+                                                    data-plugin="select_hrm"
+                                                    data-placeholder=" <?php echo $this->lang->line('xin_choose_an_employee');?>"
+                                                    required>
+                                                    <option value=""></option>
+                                                    <?php  $all_employees = $this->Xin_model->get_employee(1, null, array(1,4,5));
+                                foreach ($all_employees as $key => $row) { $employee_id = $row->user_id; ?>
+                                                    <option value="<?php echo $employee_id; ?>">
+                                                        <?php echo $row->first_name .' '. $row->last_name; ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group" id="get_leave_types">
+                                                <label for="leave_type" class="control-label">
+                                                    <?php echo $this->lang->line('xin_leave_type');?> </label>
+                                                <select class="form-control" id="leave_type" name="leave_type"
+                                                    data-plugin="select_hrm" data-placeholder="
+                                                    <?php echo $this->lang->line('xin_leave_type');?>">
+                                                    <option value=""></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php } else {?>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group" id="employee_ajax">
+                                                <label for="employees" class="control-label">
+                                                    <?php echo $this->lang->line('xin_employee');?> </label>
+                                                <select class="form-control" name="employee_id" id="employee_id"
+                                                    data-placeholder=" <?php echo $this->lang->line('xin_choose_an_employee');?>"
+                                                    required>
+                                                    <?php  $all_employees = $this->Xin_model->get_employee(1, $session['user_id'], array(1));
+                                foreach ($all_employees as $key => $row) { ?>
+                                                    <option value="<?php echo $row->user_id; ?>">
+                                                        <?php echo $row->first_name .' '. $row->last_name; ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group" id="get_leave_types">
+                                                <label for="leave_type" class="control-label">
+                                                    <?php echo $this->lang->line('xin_leave_type');?> </label>
+                                                <select class="form-control" id="leave_type" name="leave_type"
+                                                    data-plugin="select_hrm"
+                                                    data-placeholder="<?php echo $this->lang->line('xin_leave_type');?>"
+                                                    required>
+                                                    <option value=""></option>
+                                                    <?php $leaves = leave_cal($session['user_id']);?>
+                                                    <?php foreach($leaves['leaves'] as $key => $row) {  ?>
+                                                    <option value="<?php echo $row['id'];?>">
+                                                        <?php echo $row['leave_name'] .' ('.$row['qty'].' '.$this->lang->line('xin_remaining').')';?>
+                                                    </option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php } ?>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group col-md-4">
+                                        <label for="end_date"> <?php echo $this->lang->line('xin_start_date');?> </label>
+                                        <input class="form-control date"
+                                            placeholder="<?php echo $this->lang->line('xin_start_date');?>" readonly
+                                            name="start_date" type="text" value="" required>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label for="end_date"> <?php echo $this->lang->line('xin_end_date');?> </label>
+                                        <input class="form-control date"
+                                            placeholder="<?php echo $this->lang->line('xin_end_date');?>" readonly
+                                            name="end_date" type="text" value="" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <br />
+                                            <input type="checkbox" class="form-control minimal" value="1"
+                                                id="leave_half_day" name="leave_half_day">
+                                            <label><?php echo $this->lang->line('xin_hr_leave_half_day');?></span> </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                        <fieldset class="form-group">
+                            <label for="attachment"> <?php echo $this->lang->line('xin_attachment');?></label>
+                            <input type="file" class="form-control-file" id="attachment" name="attachment">
+                            <small> <?php echo $this->lang->line('xin_company_file_type');?> </small>
+                        </fieldset>
+                        </div>
+                    </div>
+                    </div> -->
+                            <div class="form-group">
+                                <label for="summary"> <?php echo $this->lang->line('xin_leave_reason');?> </label>
+                                <textarea class="form-control"
+                                    placeholder="<?php echo $this->lang->line('xin_leave_reason');?>" name="reason"
+                                    cols="30" rows="3" id="reason" required></textarea>
+                            </div>
+
+                            <div class="form-actions box-footer">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-check-square-o"></i> <?php echo $this->lang->line('xin_save');?>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <?php echo form_close(); ?>
+                </div>
             </div>
         </div>
     </div>
-</div>
 <?php } ?>
 
 <div class="box <?php echo $get_animate;?>">
     <div class="box-header with-border">
-        <h3 class="box-title"> <?php echo $this->lang->line('xin_list_all');?>
-            <?php echo $this->lang->line('left_leave');?> </h3> <?php if($user_info[0]->user_role_id==1){ ?> <div
-            class="box-tools pull-right">
-            <a class="text-dark collapsed" data-toggle="collapse" href="#filter_hrsale" aria-expanded="false">
-                <button type="button" class="btn btn-xs btn-primary">
-                    <span class="fa fa-filter"></span> <?php echo $this->lang->line('xin_filter');?> </button>
-            </a>
-        </div> <?php } ?>
+        <h3 class="box-title"> <?php echo $this->lang->line('xin_list_all');?> <?php echo $this->lang->line('left_leave');?> </h3>
+        <?php if($user_info[0]->user_role_id==1){ ?>
+            <div
+                class="box-tools pull-right">
+                <a class="text-dark collapsed" data-toggle="collapse" href="#filter_hrsale" aria-expanded="false">
+                    <button type="button" class="btn btn-xs btn-primary"> <span class="fa fa-filter"></span> <?php echo $this->lang->line('xin_filter');?> </button>
+                </a>
+            </div>
+        <?php } ?>
     </div>
     <div class="box-body">
-        <div class="box-datatable table-responsive">
+        <div class="box-datatable table-responsive" style="height: 100vh;">
             <table class="table table-striped table-bordered" id="myTable">
                 <thead>
                     <tr>
@@ -297,7 +291,7 @@ if (isset($success)) {
                                             <i class="fa fa-print"></i> Print
                                         </a>
                                     </li>
-                                    <?php }else{ ?> 
+                                    <?php }else{ ?>
                                         <li>
                                         <a onclick="modal_leave_data_ajax('<?= $leave->leave_id ?>')" style="border-radius: 6px;" data-toggle="modal"
                                             data-target="#edit-leave-modal-data">

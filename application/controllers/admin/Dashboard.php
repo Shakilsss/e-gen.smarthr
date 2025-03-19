@@ -24,6 +24,8 @@ class Dashboard extends MY_Controller {
 		//l{o{ad the models
 		$this->load->model('Xin_model');
 		$this->load->model('Dashboard_model');
+		$this->load->model('Lunch_model');
+		$this->load->model('Salary_model');
 		$this->load->helper('date');
 		$d = $this->db->get('xin_system_setting')->row();
 		if($d->project_proccess_date<=date('Y-m-d')){
