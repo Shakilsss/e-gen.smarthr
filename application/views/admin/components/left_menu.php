@@ -66,30 +66,14 @@ if($theme[0]->sub_menu_icons != ''){
       <a href="<?php echo site_url('admin/logout');?>"><i class="fa fa-power-off"></i></a> </div>
   </div>
   <?php
-  $idocuments_expired = 0; $iimg_documents = 0;
-  $icompany_license = 0; $iwarranty_assets = 0;
-  if($user_info[0]->user_role_id==1){
-	  $idocuments_expired = $this->Xin_model->count_get_documents_expired_all();
-	  $iimg_documents = $this->Xin_model->count_get_img_documents_expired_all();
-	  $icompany_license = $this->Xin_model->iicount_company_license_expired_all();
-	  $iwarranty_assets = $this->Xin_model->count_warranty_assets_expired_all();
-  } else {
-	  $idocuments_expired = $this->Xin_model->count_get_user_documents_expired_all($session['user_id']);
-	  $iimg_documents = $this->Xin_model->count_get_user_img_documents_expired_all($session['user_id']);
-	  $icompany_license = $this->Xin_model->count_get_company_license_expired($session['user_id']);
-	  if(in_array('265',$role_resources_ids)) {
-			$iwarranty_assets = $this->Xin_model->count_company_warranty_assets_expired_all($user_info[0]->company_id);
-		} else {
-			$iwarranty_assets = $this->Xin_model->count_user_warranty_assets_expired_all($session['user_id']);
-		}
-  }
-  $exp_count = $idocuments_expired + $iimg_documents + $icompany_license + $iwarranty_assets;
-  $exp_count = 0;
-
+    $idocuments_expired = 0; $iimg_documents = 0;
+    $icompany_license = 0; $iwarranty_assets = 0;
+    $exp_count = 0;
   ?>
   <!-- sidebar menu: : style can be found in sidebar.less -->
   <ul class="sidebar-menu" data-widget="tree">
     <li class="<?php if(!empty($arr_mod['active']))echo $arr_mod['active'];?>"> <a href="<?php echo site_url('admin/dashboard');?>"> <i class="fa fa-dashboard"></i> <span><?php echo $this->lang->line('dashboard_title');?></span> </a> </li>
+    <li class="<?php if(!empty($arr_mod['dactive']))echo $arr_mod['dactive'];?>"> <a href="<?php echo site_url('admin/dashboard/dynamic_attendance');?>"> <i class="fa fa-dashboard"></i> <span>Dynamic Attendance </span> </a> </li>
 
 
     <?php if(in_array('13',$role_resources_ids) || in_array('88',$role_resources_ids) || in_array('92',$role_resources_ids) || in_array('22',$role_resources_ids) || in_array('23',$role_resources_ids) || in_array('393',$role_resources_ids) || $user_info[0]->user_role_id==1){?>

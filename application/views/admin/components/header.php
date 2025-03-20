@@ -1,140 +1,132 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
-
-
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
 <?php
-
- $all_policies = $this->db->select('*')->from('xin_company_policy')->order_by('policy_id', 'DESC')->get()->result_array();
-
-$session = $this->session->userdata('username');
-
-$system = $this->Xin_model->read_setting_info(1);
-$company_info = $this->Xin_model->read_company_setting_info(1);
-$user = $this->Xin_model->read_employee_info($session['user_id']);
-$theme = $this->Xin_model->read_theme_info(1);
-
+    $all_policies = $this->db->select('*')->from('xin_company_policy')->order_by('policy_id', 'DESC')->get()->result_array();
+    $session = $this->session->userdata('username');
+    $system = $this->Xin_model->read_setting_info(1);
+    $company_info = $this->Xin_model->read_company_setting_info(1);
+    $user = $this->Xin_model->read_employee_info($session['user_id']);
+    $theme = $this->Xin_model->read_theme_info(1);
 ?>
 
 <?php $site_lang = $this->load->helper('language');?>
 <?php $wz_lang = $site_lang->session->userdata('site_lang');?>
 <?php
-if(!empty($wz_lang)):
-    $lang_code = $this->Xin_model->get_language_info($wz_lang);
-    $flg_icn = $lang_code[0]->language_flag;
-    $flg_icn = '<img src="'.base_url().'uploads/languages_flag/'.$flg_icn.'">';
-elseif($system[0]->default_language!=''):
-    $lang_code = $this->Xin_model->get_language_info($system[0]->default_language);
-    $flg_icn = $lang_code[0]->language_flag;
-    $flg_icn = '<img src="'.base_url().'uploads/languages_flag/'.$flg_icn.'">';
-else:
-    $flg_icn = '<img src="'.base_url().'uploads/languages_flag/gb.gif">';
-endif;
+    if(!empty($wz_lang)):
+        $lang_code = $this->Xin_model->get_language_info($wz_lang);
+        $flg_icn = $lang_code[0]->language_flag;
+        $flg_icn = '<img src="'.base_url().'uploads/languages_flag/'.$flg_icn.'">';
+    elseif($system[0]->default_language!=''):
+        $lang_code = $this->Xin_model->get_language_info($system[0]->default_language);
+        $flg_icn = $lang_code[0]->language_flag;
+        $flg_icn = '<img src="'.base_url().'uploads/languages_flag/'.$flg_icn.'">';
+    else:
+        $flg_icn = '<img src="'.base_url().'uploads/languages_flag/gb.gif">';
+    endif;
 ?>
 
 <?php
-  $role_user = $this->Xin_model->read_user_role_info($user[0]->user_role_id);
-if(!is_null($role_user)) {
-    $role_resources_ids = explode(',', $role_user[0]->role_resources);
-} else {
-    $role_resources_ids = explode(',', 0);
-}
-//$designation_info = $this->Xin_model->read_designation_info($user_info[0]->designation_id);
-// set color
-if($theme[0]->is_semi_dark==1):
-    $light_cls = 'navbar-semi-dark navbar-shadow';
-    $ext_clr = '';
-else:
-    $light_cls = 'navbar-dark';
-    $ext_clr = $theme[0]->top_nav_dark_color;
-endif;
-// set layout / fixed or static
-if($theme[0]->boxed_layout=='true') {
-    $lay_fixed = 'container boxed-layout';
-} else {
-    $lay_fixed = '';
-}
-if($theme[0]->animation_style == '') {
-    $animated = 'animated flipInY';
-} else {
-    $animated = 'animated '.$theme[0]->animation_style;
-}
+     $role_user = $this->Xin_model->read_user_role_info($user[0]->user_role_id);
+    if(!is_null($role_user)) {
+        $role_resources_ids = explode(',', $role_user[0]->role_resources);
+    } else {
+        $role_resources_ids = explode(',', 0);
+    }
+    if($theme[0]->is_semi_dark==1):
+        $light_cls = 'navbar-semi-dark navbar-shadow';
+        $ext_clr = '';
+    else:
+        $light_cls = 'navbar-dark';
+        $ext_clr = $theme[0]->top_nav_dark_color;
+    endif;
+    // set layout / fixed or static
+    if($theme[0]->boxed_layout=='true') {
+        $lay_fixed = 'container boxed-layout';
+    } else {
+        $lay_fixed = '';
+    }
+    if($theme[0]->animation_style == '') {
+        $animated = 'animated flipInY';
+    } else {
+        $animated = 'animated '.$theme[0]->animation_style;
+    }
 ?>
 
 <style type="text/css">
-.main-header .sidebar-toggle-hrsale-chat:before {
-    content: "\f0e6";
-}
+    .main-header .sidebar-toggle-hrsale-chat:before {
+        content: "\f0e6";
+    }
 
-.main-header .sidebar-toggle-hrsale-quicklinks:before {
-    content: "\f00a";
-}
+    .main-header .sidebar-toggle-hrsale-quicklinks:before {
+        content: "\f00a";
+    }
 </style>
 
 <style>
-.loaderss {
-    --c1: #673b14;
-    --c2: #0177bc;
-    width: 40px;
-    height: 80px;
-    border-top: 4px solid var(--c1);
-    border-bottom: 4px solid var(--c1);
-    background: linear-gradient(90deg, var(--c1) 2px, var(--c2) 0 5px, var(--c1) 0) 50%/7px 8px no-repeat;
-    display: grid;
-    overflow: hidden;
-    animation: l5-0 2s infinite linear;
-}
-
-.loaderss::before,
-.loaderss::after {
-    content: "";
-    grid-area: 1/1;
-    width: 75%;
-    height: calc(50% - 4px);
-    margin: 0 auto;
-    border: 2px solid var(--c1);
-    border-top: 0;
-    box-sizing: content-box;
-    border-radius: 0 0 40% 40%;
-    -webkit-mask: linear-gradient(#000 0 0) bottom/4px 2px no-repeat,
-        linear-gradient(#000 0 0);
-    -webkit-mask-composite: destination-out;
-    mask-composite: exclude;
-    background: linear-gradient(var(--d, 0deg), var(--c2) 50%, #0000 0) bottom /100% 205%,
-        linear-gradient(var(--c2) 0 0) center/0 100%;
-    background-repeat: no-repeat;
-    animation: inherit;
-    animation-name: l5-1;
-}
-
-.loaderss::after {
-    transform-origin: 50% calc(100% + 2px);
-    transform: scaleY(-1);
-    --s: 3px;
-    --d: 180deg;
-}
-
-@keyframes l5-0 {
-    80% {
-        transform: rotate(0)
+    .loaderss {
+        --c1: #673b14;
+        --c2: #0177bc;
+        width: 40px;
+        height: 80px;
+        border-top: 4px solid var(--c1);
+        border-bottom: 4px solid var(--c1);
+        background: linear-gradient(90deg, var(--c1) 2px, var(--c2) 0 5px, var(--c1) 0) 50%/7px 8px no-repeat;
+        display: grid;
+        overflow: hidden;
+        animation: l5-0 2s infinite linear;
     }
 
-    100% {
-        transform: rotate(0.5turn)
+    .loaderss::before,
+    .loaderss::after {
+        content: "";
+        grid-area: 1/1;
+        width: 75%;
+        height: calc(50% - 4px);
+        margin: 0 auto;
+        border: 2px solid var(--c1);
+        border-top: 0;
+        box-sizing: content-box;
+        border-radius: 0 0 40% 40%;
+        -webkit-mask: linear-gradient(#000 0 0) bottom/4px 2px no-repeat,
+            linear-gradient(#000 0 0);
+        -webkit-mask-composite: destination-out;
+        mask-composite: exclude;
+        background: linear-gradient(var(--d, 0deg), var(--c2) 50%, #0000 0) bottom /100% 205%,
+            linear-gradient(var(--c2) 0 0) center/0 100%;
+        background-repeat: no-repeat;
+        animation: inherit;
+        animation-name: l5-1;
     }
-}
 
-@keyframes l5-1 {
-
-    10%,
-    70% {
-        background-size: 100% 205%, var(--s, 0) 100%
+    .loaderss::after {
+        transform-origin: 50% calc(100% + 2px);
+        transform: scaleY(-1);
+        --s: 3px;
+        --d: 180deg;
     }
 
-    70%,
-    100% {
-        background-position: top, center
+    @keyframes l5-0 {
+        80% {
+            transform: rotate(0)
+        }
+
+        100% {
+            transform: rotate(0.5turn)
+        }
     }
-}
+
+    @keyframes l5-1 {
+
+        10%,
+        70% {
+            background-size: 100% 205%, var(--s, 0) 100%
+        }
+
+        70%,
+        100% {
+            background-position: top, center
+        }
+    }
 </style>
 
 <div id="loader_div"
@@ -143,87 +135,83 @@ if($theme[0]->animation_style == '') {
 </div>
 
 
-
-
-
-
 <style>
-marquee {
-    /*      font-size: 30px;*/
-    font-weight: 800;
-    color: #fff;
-    font-family: sans-serif;
-}
+    marquee {
+        /*      font-size: 30px;*/
+        font-weight: 800;
+        color: #fff;
+        font-family: sans-serif;
+    }
 
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 120px;
-    height: 34px;
-}
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 120px;
+        height: 34px;
+    }
 
-.switch input {
-    display: none;
-}
+    .switch input {
+        display: none;
+    }
 
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #3C3C3C;
-    -webkit-transition: .4s;
-    transition: .4s;
-    border-radius: 34px;
-}
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #3C3C3C;
+        -webkit-transition: .4s;
+        transition: .4s;
+        border-radius: 34px;
+    }
 
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-    border-radius: 50%;
-}
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+        border-radius: 50%;
+    }
 
-input:checked+.slider {
-    background-color: #0E6EB8;
-}
+    input:checked+.slider {
+        background-color: #0E6EB8;
+    }
 
-input:focus+.slider {
-    box-shadow: 0 0 1px #2196F3;
-}
+    input:focus+.slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
 
-input:checked+.slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(85px);
-}
+    input:checked+.slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(85px);
+    }
 
-/*------ ADDED CSS ---------*/
-.slider:after {
-    content: 'Floor';
-    color: white;
-    display: block;
-    position: absolute;
-    transform: translate(-50%, -50%);
-    top: 50%;
-    left: 50%;
-    font-size: 10px;
-    font-family: Verdana, sans-serif;
-}
+    /*------ ADDED CSS ---------*/
+    .slider:after {
+        content: 'Floor';
+        color: white;
+        display: block;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        left: 50%;
+        font-size: 10px;
+        font-family: Verdana, sans-serif;
+    }
 
-input:checked+.slider:after {
-    content: 'Meeting';
-}
+    input:checked+.slider:after {
+        content: 'Meeting';
+    }
 
-/*--------- END --------*/
+    /*--------- END --------*/
 </style>
 
 <div id="myModal" class="modal fade" role="dialog">
@@ -404,157 +392,6 @@ input:checked+.slider:after {
 
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
-                <li>
-                    <a data-toggle="modal" data-target="#companyPolicyModal">
-                        <i class="fa fa-file-text" aria-hidden="true"></i>
-                        <span class="label" style="font-size: 12px !important; background: #fb0202 !important">nt</span>
-                    </a>
-                </li>
-
-                <?php
-                $fcount = 0;
-                if(in_array($user[0]->user_role_id, array(1,2,4))) {
-                    $leaveapp = $this->Xin_model->get_notify_leave_applications();
-                    $start_date = date('Y-m-d', strtotime('-4 month', strtotime(date("Y-m-01"))));
-                    $end_date = date('Y-m-d', strtotime('+3 month', strtotime(date("Y-m-t"))));
-                    $incrementapp = $this->Xin_model->get_notify_incr_prob_applications($start_date, $end_date, 1);
-                    $probationapp = $this->Xin_model->get_notify_incr_prob_applications($start_date, $end_date, 5);
-                    $internapp = $this->Xin_model->get_notify_incr_prob_applications($start_date, $end_date, 4);
-                    $fcount = count($leaveapp) + count($incrementapp) + count($probationapp) + count($internapp);
-                ?>
-                <?php } elseif ($user[0]->user_role_id == 3) {
-                    $leaveapp = $this->Xin_model->get_notify_leave_applications_by_userid($user[0]->user_id);
-                    $incrementapp =[];
-                    $probationapp =[];
-                    $internapp=[];
-                    $fcount = count($leaveapp) + count($incrementapp) + count($probationapp);
-                }  ?>
-
-                <style>
-                    .lir {
-                        cursor: pointer !important;
-                    }
-
-                    .menu>li>a>.nrcolor {
-                        color: #ff0101 !important;
-                    }
-
-                    .menu>li>a>.ngcolor {
-                        color: #037c29 !important;
-                    }
-
-                    .navbar-nav>.messages-menu>.dropdown-menu>li .menu>li>a {
-                        margin: 0;
-                        padding: 3px 1px;
-                    }
-
-                    .navbar-custom-menu>.navbar-nav>li>.dropdown-menu {
-                        position: absolute;
-                        right: 0;
-                        left: auto;
-                        box-shadow: 0px 0px 11px 4px #686868;
-                    }
-                </style>
-
-                <!-- leave notifiation -->
-                <?php if (in_array($user[0]->user_role_id, array(1,2,3,4))) { ?>
-                <li class="dropdown messages-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true"
-                        title="<?php echo $this->lang->line('header_notifications');?>">
-                        <i class="fa fa-bell-o"></i>
-                        <span class="label" style="font-size: 12px !important; background: #fb0202 !important"><?php echo $fcount;?></span>
-                    </a>
-
-                    <?php if($fcount > 0) {?>
-                    <ul class="dropdown-menu menu <?php echo $animated;?>">
-                        <li>
-                            <!-- inner menu: contains the actual data -->
-                            <?php if(count($leaveapp) > 0) {?>
-                            <ul class="menu">
-                                <div class="callout callout-hrsale-bg-leave callout-hrsale">
-                                    <p><?php echo $this->lang->line('xin_leave_notifications');?><span style="color: #d30505; padding: 4px; font-weight: bolder;"><?=count($leaveapp) ?>
-                                    </p>
-                                </div>
-                                <?php foreach($leaveapp as $row) {?>
-                                    <?php $emp_info = $this->Xin_model->read_user_info($row->employee_id);?>
-                                    <?php
-                                        if(!is_null($emp_info)) {
-                                            $emp_name = $emp_info[0]->first_name. ' '.$emp_info[0]->last_name;
-                                        } else {
-                                            $emp_name = '--';
-                                        }
-                                        if($row->status==1) {
-                                            $statuss="Pending. Please wait";
-                                        } elseif ($row->status==2) {
-                                            $statuss="Approved";
-                                        } elseif ($row->status==3) {
-                                            $statuss="Rejected";
-                                        } elseif ($row->status==4) {
-                                            $statuss="First Stage Approval.";
-                                        } else {
-                                            $statuss="--";
-                                        }
-                                    ?>
-
-                                    <li class="notli">
-                                        <?php
-                                        $roolid=$session['role_id'];
-                                        if($roolid==3) {
-                                            ?>
-                                        <a onclick='modal_leave_data_ajax(<?php echo $row->leave_id ?>)'
-                                            data-target="#edit-leave-modal-data" data-toggle="modal"
-                                            style="cursor: pointer;" data-leave_id="<?php echo $row->leave_id ?>"
-                                            data-emname="<?php echo $emp_name ?>"
-                                            data-company_id="<?php echo $row->company_id ?>"
-                                            data-employee_id="<?php echo $row->employee_id ?>"
-                                            data-department_id="<?php echo $row->department_id ?>"
-                                            data-leave_type_id="<?php echo $row->leave_type_id ?>"
-                                            data-leave_type="<?php echo $row->leave_type ?>"
-                                            data-qty="<?php echo $row->qty ?>"
-                                            data-from_date="<?php echo $row->from_date ?>"
-                                            data-to_date="<?php echo $row->to_date ?>"
-                                            data-applied_on="<?php echo $row->applied_on ?>"
-                                            data-reason="<?php echo $row->reason ?>"
-                                            data-remarks="<?php echo $row->remarks ?>"
-                                            data-status="<?php echo $row->status ?>"
-                                            data-is_half_day="<?php echo $row->is_half_day ?>"
-                                            data-notify_leave="<?php echo $row->notify_leave ?>"
-                                            data-leave_attachment="<?php echo $row->leave_attachment ?>"
-                                            data-created_at="<?php echo $row->created_at ?>"
-                                            data-current_year="<?php echo $row->current_year ?>">
-                                            <?php
-                                        } else { ?>
-                                            <a href="<?php echo site_url('admin/timesheet/leave_details/id')?>/<?php echo $row->leave_id;?>/">
-                                                <?php } ?>
-                                                <div class="pull-left">
-                                                    <?php  if($emp_info[0]->profile_picture!='' && $emp_info[0]->profile_picture!='no file') {?>
-                                                    <img src="<?php  echo base_url().'uploads/profile/'.$emp_info[0]->profile_picture;?>"
-                                                        alt="" id="user_avatar" class="img-circle user_profile_avatar">
-                                                    <?php } else {?>
-                                                    <?php  if($emp_info[0]->gender=='Male') { ?>
-                                                    <?php 	$de_file = base_url().'uploads/profile/default_male.jpg';?>
-                                                    <?php } else { ?>
-                                                    <?php 	$de_file = base_url().'uploads/profile/default_female.jpg';?>
-                                                    <?php } ?>
-                                                    <img src="<?php  echo $de_file;?>" alt="" id="user_avatar"
-                                                        class="img-circle user_profile_avatar">
-                                                    <?php  } ?>
-                                                </div>
-                                                <h4> <?php echo $emp_name;?> </h4>
-                                                <p>applied for leave <?php echo $this->Xin_model->set_date_format($row->applied_on);?></p>
-                                                <p><?= $statuss ?></p>
-                                            </a>
-                                    </li>
-                                <?php } ?>
-                            </ul>
-                            <br>
-                            <?php } ?>
-                        </li>
-                    </ul>
-                    <?php } ?>
-                </li>
-                <?php } ?>
-
                 <!-- user -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true"
