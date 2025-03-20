@@ -14,7 +14,10 @@ class ZK_device extends API_Controller
         // Allow header Content-Type: application/json
         header("Access-Control-Allow-Headers: Content-Type");
 
+        
+        
         parent::__construct();
+        $this->load->model('Attendance_model');
         $this->load->library('Zklibrary');
     }
     public function get_data()
@@ -41,10 +44,11 @@ class ZK_device extends API_Controller
     public function retrieveAttendance($ip, $port, $sl)
     {
         $zk = new zklibrary($ip, $port);
-        // $zk->testVoice();
+        $zk->testVoice();
         $zk->connect();
         $attendance = $zk->getAttendance();
         $zk->disconnect();
+        dd($attendance);
 
         $filteredAttendance = array();
         foreach ($attendance as $at) {
@@ -63,6 +67,10 @@ class ZK_device extends API_Controller
     public function add_attendance() {
         $recent_data = $this->get_data();
         foreach ($recent_data as $key => $value) {
+            $device_id = $value['device_id'];
+            $device_type = $this->db->where('id', $device_id)->get('attn_device_setup')->row();
+            $device_type = $device_type->type;
+            dd($device_type);
             $data= [
                 'proxi_id'=>$value['punch_id'],
                 'date_time'=> $value['time'],
@@ -74,6 +82,27 @@ class ZK_device extends API_Controller
                 );
                 $this->db->where('id', $value['device_id'])->update('attn_device_setup', $data);
             }
+        }
+    }
+    public function python_add_attendance() {
+        $member_id = $this->input->get('member_id');
+        $timestamp = $this->input->get('timestamp');
+        $ip = $this->input->get('ip');
+        $port = $this->input->get('port');
+        $device= $this->db->where('ip', $ip)->where('port', $port)->get('attn_device_setup')->row();
+        $data= [
+            'proxi_id'=>$member_id,
+            'date_time'=> $timestamp,
+            'device_id'=> $device->id,
+            'device_type'=> $device->type,
+            'device_ip'=> $ip,
+            'device_port'=> $port
+        ];
+        $this->db->insert('xin_att_machine', $data);
+        $emp= $this->db->where('punch_id', $member_id)->get('xin_employees')->row();
+        if(!empty($emp)){
+        $member_id = [$emp->user_id];
+        $this->Attendance_model->attn_process(date('Y-m-d', strtotime($timestamp)), $member_id, null);
         }
     }
 
