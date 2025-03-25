@@ -73,7 +73,10 @@ if($theme[0]->sub_menu_icons != ''){
   <!-- sidebar menu: : style can be found in sidebar.less -->
   <ul class="sidebar-menu" data-widget="tree">
     <li class="<?php if(!empty($arr_mod['active']))echo $arr_mod['active'];?>"> <a href="<?php echo site_url('admin/dashboard');?>"> <i class="fa fa-dashboard"></i> <span><?php echo $this->lang->line('dashboard_title');?></span> </a> </li>
-    <li class="<?php if(!empty($arr_mod['dactive']))echo $arr_mod['dactive'];?>"> <a href="<?php echo site_url('admin/dashboard/dynamic_attendance');?>"> <i class="fa fa-dashboard"></i> <span>Dynamic Attendance </span> </a> </li>
+
+    <?php if ($user_info[0]->user_role_id != 3) { ?>
+      <li class="<?php if(!empty($arr_mod['dactive']))echo $arr_mod['dactive'];?>"> <a href="<?php echo site_url('admin/dashboard/dynamic_attendance');?>"> <i class="fa fa-dashboard"></i> <span>Dynamic Attendance </span> </a> </li>
+    <?php } ?>
 
 
     <?php if(in_array('13',$role_resources_ids) || in_array('88',$role_resources_ids) || in_array('92',$role_resources_ids) || in_array('22',$role_resources_ids) || in_array('23',$role_resources_ids) || in_array('393',$role_resources_ids) || $user_info[0]->user_role_id==1){?>
