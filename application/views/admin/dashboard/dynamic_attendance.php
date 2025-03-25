@@ -196,8 +196,6 @@ $out_office=[];
                                
                         }
                     ?>
-
-
                 </tbody>
             </table>
         </div>
