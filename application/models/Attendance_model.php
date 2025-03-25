@@ -143,7 +143,7 @@ class Attendance_model extends CI_Model
                 'early_status'      => $early_out_status,
                 'early_time'        => $early_out_time,
                 'production'        => $production,
-                'e_status'          => $astatus,
+                'attendance_status' => $astatus,
                 'status'            => $status,
             );
 
