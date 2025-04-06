@@ -99,15 +99,15 @@ $out_office=[];
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
-                        foreach ($in_office as $key => $value) { 
+                    <?php
+                        foreach ($in_office as $key => $value) {
                             if (isset($value->proxi_id)) {
                                 $emp_data = $this->db->select('profile_picture,first_name,last_name')->where('punch_id', $value->proxi_id)->get('xin_employees')->row();
                                 if (isset($emp_data->profile_picture) && isset($emp_data->first_name) && isset($emp_data->last_name)) {
                                     ?>
                                     <tr>
                                         <td><span class="badge badge-danger"><?= $emp_data->first_name.' '.$emp_data->last_name;?> </span></td>
-                                        <td>            
+                                        <td>
                                         <?php if (file_exists(FCPATH . 'uploads/users/' . $emp_data->profile_picture)) { ?>
                                                 <img style="height: 31px;border-radius: 50%;" src="<?= base_url() ?>uploads/users/<?= $emp_data->profile_picture ?>" alt="Employee" />
                                             <?php } else { ?>
@@ -120,7 +120,7 @@ $out_office=[];
                             }
                         }
                     ?>
-                        
+
 
                 </tbody>
             </table>
@@ -141,7 +141,7 @@ $out_office=[];
                 </thead>
                 <tbody>
                     <?php
-                        foreach ($out_office as $key => $value) { 
+                        foreach ($out_office as $key => $value) {
                             if (isset($value->proxi_id)) {
                                 $emp_data = $this->db->select('profile_picture,first_name,last_name')->where('punch_id', $value->proxi_id)->get('xin_employees')->row();
                                 if (isset($emp_data) && isset($emp_data->profile_picture) && isset($emp_data->first_name) && isset($emp_data->last_name)) {
@@ -193,14 +193,14 @@ $out_office=[];
                                         </td>
                                     </tr>
                                     <?php
-                               
+
                         }
                     ?>
                 </tbody>
             </table>
         </div>
 
-     
+
     </div>
 </div>
 
