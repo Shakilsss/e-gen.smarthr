@@ -1,4 +1,4 @@
-<?php 
+<?php
 	$first_date  = date('Y-m-01', strtotime($first_date));
 	$second_date = date('Y-m-t', strtotime($first_date));
 	$total_days = date('t', strtotime($first_date));
@@ -54,7 +54,7 @@
 						<th>ID</th>
 						<th>Name</th>
 						<?php
-							$day_of_month = date('t',strtotime($first_date)); 
+							$day_of_month = date('t',strtotime($first_date));
 							// Print the days column header only once
 							for ($i = 1; $i <= $day_of_month; $i++) {
 						?>
@@ -66,12 +66,12 @@
 				<?php
 
 				// Fetch all attendance data in one query
-				$attendance_data = $this->db->select('employee_id, attendance_date, attendance_status, status')
+				$attendance_data = $this->db->select('employee_id, attendance_date, e_status, status')
 					->where("attendance_date >=", $first_date)
 					->where("attendance_date <=", $second_date) // Avoid duplicate data
 					->get('xin_attendance_time')
 					->result();
-				// dd($attendance_data);	
+				// dd($attendance_data);
 
 				// Organize attendance data by employee_id and date
 				$attendance_by_employee = [];
@@ -82,9 +82,9 @@
 				$j = 1;
 				$row_count = 0;
 				$total_rows = count($xin_employees);
-				foreach ($xin_employees as $r) { 
+				foreach ($xin_employees as $r) {
 					if ($row_count > 0 && $row_count % 17 == 0) {
-						echo '<tr class="page-break"></tr>';?> 
+						echo '<tr class="page-break"></tr>';?>
 						<!-- Add company header on new page -->
 						<div class="company-header mb-4">
 							<div class="row align-items-center">
@@ -143,7 +143,7 @@
 						<?php
 						for ($d = 1; $d <= $total_days; $d++) {
 							$current_date = date('Y-m-d', strtotime("$first_date +".($d - 1)." days"));
-							$status = $attendance_by_employee[$r->user_id][$current_date] ?? 'Absent'; // Default to Absent
+							$status = isset($attendance_by_employee[$r->user_id][$current_date]) ? $attendance_by_employee[$r->user_id][$current_date] : 'Absent'; // Default to Absent
 
 							// Set background and text color
 							$bg_color = $status == 'Off Day' ? 'red' : ($status == 'Holiday' ? 'red' : '');
@@ -170,8 +170,8 @@
 						}
 						?>
 					</tr>
-				<?php 
-				} 
+				<?php
+				}
 				if ($row_count == $total_rows) { ?>
 					<!-- Add company header and legend on the final page -->
 					<div class="company-header mb-4">
