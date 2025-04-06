@@ -135,11 +135,15 @@ class Xin_model extends CI_Model {
 	public function select_module_class($mClass,$mMethod) {
 		$arr = array();
 		// dashboard
-		if($mClass=='dashboard') {
+		if($mClass=='dashboard' && $mMethod=='dynamic_attendance') {
+			$arr['dactive'] = 'active';
+			$arr['open'] = '';
+			return $arr;
+		} else if($mClass=='dashboard') {
 			$arr['active'] = 'active';
 			$arr['open'] = '';
 			return $arr;
-		}else if($mClass=='project' && $mMethod=='get_payment_page') {
+		} else if($mClass=='project' && $mMethod=='get_payment_page') {
 			$arr['get_payment_active'] = 'active';
 			$arr['account'] = 'active';
 			return $arr;

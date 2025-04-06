@@ -32,6 +32,7 @@ class Dashboard extends MY_Controller {
 			$this->save_service();
 
 		};
+
 	}
 
 	/*Function to set JSON output*/
@@ -74,6 +75,17 @@ class Dashboard extends MY_Controller {
 		return $this->output($data);
 	}
 
+	// get dynamic attendance data
+	function dynamic_attendance() {
+		$session = $this->session->userdata('username');
+		if(empty($session) && !is_array($session)){
+			redirect('admin/');
+		}
+		$this->load->model('Attendance_model');
+
+
+		$this->load->view('admin/dashboard/dynamic_atn_dash'); //page load
+	}
 
 
 
