@@ -108,26 +108,26 @@
         $gsick = $this->db->where('type', 'sl')->get('xin_leave_type')->row()->days_per_year;
         $earn = $gearn - $used_leave->cl;
         $sick = $gsick - $used_leave->sl;
-        ?>
+    ?>
 
-<!-- replace leave cal -->
-<?php
-    $rl_rule = $this->db->where('status', 1)->get('leave_settings')->row()->replace_leave;
-    $nfdate = date('Y-m-01', strtotime('-1 months'));
-    $nsdate = date('Y-m-t', strtotime($nfdate));
+    <!-- replace leave cal -->
+    <?php
+        $rl_rule = $this->db->where('status', 1)->get('leave_settings')->row()->replace_leave;
+        $nfdate = date('Y-m-01', strtotime('-1 months'));
+        $nsdate = date('Y-m-t', strtotime($nfdate));
 
-    $this->db->select("SUM(CASE WHEN e_status='Present' AND status='Off Day' THEN 1 ELSE 0 END) AS rl");
-    $this->db->where('employee_id', $userid);
-    $this->db->where('e_status', 'Present');
-    $this->db->where('status', 'Off Day');
-    $this->db->where('attendance_date >=', $nfdate);
-    $this->db->where('attendance_date <=', $nsdate);
-    $query = $this->db->get('xin_attendance_time')->row();
-    if (!empty($query) && $query->rl >= $rl_rule) {
-        $rlv = floor($query->rl / $rl_rule);
-    } else {
-        $rlv = 0;
-    }
+        $this->db->select("SUM(CASE WHEN e_status='Present' AND status='Off Day' THEN 1 ELSE 0 END) AS rl");
+        $this->db->where('employee_id', $userid);
+        $this->db->where('e_status', 'Present');
+        $this->db->where('status', 'Off Day');
+        $this->db->where('attendance_date >=', $nfdate);
+        $this->db->where('attendance_date <=', $nsdate);
+        $query = $this->db->get('xin_attendance_time')->row();
+        if (!empty($query) && $query->rl >= $rl_rule) {
+            $rlv = floor($query->rl / $rl_rule);
+        } else {
+            $rlv = 0;
+        }
     ?>
 
     <!-- leave request modal -->
@@ -156,7 +156,7 @@
                         <div class="pseudo6">
                             <select id="leave_type" name="leave_type" style="width: 98%;border: none;cursor: pointer;" required>
                                 <option value=""> Select Leave Type </option>
-                                <option value="1" <?=($earn == 0)? 'disabled':'' ?>> Earn Leave (<?=$earn?>)</option>
+                                <option value="1" <?=($earn == 0)? 'disabled':'' ?>> Casual Leave (<?=$earn?>)</option>
                                 <option value="2" <?=($sick == 0)? 'disabled':'' ?>> Sick Leave (<?=$sick?>)</option>
                                 <option value="3" <?=($rlv == 0)? 'disabled':'' ?>> Replacement (<?=$rlv?>)</option>
                             </select>
@@ -370,7 +370,6 @@
 
 <script>
     function openModal() {
-
         document.getElementById("customModal").style.display = "block";
     }
 
