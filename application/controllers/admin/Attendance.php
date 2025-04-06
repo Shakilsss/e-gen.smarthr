@@ -849,17 +849,30 @@ class Attendance extends MY_Controller
     }
 
 
-    public function monthly_report()
-    {
+    public function monthly_report(){
+        $type = $this->input->post('type');
         $first_date = $this->input->post('first_date');
-
         $sql = $this->input->post('sql');
         $emp_id = explode(',', trim($sql));
         $data['first_date'] = $first_date;
         $data['emp_id'] = $sql;
-        // dd($data);
+        // dd($type);
         $data['xin_employees'] =  $this->Attendance_model->get_employee($emp_id);
-        echo $this->load->view("admin/timesheet/monthly_report", $data, true);
+        if($type == 1){
+            echo $this->load->view("admin/timesheet/monthly_report_all", $data, true);
+        } 
+        if($type ==2){
+            echo $this->load->view("admin/timesheet/monthly_report_duty_hour", $data, true);
+        } 
+        if($type ==3){
+            echo $this->load->view("admin/timesheet/monthly_report_duty_hour_details", $data, true);
+        } 
+        if($type ==4){
+            echo $this->load->view("admin/timesheet/monthly_report_attn_time_status", $data, true);
+        }
+        if($type ==5){
+            echo $this->load->view("admin/timesheet/monthly_report_early_leave", $data, true);
+        }
 
 
 
