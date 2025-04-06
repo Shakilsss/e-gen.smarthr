@@ -254,12 +254,16 @@
                 <!-- monthly report button -->
                 <div class="tab-pane fade" id="monthly" role="tabpanel" aria-labelledby="monthly-tab"
                     style="margin-top: 30px;">
-                    <button class="btn btn-sm mr-5 sbtn mt-2" onclick="monthly_report()">Monthly Register
-                        Report</button>
+                    <button class="btn btn-sm mr-5 sbtn mt-2" onclick="monthly_report()">Attendance Status (All Report)</button>
+                    <button class="btn btn-sm mr-5 sbtn mt-2" onclick="monthly_report()">Attendance Status (Duty Hour)</button>
+                    <button class="btn btn-sm mr-5 sbtn mt-2" onclick="monthly_report()">Attendance Status (Duty Hour Details)</button>
+                    <button class="btn btn-sm mr-5 sbtn mt-2" onclick="monthly_report()">Attendance Status (Attendance Time Status)</button>
+                    <button class="btn btn-sm mr-5 sbtn mt-2" onclick="monthly_report()">Attendance Status (Early Leave)</button>
                     <button class="btn btn-sm mr-5 sbtn mt-2" data-toggle="modal" data-target="#requisitionModal">Open Requisition Modal</button>
-                    <button class="btn btn-sm mr-5 sbtn mt-2" onclick="leavecal(2,[1,4])">Leave Panding</button>
-                    <button class="btn btn-sm mr-5 sbtn mt-2" onclick="leavecal(2,[2])">Leave Approved</button>
-                    <button class="btn btn-sm mr-5 sbtn mt-2" onclick="leavecal(2,[3])">Leave Rejected</button>
+                    <button class="btn btn-sm mr-5 sbtn mt-2" onclick="leavecal(2,[1,4])">Leave Report(All)</button>
+                    <button class="btn btn-sm mr-5 sbtn mt-2" onclick="leavecal(2,[2])">Leave Report(Approved)</button>
+                    <button class="btn btn-sm mr-5 sbtn mt-2" onclick="leavecal(2,[1,4])">Leave Report(Panding)</button>
+                    <button class="btn btn-sm mr-5 sbtn mt-2" onclick="leavecal(2,[3])">Leave Report(Rejected)</button>
                 </div>
 
                 <!-- continuously report button -->
