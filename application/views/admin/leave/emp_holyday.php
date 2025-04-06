@@ -16,7 +16,6 @@ if($total_upcomming_event!=0){
 <link rel="stylesheet" href="<?= base_url('skin/hrsale_assets/css/emp_attandenc.css') ?>">
 
 <style>
-    
 .cboton {
     color: #000;
     /* font-family: Roboto; */
@@ -29,9 +28,10 @@ if($total_upcomming_event!=0){
     gap: 10px;
     border-radius: 2px;
     border: 1px solid #9d9797;
- 
+
 }
-.cactive{
+
+.cactive {
     color: #FFF;
     background: #2DCA8C;
 }
@@ -48,16 +48,17 @@ if($total_upcomming_event!=0){
         <div class="h4"><?= $total_upcomming_event ?></div>
     </div>
     <div class="divstats-info col-md-6" style="background-color: #D2F9EE;display: flex;">
-    <div class='col-md-5' style="display: flex;flex-direction: column;">
-        <span class="h4">Upcoming  Event</span>
-        <span style="color: #1F1F1F;font-size: 16px;font-style: normal;font-weight: 600;/* 143% */"><?= (isset($lastEvent->start_date))? date('d-M-Y',strtotime($lastEvent->start_date)) : 'none'?></span>
+        <div class='col-md-5' style="display: flex;flex-direction: column;">
+            <span class="h4">Upcoming Event</span>
+            <span
+                style="color: #1F1F1F;font-size: 16px;font-style: normal;font-weight: 600;/* 143% */"><?= (isset($lastEvent->start_date))? date('d-M-Y',strtotime($lastEvent->start_date)) : 'none'?></span>
 
-    </div>
-    <div class='col-md-7'>
-        <div class="h4"><?= (isset($lastEvent->event_name))? $lastEvent->event_name: '' ?></div>
-    </div>
+        </div>
+        <div class='col-md-7'>
+            <div class="h4"><?= (isset($lastEvent->event_name))? $lastEvent->event_name: '' ?></div>
+        </div>
 
-       
+
     </div>
 
 </div>
@@ -66,10 +67,10 @@ if($total_upcomming_event!=0){
         <a href="<?= base_url('admin/events/epm_event')?>" class="cboton ">Event List</a>
     </div>
     <div class="col-md-2 divform-group" style="padding: 0;">
-        <a href="<?= base_url('admin/leave/emp_holyday')?>" class="cboton cactive">Yearly Holiday  </a>
+        <a href="<?= base_url('admin/leave/emp_holyday')?>" class="cboton cactive">Yearly Holiday </a>
     </div>
     <div class="col-md-2 divform-group" style="padding: 0;">
-        <a  href="<?= base_url('admin/events/alle')?>" class="cboton">Calendar</a>
+        <a href="<?= base_url('admin/events/alle')?>" class="cboton">Calendar</a>
     </div>
     <div class="col-md-2 divform-group">
     </div>
@@ -130,4 +131,3 @@ function getdata(status) {
     });
 }
 </script>
-
