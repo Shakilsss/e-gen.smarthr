@@ -1,15 +1,16 @@
-<!DOCTYPE >
-<html >
+<!DOCTYPE>
+<html>
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Job Card</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Job Card</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 </head>
 
 <body>
-<div class="container" align="center">
+    <div class="container" align="center">
 
-<?php
+        <?php
 // dd($all_employees);
 
 $present_count = 0;
@@ -336,6 +337,7 @@ foreach ($all_employees as $key => $value) {
 }
 ?>
 
-</div>
+    </div>
 </body>
+
 </html>
