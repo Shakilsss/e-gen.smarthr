@@ -39,13 +39,13 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label>Office In Time <span style="color:red">*</span></label>
-                                        <input type="time" class="form-control" name="in_time">
+                                        <input class="form-control timepicker" name="in_time" placeholder="HH:MM">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label>Office Out Time <span style="color:red">*</span></label>
-                                        <input type="time" class="form-control" name="out_time">
+                                        <input class="form-control timepicker" name="out_time" placeholder="HH:MM">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -84,8 +84,8 @@
                         <tr>
                             <td><?php echo $k+1; ?></td>
                             <td><?php echo date("d-m-Y", strtotime($res->date)) ;?></td>
-                            <td><?php echo $res->in_time ;?></td>
-                            <td><?php echo $res->out_time ;?></td>
+                            <td><?php echo $res->in_time == '00:00:00' ? '-' : $res->in_time ;?></td>
+                            <td><?php echo $res->out_time == '00:00:00' ? '-' : $res->out_time ;?></td>
                             <?php if ($res->status == 1) {
                                 $status = 'On process';
                             } elseif ($res->status == 2) {
@@ -108,11 +108,21 @@
 </div>
 
 <script type="text/javascript">
-$(document).ready(function() {
-    // get designations
-    $('[data-plugin="select_hrm"]').select2($(this).attr('data-options'));
-    $('[data-plugin="select_hrm"]').select2({
-        width: '100%'
+    $(document).ready(function(){
+        $('.clockpicker').clockpicker();
+            var input = $('.timepicker').clockpicker({
+            placement: 'bottom',
+            align: 'left',
+            autoclose: true,
+            'default': 'now'
+        });
     });
-});
+
+    $(document).ready(function() {
+        // get designations
+        $('[data-plugin="select_hrm"]').select2($(this).attr('data-options'));
+        $('[data-plugin="select_hrm"]').select2({
+            width: '100%'
+        });
+    });
 </script>
