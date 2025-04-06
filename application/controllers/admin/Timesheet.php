@@ -71,6 +71,7 @@ class Timesheet extends MY_Controller {
 
 		        $response = ['status' => 'success', 'message' => "Successfully Insert Done"];
 		        echo json_encode( $response );
+				
 				exit;
 
 			} else {
@@ -123,6 +124,7 @@ class Timesheet extends MY_Controller {
 
 		$rawfile_name = $query->row()->upload_file;
 		$file_name = "attn_data/$rawfile_name";
+		// dd($file_name);
 		if (file_exists($file_name)){
 			$lines = file($file_name);
 			$out = array();
@@ -153,7 +155,7 @@ class Timesheet extends MY_Controller {
 			}
 			return true;
 		}else{
-			exit('Please Put the Data File.');
+			return 'Please Put the Data File.';
 		}
 	}
 	// delete attn file

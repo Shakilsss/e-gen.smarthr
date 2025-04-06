@@ -19,10 +19,11 @@ class Attendance_model extends CI_Model
         if (strtotime("+1 day", strtotime(date('Y-m-d'))) < strtotime($process_date)) {
             return 'Sorry! advanced process not allowed, Please first process '. date('Y-m-d');
         }
-
+        // dd($emp_ids);
         // Get Employees Id And Check Holiday
         $holiday_day = $this->holiday_check($process_date);
         $employees = $this->get_employees($emp_ids, $status);
+        // dd($employees);
         foreach ($employees as $key => $row) {
             $joining_date = $row->date_of_joining;
             $emp_id      = $row->user_id;
