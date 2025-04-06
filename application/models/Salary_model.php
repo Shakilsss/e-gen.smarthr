@@ -255,7 +255,7 @@ class Salary_model extends CI_Model {
                 SUM(CASE WHEN status = 'Absent'   THEN 1 ELSE 0 END ) AS absent,
                 SUM(CASE WHEN status = 'Off Day'  THEN 1 ELSE 0 END ) AS weekend,
                 SUM(CASE WHEN status = 'Holiday'  THEN 1 ELSE 0 END ) AS holiday,
-                SUM(CASE WHEN e_status = 'HalfDay'  THEN 0.5 ELSE 0 END ) AS HalfDay,
+                SUM(CASE WHEN attendance_status = 'HalfDay'  THEN 0.5 ELSE 0 END ) AS HalfDay,
                 SUM(CASE WHEN status = 'Present' AND clock_in = '' AND clock_out != '' THEN 0.5 ELSE 0 END ) AS present_error1,
                 SUM(CASE WHEN status = 'Present' AND clock_in != '' AND clock_out = '' THEN 0.5 ELSE 0 END ) AS present_error2,
                 SUM(CASE WHEN extra_ap = 1 THEN 1 ELSE 0 END) AS extra_p,

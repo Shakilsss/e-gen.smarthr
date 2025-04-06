@@ -434,10 +434,10 @@ class Leave extends MY_Controller
 			$nsdate = date('Y-m-t', strtotime($nfdate));
 
 			$this->db->select("
-					SUM(CASE WHEN e_status='Present' AND status='Off Day' THEN 1 ELSE 0 END) AS rl
+					SUM(CASE WHEN attendance_status='Present' AND status='Off Day' THEN 1 ELSE 0 END) AS rl
 				");
 			$this->db->where('employee_id', $emp_id);
-			$this->db->where('e_status', 'Present');
+			$this->db->where('attendance_status', 'Present');
 			$this->db->where('status', 'Off Day');
 			$this->db->where('attendance_date >=', $nfdate);
 			$this->db->where('attendance_date <=', $nsdate);
