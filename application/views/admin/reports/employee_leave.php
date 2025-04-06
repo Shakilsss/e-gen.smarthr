@@ -25,6 +25,7 @@
                       'value'   	   => $session['user_id'],
                       'class'       => 'form-control',
                     );
+
                 
                 echo form_input($data);
                 ?>
