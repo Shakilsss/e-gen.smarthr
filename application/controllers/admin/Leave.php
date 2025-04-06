@@ -243,7 +243,7 @@ class Leave extends MY_Controller
 			}
 		}
 
-		$data['results'] = $this->db->get('leave_out_off_office')->result();
+		$data['results'] = $this->db->order_by('id', 'DESC')->get('leave_out_off_office')->result();
 		$data['title'] = 'Out Off Offie';
 		$data['breadcrumbs'] = 'Out Off Offie';
 		$data['path_url'] = 'leave';
