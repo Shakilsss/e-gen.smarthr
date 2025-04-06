@@ -406,7 +406,7 @@ class Timesheet extends MY_Controller {
 						'total_work' => $total_work,
 						'early_leaving' => $clock_out2,
 						'overtime' => $clock_out2,
-						'attendance_status' => 'Present',
+						'e_status' => 'Present',
 						'clock_in_out' => '0'
 						);
 					$result = $this->Timesheet_model->add_employee_attendance($data);
@@ -500,7 +500,7 @@ class Timesheet extends MY_Controller {
 			}
 		}
 		$data['title'] = $this->lang->line('left_leave').' | '.$this->Xin_model->site_title();
-		
+
 		$data['all_leave_types'] = $this->Timesheet_model->all_leave_types();
 		$data['leaves_info'] = $this->Timesheet_model->get_leaves_with_info();
 		$data['breadcrumbs'] = $this->lang->line('left_leave');
@@ -704,7 +704,7 @@ class Timesheet extends MY_Controller {
 			}
 			if ($leave_half_day_opt== 1) {
 				$get_day_attn=$this->Timesheet_model->attendance_first_in_check($_POST['employee_id'],$start_date)->row();
-				if(!empty($get_day_attn) && $get_day_attn->attendance_status!='HalfDay'){
+				if(!empty($get_day_attn) && $get_day_attn->e_status!='HalfDay'){
 					$this->session->set_flashdata('error', 'This day is not Half Day');
 					redirect('admin/leave/emp_leave');
 				}
@@ -1092,7 +1092,6 @@ class Timesheet extends MY_Controller {
 
 	 // leave > timesheet
 	 public function leave_details() {
-
 		$session = $this->session->userdata('username');
 		if(empty($session)){
 			redirect('admin/');
@@ -2099,7 +2098,7 @@ class Timesheet extends MY_Controller {
 				}
 			}
 			// check if clock-in for date
-			$attendance_status = '';
+			$e_status = '';
 			$check = $this->Timesheet_model->attendance_first_in_check($r->user_id,$attendance_date);
 			if($check->num_rows() > 0){
 				// check clock in time
@@ -2172,7 +2171,7 @@ class Timesheet extends MY_Controller {
 				}
 
 				// check attendance status
-				$status = $attendance[0]->attendance_status;
+				$status = $attendance[0]->e_status;
 				if($total_time_rs=='') {
 					$Trest = '00:00';
 				} else {
@@ -2670,7 +2669,7 @@ class Timesheet extends MY_Controller {
 			}
 		}
 		// check if clock-in for date
-		$attendance_status = '';
+		$e_status = '';
 		$check = $this->Timesheet_model->attendance_first_in_check($employee[0]->user_id,$attendance_date);
 		if($check->num_rows() > 0){
 			// check clock in time
@@ -2745,7 +2744,7 @@ class Timesheet extends MY_Controller {
 			}
 
 			// check attendance status
-			$status = $attendance[0]->attendance_status;
+			$status = $attendance[0]->e_status;
 			if($total_time_rs=='') {
 				$Trest = '00:00';
 			} else {
@@ -3635,7 +3634,7 @@ class Timesheet extends MY_Controller {
 		'total_work' => $total_work,
 		'early_leaving' => $clock_out2,
 		'overtime' => $clock_out2,
-		'attendance_status' => 'Present',
+		'e_status' => 'Present',
 		'clock_in_out' => '0'
 		);
 		$result = $this->Timesheet_model->add_employee_attendance($data);
@@ -4201,7 +4200,7 @@ class Timesheet extends MY_Controller {
 			'total_work' => $total_work,
 			'early_leaving' => $clock_out2,
 			'overtime' => $clock_out2,
-			'attendance_status' => 'Present',
+			'e_status' => 'Present',
 			'clock_in_out' => '0'
 			);
 		}
@@ -4592,7 +4591,7 @@ class Timesheet extends MY_Controller {
 						'early_leaving' => $curtime,
 						'overtime' => $curtime,
 						'total_rest' => $total_rest,
-						'attendance_status' => 'Present',
+						'e_status' => 'Present',
 						'clock_in_out' => '1'
 						);
 

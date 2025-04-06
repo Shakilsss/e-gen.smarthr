@@ -78,7 +78,6 @@
                             <th>Out Time</th>
                             <th>Status</th>
                             <th>Remark</th>
-                            <th>Action</th>
                         </tr>
 
                         <?php foreach($results as $k => $res) { ?>
@@ -88,26 +87,17 @@
                             <td><?php echo $res->in_time ;?></td>
                             <td><?php echo $res->out_time ;?></td>
                             <?php if ($res->status == 1) {
-                                $status = 'Draft';
-                            } elseif ($res->status == 2) {
                                 $status = 'On process';
-                            } elseif ($res->status == 3) {
+                            } elseif ($res->status == 2) {
                                 $status = 'Approved';
-                            } else {
+                            } elseif ($res->status == 3) {
                                 $status = 'Rejected';
+                            } else {
+                                $status = 'Delete';
                             } ?>
 
                             <td><?= $status; ?></td>
                             <td><?php echo $res->remark;?></td>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-xs btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Action <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right">
-                                        <li><a href="<?php echo base_url();?>admin/leave/emp_outstaton_edit/<?php echo $res->id;?>"><i class="fa fa-pencil-square-o"></i> Edit</a></li>
-                                    </ul>
-                                </div>
-                            </td>
                         </tr>
                         <?php } ?>
                     </thead>

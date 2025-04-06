@@ -143,7 +143,7 @@ class Attendance_model extends CI_Model
                 'early_status'      => $early_out_status,
                 'early_time'        => $early_out_time,
                 'production'        => $production,
-                'attendance_status' => $astatus,
+                'e_status'          => $astatus,
                 'status'            => $status,
             );
 
@@ -276,31 +276,31 @@ class Attendance_model extends CI_Model
                 $dd = date("Y-m-d", strtotime("+1 day", strtotime($check_day)));
                 $this->db->where('attendance_date', $dd);
                 $this->db->where('employee_id', $emp_id);
-                $this->db->update('xin_attendance_time', array('status' => 'Absent', 'attendance_status' => 'Absent'));
+                $this->db->update('xin_attendance_time', array('status' => 'Absent', 'e_status' => 'Absent'));
             }
-        } elseif ($q->status == 'Leave' && $q->attendance_status == 'Leave') {
+        } elseif ($q->status == 'Leave' && $q->e_status == 'Leave') {
             $cd = date("Y-m-d", strtotime("+2 day", strtotime($check_day)));
             $this->db->where('employee_id', $emp_id)->where('attendance_date', $cd);
             $qs = $this->db->where('employee_id', $emp_id)->get('xin_attendance_time')->row();
 
-            if ($qs->status == 'Leave' && $qs->attendance_status == 'Leave') {
+            if ($qs->status == 'Leave' && $qs->e_status == 'Leave') {
                 $dd = date("Y-m-d", strtotime("+1 day", strtotime($check_day)));
                 $this->db->where('attendance_date', $dd);
                 $this->db->where('employee_id', $emp_id);
-                $this->db->update('xin_attendance_time', array('status' => 'Absent', 'attendance_status' => 'Absent'));
+                $this->db->update('xin_attendance_time', array('status' => 'Absent', 'e_status' => 'Absent'));
             }
 
 
-        } elseif($q->attendance_status == 'HalfDay') {
+        } elseif($q->e_status == 'HalfDay') {
             $cd = date("Y-m-d", strtotime("+2 day", strtotime($check_day)));
             $this->db->where('employee_id', $emp_id)->where('attendance_date', $cd);
             $qs = $this->db->where('employee_id', $emp_id)->get('xin_attendance_time')->row();
 
-            if ($qs->attendance_status == 'HalfDay') {
+            if ($qs->e_status == 'HalfDay') {
                 $dd = date("Y-m-d", strtotime("+1 day", strtotime($check_day)));
                 $this->db->where('attendance_date', $dd);
                 $this->db->where('employee_id', $emp_id);
-                $this->db->update('xin_attendance_time', array('status' => 'Absent', 'attendance_status' => 'Absent'));
+                $this->db->update('xin_attendance_time', array('status' => 'Absent', 'e_status' => 'Absent'));
             }
 
         }
@@ -319,39 +319,39 @@ class Attendance_model extends CI_Model
                 $interval = $date1->diff($date2)->days - 1;
                 $qqs = $this->db->where('employee_id', $emp_id)->where('attendance_date', $check_day)->get('xin_attendance_time')->row();
 
-                if ($qqs->status != 'Leave' && $qqs->attendance_status != 'Leave') {
+                if ($qqs->status != 'Leave' && $qqs->e_status != 'Leave') {
                     $this->db->where('attendance_date', $check_day);
                     $this->db->where('employee_id', $emp_id);
-                    $this->db->update('xin_attendance_time', array('status' => 'Absent', 'attendance_status' => 'Absent'));
+                    $this->db->update('xin_attendance_time', array('status' => 'Absent', 'e_status' => 'Absent'));
                 }
 
                 for ($i=0; $i < $interval; $i++) {
                     $check_day = date("Y-m-d", strtotime("-1 day", strtotime($check_day)));
 
-                    if ($qqs->status != 'Leave' && $qqs->attendance_status != 'Leave') {
+                    if ($qqs->status != 'Leave' && $qqs->e_status != 'Leave') {
                         $this->db->where('attendance_date', $check_day);
                         $this->db->where('employee_id', $emp_id);
-                        $this->db->update('xin_attendance_time', array('status' => 'Absent', 'attendance_status' => 'Absent'));
+                        $this->db->update('xin_attendance_time', array('status' => 'Absent', 'e_status' => 'Absent'));
                     }
                 }
-            }  elseif($query->attendance_status == 'HalfDay') {
+            }  elseif($query->e_status == 'HalfDay') {
                 $date1 = new DateTime($check_day);
                 $date2 = new DateTime($query->attendance_date);
                 $interval = $date1->diff($date2)->days - 1;
                 $qqs = $this->db->where('employee_id', $emp_id)->where('attendance_date', $check_day)->get('xin_attendance_time')->row();
 
-                if (!empty($qqs) && $qqs->status != 'Leave' && $qqs->attendance_status != 'Leave') {
+                if (!empty($qqs) && $qqs->status != 'Leave' && $qqs->e_status != 'Leave') {
                     $this->db->where('attendance_date', $check_day);
                     $this->db->where('employee_id', $emp_id);
-                    $this->db->update('xin_attendance_time', array('status' => 'Absent', 'attendance_status' => 'Absent'));
+                    $this->db->update('xin_attendance_time', array('status' => 'Absent', 'e_status' => 'Absent'));
                 }
 
                 for ($i=0; $i < $interval; $i++) {
                     $check_day = date("Y-m-d", strtotime("-1 day", strtotime($check_day)));
-                    if (!empty($qqs) && $qqs->status != 'Leave' && $qqs->attendance_status != 'Leave') {
+                    if (!empty($qqs) && $qqs->status != 'Leave' && $qqs->e_status != 'Leave') {
                         $this->db->where('attendance_date', $check_day);
                         $this->db->where('employee_id', $emp_id);
-                        $this->db->update('xin_attendance_time', array('status' => 'Absent', 'attendance_status' => 'Absent'));
+                        $this->db->update('xin_attendance_time', array('status' => 'Absent', 'e_status' => 'Absent'));
                     }
                 }
             }
@@ -373,15 +373,15 @@ class Attendance_model extends CI_Model
                 if ($query->status == 'Absent') {
                     $this->db->where('attendance_date', $check_day);
                     $this->db->where('employee_id', $emp_id);
-                    $this->db->update('xin_attendance_time', array('status' => 'Absent', 'attendance_status' => 'Absent'));
+                    $this->db->update('xin_attendance_time', array('status' => 'Absent', 'e_status' => 'Absent'));
                 } else if ($query->status == 'Leave') {
                     $this->db->where('attendance_date', $check_day);
                     $this->db->where('employee_id', $emp_id);
-                    $this->db->update('xin_attendance_time', array('status' => 'Absent', 'attendance_status' => 'Absent'));
-                }  else if ($query->attendance_status == 'HalfDay') {
+                    $this->db->update('xin_attendance_time', array('status' => 'Absent', 'e_status' => 'Absent'));
+                }  else if ($query->e_status == 'HalfDay') {
                     $this->db->where('attendance_date', $check_day);
                     $this->db->where('employee_id', $emp_id);
-                    $this->db->update('xin_attendance_time', array('status' => 'Absent', 'attendance_status' => 'Absent'));
+                    $this->db->update('xin_attendance_time', array('status' => 'Absent', 'e_status' => 'Absent'));
                 }
                }
             }
@@ -595,7 +595,7 @@ class Attendance_model extends CI_Model
             xin_attendance_time.attendance_date,
             xin_attendance_time.clock_in,
             xin_attendance_time.clock_out,
-            xin_attendance_time.attendance_status,
+            xin_attendance_time.e_status,
             xin_attendance_time.status,
             xin_attendance_time.late_status,
             xin_attendance_time.comment,
@@ -717,7 +717,7 @@ class Attendance_model extends CI_Model
             xin_attendance_time.attendance_date,
             xin_attendance_time.clock_in,
             xin_attendance_time.clock_out,
-            xin_attendance_time.attendance_status,
+            xin_attendance_time.e_status,
             xin_attendance_time.status,
             xin_attendance_time.late_status,
             xin_attendance_time.comment,
@@ -964,7 +964,7 @@ class Attendance_model extends CI_Model
             xin_departments.department_name,
             xin_designations.designation_name,
             xin_attendance_time.attendance_date,
-            xin_attendance_time.attendance_status,
+            xin_attendance_time.e_status,
             xin_attendance_time.clock_in,
             xin_attendance_time.clock_out,
             xin_attendance_time.early_out_status,
@@ -980,7 +980,7 @@ class Attendance_model extends CI_Model
         $this->db->where("xin_attendance_time.attendance_date", $attendance_date);
         $this->db->where_in("xin_attendance_time.employee_id", $emp_id);
         $this->db->where_in("xin_attendance_time.early_out_status", 1);
-        $this->db->where("xin_attendance_time.attendance_status", "Present");
+        $this->db->where("xin_attendance_time.e_status", "Present");
         $this->db->where('xin_employees.department_id = xin_departments.department_id');
         $this->db->where('xin_employees.designation_id = xin_designations.designation_id');
         $this->db->where('xin_employees.user_id = xin_attendance_time.employee_id');

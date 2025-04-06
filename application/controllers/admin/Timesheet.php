@@ -501,7 +501,7 @@ class Timesheet extends MY_Controller {
 			}
 		}
 		$data['title'] = $this->lang->line('left_leave').' | '.$this->Xin_model->site_title();
-		
+
 		$data['all_leave_types'] = $this->Timesheet_model->all_leave_types();
 		$data['leaves_info'] = $this->Timesheet_model->get_leaves_with_info();
 		$data['breadcrumbs'] = $this->lang->line('left_leave');
@@ -1093,7 +1093,6 @@ class Timesheet extends MY_Controller {
 
 	 // leave > timesheet
 	 public function leave_details() {
-
 		$session = $this->session->userdata('username');
 		if(empty($session)){
 			redirect('admin/');
@@ -1170,7 +1169,6 @@ class Timesheet extends MY_Controller {
 		if(!empty($session)){
 			$data['subview'] = $this->load->view("admin/timesheet/leave_details", $data, TRUE);
 			$this->Attendance_model->leave_process($leave_id);
-
 			$this->load->view('admin/layout/layout_main', $data); //page load
 		} else {
 			redirect('admin/');
