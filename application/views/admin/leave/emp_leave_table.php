@@ -70,16 +70,3 @@
     </tbody>
 </table>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/alfrcr/paginathing/dist/paginathing.min.js"></script>
-<!--  <script type="text/javascript" src="../src/test.js"></script>-->
-<!-- <script type="text/javascript">
-jQuery(document).ready(function($) {
-    const listElement = $('.list-group');
-    $('.table tbody').paginathing({
-        perPage: 31,
-        insertAfter: '.table',
-        pageNumbers: true,
-        limitPagination: 4,
-        ulClass: 'pagination flex-wrap justify-content-center'
-    });
-});
-</script> -->
