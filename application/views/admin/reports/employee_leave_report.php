@@ -78,7 +78,8 @@
     </div>
 
     <div id="loader" align="center" style="margin:0 auto; width:600px; overflow:hidden; display:none; margin-top:10px;">
-        <img src="<?php echo base_url();?>/uploads/ajax-loader.gif" /></div>
+        <img src="<?php echo base_url();?>/uploads/ajax-loader.gif" />
+    </div>
 
     <div class="box <?php echo $get_animate;?>">
         <div class="box-header with-border" id="report_title">
@@ -98,7 +99,8 @@
                     <button class="btn btn-sm mr-5 sbtn mt-2" onclick="leave_monthly()">Monthly Leave</button>
                     <button class="btn btn-sm mr-5 sbtn mt-2" onclick="absent_monthly()">Monthly Absent</button>
                     <button class="btn btn-sm mr-5 sbtn mt-2" onclick="yerly_leave()">Yerly Leave</button>
-                    <button class="btn btn-sm mr-5 sbtn mt-2" onclick="yerly_leave_earn_list()">Yerly Leave Earn list</button>
+                    <button class="btn btn-sm mr-5 sbtn mt-2" onclick="yerly_leave_earn_list()">Yerly Leave Earn
+                        list</button>
                     <button class="btn btn-sm mr-5 sbtn mt-2" onclick="leave_app()">Leave Application List</button>
 
                 </div>
@@ -115,7 +117,7 @@
 </div>
 
 <div class="col-lg-4">
-<?php   $this->load->view('admin/filtered_data'); ?>
+    <?php   $this->load->view('admin/filtered_data'); ?>
 
 </div>
 
@@ -314,6 +316,7 @@ function yerly_leave() {
         }
     }
 }
+
 function yerly_leave_earn_list() {
     var ajaxRequest; // The variable that makes Ajax possible!
     ajaxRequest = new XMLHttpRequest();
