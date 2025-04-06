@@ -66,11 +66,12 @@
 				<?php
 
 				// Fetch all attendance data in one query
-				$attendance_data = $this->db->select('employee_id, attendance_date, attendance_status,status')
+				$attendance_data = $this->db->select('employee_id, attendance_date, attendance_status, status')
 					->where("attendance_date >=", $first_date)
-					->where("attendance_date <=", $second_date)
+					->where("attendance_date <=", $second_date) // Avoid duplicate data
 					->get('xin_attendance_time')
 					->result();
+				// dd($attendance_data);	
 
 				// Organize attendance data by employee_id and date
 				$attendance_by_employee = [];
@@ -84,7 +85,6 @@
 				foreach ($xin_employees as $r) { 
 					if ($row_count > 0 && $row_count % 17 == 0) {
 						echo '<tr class="page-break"></tr>';?> 
-
 						<!-- Add company header on new page -->
 						<div class="company-header mb-4">
 							<div class="row align-items-center">
@@ -150,7 +150,22 @@
 							$text_color = $status == 'Off Day' || $status == 'Holiday' ? 'white' : '';
 
 							echo '<td style="background:'.$bg_color.'; color:'.$text_color.';font-weight:bold;">';
-							echo $status == 'Off Day' ? 'W' : ($status == 'Present' ? 'P' : ($status == 'Holiday' ? 'H' : 'A'));
+							if ($status == 'Off Day') {
+								echo 'W';
+							} elseif ($status == 'Present') {
+								echo 'P';
+							} elseif ($status == 'Holiday') {
+								echo 'H';
+							} elseif ($status == 'Leave') {
+								$this->db->select('leave_type');
+								$this->db->where('from_date<=', $current_date);
+								$this->db->where('to_date>=', $current_date);
+								$this->db->where('employee_id', $r->user_id);
+								$leave_type = $this->db->get('xin_leave_applications')->row("leave_type");
+								echo strtoupper($leave_type);
+							} else {
+								echo 'A';
+							}
 							echo '</td>';
 						}
 						?>
