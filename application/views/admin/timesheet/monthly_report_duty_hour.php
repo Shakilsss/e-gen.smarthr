@@ -46,17 +46,17 @@
 			<table class="table table-bordered table-sm border-dark">
 				<!-- <thead class="header-row"> -->
 					<tr class="text-center">
-						<th>SL.</th>
-						<th>ID</th>
-						<th>Name</th>
+						<th style="vertical-align: middle;">SL.</th>
+						<th style="vertical-align: middle;">ID</th>
+						<th style="vertical-align: middle;">Name</th>
 						<?php
 							$day_of_month = date('t',strtotime($first_date)); 
 							// Print the days column header only once
 							for ($i = 1; $i <= $day_of_month; $i++) {
 						?>
-						<th><?php echo $i?></th>
+						<th style="vertical-align: middle;"><?php echo $i?></th>
 						<?php } ?>
-						<th>Total Hours</th>
+						<th style="vertical-align: middle;">Total Hours</th>
 
 					</tr>
 				<!-- </thead> -->
@@ -91,25 +91,25 @@
 						<table class="table table-bordered table-sm border-dark">
 							<thead class="header-row">
 								<tr class="text-center">
-									<th>SL.</th>
-									<th>ID</th>
-									<th>Name</th>
+									<th style="vertical-align: middle;">SL.</th>
+									<th style="vertical-align: middle;">ID</th>
+									<th style="vertical-align: middle;">Name</th>
 									<?php
 										// Print the days column header again on a new page
 										for ($i = 1; $i <= $day_of_month; $i++) {
 									?>
-									<th><?php echo $i?></th>
+									<th style="vertical-align: middle;"><?php echo $i?></th>
 									<?php } ?>
-									<th>Total Hours</th>
+									<th style="vertical-align: middle;">Total Hours</th>
 								</tr>
 							</thead>
 					<?php }
 					$row_count++;
 				?>
 					<tr class="text-center">
-						<td><?= $j++ ?></td>
-						<td><?= $r->user_id ?></td>
-						<td><?= $r->first_name . ' ' . $r->last_name ?></td>
+						<td style="vertical-align: middle;"><?= $j++ ?></td>
+						<td style="vertical-align: middle;"><?= $r->user_id ?></td>
+						<td style="vertical-align: middle;"><?= $r->first_name . ' ' . $r->last_name ?></td>
 						<?php
 						$total_minutes = 0;
 					for ($d = 1; $d <= $total_days; $d++) {
@@ -119,7 +119,7 @@
 							->where("employee_id", $r->user_id)
 							->get('xin_attendance_time')
 							->result();
-						echo '<td>';
+						echo '<td style="vertical-align: middle;">';
 						if (empty($attendance_data)) {
 							echo '00:00';
 						} else {
@@ -150,7 +150,7 @@
 					$total_hours_final = floor($total_minutes / 60);
 					$total_minutes_final = $total_minutes % 60;
 					?>
-					<td><strong><?= sprintf("%02d:%02d", $total_hours_final, $total_minutes_final) ?></strong></td>
+					<td style="vertical-align: middle;"><strong><?= sprintf("%02d:%02d", $total_hours_final, $total_minutes_final) ?></strong></td>
 					</tr>		
 				<?php 
 				} 

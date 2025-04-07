@@ -141,9 +141,9 @@
 				?>
 
 				<tr class="text-center">
-					<td><?= $j++ ?></td>
-					<td><?= $r->user_id ?></td>
-					<td><?= $r->first_name . ' ' . $r->last_name ?></td>
+					<td style="vertical-align: middle;"><?= $j++ ?></td>
+					<td style="vertical-align: middle;"><?= $r->user_id ?></td>
+					<td style="vertical-align: middle;"><?= $r->first_name . ' ' . $r->last_name ?></td>
 					<?php
 					for ($d = 1; $d <= $total_days; $d++) {
 						$current_date = date('Y-m-d', strtotime("$first_date +".($d - 1)." days"));
@@ -153,7 +153,7 @@
 						$bg_color = $status == 'Off Day' ? 'red' : ($status == 'Holiday' ? 'red' : '');
 						$text_color = $status == 'Off Day' || $status == 'Holiday' ? 'white' : '';
 
-						echo '<td style="background:'.$bg_color.'; color:'.$text_color.';font-weight:bold;">';
+						echo '<td style="background:'.$bg_color.'; color:'.$text_color.';font-weight:bold; vertical-align: middle;">';
 						if ($status == 'Off Day') {
 							echo 'W';
 						} elseif ($status == 'Present') {
