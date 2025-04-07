@@ -261,7 +261,6 @@
                     </div>
 
                     <div class="row">
-
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="date_of_joining"
@@ -381,7 +380,7 @@
                                 <label for="xin_hr_leave_cat">Team Leader</label>
                                 <select class="form-control" name="is_emp_lead">
                                     <?php
-                                        $team_leads = $this->db->select('user_id,first_name,last_name')->where('is_emp_lead',2)->get('xin_employees')->result(); 
+                                        $team_leads = $this->db->select('user_id,first_name,last_name')->where('is_emp_lead',2)->get('xin_employees')->result();
                                         foreach($team_leads as $row){
                                     ?>
                                     <option value="<?php echo $row->user_id?>">
@@ -451,12 +450,12 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="row p-3">
+                            <div class="">
                                 <h4>Present Address</h4>
                                 <div class="form-group">
                                     <label for="address">Division</label>
                                     <select name="div_id_pre" id="div_id_pre" class="form-control">
-                                        <?php 
+                                        <?php
                                         $emp_divisions=$this->db->select('*')->from('emp_divisions')->get()->result();
                                         foreach($emp_divisions as $division) {
                                             ?>
@@ -487,13 +486,14 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-md-6">
-                            <div class="row p-3">
+                            <div class="">
                                 <h4>Permanent Address</h4>
                                 <div class="form-group">
                                     <label for="address">Division</label>
                                     <select name="div_id_per" id="div_id_per" class="form-control">
-                                        <?php 
+                                        <?php
                                         $emp_divisions=$this->db->select('*')->from('emp_divisions')->get()->result();
                                         foreach($emp_divisions as $division) {
                                             ?>
@@ -524,235 +524,231 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <script>
-                        $(document).ready(function() {
-                            $('#div_id_pre').on('change', function() {
-                                var div_id = $(this).val();
-                                $.ajax({
-                                    type: 'POST',
-                                    url: '<?php echo site_url('api/Client_attendance/get_district') ?>',
-                                    data: {
-                                        division_id: div_id
-                                    },
-                                    success: function(data) {
-                                        emp_districts = data.data.emp_districts
-                                        $('#dis_id_pre').html(
-                                            '<option value="">Select</option>');
-                                        $.each(emp_districts, function(index, value) {
-                                            $('#dis_id_pre').append('<option value="' +
-                                                value.id + '">' + value
-                                                .name_en + '</option>');
-                                        });
-                                    }
-                                });
-                            });
-                            $('#dis_id_pre').on('change', function() {
-                                var dis_id = $('#dis_id_pre').val();
-                                var div_id = $('#div_id_pre').val();
 
-                                $.ajax({
-                                    type: 'POST',
-                                    url: '<?php echo site_url('api/Client_attendance/get_upazila') ?>',
-                                    data: {
-                                        district_id: dis_id,
-                                        division_id: div_id
-                                    },
-                                    success: function(data) {
-                                        emp_districts = data.data.emp_upazilas
-                                        $('#up_id_pre').html(
-                                        '<option value="">Select</option>');
-                                        $.each(emp_districts, function(index, value) {
-                                            $('#up_id_pre').append('<option value="' +
-                                                value.id + '">' + value
-                                                .name_en + '</option>');
-                                        });
-                                    }
+                        <script>
+                            $(document).ready(function() {
+                                $('#div_id_pre').on('change', function() {
+                                    var div_id = $(this).val();
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '<?php echo site_url('api/Client_attendance/get_district') ?>',
+                                        data: {
+                                            division_id: div_id
+                                        },
+                                        success: function(data) {
+                                            emp_districts = data.data.emp_districts
+                                            $('#dis_id_pre').html(
+                                                '<option value="">Select</option>');
+                                            $.each(emp_districts, function(index, value) {
+                                                $('#dis_id_pre').append('<option value="' +
+                                                    value.id + '">' + value
+                                                    .name_en + '</option>');
+                                            });
+                                        }
+                                    });
                                 });
-                            });
-                            $('#up_id_pre').on('change', function() {
-                                var dis_id = $('#dis_id_pre').val();
-                                var div_id = $('#div_id_pre').val();
-                                var up_id = $('#up_id_pre').val();
-                                $.ajax({
-                                    type: 'POST',
-                                    url: '<?php echo site_url('api/Client_attendance/get_post_office') ?>',
-                                    data: {
-                                        district_id: dis_id,
-                                        division_id: div_id,
-                                        upazila_id: up_id
-                                    },
-                                    success: function(data) {
-                                        emp_districts = data.data.emp_post_offices
-                                        $('#po_id_pre').html(
-                                        '<option value="">Select</option>');
-                                        $.each(emp_districts, function(index, value) {
-                                            $('#po_id_pre').append('<option value="' +
-                                                value.id + '">' + value
-                                                .name_en + '</option>');
-                                        });
-                                    }
+                                $('#dis_id_pre').on('change', function() {
+                                    var dis_id = $('#dis_id_pre').val();
+                                    var div_id = $('#div_id_pre').val();
+
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '<?php echo site_url('api/Client_attendance/get_upazila') ?>',
+                                        data: {
+                                            district_id: dis_id,
+                                            division_id: div_id
+                                        },
+                                        success: function(data) {
+                                            emp_districts = data.data.emp_upazilas
+                                            $('#up_id_pre').html(
+                                            '<option value="">Select</option>');
+                                            $.each(emp_districts, function(index, value) {
+                                                $('#up_id_pre').append('<option value="' +
+                                                    value.id + '">' + value
+                                                    .name_en + '</option>');
+                                            });
+                                        }
+                                    });
                                 });
-                            });
-                        })
+                                $('#up_id_pre').on('change', function() {
+                                    var dis_id = $('#dis_id_pre').val();
+                                    var div_id = $('#div_id_pre').val();
+                                    var up_id = $('#up_id_pre').val();
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '<?php echo site_url('api/Client_attendance/get_post_office') ?>',
+                                        data: {
+                                            district_id: dis_id,
+                                            division_id: div_id,
+                                            upazila_id: up_id
+                                        },
+                                        success: function(data) {
+                                            emp_districts = data.data.emp_post_offices
+                                            $('#po_id_pre').html(
+                                            '<option value="">Select</option>');
+                                            $.each(emp_districts, function(index, value) {
+                                                $('#po_id_pre').append('<option value="' +
+                                                    value.id + '">' + value
+                                                    .name_en + '</option>');
+                                            });
+                                        }
+                                    });
+                                });
+                            })
                         </script>
                          <script>
-                        $(document).ready(function() {
-                            $('#div_id_per').on('change', function() {
-                                var div_id = $(this).val();
-                                $.ajax({
-                                    type: 'POST',
-                                    url: '<?php echo site_url('api/Client_attendance/get_district') ?>',
-                                    data: {
-                                        division_id: div_id
-                                    },
-                                    success: function(data) {
-                                        emp_districts = data.data.emp_districts
-                                        $('#dis_id_per').html(
+                            $(document).ready(function() {
+                                $('#div_id_per').on('change', function() {
+                                    var div_id = $(this).val();
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '<?php echo site_url('api/Client_attendance/get_district') ?>',
+                                        data: {
+                                            division_id: div_id
+                                        },
+                                        success: function(data) {
+                                            emp_districts = data.data.emp_districts
+                                            $('#dis_id_per').html(
+                                                '<option value="">Select</option>');
+                                            $.each(emp_districts, function(index, value) {
+                                                $('#dis_id_per').append('<option value="' +
+                                                    value.id + '">' + value
+                                                    .name_en + '</option>');
+                                            });
+                                        }
+                                    });
+                                });
+                                $('#dis_id_per').on('change', function() {
+                                    var dis_id = $('#dis_id_per').val();
+                                    var div_id = $('#div_id_per').val();
+
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '<?php echo site_url('api/Client_attendance/get_upazila') ?>',
+                                        data: {
+                                            district_id: dis_id,
+                                            division_id: div_id
+                                        },
+                                        success: function(data) {
+                                            emp_districts = data.data.emp_upazilas
+                                            $('#up_id_per').html(
                                             '<option value="">Select</option>');
-                                        $.each(emp_districts, function(index, value) {
-                                            $('#dis_id_per').append('<option value="' +
-                                                value.id + '">' + value
-                                                .name_en + '</option>');
-                                        });
-                                    }
+                                            $.each(emp_districts, function(index, value) {
+                                                $('#up_id_per').append('<option value="' +
+                                                    value.id + '">' + value
+                                                    .name_en + '</option>');
+                                            });
+                                        }
+                                    });
                                 });
-                            });
-                            $('#dis_id_per').on('change', function() {
-                                var dis_id = $('#dis_id_per').val();
-                                var div_id = $('#div_id_per').val();
-
-                                $.ajax({
-                                    type: 'POST',
-                                    url: '<?php echo site_url('api/Client_attendance/get_upazila') ?>',
-                                    data: {
-                                        district_id: dis_id,
-                                        division_id: div_id
-                                    },
-                                    success: function(data) {
-                                        emp_districts = data.data.emp_upazilas
-                                        $('#up_id_per').html(
-                                        '<option value="">Select</option>');
-                                        $.each(emp_districts, function(index, value) {
-                                            $('#up_id_per').append('<option value="' +
-                                                value.id + '">' + value
-                                                .name_en + '</option>');
-                                        });
-                                    }
+                                $('#up_id_per').on('change', function() {
+                                    var dis_id = $('#dis_id_per').val();
+                                    var div_id = $('#div_id_per').val();
+                                    var up_id = $('#up_id_per').val();
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '<?php echo site_url('api/Client_attendance/get_post_office') ?>',
+                                        data: {
+                                            district_id: dis_id,
+                                            division_id: div_id,
+                                            upazila_id: up_id
+                                        },
+                                        success: function(data) {
+                                            emp_districts = data.data.emp_post_offices
+                                            $('#po_id_per').html(
+                                            '<option value="">Select</option>');
+                                            $.each(emp_districts, function(index, value) {
+                                                $('#po_id_per').append('<option value="' +
+                                                    value.id + '">' + value
+                                                    .name_en + '</option>');
+                                            });
+                                        }
+                                    });
                                 });
-                            });
-                            $('#up_id_per').on('change', function() {
-                                var dis_id = $('#dis_id_per').val();
-                                var div_id = $('#div_id_per').val();
-                                var up_id = $('#up_id_per').val();
-                                $.ajax({
-                                    type: 'POST',
-                                    url: '<?php echo site_url('api/Client_attendance/get_post_office') ?>',
-                                    data: {
-                                        district_id: dis_id,
-                                        division_id: div_id,
-                                        upazila_id: up_id
-                                    },
-                                    success: function(data) {
-                                        emp_districts = data.data.emp_post_offices
-                                        $('#po_id_per').html(
-                                        '<option value="">Select</option>');
-                                        $.each(emp_districts, function(index, value) {
-                                            $('#po_id_per').append('<option value="' +
-                                                value.id + '">' + value
-                                                .name_en + '</option>');
-                                        });
-                                    }
-                                });
-                            });
-                        })
+                            })
                         </script>
-
-
                     </div>
+
                     <div class="row">
-                        <div class="col-md-12">
-                            <h4>Emergency Contact</h4>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="relation"><?php echo $this->lang->line('xin_e_details_relation');?><i
-                                            class="hrsale-asterisk"><span style="color:red">*</span></i></label>
-                                    <select class="form-control" name="relation" data-plugin="select_hrm"
-                                        data-placeholder="<?php echo $this->lang->line('xin_select_one');?>" required>
-                                        <option value=""><?php echo $this->lang->line('xin_select_one');?></option>
-                                        <option value="Self"><?php echo $this->lang->line('xin_self');?></option>
-                                        <option value="Parent"><?php echo $this->lang->line('xin_parent');?></option>
-                                        <option value="Spouse"><?php echo $this->lang->line('xin_spouse');?></option>
-                                        <option value="Child"><?php echo $this->lang->line('xin_child');?></option>
-                                        <option value="Sibling"><?php echo $this->lang->line('xin_sibling');?></option>
-                                        <option value="In Laws"><?php echo $this->lang->line('xin_in_laws');?></option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="name"
-                                        class="control-label"><?php echo $this->lang->line('xin_name');?><i
-                                            class="hrsale-asterisk"><span style="color:red">*</span></i></label>
-                                    <input class="form-control"
-                                        placeholder="<?php echo $this->lang->line('xin_name');?>" name="contact_name"
-                                        type="text" required>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group" id="designation_ajax">
-                                    <label for="address_1"
-                                        class="control-label"><?php echo $this->lang->line('xin_address');?></label>
-                                    <input class="form-control"
-                                        placeholder="<?php echo $this->lang->line('xin_address');?>" name="address_1"
-                                        type="text" required>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="work_phone"><?php echo $this->lang->line('xin_phone');?><i
-                                            class="hrsale-asterisk"><span style="color:red">*</span></i></label>
-                                    <input class="form-control"
-                                        placeholder="<?php echo $this->lang->line('xin_phone');?>" name="e_phone_number"
-                                        type="text" required>
-                                </div>
+                        <div class="col-md-12"><h4>Emergency Contact</h4></div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="relation"><?php echo $this->lang->line('xin_e_details_relation');?><i
+                                        class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                <select class="form-control" name="relation" data-plugin="select_hrm"
+                                    data-placeholder="<?php echo $this->lang->line('xin_select_one');?>" required>
+                                    <option value=""><?php echo $this->lang->line('xin_select_one');?></option>
+                                    <option value="Self"><?php echo $this->lang->line('xin_self');?></option>
+                                    <option value="Parent"><?php echo $this->lang->line('xin_parent');?></option>
+                                    <option value="Spouse"><?php echo $this->lang->line('xin_spouse');?></option>
+                                    <option value="Child"><?php echo $this->lang->line('xin_child');?></option>
+                                    <option value="Sibling"><?php echo $this->lang->line('xin_sibling');?></option>
+                                    <option value="In Laws"><?php echo $this->lang->line('xin_in_laws');?></option>
+                                </select>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="col-md-12" style="display:flex;flex-direction:row">
-                                    <div class='form-group'>
-                                        <fieldset class="form-group">
-                                            <label for="logo">Profile Picture<i class="hrsale-asterisk"><span
-                                                        style="color:red">*</span></i></label>
-                                            <input type="file" class="form-control-file" id="p_file" name="p_file"
-                                                accept=".gif, .png, .jpg, .jpeg">
-                                            <small><?php echo $this->lang->line('xin_e_details_picture_type');?></small>
-                                        </fieldset>
-                                    </div>
-                                    <div class='form-group'>
-                                        <fieldset class="form-group">
-                                            <label for="logo">Note</label>
-                                            <input type="file" class="form-control-file" id="n_file" name="n_file"
-                                                accept=".gif, .png, .jpg, .jpeg">
-                                            <small><?php echo $this->lang->line('xin_e_details_picture_type');?></small>
-                                        </fieldset>
-                                    </div>
-                                    <div class='form-group'>
-                                        <fieldset class="form-group">
-                                            <label for="logo">Remark</label>
-                                            <textarea class="form-control" id="remark" name="remark"
-                                                rows="3"></textarea>
-                                        </fieldset>
-                                    </div>
-                                </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="name"
+                                    class="control-label"><?php echo $this->lang->line('xin_name');?><i
+                                        class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                <input class="form-control"
+                                    placeholder="<?php echo $this->lang->line('xin_name');?>" name="contact_name"
+                                    type="text" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group" id="designation_ajax">
+                                <label for="address_1"
+                                    class="control-label"><?php echo $this->lang->line('xin_address');?></label>
+                                <input class="form-control"
+                                    placeholder="<?php echo $this->lang->line('xin_address');?>" name="address_1"
+                                    type="text" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="work_phone"><?php echo $this->lang->line('xin_phone');?><i
+                                        class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                <input class="form-control"
+                                    placeholder="<?php echo $this->lang->line('xin_phone');?>" name="e_phone_number"
+                                    type="text" required>
                             </div>
                         </div>
                     </div>
-                    <div class="form-actions box-footer">
+
+                    <div class="row">
+                        <div class='col-md-3'>
+                            <div class="form-group">
+                                <label for="logo">Profile Picture<i class="hrsale-asterisk"><span
+                                            style="color:red">*</span></i></label>
+                                <input type="file" class="form-control-file" id="p_file" name="p_file"
+                                    accept=".gif, .png, .jpg, .jpeg">
+                                <small><?php echo $this->lang->line('xin_e_details_picture_type');?></small>
+                            </div>
+                        </div>
+                        <div class='col-md-3'>
+                            <div class="form-group">
+                                <label for="logo">Note</label>
+                                <input type="file" class="form-control-file" id="n_file" name="n_file"
+                                    accept=".gif, .png, .jpg, .jpeg">
+                                <small><?php echo $this->lang->line('xin_e_details_picture_type');?></small>
+                            </div>
+                        </div>
+                        <div class='col-md-6'>
+                            <div class="form-group">
+                                <label for="logo">Remark</label>
+                                <textarea class="form-control" id="remark" name="remark" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
                         <?php echo form_button(array('name' => 'hrsale_form', 'type' => 'submit', 'class' => $this->Xin_model->form_button_class(), 'content' => '<i class="fa fa fa-check-square-o"></i> '.$this->lang->line('xin_save'))); ?>
                     </div>
+                    <br>
                 </div>
+
                 <?php $count_module_attributes = $this->Custom_fields_model->count_module_attributes();?>
                 <?php $module_attributes = $this->Custom_fields_model->all_hrsale_module_attributes();?>
                 <?php if($count_module_attributes > 0):?>
@@ -834,7 +830,6 @@
 
             </div>
         </div>
-
     </div>
 </div>
 <?php }?>
@@ -1078,7 +1073,7 @@ $(document).ready(function() {
         } else {
             $("#lr_effective_date").attr('style', 'border: 1px solid #ccd6e6 !important');
         }
-        // end validation 
+        // end validation
 
         // ajax request on form submit
         var emp_id = $('#hidden_id_emp').val();
