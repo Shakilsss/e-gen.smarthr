@@ -71,6 +71,7 @@ class Timesheet extends MY_Controller {
 
 		        $response = ['status' => 'success', 'message' => "Successfully Insert Done"];
 		        echo json_encode( $response );
+
 				exit;
 
 			} else {
@@ -123,6 +124,7 @@ class Timesheet extends MY_Controller {
 
 		$rawfile_name = $query->row()->upload_file;
 		$file_name = "attn_data/$rawfile_name";
+		// dd($file_name);
 		if (file_exists($file_name)){
 			$lines = file($file_name);
 			$out = array();
@@ -153,7 +155,7 @@ class Timesheet extends MY_Controller {
 			}
 			return true;
 		}else{
-			exit('Please Put the Data File.');
+			return 'Please Put the Data File.';
 		}
 	}
 	// delete attn file
@@ -501,7 +503,7 @@ class Timesheet extends MY_Controller {
 			}
 		}
 		$data['title'] = $this->lang->line('left_leave').' | '.$this->Xin_model->site_title();
-		
+
 		$data['all_leave_types'] = $this->Timesheet_model->all_leave_types();
 		$data['leaves_info'] = $this->Timesheet_model->get_leaves_with_info();
 		$data['breadcrumbs'] = $this->lang->line('left_leave');
@@ -818,6 +820,7 @@ class Timesheet extends MY_Controller {
 			redirect('admin/timesheet/leave');
 		}
 	}
+
 	public function modal_leave_update() {
 		$notyfi_data=1;
 		$from_date = $this->input->post('from_date');
@@ -878,7 +881,6 @@ class Timesheet extends MY_Controller {
 		$id=$this->input->post('leave_id');
 		$result = $this->Timesheet_model->update_leave_record($data,$id);
 		if($result == TRUE) {
-
 			if ($status && $status==2) {
 				$this->db->where('leave_id', $id);
 				$leve_data = $this->db->get('xin_leave_applications', $data)->row();
@@ -887,30 +889,23 @@ class Timesheet extends MY_Controller {
 				$leave_type_id =$leve_data->leave_type_id;
 				$y = date('Y', strtotime($from_date));
 				$leave_data = cals_leave($emp_id, $y);
-					if ($leave_type_id==1) {
-						$rdata = array(
-							'el_balanace' => $leave_data->el_balanace - $qnty
-						);
-					}else{
-						$rdata = array(
-							'sl_balanace' =>$leave_data->sl_balanace - $qnty
-						);
-					}
-					$this->db->where('emp_id', $emp_id);
-					$this->db->where('year', $y);
+				if ($leave_type_id==1) {
+					$rdata = array(
+						'el_balanace' => $leave_data->el_balanace - $qnty
+					);
+				}else{
+					$rdata = array(
+						'sl_balanace' =>$leave_data->sl_balanace - $qnty
+					);
+				}
+				$this->db->where('emp_id', $emp_id);
+				$this->db->where('year', $y);
 				$this->db->update('leave_balanace', $rdata);
-
-
-
 			}
-
-
-
 
 			$this->session->set_flashdata('success',  $this->lang->line('xin_success_leave__status_updated'));
 			// automatically leave process start
 			$this->Attendance_model->leave_process($this->input->post('leave_id'));
-
 		}else{
 			$this->session->set_flashdata('error',  $this->lang->line('xin_error_msg'));
 		}
@@ -920,33 +915,16 @@ class Timesheet extends MY_Controller {
 		$this->load->library('user_agent');
         redirect($this->agent->referrer());
 	}
+
 	public function modal_leave_data_ajax($id) {
 		$data['result'] = $this->Timesheet_model->get_leaves_leave_id_with_info($id);
 		$employee_id=$data['result']->employee_id;
 		$this->db->where('leave_id', $id);
-		$leave_data=$this->db->get('xin_leave_applications')->row();
+		$leave_data = $this->db->get('xin_leave_applications')->row();
 		$year = date('Y', strtotime($leave_data->from_date));
-
-		$leave_data_balance = cals_leave($employee_id, $year);
-
-		$data['leave_totalel']=$leave_data_balance->el_total;
-		$data['leave_totalsl']=$leave_data_balance->sl_total;
-
-		$data['leave_calel']=$leave_data_balance->el_balanace;
-
-		if ($leave_data_balance->el_total != 0) {
-			$data['leave_calel_percent'] = ($leave_data_balance->el_total - $leave_data_balance->el_balanace) * 100 / $leave_data_balance->el_total;
-		} else {
-			$data['leave_calel_percent'] = 0;
-		}
-		$data['leave_calsl']=$leave_data_balance->sl_balanace;
-
-		$data['leave_calls_percent'] = 0;
-		if ($leave_data_balance->sl_total != 0) {
-			$data['leave_calls_percent'] = ($leave_data_balance->sl_total - $leave_data_balance->sl_balanace) * 100 / $leave_data_balance->sl_total;
-		}
 		echo json_encode($data);
 	}
+	
 	// Validate and add info in database
 	public function update_leave_status() {
 
@@ -1093,7 +1071,6 @@ class Timesheet extends MY_Controller {
 
 	 // leave > timesheet
 	 public function leave_details() {
-
 		$session = $this->session->userdata('username');
 		if(empty($session)){
 			redirect('admin/');
@@ -1113,12 +1090,16 @@ class Timesheet extends MY_Controller {
 		$this->Timesheet_model->update_leave_record($edata,$leave_id);
 		// get leave types
 
-		$type = $this->Timesheet_model->read_leave_type_information($result[0]->leave_type_id);
-		if(!is_null($type)){
-			$type_name = $type[0]->type_name;
+		if($result[0]->leave_type_id == 1){
+			$type_name = 'Casual Leave';
+		} else if ($result[0]->leave_type_id == 2) {
+			$type_name = 'Sick Leave';
+		} else if ($result[0]->leave_type_id == 3) {
+			$type_name = 'Replacement';
 		} else {
 			$type_name = '--';
 		}
+
 		// get employee
 		$user = $this->Xin_model->read_user_info($result[0]->employee_id);
 		if(!is_null($user)){
@@ -1168,14 +1149,22 @@ class Timesheet extends MY_Controller {
 		// dd($data);
 
 		if(!empty($session)){
+			$this->db->select("
+				SUM(CASE WHEN leave_type = 'cl' THEN qty ELSE 0 END) AS cl,
+				SUM(CASE WHEN leave_type = 'sl' THEN qty ELSE 0 END) AS sl
+			");
+			$this->db->where('employee_id', $result[0]->employee_id)->where('status', 2);
+			$this->db->where('to_date >=', date('Y-01-01'));
+			$this->db->where('to_date <=', date('Y-12-31'));
+			$data['used_leave'] = $this->db->get('xin_leave_applications')->row();
+
+			$data['session'] = $session;
 			$data['subview'] = $this->load->view("admin/timesheet/leave_details", $data, TRUE);
 			$this->Attendance_model->leave_process($leave_id);
-
 			$this->load->view('admin/layout/layout_main', $data); //page load
 		} else {
 			redirect('admin/');
 		}
-
      }
 
 	 // leave > timesheet
@@ -4352,22 +4341,22 @@ class Timesheet extends MY_Controller {
     	}
 
 		$data = array(
-		'shift_name' => $this->input->post('shift_name'),
-		'company_id' => $this->input->post('company_id'),
-		'monday_in_time' => $this->input->post('monday_in_time'),
-		'monday_out_time' => $this->input->post('monday_out_time'),
-		'tuesday_in_time' => $this->input->post('tuesday_in_time'),
-		'tuesday_out_time' => $this->input->post('tuesday_out_time'),
-		'wednesday_in_time' => $this->input->post('wednesday_in_time'),
-		'wednesday_out_time' => $this->input->post('wednesday_out_time'),
-		'thursday_in_time' => $this->input->post('thursday_in_time'),
-		'thursday_out_time' => $this->input->post('thursday_out_time'),
-		'friday_in_time' => $this->input->post('friday_in_time'),
-		'friday_out_time' => $this->input->post('friday_out_time'),
-		'saturday_in_time' => $this->input->post('saturday_in_time'),
-		'saturday_out_time' => $this->input->post('saturday_out_time'),
-		'sunday_in_time' => $this->input->post('sunday_in_time'),
-		'sunday_out_time' => $this->input->post('sunday_out_time')
+			'shift_name' => $this->input->post('shift_name'),
+			'company_id' => $this->input->post('company_id'),
+			'monday_in_time' => $this->input->post('monday_in_time'),
+			'monday_out_time' => $this->input->post('monday_out_time'),
+			'tuesday_in_time' => $this->input->post('tuesday_in_time'),
+			'tuesday_out_time' => $this->input->post('tuesday_out_time'),
+			'wednesday_in_time' => $this->input->post('wednesday_in_time'),
+			'wednesday_out_time' => $this->input->post('wednesday_out_time'),
+			'thursday_in_time' => $this->input->post('thursday_in_time'),
+			'thursday_out_time' => $this->input->post('thursday_out_time'),
+			'friday_in_time' => $this->input->post('friday_in_time'),
+			'friday_out_time' => $this->input->post('friday_out_time'),
+			'saturday_in_time' => $this->input->post('saturday_in_time'),
+			'saturday_out_time' => $this->input->post('saturday_out_time'),
+			'sunday_in_time' => $this->input->post('sunday_in_time'),
+			'sunday_out_time' => $this->input->post('sunday_out_time')
 		);
 
 		$result = $this->Timesheet_model->update_shift_record($data,$id);
@@ -4467,40 +4456,30 @@ class Timesheet extends MY_Controller {
 	}
 	public function print_leave() {
 		$id = $this->input->post('id');
-
 		$data['result'] = $this->Timesheet_model->get_leaves_leave_id_with_info($id);
+		$employee_id = $data['result']->employee_id;
 
-		$employee_id=$data['result']->user_id;
 		$this->db->where('leave_id', $id);
-		$leave_data=$this->db->get('xin_leave_applications')->row();
+		$leave_data = $this->db->get('xin_leave_applications')->row();
 		$year = date('Y', strtotime($leave_data->from_date));
-		// $from_date = date("$year-01-01");
-		// $to_date = date("$year-12-31");
 
 		$this->db->select('
-		SUM(CASE WHEN leave_type_id = 1 THEN qty ELSE 0 END) AS earn_leave,
-		SUM(CASE WHEN leave_type_id = 2 THEN qty ELSE 0 END) AS sick_leave,
+			SUM(CASE WHEN leave_type_id = 1 THEN qty ELSE 0 END) AS earn_leave,
+			SUM(CASE WHEN leave_type_id = 2 THEN qty ELSE 0 END) AS sick_leave,
 		');
 		$this->db->where('employee_id', $employee_id);
 		$this->db->where('current_year', $year);
 		$this->db->where('status', 2);
-
 		$this->db->from('xin_leave_applications');
 		$total_leave = $this->db->get()->row();
 
-
-
-
-
-
-
-		$data['leave_calel']=($total_leave->earn_leave !='')?$total_leave->earn_leave:0;
-		$data['leave_calel_percent']=$data['leave_calel']*100/12;
-		$data['leave_calsl']=($total_leave->sick_leave !='')?$total_leave->sick_leave:0;
-		$data['leave_calsl_percent']=$data['leave_calsl']*100/4;
+		$data['leave_calel'] = ($total_leave->earn_leave !='')?$total_leave->earn_leave:0;
+		$data['leave_calel_percent'] = $data['leave_calel']*100/12;
+		$data['leave_calsl'] = ($total_leave->sick_leave !='')?$total_leave->sick_leave:0;
+		$data['leave_calsl_percent'] = $data['leave_calsl']*100/4;
 		echo $this->load->view('admin/timesheet/leaveform', $data, true);
-
 	}
+
 	public function delete_variation() {
 		if($this->input->post('type')=='delete') {
 			// Define return | here result is used to return user data and error for error message

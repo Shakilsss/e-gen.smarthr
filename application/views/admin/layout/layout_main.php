@@ -22,40 +22,31 @@
   } else {
   	$compact_sidebar = '';
   }
-  /*
-  if($this->router->fetch_class() =='chat'){
-  	$chat_app = 'chat-application';
-  } else {
-  	$chat_app = '';
-  }*/
-  
+
   $role_user = $this->Xin_model->read_user_role_info($user_info[0]->user_role_id);
   if(!is_null($role_user)){
   	$role_resources_ids = explode(',',$role_user[0]->role_resources);
   } else {
-  	$role_resources_ids = explode(',',0);	
+  	$role_resources_ids = explode(',',0);
   }
 ?>
 
 <?php $this->load->view('admin/components/htmlheader');?>
 
 <body class="hrsale-layout hold-transition sidebar-mini skin-blue <?php echo $fixed_header.' '.$boxed_wrapper.' '.$compact_sidebar;?>">
+
   <div class="wrapper">
-    <?php if($theme[0]->theme_option == 'template_1'):?>
-      <?php $this->load->view('admin/components/header');?>
-    <?php elseif($theme[0]->theme_option == 'template_2'):?>  
-      <?php $this->load->view('admin/components/header_template2');?>  
-    <?php else:?>
+    <?php if($theme[0]->theme_option == 'template_2'): ?>
+      <?php $this->load->view('admin/components/header_template2'); ?>
+    <?php else: ?>
     	<?php $this->load->view('admin/components/header');?>
-    <?php endif;?>  
+    <?php endif; ?>
 
     <!-- Left side column. contains the logo and sidebar -->
     <aside class="main-sidebar">
       <!-- sidebar: style can be found in sidebar.less -->
       <!-- Links -->
-  	  <?php if($theme[0]->theme_option == 'template_1'):?>
-        <?php $this->load->view('admin/components/left_menu');?>
-      <?php elseif($theme[0]->theme_option == 'template_2'):?>  
+      <?php if($theme[0]->theme_option == 'template_2'):?>
         <?php $this->load->view('admin/components/left_menu_template2');?>
       <?php else:?>
       	<?php $this->load->view('admin/components/left_menu');?>
@@ -76,7 +67,7 @@
     	</div>
     </aside>
     <!-- Left side column. -->
-    
+
 
     <div class="content-wrapper">
       <?php if($this->router->fetch_class() =='dashboard' || $this->router->fetch_class() =='chat' || $this->router->fetch_class() =='1calendar' || $this->router->fetch_class() =='profile'){?>
@@ -90,8 +81,6 @@
       <?php if($this->router->fetch_class() !='dashboard' && $this->router->fetch_class() !='chat' && $this->router->fetch_class() !='calendar' && $this->router->fetch_class() !='profile'){?>
         <section class="<?php echo $theme[0]->page_header;?> content-header">
           <h1>
-            <?php //echo $breadcrumbs;?>
-            <!--<small><?php echo $breadcrumbs;?></small>-->
             <div class="row breadcrumbs-hr-top">
               <div class="breadcrumb-wrapper col-xs-12">
                 <ol class="breadcrumb">
@@ -113,17 +102,10 @@
               margin-top: -32px;
             }
           </style>
-
-          <?php //if($user_info[0]->user_role_id==1): ?>
-            <!-- <ol class="breadcrumb">
-              <li><a href="<?php //echo site_url('admin/theme/');?>"><i class="fa fa-columns"></i> <?php //echo $this->lang->line('xin_theme_settings');?></a></li>
-              <li><a href="<?php //echo site_url('admin/settings/');?>"><i class="fa fa-cog"></i> <?php //echo $this->lang->line('header_configuration');?></a></li>
-            </ol> -->
-          <?php //endif;?>
         </section>
       <?php } ?>
-      <!-- Main content -->
 
+      <!-- Main content -->
         <section class="content">
           <!-- Main row -->
           <?php // get the required layout..?>
@@ -135,7 +117,7 @@
       <!-- /.content-wrapper -->
 
       <?php $this->load->view('admin/components/footer');?>
-   
+
       <!-- Add the sidebar's background. This div must be placed
          immediately after the control sidebar -->
     <div class="control-sidebar-bg"></div>

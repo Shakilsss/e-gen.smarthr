@@ -138,7 +138,7 @@
             <div>
               <h5 class="mb-1">
                 <span class="ctt"> On Leave </span> <br>
-                <span id="leaves"> <?= isset($res->leave) ? $res->leave : 0; ?> </span>
+                <span id="leaves"> <?= isset($res->leaves) ? $res->leaves : 0; ?> </span>
               </h5>
             </div>
           </div>

@@ -15,9 +15,9 @@
                 <th>#</th>
                 <th>Employee Name</th>
                 <th>Request Date</th>
-                <th>Request Time</th>
+                <th>In Time</th>
+                <th>Out Time</th>
                 <th>Request Status</th>
-                <th>Request Type</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -27,17 +27,19 @@
             <tr>
                 <td><?= $key+1 ?></td>
                 <td><?= $request->first_name.' '.$request->last_name ?></td>
-                <td><?= $request->p_date ?></td>
-                <td><?= $request->p_time ?></td>
-                <td><?= $request->status == 0 ? 'Pending' : 'Approved' ?></td>
-                <td><?= $request->punch_type == 'in' ? 'In' : 'Out' ?></td>
+                <td><?= $request->date ?></td>
+                <td><?= $request->in_time == '00:00:00' ? '-' : $request->in_time ?></td>
+                <td><?= $request->out_time == '00:00:00' ? '-' : $request->out_time ?></td>
+                <td><?= $request->status == 1 ? 'Pending' : 'Approved' ?></td>
                 <td class="status_action">
-                    <?php if($request->status == 0) { ?>
-                        <?php if ($session['role_id']==1) {?>
-                            <a href="javascript:void(0)" onclick="accept_request('<?= $request->id ?>',this)" class="btn btn-primary btn-sm">Approve</a>
-                        <?php } ?>
-                    <a href="javascript:void(0)" onclick="reject_request('<?= $request->id ?>',this)" class="btn btn-danger btn-sm">Reject</a>
-                    <?php }elseif($request->status == 1){ echo '<span class="badge badge-success">Approved </span>'; }elseif($request->status == 2){ echo '<span class="badge badge-danger">Rejected </span>'; }?>
+                    <?php if($request->status == 1 && $session['role_id'] == 1) { ?>
+                        <a onclick="accept_request('<?= $request->id ?>',this)" class="btn btn-primary btn-sm">Approve</a>
+                        <a onclick="reject_request('<?= $request->id ?>',this)" class="btn btn-danger btn-sm">Reject</a>
+                    <?php } elseif($request->status == 2) {
+                        echo '<span class="badge badge-success">Approved </span>';
+                    } else {
+                        echo '<span class="badge badge-danger">Rejected </span>';
+                    }?>
                 </td>
             </tr>
             <?php } ?>

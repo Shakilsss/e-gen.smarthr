@@ -39,13 +39,13 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label>Office In Time <span style="color:red">*</span></label>
-                                        <input type="time" class="form-control" name="in_time">
+                                        <input class="form-control timepicker" name="in_time" placeholder="HH:MM">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label>Office Out Time <span style="color:red">*</span></label>
-                                        <input type="time" class="form-control" name="out_time">
+                                        <input class="form-control timepicker" name="out_time" placeholder="HH:MM">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -78,36 +78,26 @@
                             <th>Out Time</th>
                             <th>Status</th>
                             <th>Remark</th>
-                            <th>Action</th>
                         </tr>
 
                         <?php foreach($results as $k => $res) { ?>
                         <tr>
                             <td><?php echo $k+1; ?></td>
                             <td><?php echo date("d-m-Y", strtotime($res->date)) ;?></td>
-                            <td><?php echo $res->in_time ;?></td>
-                            <td><?php echo $res->out_time ;?></td>
+                            <td><?php echo $res->in_time == '00:00:00' ? '-' : $res->in_time ;?></td>
+                            <td><?php echo $res->out_time == '00:00:00' ? '-' : $res->out_time ;?></td>
                             <?php if ($res->status == 1) {
-                                $status = 'Draft';
-                            } elseif ($res->status == 2) {
                                 $status = 'On process';
-                            } elseif ($res->status == 3) {
+                            } elseif ($res->status == 2) {
                                 $status = 'Approved';
-                            } else {
+                            } elseif ($res->status == 3) {
                                 $status = 'Rejected';
+                            } else {
+                                $status = 'Delete';
                             } ?>
 
                             <td><?= $status; ?></td>
                             <td><?php echo $res->remark;?></td>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-xs btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Action <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right">
-                                        <li><a href="<?php echo base_url();?>admin/leave/emp_outstaton_edit/<?php echo $res->id;?>"><i class="fa fa-pencil-square-o"></i> Edit</a></li>
-                                    </ul>
-                                </div>
-                            </td>
                         </tr>
                         <?php } ?>
                     </thead>
@@ -118,11 +108,21 @@
 </div>
 
 <script type="text/javascript">
-$(document).ready(function() {
-    // get designations
-    $('[data-plugin="select_hrm"]').select2($(this).attr('data-options'));
-    $('[data-plugin="select_hrm"]').select2({
-        width: '100%'
+    $(document).ready(function(){
+        $('.clockpicker').clockpicker();
+            var input = $('.timepicker').clockpicker({
+            placement: 'bottom',
+            align: 'left',
+            autoclose: true,
+            'default': 'now'
+        });
     });
-});
+
+    $(document).ready(function() {
+        // get designations
+        $('[data-plugin="select_hrm"]').select2($(this).attr('data-options'));
+        $('[data-plugin="select_hrm"]').select2({
+            width: '100%'
+        });
+    });
 </script>

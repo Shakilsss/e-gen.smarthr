@@ -223,10 +223,12 @@ class Leave extends MY_Controller
 		$this->form_validation->set_rules('date', 'Date', 'trim|required');
 		$this->form_validation->set_rules('remark', 'Remark', 'trim|required');
 		if ($this->form_validation->run() == TRUE) {
+			$in = $this->input->post('in_time');
+			$ot = $this->input->post('out_time');
 			$data = array(
 				'date' 				=> $this->input->post('date'),
-				'in_time' 			=> date('H:i:s', strtotime($this->input->post('in_time'))),
-				'out_time' 			=> date('H:i:s', strtotime($this->input->post('out_time'))),
+				'in_time' 			=> $in ? date('H:i:s', strtotime($in)) : '',
+				'out_time' 			=> $ot ? date('H:i:s', strtotime($ot)) : '',
 				'status' 			=> 1,
 				'updated_at' 		=> date('Y-m-d'),
 				'remark' 			=> $this->input->post('remark'),
@@ -241,7 +243,7 @@ class Leave extends MY_Controller
 			}
 		}
 
-		$data['results'] = $this->db->get('leave_out_off_office')->result();
+		$data['results'] = $this->db->order_by('id', 'DESC')->get('leave_out_off_office')->result();
 		$data['title'] = 'Out Off Offie';
 		$data['breadcrumbs'] = 'Out Off Offie';
 		$data['path_url'] = 'leave';
@@ -434,10 +436,10 @@ class Leave extends MY_Controller
 			$nsdate = date('Y-m-t', strtotime($nfdate));
 
 			$this->db->select("
-					SUM(CASE WHEN attendance_status='Present' AND status='Off Day' THEN 1 ELSE 0 END) AS rl
+					SUM(CASE WHEN e_status='Present' AND status='Off Day' THEN 1 ELSE 0 END) AS rl
 				");
 			$this->db->where('employee_id', $emp_id);
-			$this->db->where('attendance_status', 'Present');
+			$this->db->where('e_status', 'Present');
 			$this->db->where('status', 'Off Day');
 			$this->db->where('attendance_date >=', $nfdate);
 			$this->db->where('attendance_date <=', $nsdate);

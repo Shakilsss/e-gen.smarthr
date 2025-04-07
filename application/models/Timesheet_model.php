@@ -273,11 +273,9 @@
 
 	// get all holidays>calendar
 	public function get_holidays_calendar() {
-
 		$sql = 'SELECT * FROM xin_holidays WHERE is_publish = ?';
 		$binds = array(1);
 		$query = $this->db->query($sql, $binds);
-
 		return $query;
 	}
 
@@ -785,7 +783,7 @@
 
 		$session = $this->session->userdata('username');
 		$user_info = $this->Xin_model->read_user_info($session['user_id']);
-		
+
 
 		$lead=0;
 		if($session['role_id'] == 3) {
@@ -842,7 +840,14 @@
 		return $data->result();
 	}
 	public function get_leaves_leave_id_with_info($id = null) {
-		$this->db->select("la.*, e.first_name, e.last_name,e.basic_salary,la.status, lt.type_name, d.department_name, des.designation_name");
+		$this->db->select("
+			la.*,
+			e.first_name, e.last_name, e.basic_salary, e.date_of_joining, e.contact_no,
+			la.status,
+			lt.type_name,
+			d.department_name,
+			des.designation_name
+		");
 		$this->db->from("xin_leave_applications as la");
 		$this->db->join("xin_employees as e", "e.user_id = la.employee_id", 'left');
 		$this->db->join("xin_leave_type as lt", "lt.leave_type_id = la.leave_type_id", 'left');

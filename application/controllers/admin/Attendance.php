@@ -106,19 +106,14 @@ class Attendance extends MY_Controller
     public function manual_attendance()
     {
         if (!empty($_POST)) {
-
             $date = $this->input->post('date');
             $in_time = $this->input->post('in_time');
             $out_time = $this->input->post('out_time');
             $reason = $this->input->post('reason');
-            $location = $this->input->post('location');
-            $project_name = $this->input->post('project_name');
-            $contact_person = $this->input->post('contact_person');
             $status = $this->input->post('status');
             $sql = $this->input->post('sql');
 
             $emp_id = explode(',', trim($sql));
-
             if (count($emp_id)>1) {
                 echo "Required to Punch Id of one employee at a time";
                 exit;
@@ -129,10 +124,9 @@ class Attendance extends MY_Controller
 
             // dd($in_time .' = '. $out_time);
             foreach ($emp_id as $key => $row) {
-                $proxi_id = $this->db->where('emp_id', $row)->get('xin_proxi')->row()->proxi_id;
+                $name = $this->db->where('user_id', $row)->get('xin_employees')->row();
+                $proxi_id = $name->punch_id;
                 if ($proxi_id == null) {
-                    $name = $this->db->where('user_id', $row)->get('xin_employees')->row();
-
                     echo "Required to Punch Id of $name->first_name $name->last_name";
                     exit;
                 } elseif ($proxi_id == ' ') {
@@ -140,36 +134,6 @@ class Attendance extends MY_Controller
                     echo "Required to Punch Id of $name->first_name $name->last_name";
                     exit;
                 }
-                $session = $this->session->userdata('username');
-
-                if (in_array($session['role_id'], [2,3,4,5,6])) {
-                    $employee_managment = $this->db->where('user_id', $row)->get('xin_employees')->row();
-                    if ($employee_managment->is_management == 1) {
-                        echo "You don't have permission to punch this employee $employee_managment->first_name  $employee_managment->last_name";
-                        exit;
-                    }
-                    if ($status != '' && $status == 1) {
-                        if($in_time != '' && $in_time <=date('Y-m-d H:i', strtotime('-72 hours'))) {
-                            echo "You don't have permission to punch this employee $employee_managment->first_name  $employee_managment->last_name on this time";
-                            exit;
-                        }
-                        if($out_time != '' && $out_time <=date('Y-m-d H:i', strtotime('-72 hours'))) {
-                            echo "You don't have permission to punch this employee $employee_managment->first_name  $employee_managment->last_name on this time";
-                            exit;
-                        }
-                    }else{
-
-                        if($in_time != '' && $in_time <=date('Y-m-d H:i', strtotime('-3 day'))) {
-                            echo "You don't have permission to punch this employee $employee_managment->first_name  $employee_managment->last_name on this time";
-                            exit;
-                        }
-                        if($out_time != '' && $out_time <=date('Y-m-d H:i', strtotime('-3 day'))) {
-                            echo "You don't have permission to punch this employee $employee_managment->first_name  $employee_managment->last_name on this time";
-                            exit;
-                        }
-                    }
-                }
-
 
                 // insert in time
                 if ($in_time != '') {
@@ -177,13 +141,12 @@ class Attendance extends MY_Controller
                     $this->db->where("date_time", $in_time);
                     $query1 = $this->db->get("xin_att_machine");
                     $num_rows1 = $query1->num_rows();
-
                     if($num_rows1 == 0) {
                         $data = array(
-                                'proxi_id' 	=> $proxi_id,
-                                'date_time'	=> $in_time,
-                                'device_id' => 0,
-                            );
+                            'proxi_id' 	=> $proxi_id,
+                            'date_time'	=> $in_time,
+                            'device_id' => 0,
+                        );
                         $this->db->insert("xin_att_machine", $data);
                     }
                 }
@@ -194,77 +157,43 @@ class Attendance extends MY_Controller
                     $this->db->where("date_time", $out_time);
                     $query1 = $this->db->get("xin_att_machine");
                     $num_rows1 = $query1->num_rows();
-
                     if($num_rows1 == 0) {
                         $data = array(
-                                'proxi_id' 	=> $proxi_id,
-                                'date_time'	=> $out_time,
-                                'device_id' => 0,
-                            );
+                            'proxi_id' 	=> $proxi_id,
+                            'date_time'	=> $out_time,
+                            'device_id' => 0,
+                        );
                         $this->db->insert("xin_att_machine", $data);
                     }
                 }
 
-                // movement register insert
+                // out of office
                 if ($status != '' && $status == 1) {
-                    $this->db->where("employee_id", $row)->where("date", $date)->where("astatus", 1);
-                    $query = $this->db->get("xin_employee_move_register");
+                    $this->db->where("emp_id", $row)->where("date", $date)->where("status", 1);
+                    $query = $this->db->get("leave_out_off_office");
                     $num_rows = $query->num_rows();
-
                     if($num_rows == 0) {
                         $comData = array(
-                            'employee_id' => $row,
+                            'emp_id'      => $row,
+                            'unit_id'     => $name->company_id,
                             'date' 		  => $date,
                             'out_time'    => $out_time,
                             'in_time'     => $in_time,
-                            'astatus' 	  => 1,
-                            'reason'	  => $reason,
-                            'place_adress'	  => $location,
-                            'project_name'	  => $project_name,
-                            'contact_person'	  => $contact_person,
+                            'status' 	  => 2,
+                            'remark'	  => $reason,
                         );
-                        $this->db->insert("xin_employee_move_register", $comData);
-
+                        $this->db->insert("leave_out_off_office", $comData);
                     } else {
-                        if ($out_time != '' && $in_time != '' && $reason != '') {
-                            $comData = array(
-                                'out_time'    => $out_time,
-                                'in_time'     => $in_time,
-                                'reason'	  => $reason,
-                                'place_adress'	  => $location,
-
-
-                            );
-                        } elseif ($in_time != '' && $out_time != '') {
-                            $comData = array(
-                                'out_time'    => $out_time,
-                                'in_time'     => $in_time,
-                            );
-                        } elseif ($in_time != '' && $reason != '') {
-                            $comData = array(
-                                'in_time'     => $in_time,
-                                'reason'	  => $reason,
-                                'place_adress'	  => $location,
-                            );
-                        } elseif ($out_time != '' && $reason != '') {
-                            $comData = array(
-                                'out_time'    => $out_time,
-                                'reason'	  => $reason,
-                                'place_adress'	  => $location,
-                            );
-                        } elseif ($in_time != '') {
-                            $comData = array(
-                                'in_time'     => $in_time,
-                            );
-                        } elseif ($out_time != '') {
-                            $comData = array(
-                                'out_time'    => $out_time,
-                            );
-                        }
-                        $this->db->where('id', $query->row()->id)->update('xin_employee_move_register', $comData);
+                        $comData = array(
+                            'out_time'    => $out_time,
+                            'in_time'     => $in_time,
+                            'reason'	  => $reason,
+                        );
+                        $this->db->where('id', $query->row()->id)->update('leave_out_off_office', $comData);
                     }
                 }
             }
+
             // attendance process
             $this->Attendance_model->attn_process($date, $emp_id);
             $this->db->trans_complete();
@@ -278,6 +207,7 @@ class Attendance extends MY_Controller
             }
         }
     }
+
     public function manually()
     {
         $this->load->view('admin/attendance/manually');
@@ -919,17 +849,30 @@ class Attendance extends MY_Controller
     }
 
 
-    public function monthly_report()
-    {
+    public function monthly_report(){
+        $type = $this->input->post('type');
         $first_date = $this->input->post('first_date');
-
         $sql = $this->input->post('sql');
         $emp_id = explode(',', trim($sql));
         $data['first_date'] = $first_date;
         $data['emp_id'] = $sql;
-        // dd($data);
+        // dd($type);
         $data['xin_employees'] =  $this->Attendance_model->get_employee($emp_id);
-        echo $this->load->view("admin/timesheet/monthly_report", $data, true);
+        if($type == 1){
+            echo $this->load->view("admin/timesheet/monthly_report_all", $data, true);
+        } 
+        if($type ==2){
+            echo $this->load->view("admin/timesheet/monthly_report_duty_hour", $data, true);
+        } 
+        if($type ==3){
+            echo $this->load->view("admin/timesheet/monthly_report_duty_hour_details", $data, true);
+        } 
+        if($type ==4){
+            echo $this->load->view("admin/timesheet/monthly_report_attn_time_status", $data, true);
+        }
+        if($type ==5){
+            echo $this->load->view("admin/timesheet/monthly_report_early_leave", $data, true);
+        }
 
 
 
@@ -1076,9 +1019,9 @@ class Attendance extends MY_Controller
         $user_id  = $session[ 'user_id' ];
         $proxi_id = $this->db->where('emp_id', $user_id)->get('xin_proxi')->row()->proxi_id;
 
-        $sql = "CREATE TABLE IF NOT EXISTS `xin_employee_punch_request` (
+        $sql = "CREATE TABLE IF NOT EXISTS `leave_out_off_office` (
             `id` int(11) NOT NULL AUTO_INCREMENT,
-            `employee_id` int(11) NOT NULL,
+            `emp_id` int(11) NOT NULL,
             `proxi_id` int(11) NOT NULL,
             `punch_type` varchar(255) NOT NULL,
             `p_date` date NOT NULL,
@@ -1089,24 +1032,25 @@ class Attendance extends MY_Controller
         $this->db->query($sql);
 
         $data = array(
-            'employee_id' => $session['user_id'],
+            'emp_id' => $session['user_id'],
             'proxi_id' => $proxi_id,
             'punch_type' => $punch_type,
             'p_date' => $p_date,
             'p_time' => $p_time,
             'status' => 0,
         );
-        $this->db->insert('xin_employee_punch_request', $data);
+        $this->db->insert('leave_out_off_office', $data);
         echo 'Success';
     }
 
 
     public function punch_request_list(){
         $session = $this->session->userdata('username');
-        $userid  = $session[ 'user_id' ];
-        $this->db->select("xin_employee_punch_request.*, xin_employees.first_name, xin_employees.last_name");
-        $this->db->from('xin_employee_punch_request');
-        $this->db->join('xin_employees', 'xin_employees.user_id = xin_employee_punch_request.employee_id');
+        $userid  = $session['user_id'];
+
+        $this->db->select("leave_out_off_office.*, xin_employees.first_name, xin_employees.last_name");
+        $this->db->from('leave_out_off_office');
+        $this->db->join('xin_employees', 'xin_employees.user_id = leave_out_off_office.emp_id');
         $this->db->order_by("id", "desc");
         $data['alldata'] = $this->db->get()->result();
         $data['breadcrumbs'] = 'Punch Request List';
@@ -1115,43 +1059,66 @@ class Attendance extends MY_Controller
         $data['subview'] = $this->load->view("admin/attendance/punch_request_list", $data, TRUE);
         $this->load->view('admin/layout/layout_main', $data);
     }
+
     public function accept_request(){
         $id = $this->input->post('id');
         $data = array(
-            'status' => 1
+            'status' => 2
         );
         $this->db->where('id', $id);
-        $this->db->update('xin_employee_punch_request', $data);
+        $this->db->update('leave_out_off_office', $data);
 
-        $r_data = $this->db->where('id', $id)->get('xin_employee_punch_request')->row();
-        $date=$r_data->p_date;
-        $in_time=$r_data->p_time;
-        $time= $date .' '. $in_time;
+        $this->db->select("of.*, em.punch_id");
+        $this->db->from('leave_out_off_office of');
+        $this->db->join('xin_employees em', 'of.emp_id = em.user_id');
+        $r_data = $this->db->where('of.id', $id)->get()->row();
+        $date = $r_data->date;
 
-
-        $this->db->where("proxi_id", $r_data->proxi_id);
-        $this->db->where("date_time", $time);
-        $query1 = $this->db->get("xin_att_machine");
-        $num_rows1 = $query1->num_rows();
-        if($num_rows1 == 0) {
-            $data = array(
-                    'proxi_id' 	=>  $r_data->proxi_id,
+        $in_time = $r_data->in_time;
+        if ($in_time != '00:00:00') {
+            $time = $date .' '. $in_time;
+            $this->db->where("proxi_id", $r_data->punch_id);
+            $this->db->where("date_time", $time);
+            $query1 = $this->db->get("xin_att_machine");
+            $num_rows1 = $query1->num_rows();
+            if($num_rows1 == 0) {
+                $data = array(
+                    'proxi_id' 	=>  $r_data->punch_id,
                     'date_time'	=> $time,
                     'device_id' => 0,
                 );
-            $this->db->insert("xin_att_machine", $data);
+                $this->db->insert("xin_att_machine", $data);
+            }
         }
-        $this->Attendance_model->attn_process($date, $r_data->employee_id);
+
+        $out_time = $r_data->out_time;
+        if ($out_time != '00:00:00') {
+            $time = $date .' '. $out_time;
+            $this->db->where("proxi_id", $r_data->punch_id);
+            $this->db->where("date_time", $time);
+            $query1 = $this->db->get("xin_att_machine");
+            $num_rows1 = $query1->num_rows();
+            if($num_rows1 == 0) {
+                $data = array(
+                    'proxi_id' 	=>  $r_data->punch_id,
+                    'date_time'	=> $time,
+                    'device_id' => 0,
+                );
+                $this->db->insert("xin_att_machine", $data);
+            }
+        }
+
+        $this->Attendance_model->attn_process($date, $r_data->emp_id);
         echo 'Success';
     }
 
     public function reject_request(){
         $id = $this->input->post('id');
         $data = array(
-            'status' => 2
+            'status' => 3
         );
         $this->db->where('id', $id);
-        $this->db->update('xin_employee_punch_request', $data);
+        $this->db->update('leave_out_off_office', $data);
         echo 'Success';
     }
 

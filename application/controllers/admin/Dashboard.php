@@ -68,6 +68,8 @@ class Dashboard extends MY_Controller {
 		$this->load->view('admin/layout/layout_main', $data); //page load
 	}
 
+
+
 	function get_ajax_data() {
 		$unit_id = $this->input->post('unit_id');
 		$date    = $this->input->post('date');
@@ -83,8 +85,6 @@ class Dashboard extends MY_Controller {
 			redirect('admin/');
 		}
 		$this->load->model('Attendance_model');
-
-
 		$this->load->view('admin/dashboard/dynamic_atn_dash'); //page load
 	}
 

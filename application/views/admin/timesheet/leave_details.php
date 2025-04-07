@@ -1,40 +1,63 @@
-<?php
 
-?>
-<?php $session = $this->session->userdata('username');?>
-<?php $user = $this->Xin_model->read_user_info($session['user_id']);?>
-<?php
-$datetime1 = new DateTime($from_date);
-$datetime2 = new DateTime($to_date);
-$interval = $datetime1->diff($datetime2);
-
-if(strtotime($from_date) == strtotime($to_date)){
-	$no_of_days =1;
-} else {
-	$no_of_days = $interval->format('%a') +1;
-}
-$leave_user = $this->Xin_model->read_user_info($employee_id);
-
-//department head
-$department = $this->Department_model->read_department_information($user[0]->department_id);
-?>
-<?php $role_resources_ids = $this->Xin_model->user_role_resource(); ?>
-<?php
-if (isset($error)) {
-  ?>
-  <div class="alert alert-danger" role="alert">
-      <?php echo $error; ?>
-  </div>
+  <?php $session = $this->session->userdata('username');?>
+  <?php $user = $this->Xin_model->read_user_info($session['user_id']);?>
   <?php
-}
-if (isset($success)) {
+    $datetime1 = new DateTime($from_date);
+    $datetime2 = new DateTime($to_date);
+    $interval = $datetime1->diff($datetime2);
+
+    if(strtotime($from_date) == strtotime($to_date)){
+      $no_of_days =1;
+    } else {
+      $no_of_days = $interval->format('%a') +1;
+    }
+    $leave_user = $this->Xin_model->read_user_info($employee_id);
+    $department = $this->Department_model->read_department_information($user[0]->department_id);
   ?>
-  <div class="alert alert-success" role="alert">
-      <?php echo $success; ?>
-  </div>
+
+  <?php $role_resources_ids = $this->Xin_model->user_role_resource(); ?>
+  <?php if (isset($error)) { ?>
+    <div class="alert alert-danger" role="alert">
+        <?php echo $error; ?>
+    </div>
+  <?php } ?>
+
+  <?php if (isset($success)) { ?>
+    <div class="alert alert-success" role="alert">
+        <?php echo $success; ?>
+    </div>
+  <?php } ?>
+
   <?php
-}
-?>
+    $userid  = $session['user_id'];
+    $unit_id  = $session['unit_id'];
+
+    $gearn = $this->db->where('type', 'cl')->get('xin_leave_type')->row()->days_per_year;
+    $gsick = $this->db->where('type', 'sl')->get('xin_leave_type')->row()->days_per_year;
+    $earn = $gearn - $used_leave->cl;
+    $sick = $gsick - $used_leave->sl;
+  ?>
+
+  <!-- replace leave cal -->
+  <?php
+    $rl_rule = $this->db->where('status', 1)->get('leave_settings')->row()->replace_leave;
+    $nfdate = date('Y-m-01', strtotime('-1 months'));
+    $nsdate = date('Y-m-t', strtotime($nfdate));
+
+    $this->db->select("SUM(CASE WHEN e_status='Present' AND status='Off Day' THEN 1 ELSE 0 END) AS rl");
+    $this->db->where('employee_id', $userid);
+    $this->db->where('e_status', 'Present');
+    $this->db->where('status', 'Off Day');
+    $this->db->where('attendance_date >=', $nfdate);
+    $this->db->where('attendance_date <=', $nsdate);
+    $query = $this->db->get('xin_attendance_time')->row();
+    if (!empty($query) && $query->rl >= $rl_rule) {
+        $rlv = floor($query->rl / $rl_rule);
+    } else {
+        $rlv = 0;
+    }
+  ?>
+
 <div class="row m-b-1">
   <div class="col-md-5">
     <section id="decimal">
@@ -62,13 +85,14 @@ if (isset($success)) {
                       <tr>
                         <th scope="row"><?php echo $this->lang->line('xin_leave_type');?></th>
                         <td class="text-right">
+
                           <select  id="leave_type" name="leave_type" data-plugin="select_hrm" data-placeholder="
                             <?php echo $this->lang->line('xin_leave_type');?>">
                             <option value="<?= $leave_type_id?> "><?php echo $type;?></option>
-                             <?php $leaves = leave_cal($employee_id);?>
-                              <?php foreach($leaves['leaves'] as $key => $row) {  ?>
-                               <option value="<?php echo $row['id'];?>"><?php echo $row['leave_name'] .' ('.$row['qty'].' '.$this->lang->line('xin_remaining').')';?></option>
-                                <?php } ?>
+                            <option value=""> Select Leave Type </option>
+                            <option value="1" <?=($earn == 0)? 'disabled':'' ?>> Casual Leave (<?=$earn?>)</option>
+                            <option value="2" <?=($sick == 0)? 'disabled':'' ?>> Sick Leave (<?=$sick?>)</option>
+                            <option value="3" <?=($rlv == 0)? 'disabled':'' ?>> Replacement (<?=$rlv?>)</option>
                           </select>
                         </td>
                       </tr>
@@ -199,116 +223,61 @@ if (isset($success)) {
         <div class="col-md-12">
           <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title"> <?php echo $this->lang->line('xin_last_taken_leave_title');?> </h3>
-              </div>
+              <h3 class="box-title"> <?php echo $this->lang->line('xin_last_taken_leave_title');?> </h3>
+            </div>
             <div class="box-body">
               <div class="box-block card-dashboard">
-              <div class="table-responsive" data-pattern="priority-columns">
+                <div class="table-responsive" data-pattern="priority-columns">
                   <table class="table table-striped m-md-b-0">
                     <tbody>
                       <?php $show_last_leave = $this->Timesheet_model->employee_show_last_leave($employee_id,$leave_id); ?>
                       <?php foreach($show_last_leave as $last_leave) {
+                        // get leave types
+                        if($last_leave->leave_type_id == 1){
+                          $type_name = 'Casual Leave';
+                        } else if ($last_leave->leave_type_id == 2) {
+                          $type_name = 'Sick Leave';
+                        } else if ($last_leave->leave_type_id == 3) {
+                          $type_name = 'Replacement';
+                        } else {
+                          $type_name = '--';
+                        }
+                        $datetime1 = new DateTime($last_leave->from_date);
+                        $datetime2 = new DateTime($last_leave->to_date);
+                        $interval = $datetime1->diff($datetime2);
 
-                					// get leave types
-                					$type = $this->Timesheet_model->read_leave_type_information($last_leave->leave_type_id);
-                					if(!is_null($type)){
-                						$type_name = $type[0]->type_name;
-                					} else {
-                						$type_name = '--';
-                					}
-                					$datetime1 = new DateTime($last_leave->from_date);
-                					$datetime2 = new DateTime($last_leave->to_date);
-                					$interval = $datetime1->diff($datetime2);
+                        if(strtotime($last_leave->from_date) == strtotime($last_leave->to_date)){
+                          $last_leave_no_of_days =1;
+                        } else {
+                          $last_leave_no_of_days = $interval->format('%a') +1;
+                        }
 
-                					if(strtotime($last_leave->from_date) == strtotime($last_leave->to_date)){
-                						$last_leave_no_of_days =1;
-                					} else {
-                						$last_leave_no_of_days = $interval->format('%a') +1;
-                					}
-                					if($last_leave->is_half_day == 1){
-                						$last_leave_day_info = $this->lang->line('xin_hr_leave_half_day');
-                					} else {
-                						$last_leave_day_info = $last_leave_no_of_days;
-                					}
-                				?>
-                      <tr>
-                        <th scope="row"><?php echo $this->lang->line('xin_leave_type');?></th>
-                        <td class="text-right"><?php echo $type_name;?></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><?php echo $this->lang->line('xin_applied_on');?></th>
-                        <td class="text-right"><?php echo $this->Xin_model->set_date_format($last_leave->created_at);?></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><?php echo $this->lang->line('xin_hrsale_total_days');?></th>
-                        <td class="text-right"><?php echo $last_leave_day_info;?></td>
-                      </tr>
-                <?php }?>
-                </tbody>
+                        if($last_leave->is_half_day == 1){
+                          $last_leave_day_info = $this->lang->line('xin_hr_leave_half_day');
+                        } else {
+                          $last_leave_day_info = $last_leave_no_of_days;
+                        }
+                			?>
+
+                        <tr>
+                          <th scope="row"><?php echo $this->lang->line('xin_leave_type');?></th>
+                          <td class="text-right"><?php echo $type_name;?></td>
+                        </tr>
+                        <tr>
+                          <th scope="row"><?php echo $this->lang->line('xin_applied_on');?></th>
+                          <td class="text-right"><?php echo $this->Xin_model->set_date_format($last_leave->created_at);?></td>
+                        </tr>
+                        <tr>
+                          <th scope="row"><?php echo $this->lang->line('xin_hrsale_total_days');?></th>
+                          <td class="text-right"><?php echo $last_leave_day_info;?></td>
+                        </tr>
+                      <?php } ?>
+                    </tbody>
                   </table>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-    <section id="decimal">
-      <div class="row">
-        <div class="col-md-12">
-          <!-- <div class="box">
-            <div class="box-header with-border">
-                <h3 class="box-title"> <?php echo $this->lang->line('xin_leave_statistics');?> </h3>
-              </div>
-            <div class="box-body">
-              <div class="box-block card-dashboard">
-                                <?php $leave_categories_ids = explode(',',$leave_user[0]->leave_categories); ?>
-                                <?php foreach($all_leave_types as $type) {
-                          if(in_array($type->leave_type_id,$leave_categories_ids)){?>
-                                <?php
-                                  $hlfcount =0;
-                          //$count_l =0;
-                          $leave_halfday_cal = employee_leave_halfday_cal($type->leave_type_id,$employee_id);
-                          foreach($leave_halfday_cal as $lhalfday):
-                            $hlfcount += 0.5;
-                          endforeach;
-                          $count_l = count_leaves_info($type->leave_type_id,$employee_id);
-                          $count_l = $count_l - $hlfcount;
-                        ?>
-                                <?php
-                          $edays_per_year = $type->days_per_year;
-
-                          if($count_l == 0){
-                            $progress_class = '';
-                            $count_data = 0;
-                          } else {
-                            if($edays_per_year > 0){
-                              $count_data = $count_l / $edays_per_year * 100;
-                            } else {
-                              $count_data = 0;
-                            }
-                            // progress
-                            if($count_data <= 20) {
-                              $progress_class = 'progress-success';
-                            } else if($count_data > 20 && $count_data <= 50){
-                              $progress_class = 'progress-info';
-                            } else if($count_data > 50 && $count_data <= 75){
-                              $progress_class = 'progress-warning';
-                            } else {
-                              $progress_class = 'progress-danger';
-                            }
-                          }
-                        ?>
-                  <div id="leave-statistics">
-                    <p><strong><?php echo $type->type_name;?> (<?php echo $count_l;?>/<?php echo $edays_per_year;?>)</strong></p>
-                    <div class="progress" style="height: 6px;">
-                    <div class="progress-bar" style="width: <?php echo $count_data;?>%;"></div>
-                  </div>
-                    <?php } }?>
-                </div>
-              </div>
-            </div>
-          </div> -->
         </div>
       </div>
     </section>

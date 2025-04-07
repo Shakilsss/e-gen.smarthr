@@ -129,10 +129,10 @@
     }
 </style>
 
-<div id="loader_div"
-    style="position: fixed;top: 0;left: 0;height: 100vh;width: 100vw;background-color: #ffffffa8;z-index: 99999999999;display: flex;overflow: hidden;align-items: center;justify-content: center;">
+<!-- loadning -->
+<!-- <div id="loader_div" style="position: fixed;top: 0;left: 0;height: 100vh;width: 100vw;background-color: #ffffffa8;z-index: 99999999999;display: flex;overflow: hidden;align-items: center;justify-content: center;">
     <div class="loaderss" style="margin: auto;"></div>
-</div>
+</div> -->
 
 
 <style>
@@ -476,8 +476,9 @@
                     <h4 class="modal-title">Leave Application</h4>
                 </div>
                 <div class="modal-body">
+
                     <div class="row" style="padding: 7px 0px;display: flex;gap: 16px;">
-                        <div class="col-md-6 myboxx">
+                        <div class="col-md-12 myboxx">
                             <div class="myboxx_header">
                                 Employee Information
                             </div>
@@ -486,46 +487,16 @@
                                     <tr>
                                         <th style="padding: 3px 8px!important;">Employee Name</th>
                                         <td style="padding: 3px 8px!important;" id="employee_name_m"></td>
-                                    </tr>
-                                    <tr>
-                                        <th style="padding: 3px 8px!important;">Department</th>
-                                        <td style="padding: 3px 8px!important;" id="department_name_m"></td>
-                                    </tr>
-                                    <tr>
                                         <th style="padding: 3px 8px!important;">Designation</th>
                                         <td style="padding: 3px 8px!important;" id="designation_name_m"></td>
                                     </tr>
                                     <tr>
+                                        <th style="padding: 3px 8px!important;">Department</th>
+                                        <td style="padding: 3px 8px!important;" id="department_name_m"></td>
                                         <th style="padding: 3px 8px!important;">Basic Salary</th>
                                         <td style="padding: 3px 8px!important;" id="basic_salary_m"></td>
                                     </tr>
                                 </table>
-                            </div>
-                        </div>
-                        <div class="col-md-6 myboxx">
-                            <div class="myboxx_header">
-                                Leave Status
-                            </div>
-                            <div class="myboxx_body">
-                                <div class="box-block card-dashboard">
-                                    <div id="leave-statistics">
-                                        <p><strong>Earn leave (<span id="leave_count_el_p"></span>/<span
-                                                    id="leave_count_el_total"></span>)</strong></p>
-                                        <div class="progress" style="margin: 7px;height: 19px;background: aqua;">
-                                            <div class="progress-bar" id="leave_count_el_prog"
-                                                style="background: #ff8484;width: 100%;"></div>
-                                        </div>
-                                        <div id="leave-statistics">
-                                            <p><strong>Sick leave (<span id="leave_count_sl_p"></span>/<span
-                                                        id="leave_count_sl_total"></span>)</strong></p>
-                                            <div class="progress" style="margin: 7px;height: 19px;background: aqua;">
-                                                <div class="progress-bar" id="leave_count_sl_prog"
-                                                    style="background: #ff8484;width: 100%;"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
                     </div>
@@ -630,9 +601,9 @@
                 </div>
             </div>
         </form>
-
     </div>
 </div>
+
 
 <!-- policy modal -->
 <div class="modal fade" id="companyPolicyModal" tabindex="-1" role="dialog" aria-labelledby="companyPolicyModalLabel"
