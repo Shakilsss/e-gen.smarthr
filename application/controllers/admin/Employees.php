@@ -270,13 +270,8 @@ class Employees extends MY_Controller {
 			$department_name = '--';
 			}
 			// location
-			$location = $this->Location_model->read_location_information($r->location_id);
-			if(!is_null($location)){
-			$location_name = $location[0]->location_name;
-			} else {
+			// $location = $this->Location_model->read_location_information($r->location_id);
 			$location_name = '--';
-			}
-
 
 			$department_designation = $designation_name.' ('.$department_name.')';
 			// get status
@@ -1360,12 +1355,12 @@ class Employees extends MY_Controller {
 			'notify_incre_prob' => $result[0]->notify_incre_prob,
 			'status' => $result[0]->status,
 			'floor_status' => $result[0]->floor_status,
-			'location_id' => $result[0]->location_id,
+			'location_id' => 1,
 			'office_shift_id' => $result[0]->office_shift_id,
 			'username' => $result[0]->username,
 			'email' => $result[0]->email,
 			'department_id' => $result[0]->department_id,
-			'sub_department_id' => $result[0]->sub_department_id,
+			'sub_department_id' => 1,
 			'designation_id' => $result[0]->designation_id,
 			'user_role_id' => $result[0]->user_role_id,
 			'date_of_birth' => $result[0]->date_of_birth,
@@ -1401,7 +1396,7 @@ class Employees extends MY_Controller {
 			'nda_status' => $result[0]->nda_status,
 			'letter_status' => $result[0]->letter_status,
 			'leave_categories' => $result[0]->leave_categories,
-			'view_companies_id' => $result[0]->view_companies_id,
+			'view_companies_id' => 1,
 			'all_countries' => $this->Xin_model->get_countries(),
 			'all_document_types' => $this->Employees_model->all_document_types(),
 			'all_education_level' => $this->Employees_model->all_education_level(),

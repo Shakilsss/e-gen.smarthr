@@ -82,8 +82,6 @@ class Dashboard extends MY_Controller {
 			redirect('admin/');
 		}
 		$this->load->model('Attendance_model');
-
-
 		$this->load->view('admin/dashboard/dynamic_atn_dash'); //page load
 	}
 

@@ -80,7 +80,6 @@ $out_office=[];
                 </div>
             </div>
         </div>
-
     </div>
 
     <div class="row">
@@ -120,8 +119,6 @@ $out_office=[];
                             }
                         }
                     ?>
-
-
                 </tbody>
             </table>
         </div>
@@ -140,29 +137,26 @@ $out_office=[];
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                        foreach ($out_office as $key => $value) {
-                            if (isset($value->proxi_id)) {
-                                $emp_data = $this->db->select('profile_picture,first_name,last_name')->where('punch_id', $value->proxi_id)->get('xin_employees')->row();
-                                if (isset($emp_data) && isset($emp_data->profile_picture) && isset($emp_data->first_name) && isset($emp_data->last_name)) {
-                                    ?>
-                                    <tr>
-                                        <td> <span class="badge badge-danger"><?= $emp_data->first_name.' '.$emp_data->last_name;?></span></td>
-                                        <td>
-                                            <?php if (file_exists(FCPATH . 'uploads/users/' . $emp_data->profile_picture)) { ?>
-                                                <img style="height: 31px;border-radius: 50%;" src="<?= base_url() ?>uploads/users/<?= $emp_data->profile_picture ?>" alt="Employee" />
-                                            <?php } else { ?>
-                                                <img style="height: 31px;border-radius: 50%;" src="<?= base_url() ?>uploads/users/default_male.jpg" alt="Employee" />
-                                            <?php } ?>
-                                        </td>
-                                        <td><?= (new DateTime($value->date_time))->format('h:i A');?></td>
-                                    </tr>
-                                    <?php
-                                }
+                    <?php foreach ($out_office as $key => $value) {
+                        if (isset($value->proxi_id)) {
+                            $emp_data = $this->db->select('profile_picture,first_name,last_name')->where('punch_id', $value->proxi_id)->get('xin_employees')->row();
+                            if (isset($emp_data) && isset($emp_data->profile_picture) && isset($emp_data->first_name) && isset($emp_data->last_name)) {
+                                ?>
+                                <tr>
+                                    <td> <span class="badge badge-danger"><?= $emp_data->first_name.' '.$emp_data->last_name;?></span></td>
+                                    <td>
+                                        <?php if (file_exists(FCPATH . 'uploads/users/' . $emp_data->profile_picture)) { ?>
+                                            <img style="height: 31px;border-radius: 50%;" src="<?= base_url() ?>uploads/users/<?= $emp_data->profile_picture ?>" alt="Employee" />
+                                        <?php } else { ?>
+                                            <img style="height: 31px;border-radius: 50%;" src="<?= base_url() ?>uploads/users/default_male.jpg" alt="Employee" />
+                                        <?php } ?>
+                                    </td>
+                                    <td><?= (new DateTime($value->date_time))->format('h:i A');?></td>
+                                </tr>
+                                <?php
                             }
                         }
-                    ?>
-
+                    } ?>
                 </tbody>
             </table>
         </div>
@@ -180,27 +174,21 @@ $out_office=[];
                     </tr>
                 </thead>
                 <tbody>
-                <?php
-                        foreach ($leave as $key => $emp_data) { ?>
-                                    <tr>
-                                        <td> <span class="badge badge-danger"><?= $emp_data->first_name.' '.$emp_data->last_name;?></span></td>
-                                        <td>
-                                            <?php if (file_exists(FCPATH . 'uploads/users/' . $emp_data->profile_picture)) { ?>
-                                                <img style="height: 31px;border-radius: 50%;" src="<?= base_url() ?>uploads/users/<?= $emp_data->profile_picture ?>" alt="Employee" />
-                                            <?php } else { ?>
-                                                <img style="height: 31px;border-radius: 50%;" src="<?= base_url() ?>uploads/users/default_male.jpg" alt="Employee" />
-                                            <?php } ?>
-                                        </td>
-                                    </tr>
-                                    <?php
-
-                        }
-                    ?>
+                    <?php foreach ($leave as $key => $emp_data) { ?>
+                        <tr>
+                            <td> <span class="badge badge-danger"><?= $emp_data->first_name.' '.$emp_data->last_name;?></span></td>
+                            <td>
+                                <?php if (file_exists(FCPATH . 'uploads/users/' . $emp_data->profile_picture)) { ?>
+                                    <img style="height: 31px;border-radius: 50%;" src="<?= base_url() ?>uploads/users/<?= $emp_data->profile_picture ?>" alt="Employee" />
+                                <?php } else { ?>
+                                    <img style="height: 31px;border-radius: 50%;" src="<?= base_url() ?>uploads/users/default_male.jpg" alt="Employee" />
+                                <?php } ?>
+                            </td>
+                        </tr>
+                    <?php  } ?>
                 </tbody>
             </table>
         </div>
-
-
     </div>
 </div>
 
