@@ -1362,6 +1362,16 @@ class Employees extends MY_Controller {
 			'iethnicity_type' => $result[0]->ethnicity_type,
 			'address' => $result[0]->address,
 			'per_address' => $result[0]->per_address,
+            'div_id_pre' =>  $result[0]->div_id_pre,
+            'dis_id_pre' =>  $result[0]->dis_id_pre,
+            'up_id_pre' =>  $result[0]->up_id_pre,
+            'po_id_pre' =>  $result[0]->po_id_pre,
+            'village_pre' =>  $result[0]->village_pre,
+            'div_id_per' =>  $result[0]->div_id_per,
+            'dis_id_per' =>  $result[0]->dis_id_per,
+            'up_id_per' =>  $result[0]->up_id_per,
+            'po_id_per' =>  $result[0]->po_id_per,
+            'village_per' =>  $result[0]->village_per,
 			'wages_type' => $result[0]->wages_type,
 			'basic_salary' => $result[0]->salary,
 			'is_active' => $result[0]->is_active,
@@ -2477,16 +2487,6 @@ class Employees extends MY_Controller {
 		if($Return['error']!=''){
        		$this->output($Return);
     	}
-		/*if($system[0]->multi_shifts == '1'){
-			if(empty($office_shift_id)) {
-				$Return['error'] = $this->lang->line('xin_office_shift_field_error');
-			}
-			$office_shift_ids = implode(',',$this->input->post('office_shift_id'));
-			$column_shift = $office_shift_ids;
-		} else {
-			$column_shift = $this->input->post('office_shift_id');
-		}*/
-
 
 		$first_name = $this->Xin_model->clean_post($this->input->post('first_name'));
 		$last_name = $this->Xin_model->clean_post($this->input->post('last_name'));
@@ -2540,6 +2540,16 @@ class Employees extends MY_Controller {
 			'state' => $this->input->post('estate'),
 			'city' => $this->input->post('ecity'),
 			'zipcode' => $this->input->post('ezipcode'),
+			'div_id_pre' => $this->input->post('div_id_pre'),
+			'dis_id_pre' => $this->input->post('dis_id_pre'),
+			'up_id_pre' => $this->input->post('up_id_pre'),
+			'po_id_pre' => $this->input->post('po_id_pre'),
+			'village_pre' => $this->input->post('village_pre'),
+			'div_id_per' => $this->input->post('div_id_per'),
+			'dis_id_per' => $this->input->post('dis_id_per'),
+			'up_id_per' => $this->input->post('up_id_per'),
+			'po_id_per' => $this->input->post('po_id_per'),
+			'village_per' => $this->input->post('village_per'),
 			'ethnicity_type' => $this->input->post('ethnicity_type'),
 			'leave_categories' => $cat_ids,
 			// 'view_companies_id' => $view_companies_id,
@@ -2551,6 +2561,7 @@ class Employees extends MY_Controller {
 			'user_password' => $this->input->post('user_password'),
 			'punch_id' => $this->input->post('proxi_id'),
 		);
+
 		if($this->input->post('letter_status')!=''){
 			$data['letter_status'] = $this->input->post('letter_status');
 		}
