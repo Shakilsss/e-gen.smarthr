@@ -1307,100 +1307,101 @@ class Employees extends MY_Controller {
 	}
 
 	public function detail() {
-	$session = $this->session->userdata('username');
-	if(empty($session) || $session['role_id'] == 3 || $session['role_id'] == null) {
-		redirect('admin/');
-	}
-	$session = $this->session->userdata('username');
-	if(empty($session)){
-		redirect('admin/');
-	}
-	$id = $this->uri->segment(4);
+		$session = $this->session->userdata('username');
+		if(empty($session) || $session['role_id'] == 3 || $session['role_id'] == null) {
+			redirect('admin/');
+		}
+		$session = $this->session->userdata('username');
+		if(empty($session)){
+			redirect('admin/');
+		}
+		$id = $this->uri->segment(4);
 
-	$result = $this->Employees_model->read_employee_information($id);
-	// dd($result);
-	if(is_null($result)){
-		redirect('admin/employees');
-	}
-	$role_resources_ids = $this->Xin_model->user_role_resource();
-	$check_role = $this->Employees_model->read_employee_information($session['user_id']);
-	if(!in_array('202',$role_resources_ids)) {
-		redirect('admin/employees');
-	}
-	$data = array(
-		'breadcrumbs' => $this->lang->line('xin_employee_detail'),
-		'path_url' => 'employees_detail',
-		'first_name' => $result[0]->first_name,
-		'last_name' => $result[0]->last_name,
-		'is_leave_on' => $result[0]->is_leave_on,
-		'leave_effective' => $result[0]->leave_effective,
-		'note_file' => $result[0]->note_file,
-		'remark' => $result[0]->remark,
-		'user_id' => $result[0]->user_id,
-		'employee_id' => $result[0]->employee_id,
-		'proxi_id' => $result[0]->proxi_id,
-		'company_id' => $result[0]->company_id,
-		'notify_incre_prob' => $result[0]->notify_incre_prob,
-		'status' => $result[0]->status,
-		'floor_status' => $result[0]->floor_status,
-		'location_id' => 1,
-		'office_shift_id' => $result[0]->office_shift_id,
-		'username' => $result[0]->username,
-		'email' => $result[0]->email,
-		'department_id' => $result[0]->department_id,
-		'sub_department_id' => 1,
-		'designation_id' => $result[0]->designation_id,
-		'user_role_id' => $result[0]->user_role_id,
-		'date_of_birth' => $result[0]->date_of_birth,
-		'date_of_leaving' => $result[0]->date_of_leaving,
-		'gender' => $result[0]->gender,
-		'marital_status' => $result[0]->marital_status,
-		'contact_no' => $result[0]->contact_no,
-		'state' => $result[0]->state,
-		'city' => $result[0]->city,
-		'zipcode' => $result[0]->zipcode,
-		'iethnicity_type' => $result[0]->ethnicity_type,
-		'address' => $result[0]->address,
-		'per_address' => $result[0]->per_address,
-		'wages_type' => $result[0]->wages_type,
-		'basic_salary' => $result[0]->salary,
-		'is_active' => $result[0]->is_active,
-		'date_of_joining' => $result[0]->date_of_joining,
-		'all_departments' => $this->Department_model->all_departments(),
-		'all_designations' => $this->Designation_model->all_designations(),
-		'all_user_roles' => $this->Roles_model->all_user_roles(),
-		'title' => $this->lang->line('xin_employee_detail').' | '.$this->Xin_model->site_title(),
-		'profile_picture' => $result[0]->profile_picture,
-		'facebook_link' => $result[0]->facebook_link,
-		'twitter_link' => $result[0]->twitter_link,
+		$result = $this->Employees_model->read_employee_information($id);
+		// dd($result);
+		if(is_null($result)){
+			redirect('admin/employees');
+		}
+		$role_resources_ids = $this->Xin_model->user_role_resource();
+		$check_role = $this->Employees_model->read_employee_information($session['user_id']);
+		if(!in_array('202',$role_resources_ids)) {
+			redirect('admin/employees');
+		}
+		$data = array(
+			'breadcrumbs' => $this->lang->line('xin_employee_detail'),
+			'path_url' => 'employees_detail',
+			'first_name' => $result[0]->first_name,
+			'last_name' => $result[0]->last_name,
+			'is_leave_on' => $result[0]->is_leave_on,
+			'leave_effective' => $result[0]->leave_effective,
+			'note_file' => $result[0]->note_file,
+			'remark' => $result[0]->remark,
+			'user_id' => $result[0]->user_id,
+			'employee_id' => $result[0]->employee_id,
+			'proxi_id' => $result[0]->proxi_id,
+			'company_id' => $result[0]->company_id,
+			'notify_incre_prob' => $result[0]->notify_incre_prob,
+			'status' => $result[0]->status,
+			'floor_status' => $result[0]->floor_status,
+			'location_id' => 1,
+			'office_shift_id' => $result[0]->office_shift_id,
+			'username' => $result[0]->username,
+			'email' => $result[0]->email,
+			'department_id' => $result[0]->department_id,
+			'sub_department_id' => 1,
+			'designation_id' => $result[0]->designation_id,
+			'user_role_id' => $result[0]->user_role_id,
+			'date_of_birth' => $result[0]->date_of_birth,
+			'date_of_leaving' => $result[0]->date_of_leaving,
+			'gender' => $result[0]->gender,
+			'marital_status' => $result[0]->marital_status,
+			'contact_no' => $result[0]->contact_no,
+			'state' => $result[0]->state,
+			'city' => $result[0]->city,
+			'zipcode' => $result[0]->zipcode,
+			'iethnicity_type' => $result[0]->ethnicity_type,
+			'address' => $result[0]->address,
+			'per_address' => $result[0]->per_address,
+			'wages_type' => $result[0]->wages_type,
+			'basic_salary' => $result[0]->salary,
+			'is_active' => $result[0]->is_active,
+			'date_of_joining' => $result[0]->date_of_joining,
+			'all_departments' => $this->Department_model->all_departments(),
+			'all_designations' => $this->Designation_model->all_designations(),
+			'all_user_roles' => $this->Roles_model->all_user_roles(),
+			'title' => $this->lang->line('xin_employee_detail').' | '.$this->Xin_model->site_title(),
+			'profile_picture' => $result[0]->profile_picture,
+			'facebook_link' => $result[0]->facebook_link,
+			'twitter_link' => $result[0]->twitter_link,
 
-		'salary_review_is' => $result[0]->salary_review_is,
-		'salary_review_date' => $result[0]->salary_review_date,
+			'salary_review_is' => $result[0]->salary_review_is,
+			'salary_review_date' => $result[0]->salary_review_date,
 
-		'blogger_link' => $result[0]->blogger_link,
-		'linkdedin_link' => $result[0]->linkdedin_link,
-		'google_plus_link' => $result[0]->google_plus_link,
-		'instagram_link' => $result[0]->instagram_link,
-		'nda_status' => $result[0]->nda_status,
-		'letter_status' => $result[0]->letter_status,
-		'leave_categories' => $result[0]->leave_categories,
-		'view_companies_id' => 1,
-		'all_countries' => $this->Xin_model->get_countries(),
-		'all_document_types' => $this->Employees_model->all_document_types(),
-		'all_education_level' => $this->Employees_model->all_education_level(),
-		'all_qualification_language' => $this->Employees_model->all_qualification_language(),
-		'all_qualification_skill' => $this->Employees_model->all_qualification_skill(),
-		'all_contract_types' => $this->Employees_model->all_contract_types(),
-		'all_contracts' => $this->Employees_model->all_contracts(),
-		'all_office_shifts' => $this->Employees_model->all_office_shifts(),
-		'get_all_companies' => $this->Xin_model->get_companies(),
-		'all_office_locations' => $this->Location_model->all_office_locations(),
-		'all_leave_types' => $this->Timesheet_model->all_leave_types(),
-		// 'is_emp_lead' => $result[0]->is_emp_lead,
-		'lead_user_id' => $result[0]->lead_user_id,
-		'user_password' => $result[0]->user_password,
+			'blogger_link' => $result[0]->blogger_link,
+			'linkdedin_link' => $result[0]->linkdedin_link,
+			'google_plus_link' => $result[0]->google_plus_link,
+			'instagram_link' => $result[0]->instagram_link,
+			'nda_status' => $result[0]->nda_status,
+			'letter_status' => $result[0]->letter_status,
+			'leave_categories' => $result[0]->leave_categories,
+			'view_companies_id' => 1,
+			'all_countries' => $this->Xin_model->get_countries(),
+			'all_document_types' => $this->Employees_model->all_document_types(),
+			'all_education_level' => $this->Employees_model->all_education_level(),
+			'all_qualification_language' => $this->Employees_model->all_qualification_language(),
+			'all_qualification_skill' => $this->Employees_model->all_qualification_skill(),
+			'all_contract_types' => $this->Employees_model->all_contract_types(),
+			'all_contracts' => $this->Employees_model->all_contracts(),
+			'all_office_shifts' => $this->Employees_model->all_office_shifts(),
+			'get_all_companies' => $this->Xin_model->get_companies(),
+			'all_office_locations' => $this->Location_model->all_office_locations(),
+			'all_leave_types' => $this->Timesheet_model->all_leave_types(),
+			// 'is_emp_lead' => $result[0]->is_emp_lead,
+			'lead_user_id' => $result[0]->lead_user_id,
+			'user_password' => 0,
 		);
-	// dd($data);
+		// dd($data);
+
 		if($result[0]->nda_status!=0) {
 			$this->db->where('emp_id', $id)->limit(1);
 			$r = $this->db->get('xin_employees_nda')->row();
@@ -1409,15 +1410,15 @@ class Employees extends MY_Controller {
 			$data['nda_id'] = $r->id;
 		}
 
-	// dd($data);
+		// dd($data);
 
-	$data['subview'] = $this->load->view("admin/employees/employee_detail", $data, TRUE);
-	$this->load->view('admin/layout/layout_main', $data); //page load
+		$data['subview'] = $this->load->view("admin/employees/employee_detail", $data, TRUE);
+		$this->load->view('admin/layout/layout_main', $data); //page load
 
-	// Datatables Variables
-	$draw = intval($this->input->get("draw"));
-	$start = intval($this->input->get("start"));
-	$length = intval($this->input->get("length"));
+		// Datatables Variables
+		$draw = intval($this->input->get("draw"));
+		$start = intval($this->input->get("start"));
+		$length = intval($this->input->get("length"));
 	}
 
 	// get company > departments

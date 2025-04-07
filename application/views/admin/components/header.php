@@ -399,26 +399,15 @@
                         <i class="glyphicon glyphicon-user"></i>
                     </a>
                     <ul class="dropdown-menu <?php echo $animated;?>">
-                        <li role="presentation">
-                            <a role="menuitem" tabindex="-1" href="<?php echo site_url('admin/profile');?>">
-                                <i class="ion ion-person"></i><?php echo $this->lang->line('header_my_profile');?>
-                            </a>
-                        </li>
-
                         <?php if($user[0]->user_role_id == 1) { ?>
-                        <li role="presentation">
-                            <a data-toggle="modal" data-target=".policy" href="#">
-                                <i class="fa fa-flag-o"></i><?php echo $this->lang->line('header_policies');?>
-                            </a>
-                        </li>
                         <li role="presentation">
                             <a role="menuitem" tabindex="-1" href="<?php echo site_url('admin/settings');?>">
                                 <i class="ion ion-settings"></i><?php echo $this->lang->line('left_settings');?>
                             </a>
                         </li>
                         <li role="presentation">
-                            <a role="menuitem" tabindex="-1"  href="<?php echo site_url('admin/profile?change_password=true');?>">
-                                <i class="fa fa-key"></i><?php echo $this->lang->line('header_change_password');?>
+                            <a data-toggle="modal" data-target=".policy" href="#">
+                                <i class="fa fa-flag-o"></i><?php echo $this->lang->line('header_policies');?>
                             </a>
                         </li>
                         <li class="divider"></li>

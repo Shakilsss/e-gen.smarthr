@@ -1,18 +1,14 @@
-<?php
-// /<span style="color:red">*</span> Employee Details view
-// <span style="color:red">*</span>/
-?>
+
 <?php $session = $this->session->userdata('username');?>
 <?php $system = $this->Xin_model->read_setting_info(1);?>
-<?php //$default_currency = $this->Xin_model->read_currency_con_info($system[0]->default_currency_id);?>
 <?php
-$eid = $this->uri->segment(4);
-$eresult = $this->Employees_model->read_employee_information($eid);
+    $eid = $this->uri->segment(4);
+    $eresult = $this->Employees_model->read_employee_information($eid);
 ?>
 <?php
-$ar_sc = explode('- ',$system[0]->default_currency_symbol);
-$sc_show = $ar_sc[1];
-$leave_user = $this->Xin_model->read_user_info($eid);
+    $ar_sc = explode('- ',$system[0]->default_currency_symbol);
+    $sc_show = $ar_sc[1];
+    $leave_user = $this->Xin_model->read_user_info($eid);
 ?>
 <?php $get_animate = $this->Xin_model->get_content_animate();?>
 <?php $leave_categories_ids = explode(',',$leave_categories);?>
@@ -21,81 +17,81 @@ $leave_user = $this->Xin_model->read_user_info($eid);
 <?php $role_resources_ids = $this->Xin_model->user_role_resource(); ?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
 <style>
-#nda_start {
-    display: none;
-}
+    #nda_start {
+        display: none;
+    }
 
-#nda_end {
-    display: none;
-}
+    #nda_end {
+        display: none;
+    }
 </style>
 <div class="row">
-
     <div class="col-md-12">
         <div class="nav-tabs-custom mb-4">
+            <!-- top tsp menu -->
             <ul class="nav nav-tabs">
-                <li class="nav-item active"> <a class="nav-link active show" data-toggle="tab"
-                        href="#xin_general"><?php echo $this->lang->line('xin_general');?></a> </li>
-                <li class="nav-item"> <a class="nav-link" data-toggle="tab"
-                        href="#xin_profile_picture"><?php echo $this->lang->line('xin_e_details_profile_picture');?></a>
+                <li class="nav-item active"> <a class="nav-link active show" data-toggle="tab" href="#xin_general"><?php echo $this->lang->line('xin_general');?></a> </li>
+                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#xin_profile_picture"><?php echo $this->lang->line('xin_e_details_profile_picture');?></a>
                 </li>
+
                 <?php if(in_array('351',$role_resources_ids)) {?>
-                <li class="nav-item"> <a class="nav-link" data-toggle="tab"
-                        href="#xin_employee_set_salary"><?php echo $this->lang->line('xin_employee_set_salary');?></a>
-                </li>
-                <?php }?>
-                <li class="nav-item"> <a class="nav-link" data-toggle="tab"
-                        href="#xin_leaves"><?php echo $this->lang->line('left_leaves');?></a> </li>
-                <!-- <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#xin_core_hr"><?php echo $this->lang->line('xin_hr');?></a> </li> -->
-                <!-- <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#xin_projects"><?php echo $this->lang->line('xin_hr_m_project_task');?></a> </li> -->
-                <!-- <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#xin_payslips"><?php echo $this->lang->line('left_payslips');?></a> </li>       -->
+                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#xin_employee_set_salary"><?php echo $this->lang->line('xin_employee_set_salary');?></a>
+                    </li>
+                <?php } ?>
+                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#xin_leaves"><?php echo $this->lang->line('left_leaves');?></a> </li>
                 <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#NDA">NDA</a> </li>
                 <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#remarks">Remarks</a> </li>
                 <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#salary_review">Salary Review</a> </li>
-                <!-- <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#set_team_lead">Team Lead</a></li> -->
             </ul>
+
             <div class="tab-content">
                 <div class="tab-pane <?php echo $get_animate;?> active" id="xin_general">
                     <div class="card-body">
                         <div class="card overflow-hidden">
                             <div class="row no-gutters row-bordered row-border-light">
+                                <!-- left tap manu -->
                                 <div class="col-md-3 pt-0">
                                     <div class="list-group list-group-flush account-settings-links">
                                         <a class="list-group-item list-group-item-action  nav-tabs-link active"
                                             data-toggle="list" href="javascript:void(0);" data-profile="1"
                                             data-profile-block="user_basic_info" aria-expanded="true"
-                                            id="user_profile_1"><?php echo $this->lang->line('xin_e_details_basic');?></a>
-                                        <!-- <a class="list-group-item list-group-item-action nav-tabs-link" data-toggle="list" href="javascript:void(0);" data-profile="2" data-profile-block="immigration" aria-expanded="true" id="user_profile_2"><?php //echo $this->lang->line('xin_employee_immigration');?></a>  -->
+                                            id="user_profile_1"><?php echo $this->lang->line('xin_e_details_basic');?>
+                                        </a>
                                         <a class="list-group-item list-group-item-action nav-tabs-link"
                                             data-toggle="list" href="javascript:void(0);" data-profile="3"
                                             data-profile-block="contacts" aria-expanded="true"
-                                            id="user_profile_3"><?php echo $this->lang->line('xin_employee_emergency_contacts');?></a>
+                                            id="user_profile_3"><?php echo $this->lang->line('xin_employee_emergency_contacts');?>
+                                        </a>
                                         <a class="list-group-item list-group-item-action nav-tabs-link"
                                             data-toggle="list" href="javascript:void(0);" data-profile="4"
                                             data-profile-block="social-networking" aria-expanded="true"
-                                            id="user_profile_4"><?php echo $this->lang->line('xin_e_details_social');?></a>
+                                            id="user_profile_4"><?php echo $this->lang->line('xin_e_details_social');?>
+                                        </a>
                                         <a class="list-group-item list-group-item-action nav-tabs-link"
                                             data-toggle="list" href="javascript:void(0);" data-profile="5"
                                             data-profile-block="documents" aria-expanded="true"
-                                            id="user_profile_5"><?php echo $this->lang->line('xin_e_details_document');?></a>
+                                            id="user_profile_5"><?php echo $this->lang->line('xin_e_details_document');?>
+                                        </a>
                                         <a class="list-group-item list-group-item-action nav-tabs-link"
                                             data-toggle="list" href="javascript:void(0);" data-profile="6"
                                             data-profile-block="qualification" aria-expanded="true"
-                                            id="user_profile_6"><?php echo $this->lang->line('xin_e_details_qualification');?></a>
-                                        <!-- <a class="list-group-item list-group-item-action nav-tabs-link" data-toggle="list" href="javascript:void(0);" data-profile="7" data-profile-block="work-experience" aria-expanded="true" id="user_profile_7"><?php //echo $this->lang->line('xin_e_details_w_experience');?></a>  -->
+                                            id="user_profile_6"><?php echo $this->lang->line('xin_e_details_qualification');?>
+                                        </a>
                                         <a class="list-group-item list-group-item-action nav-tabs-link"
                                             data-toggle="list" href="javascript:void(0);" data-profile="8"
                                             data-profile-block="bank-account" aria-expanded="true"
-                                            id="user_profile_8"><?php echo $this->lang->line('xin_e_details_baccount');?></a>
+                                            id="user_profile_8"><?php echo $this->lang->line('xin_e_details_baccount');?>
+                                        </a>
                                         <a class="list-group-item list-group-item-action nav-tabs-link"
                                             data-toggle="list" href="javascript:void(0);" data-profile="9"
                                             data-profile-block="change-password" aria-expanded="true"
-                                            id="user_profile_9"><?php echo $this->lang->line('xin_e_details_cpassword');?></a>
-                                        <!-- <a class="list-group-item list-group-item-action nav-tabs-link" data-toggle="list" href="javascript:void(0);" data-profile="12" data-profile-block="security_level" aria-expanded="true" id="user_profile_12"><?php //echo $this->lang->line('xin_esecurity_level_title');?></a>  -->
+                                            id="user_profile_9"><?php echo $this->lang->line('xin_e_details_cpassword');?>
+                                        </a>
                                         <a class="list-group-item list-group-item-action nav-tabs-link"
                                             data-toggle="list" href="javascript:void(0);" data-profile="13"
                                             data-profile-block="contract" aria-expanded="true" id="user_profile_13">
-                                            <?php echo $this->lang->line('xin_e_details_contract');?> </a>
+                                            <?php echo $this->lang->line('xin_e_details_contract');?>
+                                        </a>
                                     </div>
                                 </div>
 
@@ -104,25 +100,20 @@ $leave_user = $this->Xin_model->read_user_info($eid);
                                         <div class="tab-pane active current-tab <?php echo $get_animate;?>"
                                             id="user_basic_info">
                                             <div class="box-header with-border">
-                                                <h3 class="box-title">
-                                                    <?php echo $this->lang->line('xin_e_details_basic_info');?> </h3>
+                                                <h3 class="box-title"> <?php echo $this->lang->line('xin_e_details_basic_info');?> </h3>
                                             </div>
+
                                             <div class="box-body">
                                                 <?php $attributes = array('name' => 'basic_info', 'id' => 'basic_info', 'autocomplete' => 'off');?>
                                                 <?php $hidden = array('user_id' => $user_id, 'u_basic_info' => 'UPDATE');?>
                                                 <?php echo form_open_multipart('admin/employees/basic_info', $attributes, $hidden);?>
+                                                <!-- basic information -->
                                                 <div class="bg-white">
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label
-                                                                    for="first_name"><?php echo $this->lang->line('xin_employee_first_name');?><i
-                                                                        class="hrsale-asterisk"><span
-                                                                            style="color:red">*</span></i></label>
-                                                                <input class="form-control"
-                                                                    placeholder="<?php echo $this->lang->line('xin_employee_first_name');?>"
-                                                                    name="first_name" type="text"
-                                                                    value="<?php echo $first_name;?>">
+                                                                <label  for="first_name"><?php echo $this->lang->line('xin_employee_first_name');?><i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                                                <input class="form-control" placeholder="<?php echo $this->lang->line('xin_employee_first_name');?>" name="first_name" type="text" value="<?php echo $first_name;?>">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
@@ -138,6 +129,7 @@ $leave_user = $this->Xin_model->read_user_info($eid);
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                     <div class="row">
                                                         <div class="col-md-3">
                                                             <div class="form-group">
@@ -188,23 +180,24 @@ $leave_user = $this->Xin_model->read_user_info($eid);
                                                     </div>
 
                                                     <?php $colmd=4;
-                              if($system[0]->is_active_sub_departments=='yes'){
-                                $colmd=4;
-                                $is_id= 'aj_subdepartments';
-                              } else {
-                                $colmd=4;
-                                $is_id= 'is_aj_subdepartments';
-                              }
-                            ?>
+                                                        if($system[0]->is_active_sub_departments=='yes'){
+                                                            $colmd=4;
+                                                            $is_id= 'aj_subdepartments';
+                                                        } else {
+                                                            $colmd=4;
+                                                            $is_id= 'is_aj_subdepartments';
+                                                        }
+                                                    ?>
 
                                                     <?php $el_result = $this->Department_model->ajax_company_location_information($company_id);?>
                                                     <?php $eall_departments = $this->Department_model->ajax_location_departments_information($location_id);?>
 
                                                     <?php if($system[0]->is_active_sub_departments=='yes'){?>
-                                                    <?php $eall_designations = $this->Designation_model->ajax_designation_information($sub_department_id);?>
+                                                        <?php $eall_designations = $this->Designation_model->ajax_designation_information($sub_department_id);?>
                                                     <?php } else {?>
-                                                    <?php $eall_designations = $this->Designation_model->ajax_is_designation_information($department_id);?>
+                                                        <?php $eall_designations = $this->Designation_model->ajax_is_designation_information($department_id);?>
                                                     <?php } ?>
+
                                                     <div class="row">
                                                         <div class="col-md-<?php echo $colmd;?>">
                                                             <div class="form-group" id="department_ajax">
@@ -228,44 +221,41 @@ $leave_user = $this->Xin_model->read_user_info($eid);
                                                             </div>
                                                         </div>
 
-
                                                         <?php $colmd=3; if($system[0]->is_active_sub_departments=='yes'){ $ncolmd = 3; } else { $ncolmd = 4;}?>
                                                         <?php if($system[0]->is_active_sub_departments=='yes'){?>
-                                                        <div class="col-md-<?php echo $ncolmd;?>"
-                                                            id="subdepartment_ajax">
-                                                            <?php $depid = $eresult[0]->department_id; ?>
-                                                            <?php if(!isset($depid)): $depid = 1; else: $depid = $depid; endif;?>
-                                                            <?php $subresult = get_sub_departments($depid);?>
-                                                            <div class="form-group">
-                                                                <label
-                                                                    for="designation"><?php echo $this->lang->line('xin_hr_sub_department');?><i
-                                                                        class="hrsale-asterisk"><span
-                                                                            style="color:red">*</span></i></label>
-                                                                <select class="form-control" name="subdepartment_id"
-                                                                    data-plugin="select_hrm"
-                                                                    data-placeholder="<?php echo $this->lang->line('xin_employee_department');?>"
-                                                                    id="aj_subdepartment">
-                                                                    <option value=""></option>
-                                                                    <?php foreach($subresult as $sbdeparment) {?>
-                                                                    <option
-                                                                        value="<?php echo $sbdeparment->sub_department_id;?>"
-                                                                        <?php if($sub_department_id==$sbdeparment->sub_department_id):?>
-                                                                        selected <?php endif;?>>
-                                                                        <?php echo $sbdeparment->department_name;?>
-                                                                    </option>
-                                                                    <?php } ?>
-                                                                </select>
+                                                            <div class="col-md-<?php echo $ncolmd;?>"
+                                                                id="subdepartment_ajax">
+                                                                <?php $depid = $eresult[0]->department_id; ?>
+                                                                <?php if(!isset($depid)): $depid = 1; else: $depid = $depid; endif;?>
+                                                                <?php $subresult = get_sub_departments($depid);?>
+                                                                <div class="form-group">
+                                                                    <label
+                                                                        for="designation"><?php echo $this->lang->line('xin_hr_sub_department');?><i
+                                                                            class="hrsale-asterisk"><span
+                                                                                style="color:red">*</span></i></label>
+                                                                    <select class="form-control" name="subdepartment_id"
+                                                                        data-plugin="select_hrm"
+                                                                        data-placeholder="<?php echo $this->lang->line('xin_employee_department');?>"
+                                                                        id="aj_subdepartment">
+                                                                        <option value=""></option>
+                                                                        <?php foreach($subresult as $sbdeparment) {?>
+                                                                        <option
+                                                                            value="<?php echo $sbdeparment->sub_department_id;?>"
+                                                                            <?php if($sub_department_id==$sbdeparment->sub_department_id):?>
+                                                                            selected <?php endif;?>>
+                                                                            <?php echo $sbdeparment->department_name;?>
+                                                                        </option>
+                                                                        <?php } ?>
+                                                                    </select>
+                                                                </div>
                                                             </div>
-                                                        </div>
                                                         <?php } else {?>
-                                                        <input type="hidden" name="subdepartment_id" value="0" />
+                                                            <input type="hidden" name="subdepartment_id" value="0" />
                                                         <?php } ?>
+
                                                         <div class="col-md-<?php echo $ncolmd;?>">
                                                             <div class="form-group" id="designation_ajax">
-                                                                <label
-                                                                    for="designation"><?php echo $this->lang->line('xin_designation');?><i
-                                                                        class="hrsale-asterisk"><span
-                                                                            style="color:red">*</span></i></label>
+                                                                <label for="designation"><?php echo $this->lang->line('xin_designation');?><i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
                                                                 <select class="form-control" name="designation_id"
                                                                     data-plugin="select_hrm"
                                                                     data-placeholder="<?php echo $this->lang->line('xin_designation');?>">
@@ -281,14 +271,10 @@ $leave_user = $this->Xin_model->read_user_info($eid);
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <?php //dd($all_user_roles); ?>
 
                                                         <div class="col-md-4">
                                                             <div class="form-group">
-                                                                <label
-                                                                    for="role"><?php echo $this->lang->line('xin_employee_role');?><i
-                                                                        class="hrsale-asterisk"><span
-                                                                            style="color:red">*</span></i></label>
+                                                                <label  for="role"><?php echo $this->lang->line('xin_employee_role');?><i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
                                                                 <select class="form-control" name="role"
                                                                     data-plugin="select_hrm"
                                                                     data-placeholder="<?php echo $this->lang->line('xin_employee_role');?>">
@@ -320,7 +306,6 @@ $leave_user = $this->Xin_model->read_user_info($eid);
                                                     </div>
 
                                                     <div class="row">
-
                                                         <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label for="date_of_joining"
@@ -391,7 +376,6 @@ $leave_user = $this->Xin_model->read_user_info($eid);
                                                                 </select>
                                                             </div>
                                                         </div>
-
                                                     </div>
 
 
@@ -553,53 +537,9 @@ $leave_user = $this->Xin_model->read_user_info($eid);
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <!-- <div class="row">
-                            <div class="col-md-12">
-                              <div class="form-group">
-                               <input type="hidden" value="0" name="view_companies_id[]" />
-                                <label for="first_name"><?php echo $this->lang->line('xin_view_companies_data');?></label>
-                                <select multiple="multiple" class="form-control" name="view_companies_id[]" data-plugin="select_hrm" data-placeholder="<?php echo $this->lang->line('xin_view_companies_data');?>">
-                                  <option value=""></option>
-                                  <?php foreach($get_all_companies as $company) {?>
-                                  <option value="<?php echo $company->company_id?>" <?php if(isset($_GET)) { if(in_array($company->company_id,$view_companies_ids)):?> selected <?php endif; }?>><?php echo $company->name?></option>
-                                  <?php } ?>
-                                </select>
-                              </div>
-                            </div>
-                          </div>   -->
-                                                    <!-- <div class="row">
-                            <div class="col-md-4">
-                              <div class="form-group">
-                                <label for="estate"><?php echo $this->lang->line('xin_state');?></label>
-                                <input class="form-control" placeholder="<?php echo $this->lang->line('xin_state');?>" name="estate" type="text" value="<?php echo $state;?>">
-                              </div>
-                            </div>
-                            <div class="col-md-4">
-                              <div class="form-group">
-                                <label for="ecity"><?php echo $this->lang->line('xin_city');?></label>
-                                <input class="form-control" placeholder="<?php echo $this->lang->line('xin_city');?>" name="ecity" type="text" value="<?php echo $city;?>">
-                              </div>
-                            </div>
-                            <div class="col-md-4">
-                              <div class="form-group">
-                                <label for="ezipcode" class="control-label"><?php echo $this->lang->line('xin_zipcode');?></label>
-                                <input class="form-control" placeholder="<?php echo $this->lang->line('xin_zipcode');?>" name="ezipcode" type="text" value="<?php echo $zipcode;?>">
-                              </div>
-                            </div>
-                          </div> -->
+
+                                                    <?php $ethnicity_type = $this->Xin_model->get_ethnicity_type();?>
                                                     <div class="row">
-                                                        <?php $ethnicity_type = $this->Xin_model->get_ethnicity_type();?>
-                                                        <!-- <div class="col-md-4">
-                              <div class="form-group">
-                                <label for="email" class="control-label"><?php echo $this->lang->line('xin_ethnicity_type_title');?></label>
-                                <select class="form-control" name="ethnicity_type" data-plugin="select_hrm" data-placeholder="<?php echo $this->lang->line('xin_ethnicity_type_title');?>">
-                                  <option value=""></option>
-                                  <?php foreach($ethnicity_type->result() as $itype) {?>
-                                      <option value="<?php echo $itype->ethnicity_type_id?>" <?php if($itype->ethnicity_type_id==$iethnicity_type):?> selected="selected"<?php endif;?>><?php echo $itype->type?></option>
-                                  <?php } ?>
-                                </select>
-                              </div>
-                            </div> -->
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="address">Present Address</label>
@@ -618,123 +558,15 @@ $leave_user = $this->Xin_model->read_user_info($eid);
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="address">User PC Password</label>
-                                                                <input type="text" class="form-control"
-                                                                    placeholder="User PC password" name="user_password"
-                                                                    value="<?php echo $user_password;?>" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
+
+                                                    <input type="hidden" class="form-control" name="user_password" value="<?php echo $user_password;?>" />
                                                 </div>
-                                                <?php $module_attributes = $this->Custom_fields_model->all_hrsale_module_attributes();?>
-                                                <div class="row">
-                                                    <?php foreach($module_attributes as $mattribute):?>
-                                                    <?php $attribute_info = $this->Custom_fields_model->get_employee_custom_data($user_id,$mattribute->custom_field_id);?>
-                                                    <?php
-              								if(!is_null($attribute_info)){
-              									$attr_val = $attribute_info->attribute_value;
-              								} else {
-              									$attr_val = '';
-              								}
-              							?>
-                                                    <?php if($mattribute->attribute_type == 'date'){?>
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label
-                                                                for="<?php echo $mattribute->attribute;?>"><?php echo $mattribute->attribute_label;?></label>
-                                                            <input class="form-control date"
-                                                                placeholder="<?php echo $mattribute->attribute_label;?>"
-                                                                name="<?php echo $mattribute->attribute;?>" type="text"
-                                                                value="<?php echo $attr_val;?>">
-                                                        </div>
-                                                    </div>
-                                                    <?php } else if($mattribute->attribute_type == 'select'){?>
-                                                    <div class="col-md-4">
-                                                        <?php $iselc_val = $this->Custom_fields_model->get_attribute_selection_values($mattribute->custom_field_id);?>
-                                                        <div class="form-group">
-                                                            <label
-                                                                for="<?php echo $mattribute->attribute;?>"><?php echo $mattribute->attribute_label;?></label>
-                                                            <select class="form-control"
-                                                                name="<?php echo $mattribute->attribute;?>"
-                                                                data-plugin="select_hrm"
-                                                                data-placeholder="<?php echo $mattribute->attribute_label;?>">
-                                                                <?php foreach($iselc_val as $selc_val) {?>
-                                                                <option
-                                                                    value="<?php echo $selc_val->attributes_select_value_id?>"
-                                                                    <?php if(isset($attribute_info->attribute_value)) {if($attribute_info->attribute_value==$selc_val->attributes_select_value_id):?>
-                                                                    selected="selected" <?php endif; }?>>
-                                                                    <?php echo $selc_val->select_label?></option>
-                                                                <?php } ?>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <?php } else if($mattribute->attribute_type == 'multiselect'){?>
-                                                    <?php $multiselect_values = explode(',',$attribute_info->attribute_value);?>
-                                                    <div class="col-md-4">
-                                                        <?php $imulti_selc_val = $this->Custom_fields_model->get_attribute_selection_values($mattribute->custom_field_id);?>
-                                                        <div class="form-group">
-                                                            <label
-                                                                for="<?php echo $mattribute->attribute;?>"><?php echo $mattribute->attribute_label;?></label>
-                                                            <select multiple="multiple" class="form-control"
-                                                                name="<?php echo $mattribute->attribute;?>[]"
-                                                                data-plugin="select_hrm"
-                                                                data-placeholder="<?php echo $mattribute->attribute_label;?>">
-                                                                <?php foreach($imulti_selc_val as $multi_selc_val) {?>
-                                                                <option
-                                                                    value="<?php echo $multi_selc_val->attributes_select_value_id?>"
-                                                                    <?php if(in_array($multi_selc_val->attributes_select_value_id,$multiselect_values)):?>
-                                                                    selected <?php endif;?>>
-                                                                    <?php echo $multi_selc_val->select_label?></option>
-                                                                <?php } ?>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <?php } else if($mattribute->attribute_type == 'textarea'){?>
-                                                    <div class="col-md-8">
-                                                        <div class="form-group">
-                                                            <label
-                                                                for="<?php echo $mattribute->attribute;?>"><?php echo $mattribute->attribute_label;?></label>
-                                                            <input class="form-control"
-                                                                placeholder="<?php echo $mattribute->attribute_label;?>"
-                                                                name="<?php echo $mattribute->attribute;?>" type="text"
-                                                                value="<?php echo $attr_val;?>">
-                                                        </div>
-                                                    </div>
-                                                    <?php } else if($mattribute->attribute_type == 'fileupload'){?>
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label
-                                                                for="<?php echo $mattribute->attribute;?>"><?php echo $mattribute->attribute_label;?>
-                                                                <?php if($attr_val!=''):?><a
-                                                                    href="<?php echo site_url('admin/download');?>?type=custom_files&filename=<?php echo $attr_val;?>"><?php echo $this->lang->line('xin_download');?></a>
-                                                                <?php endif;?>
-                                                            </label>
-                                                            <input class="form-control-file"
-                                                                name="<?php echo $mattribute->attribute;?>" type="file">
-                                                        </div>
-                                                    </div>
-                                                    <?php } else { ?>
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label
-                                                                for="<?php echo $mattribute->attribute;?>"><?php echo $mattribute->attribute_label;?></label>
-                                                            <input class="form-control"
-                                                                placeholder="<?php echo $mattribute->attribute_label;?>"
-                                                                name="<?php echo $mattribute->attribute;?>" type="text"
-                                                                value="<?php echo $attr_val;?>">
-                                                        </div>
-                                                    </div>
-                                                    <?php }	?>
-                                                    <?php endforeach;?>
-                                                </div>
+
                                                 <div class="form-actions box-footer">
                                                     <?php echo form_button(array('name' => 'hrsale_form', 'type' => 'submit', 'class' => $this->Xin_model->form_button_class(), 'content' => '<i class="fa fa fa-check-square-o"></i> '.$this->lang->line('xin_save'))); ?>
                                                 </div>
+                                                <?php echo form_close(); ?>
                                             </div>
-                                            <?php echo form_close(); ?>
                                         </div>
 
 
@@ -4175,7 +4007,6 @@ $leave_user = $this->Xin_model->read_user_info($eid);
                                             <?php echo $this->lang->line('left_payment_history');?> </h3>
                                     </div>
                                     <?php $history = $this->Payroll_model->get_payroll_slip($user_id); ?>
-
                                 </div>
                             </div>
                         </div>
@@ -4185,82 +4016,84 @@ $leave_user = $this->Xin_model->read_user_info($eid);
         </div>
     </div>
 </div>
+
 <!-- Include SweetAlert library -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
 
 
 <script>
-$(document).ready(function() {
-    // Bind submit event of the form
-    $('#devicein').submit(function(e) {
-        e.preventDefault(); // Prevent form submission
+    $(document).ready(function() {
+        // Bind submit event of the form
+        $('#devicein').submit(function(e) {
+            e.preventDefault(); // Prevent form submission
 
-        // Get the form data
-        var formData = $(this).serialize();
+            // Get the form data
+            var formData = $(this).serialize();
 
-        // Send AJAX request
-        $.ajax({
-            url: '<?php echo site_url("admin/Employees/add_device"); ?>',
-            type: 'POST',
-            data: formData,
-            dataType: 'json',
-            success: function(response) {
-                // Handle the response from the server
-                console.log(response);
-                Swal.fire({
-                    title: 'Success!',
-                    text: response,
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                });
-            },
-            error: function(xhr, status, error) {
-                console.log(xhr.responseText);
-            }
+            // Send AJAX request
+            $.ajax({
+                url: '<?php echo site_url("admin/Employees/add_device"); ?>',
+                type: 'POST',
+                data: formData,
+                dataType: 'json',
+                success: function(response) {
+                    // Handle the response from the server
+                    console.log(response);
+                    Swal.fire({
+                        title: 'Success!',
+                        text: response,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                }
+            });
         });
     });
-});
 </script>
 
 <script>
-$(document).ready(function() {
-    // Bind submit event of the form
-    $('#nda_info').submit(function(e) {
-        e.preventDefault(); // Prevent form submission
-        // Get the form data
-        var formData = $(this).serialize();
-        // Send AJAX request
-        $.ajax({
-            url: '<?php echo site_url("admin/Employees/nda"); ?>',
-            type: 'POST',
-            data: formData,
-            success: function(response) {
-                // Handle the response from the server
-                console.log(response);
-                Swal.fire({
-                    title: 'Success!',
-                    text: response,
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                });
-            },
-            // error: function(xhr, status, error) {
-            //     console.log(xhr.responseText);
-            // }
+    $(document).ready(function() {
+        // Bind submit event of the form
+        $('#nda_info').submit(function(e) {
+            e.preventDefault(); // Prevent form submission
+            // Get the form data
+            var formData = $(this).serialize();
+            // Send AJAX request
+            $.ajax({
+                url: '<?php echo site_url("admin/Employees/nda"); ?>',
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    // Handle the response from the server
+                    console.log(response);
+                    Swal.fire({
+                        title: 'Success!',
+                        text: response,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                },
+                // error: function(xhr, status, error) {
+                //     console.log(xhr.responseText);
+                // }
+            });
         });
     });
-});
 </script>
+
 <script>
-function nda_update_click() {
-    var active = $('#nda_status').val();
-    if (active == 1) {
-        $('#nda_start').fadeIn(500);
-        $('#nda_end').fadeIn(500);
-    } else {
-        $('#nda_start').fadeOut(500);
-        $('#nda_end').fadeOut(500);
+    function nda_update_click() {
+        var active = $('#nda_status').val();
+        if (active == 1) {
+            $('#nda_start').fadeIn(500);
+            $('#nda_end').fadeIn(500);
+        } else {
+            $('#nda_start').fadeOut(500);
+            $('#nda_end').fadeOut(500);
+        }
     }
-}
-nda_update_click()
+    nda_update_click()
 </script>
