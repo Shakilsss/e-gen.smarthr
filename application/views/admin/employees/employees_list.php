@@ -408,6 +408,7 @@
                         </div>
                     </div>
 
+                    <!-- row -->
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
@@ -448,6 +449,7 @@
                         </div>
                     </div>
 
+                    <!-- Present and Permanent Address -->
                     <div class="row">
                         <div class="col-md-6">
                             <div class="">
@@ -481,7 +483,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="name_en">Village/State</label>
+                                    <label for="name_en">Village</label>
                                     <input type="text" name="village_pre" id="village_pre" class="form-control">
                                 </div>
                             </div>
@@ -519,7 +521,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="name_en">Village/State</label>
+                                    <label for="name_en">Village</label>
                                     <input type="text" name="village_per" id="village_per" class="form-control">
                                 </div>
                             </div>
@@ -669,6 +671,7 @@
                         </script>
                     </div>
 
+                    <!-- Emergency Contact -->
                     <div class="row">
                         <div class="col-md-12"><h4>Emergency Contact</h4></div>
                         <div class="col-md-3">
@@ -717,6 +720,7 @@
                         </div>
                     </div>
 
+                    <!-- Attachments -->
                     <div class="row">
                         <div class='col-md-3'>
                             <div class="form-group">
@@ -743,6 +747,7 @@
                         </div>
                     </div>
 
+                    <!-- form-actions -->
                     <div class="form-actions">
                         <?php echo form_button(array('name' => 'hrsale_form', 'type' => 'submit', 'class' => $this->Xin_model->form_button_class(), 'content' => '<i class="fa fa fa-check-square-o"></i> '.$this->lang->line('xin_save'))); ?>
                     </div>
