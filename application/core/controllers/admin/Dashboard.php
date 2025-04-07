@@ -60,15 +60,7 @@ class Dashboard extends MY_Controller {
 		/*Final JSON response*/
 		exit(json_encode($Return));
 	}
-	// public function save_service(){
-	// 	$d=$this->db->get('xin_system_setting')->row();
-	// 	if($d->project_proccess_date>=date('Y-m-d')){
-	// 		$this->db->where('active_status',1);
-	// 		$this->db->where('active_status',1);
-	// 		$data=$this->db->get('xin_project_service')->result();
-
-	// 	};
-	// }
+	
 	public function save_service() {
 		$query = $this->db->query("
 			SELECT ps.*

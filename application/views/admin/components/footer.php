@@ -18,12 +18,12 @@ if($theme[0]->fixed_layout=='true') {
   <?php endif; ?>
   </strong> </footer>
 <!-- Control Sidebar -->
-<aside class="control-sidebar control-sidebar-dark"> 
+<aside class="control-sidebar control-sidebar-dark">
   <!-- Tab panes -->
-  <div class="tab-content"> 
+  <div class="tab-content">
     <!-- Home tab content -->
     <div class="tab-pane" id="control-sidebar-home-tab"> </div>
-    <!-- /.tab-pane --> 
+    <!-- /.tab-pane -->
   </div>
 </aside>
 <style type="text/css">
@@ -155,11 +155,11 @@ if($theme[0]->fixed_layout=='true') {
           <!-- /.info-box -->
         </div>
         <!-- /.col -->
-        
+
         <!-- /.col -->
       </div>
       <div class="row">
-        
+
         <!-- /.col -->
         <div class="col-md-6 col-sm-6 col-xs-12">
           <div class="info-box">
@@ -185,7 +185,7 @@ if($theme[0]->fixed_layout=='true') {
           <!-- /.info-box -->
         </div>
         <!-- /.col -->
-        
+
         <!-- /.col -->
       </div>
       </div>
@@ -194,7 +194,7 @@ if($theme[0]->fixed_layout=='true') {
   </div>
   <!-- /.modal-dialog -->
 </div>
-<!-- /.control-sidebar --> 
+<!-- /.control-sidebar -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
 
 <?php if ($this->session->flashdata('messagess')): ?>
@@ -252,17 +252,20 @@ $(document).ready(function(){
 
 <script>
 
-$(document).ready(function() {
-            $('#loader_div').hide();
+        $(document).ready(function() {
+          $('#loader_div').hide();
         });
+
         $(document).on('ajaxStart', function() {
             $('#loader_div').show();
         }).on('ajaxStop', function() {
             $('#loader_div').hide();
         });
+
         $(window).on('beforeunload', function() {
             $('#loader_div').show();
         });
+        
         $(window).on('pageshow', function(event) {
             if (event.originalEvent.persisted) {
                 $('#loader_div').hide();
@@ -272,7 +275,7 @@ $(document).ready(function() {
 </script>
 <script>
 
-  $(window).on('load', function() {  
+  $(window).on('load', function() {
     $(".select22").select2();
   })
 </script>

@@ -67,6 +67,8 @@ class Dashboard extends MY_Controller {
 		$this->load->view('admin/layout/layout_main', $data); //page load
 	}
 
+
+
 	function get_ajax_data() {
 		$unit_id = $this->input->post('unit_id');
 		$date    = $this->input->post('date');

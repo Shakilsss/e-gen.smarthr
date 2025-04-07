@@ -129,10 +129,10 @@
     }
 </style>
 
-<div id="loader_div"
-    style="position: fixed;top: 0;left: 0;height: 100vh;width: 100vw;background-color: #ffffffa8;z-index: 99999999999;display: flex;overflow: hidden;align-items: center;justify-content: center;">
+<!-- loadning -->
+<!-- <div id="loader_div" style="position: fixed;top: 0;left: 0;height: 100vh;width: 100vw;background-color: #ffffffa8;z-index: 99999999999;display: flex;overflow: hidden;align-items: center;justify-content: center;">
     <div class="loaderss" style="margin: auto;"></div>
-</div>
+</div> -->
 
 
 <style>

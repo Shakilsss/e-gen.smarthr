@@ -273,11 +273,9 @@
 
 	// get all holidays>calendar
 	public function get_holidays_calendar() {
-
 		$sql = 'SELECT * FROM xin_holidays WHERE is_publish = ?';
 		$binds = array(1);
 		$query = $this->db->query($sql, $binds);
-
 		return $query;
 	}
 
