@@ -84,8 +84,9 @@ class Dashboard extends MY_Controller {
 		if(empty($session) && !is_array($session)){
 			redirect('admin/');
 		}
+		$data['title'] = $this->lang->line('dashboard_title');
 		$this->load->model('Attendance_model');
-		$this->load->view('admin/dashboard/dynamic_atn_dash'); //page load
+		$this->load->view('admin/dashboard/dynamic_atn_dash', $data); //page load
 	}
 
 	public function get_employee_status_data()
