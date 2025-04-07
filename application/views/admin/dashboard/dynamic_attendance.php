@@ -104,9 +104,13 @@
                 </tr>`;
             });
             $('#leave_table').html(leave_html);
+            setTimeout(() => {
+                fetchEmployeeStatus();
+            }, 3000);
+
         });
     }
 
-    setInterval(fetchEmployeeStatus, 3000);
+    // setInterval(fetchEmployeeStatus, 3000);
     fetchEmployeeStatus();
 </script>
