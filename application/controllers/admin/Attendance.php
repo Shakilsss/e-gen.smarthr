@@ -856,8 +856,8 @@ class Attendance extends MY_Controller
         $emp_id = explode(',', trim($sql));
         $data['first_date'] = $first_date;
         $data['emp_id'] = $sql;
-        // dd($type);
         $data['xin_employees'] =  $this->Attendance_model->get_employee($emp_id);
+        // dd($data);
         if($type == 1){
             echo $this->load->view("admin/timesheet/monthly_report_all", $data, true);
         } 
