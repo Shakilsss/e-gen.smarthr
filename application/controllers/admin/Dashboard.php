@@ -26,6 +26,7 @@ class Dashboard extends MY_Controller {
 		$this->load->model('Dashboard_model');
 		$this->load->model('Lunch_model');
 		$this->load->model('Salary_model');
+		$this->load->model('Attendance_model');
 		$this->load->helper('date');
 		$d = $this->db->get('xin_system_setting')->row();
 		if($d->project_proccess_date<=date('Y-m-d')){
@@ -86,6 +87,71 @@ class Dashboard extends MY_Controller {
 		$this->load->model('Attendance_model');
 		$this->load->view('admin/dashboard/dynamic_atn_dash'); //page load
 	}
+
+	public function get_employee_status_data()
+    {
+        $startDate = date('Y-m-d 00:00:00');
+        $endDate = date('Y-m-d 23:59:59');
+
+        $proximityIdsQuery = $this->db
+            ->select('proxi_id')
+            ->group_by('proxi_id')
+            ->where('date_time >=', $startDate)
+            ->where('date_time <=', $endDate)
+            ->get('xin_att_machine');
+
+        $proximityIds = array_column($proximityIdsQuery->result_array(), 'proxi_id');
+
+        $in_office = [];
+        $out_office = [];
+
+        foreach ($proximityIds as $value) {
+            $masin = $this->db
+                ->select('*')
+                ->where('date_time >=', $startDate)
+                ->where('date_time <=', $endDate)
+                ->where('proxi_id', $value)
+                ->order_by('id', 'DESC')
+                ->limit(1)
+                ->get('xin_att_machine')
+                ->row();
+
+            if ($masin) {
+                $emp = $this->db->select('first_name, last_name, profile_picture')->where('punch_id', $value)->get('xin_employees')->row();
+
+                $masin->full_name = $emp ? $emp->first_name . ' ' . $emp->last_name : 'Unknown';
+                $masin->profile_picture = $emp && file_exists(FCPATH . 'uploads/users/' . $emp->profile_picture)
+                    ? $emp->profile_picture
+                    : 'default_male.jpg';
+
+                if ($masin->device_type == 1) {
+                    $in_office[] = $masin;
+                } else {
+                    $out_office[] = $masin;
+                }
+            }
+        }
+
+        $leave = [];
+        $emp_data_l = $this->db->select('profile_picture,first_name,last_name,user_id')->get('xin_employees')->result();
+
+        foreach ($emp_data_l as $value) {
+            $leavedata = $this->Attendance_model->leave_chech(date('Y-m-d'), $value->user_id);
+            if ($leavedata['leave'] == true) {
+                $value->profile_picture = file_exists(FCPATH . 'uploads/users/' . $value->profile_picture) ? $value->profile_picture : 'default_male.jpg';
+                $leave[] = $value;
+            }
+        }
+
+        $total_emp = count($proximityIds) + count($leave);
+
+        echo json_encode([
+            'in_office' => $in_office,
+            'out_office' => $out_office,
+            'leave' => $leave,
+            'total' => $total_emp
+        ]);
+    }
 
 
 
