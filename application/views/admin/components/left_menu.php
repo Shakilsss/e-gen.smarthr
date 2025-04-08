@@ -138,6 +138,8 @@ if($theme[0]->sub_menu_icons != ''){
 
           <li class="sidenav-link <?php if(!empty($arr_mod['os_leaveo']))echo $arr_mod['os_leaveo'];?>"> <a href="<?php echo site_url("admin/leave/approve_os_leave");?>"><i class="fa <?php echo $submenuicon;?>"></i> Station Leave</a></li>
 
+          <li class="sidenav-link <?php if(!empty($arr_mod['at_report']))echo $arr_mod['at_report'];?>"> <a href="<?php echo site_url("admin/attendance/reports");?>"><i class="fa <?php echo $submenuicon;?>"></i> Report</a></li>
+
         </ul>
       </li>
     <?php } ?>
