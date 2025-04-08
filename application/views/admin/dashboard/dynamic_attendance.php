@@ -36,7 +36,7 @@
     }
 
     .card-status {
-        height: 65vh;
+        height: 59vh;
         overflow-y: auto;
         border: none;
         border-radius: 20px;
