@@ -1,9 +1,9 @@
     // get check box select value
     function get_checked_value(checkboxes) {
       var vals = "";
-      for (var i=0, n=checkboxes.length;i<n;i++) 
+      for (var i=0, n=checkboxes.length;i<n;i++)
       {
-          if (checkboxes[i].checked) 
+          if (checkboxes[i].checked)
           {
               vals += ","+checkboxes[i].value;
           }
@@ -21,7 +21,7 @@
 
 
       process_date = document.getElementById('process_date').value;
-      
+
       if(process_date =='')
       {
         alert('Please select process date');
@@ -29,7 +29,7 @@
       }
 
       status = document.getElementById('status').value;
-      
+
       if(status =='')
       {
         alert('Please select status');
@@ -43,14 +43,14 @@
         alert('Please select employee Id');
         return ;
       }
- 
+
       var okyes;
       okyes=confirm('Are you sure you want to start process?');
       if(okyes==false) return;
 
       $("#loader").show();
        var data = "process_date="+process_date+"&status="+status+'&sql='+sql;
-      
+
       // console.log(data); return;
       url = base_url + "/attendance_process";
       ajaxRequest.open("POST", url, true);
@@ -76,7 +76,7 @@
       process_date = document.getElementById('process_date').value;
       second_date = document.getElementById('second_date').value;
 
-      
+
       if(second_date =='')
       {
         alert('Please select second date');
@@ -90,7 +90,7 @@
       }
 
       status = document.getElementById('status').value;
-      
+
       if(status =='')
       {
         alert('Please select status');
@@ -104,7 +104,7 @@
         alert('Please select employee Id');
         return ;
       }
- 
+
       var okyes;
       okyes=confirm('Are you sure you want to start process?');
       if(okyes==false) return;
@@ -124,21 +124,21 @@
 
       var p_date=process_date.toISOString().split('T')[0]
       console.log(p_date);
-      
+
 
       $.ajax({
         type: "POST",
         url: base_url + "/attendance_process",
         data: {
-            process_date: p_date, 
+            process_date: p_date,
             status: status,
             sql: sql
         },
         success: function (data) {
-            
+
         },
         error: function (data) {
-           
+
         },
         complete: function (data) {
           var h='<span> Process Complete of '+p_date+' </span> <br>';
@@ -176,7 +176,7 @@
 
      var emp_id = document.getElementsByName('select_emp_id[]');
      var sql = get_checked_value(emp_id);
-     
+
      if(sql == ''){
       alert('Please select employee Id');
       return ;
@@ -186,7 +186,7 @@
       // var queryString="month_year="+month_year+"&company="+company+"&employee_id="+employee_id;
 
       var data = "attendance_date="+attendance_date+"&status="+status+"&sql="+sql+"&late_status="+late_status;
-      
+
       // console.log(data); return;
       url = base_url + "/daily_report";
       ajaxRequest.open("POST", url, true);
@@ -223,7 +223,7 @@
 
      var emp_id = document.getElementsByName('select_emp_id[]');
      var sql = get_checked_value(emp_id);
-     
+
      if(sql == ''){
       alert('Please select employee Id');
       return ;
@@ -233,7 +233,7 @@
       // var queryString="month_year="+month_year+"&company="+company+"&employee_id="+employee_id;
 
       var data = "attendance_date="+attendance_date+"&sql="+sql;
-      
+
       // console.log(data); return;
       url = base_url + "/movement_floor";
       ajaxRequest.open("POST", url, true);
@@ -270,7 +270,7 @@
 
      var emp_id = document.getElementsByName('select_emp_id[]');
      var sql = get_checked_value(emp_id);
-     
+
      if(sql == ''){
       alert('Please select employee Id');
       return ;
@@ -282,7 +282,7 @@
       // var queryString="month_year="+month_year+"&company="+company+"&employee_id="+employee_id;
 
       var data = "attendance_date="+attendance_date+"&status="+status+"&sql="+sql+"&late_status="+late_status;
-      
+
       // console.log(data); return;
       url = base_url + "/latecomment";
       ajaxRequest.open("POST", url, true);
@@ -291,7 +291,7 @@
 
       ajaxRequest.onreadystatechange = function(){
         if(ajaxRequest.readyState == 4){
-           
+
           const res = JSON.parse(ajaxRequest.response);
           console.log(res);
          if(res.error){
@@ -335,7 +335,7 @@
 
      var emp_id = document.getElementsByName('select_emp_id[]');
      var sql = get_checked_value(emp_id);
-     
+
      if(sql == ''){
       alert('Please select employee Id');
       return ;
@@ -345,7 +345,7 @@
       // var queryString="month_year="+month_year+"&company="+company+"&employee_id="+employee_id;
 
       var data = "attendance_date="+attendance_date+"&status="+status+"&sql="+sql+"&late_status="+late_status;
-      
+
       // console.log(data); return;
       url = base_url + "/lunch_report";
 
@@ -363,9 +363,9 @@
       }
 
     }
-    
 
-     // daily Early Out report  
+
+     // daily Early Out report
     function early_out_report(status)
     {
       var ajaxRequest;  // The variable that makes Ajax possible!
@@ -387,7 +387,7 @@
 
      var emp_id = document.getElementsByName('select_emp_id[]');
      var sql = get_checked_value(emp_id);
-     
+
      if(sql == ''){
       alert('Please select employee Id');
       return ;
@@ -397,7 +397,7 @@
       // var queryString="month_year="+month_year+"&company="+company+"&employee_id="+employee_id;
 
       var data = "attendance_date="+attendance_date+"&status="+status+"&sql="+sql;
-      
+
       // console.log(data); return;
       url = base_url + "/early_out_report";
 
@@ -438,7 +438,7 @@
 
      var emp_id = document.getElementsByName('select_emp_id[]');
      var sql = get_checked_value(emp_id);
-     
+
      if(sql == ''){
       alert('Please select employee Id');
       return ;
@@ -448,10 +448,10 @@
       // var queryString="month_year="+month_year+"&company="+company+"&employee_id="+employee_id;
 
       var data = "attendance_date="+attendance_date+"&status="+status+"&sql="+sql;
-      
+
       // console.log(data); return;
       url = base_url + "/movement_report";
-    
+
 
       ajaxRequest.open("POST", url, true);
       ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -483,7 +483,7 @@
         alert('Please select employee Id');
         return ;
       }
-      
+
       if(first_date =='')
       {
         alert('Please select first date');
@@ -494,7 +494,7 @@
         alert('Please select second date');
         return ;
       }
-      
+
       var data = "first_date="+first_date+'&second_date='+second_date+'&sql='+sql;
 
       url = base_url + "/job_card";
@@ -516,7 +516,7 @@
 
     function extra_present()
     {
-      
+
       var ajaxRequest;  // The variable that makes Ajax possible!
       ajaxRequest = new XMLHttpRequest();
       first_date = document.getElementById('process_date').value;
@@ -548,7 +548,7 @@
     }
     function overall_performance()
     {
-     
+
       var ajaxRequest;  // The variable that makes Ajax possible!
       ajaxRequest = new XMLHttpRequest();
       first_date = document.getElementById('process_date').value;
@@ -583,7 +583,7 @@
     }
     function overall_performance_yearly()
     {
-     
+
       var ajaxRequest;  // The variable that makes Ajax possible!
       ajaxRequest = new XMLHttpRequest();
       first_date = document.getElementById('process_date').value;
@@ -598,7 +598,7 @@
       $('#loading').css({
         visibility: 'visible'
     });
-     
+
       var data = "first_date="+first_date+'&sql='+sql;
       url = base_url + "/overall_performance_yearly";
       ajaxRequest.open("POST", url, true);
@@ -630,7 +630,7 @@
         alert('Please select employee Id');
         return ;
       }
-      
+
       if(first_date =='')
       {
         alert('Please select first date');
@@ -641,7 +641,7 @@
         alert('Please select second date');
         return ;
       }
-      
+
       var data = "first_date="+first_date+'&second_date='+second_date+'&sql='+sql+'&type='+type;
 
       url = base_url + "/late_details";
@@ -660,7 +660,7 @@
         }
       }
     }
-  
+
 
     function absent() {
         var ajaxRequest;  // The variable that makes Ajax possible!
@@ -675,7 +675,7 @@
           alert('Please select employee Id');
           return ;
         }
-        
+
         if(first_date =='')
         {
           alert('Please select first date');
@@ -686,7 +686,7 @@
           alert('Please select second date');
           return ;
         }
-        
+
         var data = "first_date="+first_date+'&second_date='+second_date+'&sql='+sql;
 
         url = base_url + "/absent_details";
@@ -718,7 +718,7 @@
         alert('Please select employee Id');
         return ;
       }
-      
+
       if(first_date =='')
       {
         alert('Please select first date');
@@ -735,7 +735,7 @@
         alert('Please Give a minute');
         return ;
       }
-      
+
       var data = "first_date="+first_date+'&second_date='+second_date+'&sql='+sql+'&minute='+minute;
 
       url = base_url + "/overtime_details";
@@ -797,7 +797,7 @@
         alert('Please select employee Id');
         return ;
       }
-      
+
       if(first_date =='')
       {
         alert('Please select first date');
@@ -808,7 +808,7 @@
         alert('Please select second date');
         return ;
       }
-      
+
       var data = "first_date="+first_date+'&second_date='+second_date+'&sql='+sql;
 
       url = base_url + "/lunch_jobcard";
@@ -839,7 +839,7 @@
         }
       var checkboxes = document.getElementsByName('select_emp_id[]');
       var sql = get_checked_value(checkboxes);
-      
+
       if(first_date =='')
       {
         alert('Please select first date');
@@ -850,7 +850,7 @@
         alert('Please select second date');
         return ;
       }
-      
+
       var data = "from_date="+first_date+'&to_date='+second_date;
 
       url = base_url + "/print_vendor_data";
@@ -884,7 +884,7 @@
       //   alert('Please select employee Id');
       //   return ;
       // }
-      
+
       if(first_date =='')
       {
         alert('Please select first date');
@@ -895,8 +895,8 @@
         alert('Please select second date');
         return ;
       }
-      
-      
+
+
       var data = "first_date="+first_date+"&second_date="+second_date+"&statusC="+statusC;
       url = base_url + "/movment_status_report";
       ajaxRequest.open("POST", url, true);
@@ -918,7 +918,7 @@
 
 
 
-  
+
 
   function monthly_report(type) {
     var ajaxRequest;  // The variable that makes Ajax possible!
@@ -926,12 +926,12 @@
     first_date = document.getElementById('process_date').value;
     var checkboxes = document.getElementsByName('select_emp_id[]');
     var sql = get_checked_value(checkboxes);
- 
+
     if(sql =='') {
       alert('Please select employee Id');
       return ;
     }
-    
+
     if(first_date =='')
     {
       alert('Please select first date');
@@ -939,14 +939,14 @@
     }else{
       document.getElementById("loading").style.visibility = "visible";
     }
-    var data = "first_date="+first_date+'&second_date='+second_date+'&sql='+sql+'&type='+type;
+    var data = "first_date="+first_date+'&type='+type+'&sql='+sql;
 
     url = base_url + "/monthly_report";
     ajaxRequest.open("POST", url, true);
     ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
     ajaxRequest.send(data);
     // alert(url); return;
-   
+
     ajaxRequest.onreadystatechange = function(){
       if(ajaxRequest.readyState == 4){
         // console.log(ajaxRequest.responseText); return;
@@ -958,7 +958,7 @@
         // a.close();
       }
     }
-   
+
   }
 
   function leavecal(type, stutus) {
@@ -966,7 +966,7 @@
     ajaxRequest = new XMLHttpRequest();
     var first_date;
     var second_date;
-    
+
 
     if(type == 1){
     first_date = document.getElementById('process_date').value;
@@ -991,7 +991,7 @@
         first_date = document.getElementById('process_date').value;
         second_date = document.getElementById('second_date').value;
       }
-    
+
 
 
     var checkboxes = document.getElementsByName('select_emp_id[]');
@@ -1002,7 +1002,7 @@
       alert('Please select employee Id');
       return ;
     }
-    
+
     if(first_date =='')
     {
       alert('Please select first date');
@@ -1020,7 +1020,7 @@
     ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
     ajaxRequest.send(data);
     // alert(url); return;
-   
+
     ajaxRequest.onreadystatechange = function(){
       if(ajaxRequest.readyState == 4){
         var resp = ajaxRequest.responseText;
@@ -1029,7 +1029,7 @@
         // a.close();
       }
     }
-   
+
 }
 function Inv_Report(statusC){
   var ajaxRequest;  // The variable that makes Ajax possible!
@@ -1037,7 +1037,7 @@ function Inv_Report(statusC){
 
   first_date = document.getElementById('process_date').value;
   second_date = document.getElementById('second_date').value;
-  
+
   if(second_date !='' && first_date =='' )
   {
     alert('Please select first date');
@@ -1076,7 +1076,7 @@ function Per1_Report(statusC){
   first_date = document.getElementById('process_date').value;
   second_date = document.getElementById('second_date').value;
 
-  
+
   if(first_date =='')
   {
     alert('Please select first date');
@@ -1087,8 +1087,8 @@ function Per1_Report(statusC){
     alert('Please select second date');
     return ;
   }
-  
-  
+
+
   var data = "first_date="+first_date+"&second_date="+second_date+"&statusC="+statusC;
 
   url = base_url + "/perches_status_report";
@@ -1108,7 +1108,7 @@ function Per1_Report(statusC){
   }
 }
   //low inventory report js function
- 
+
 function LP_AlP_Report (statusC){
       var ajaxRequest;  // The variable that makes Ajax possible!
       ajaxRequest = new XMLHttpRequest();
@@ -1131,7 +1131,7 @@ function LP_AlP_Report (statusC){
       }
 }
 
-function mobile_bill(status) { 
+function mobile_bill(status) {
   console.table(status);
   var ajaxRequest;  // The variable that makes Ajax possible!
   ajaxRequest = new XMLHttpRequest();
@@ -1139,7 +1139,7 @@ function mobile_bill(status) {
   second_date = document.getElementById('second_date').value;
   // second_date = "";
   // sql = "";
-  
+
   var data = "first_date="+first_date+'&second_date='+second_date;
 
   url = base_url + "/mobile_bill_report";
@@ -1148,7 +1148,7 @@ function mobile_bill(status) {
   ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
   ajaxRequest.send(data);
   // alert(url); return;
-  
+
   ajaxRequest.onreadystatechange = function(){
     if(ajaxRequest.readyState == 4){
       var resp = ajaxRequest.responseText;
