@@ -120,12 +120,12 @@
         background: transparent;
     }
 
-    /* Fade animation for new data
-    tbody tr {
+    /* Fade animation for new data */
+    /* tbody tr:hover {
         animation: fadeIn 0.4s ease-in-out;
-    } */
+    }
 
-    /* @keyframes fadeIn {
+    @keyframes fadeIn {
         0% {
             opacity: 0;
             transform: translateY(5px);
@@ -241,7 +241,12 @@
 
             let in_html = '';
             res.in_office.forEach(emp => {
-                let time = new Date(emp.date_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                let now = new Date();
+                let emp_date = new Date(emp.date_time);
+                let diff = Math.abs(now - emp_date);
+                let hours = Math.floor(diff / (1000 * 60 * 60));
+                let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                let time = hours + 'h ' + minutes + 'm ago';
                 in_html += `<tr>
                     <td><span class="badge badge-custom">${emp.full_name}</span></td>
                     <td><img src="<?= base_url('uploads/users/') ?>${emp.profile_picture}" /></td>
@@ -252,8 +257,12 @@
 
             let out_html = '';
             res.out_office.forEach(emp => {
-                let time = new Date(emp.date_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                out_html += `<tr>
+                let now = new Date();
+                let emp_date = new Date(emp.date_time);
+                let diff = Math.abs(now - emp_date);
+                let hours = Math.floor(diff / (1000 * 60 * 60));
+                let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                let time = hours + 'h ' + minutes + 'm ago';                out_html += `<tr>
                     <td><span class="badge badge-custom">${emp.full_name}</span></td>
                     <td><img src="<?= base_url('uploads/users/') ?>${emp.profile_picture}" /></td>
                     <td>${time}</td>
