@@ -61,7 +61,7 @@ h2 {
     background-color: #3819e7;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 4px 10px;
     font-weight: 500;
     gap: 4px;
     border-radius: 8px;
@@ -95,7 +95,7 @@ h2 {
 }
 
 .radio-tabs label {
-    padding: 10px 20px;
+    padding: 4px 10px;
     background: #fff;
     border: 2px solid #ccc;
     border-radius: 8px;
@@ -112,7 +112,7 @@ h2 {
 
 .filters {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
 }
 
@@ -153,7 +153,7 @@ h2 {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 15px;
+    padding: 4px 10px;
     border-radius: 8px;
     color: white;
     font-weight: 500;
@@ -205,84 +205,89 @@ h2 {
     width: 18px;
     height: 18px;
 }
+.col-md-12 {
+    padding: 0;
+    margin: 0;
+}
+
 </style>
-
-
-<div class="container">
+<div class="col-md-12">
+    <div class="col-md-7"></div>
+    <div class="col-md-5"></div>
     <h2>Attendance Report</h2>
     <div class="subtitle">Attendance status report depending on different type parameter</div>
+</div>
 
-    <div class="col-md-12">
-        <div class="col-md-5">
-            <div class='card'>
-                <h5>Select Report download type</h5>
-                <div class="buttons">
-                    <button class="pdf" data-d_type="pdf"><i data-lucide="file-text"></i> PDF</button>
-                    <button class="excel" data-d_type="excel"><i data-lucide="square-equal"></i> EXCEL</button>
-                    <button class="view" data-d_type="view"><i data-lucide="eye"></i> View</button>
-                </div>
-            </div>
-            <div  class='card'>
-                <h5>Select organization</h5>
-                <div class="radio-tabs">
-                    <input type="radio" name="orgTab" id="all" value="All" checked>
-                    <label for="all">All</label>
-
-
-                    <input type="radio" name="orgTab" id="egen" value="E-GEN">
-                    <label for="egen">E-GEN</label>
-    
-                    <input type="radio" name="orgTab" id="ipag" value="IPAG">
-                    <label for="ipag">IPAG</label>
-                </div>
+<div class="col-md-12">
+    <div class="col-md-5">
+        <div class='card'>
+            <h5>Select Report download type</h5>
+            <div class="buttons">
+                <button class="pdf" data-d_type="pdf"><i data-lucide="file-text"></i> PDF</button>
+                <button class="excel" data-d_type="excel"><i data-lucide="square-equal"></i> EXCEL</button>
+                <button class="view" data-d_type="view"><i data-lucide="eye"></i> View</button>
             </div>
         </div>
-        <div class="col-md-7">
-            <div class='card'>
+        <div  class='card'>
+            <h5>Select organization</h5>
+            <div class="radio-tabs">
+                <input type="radio" name="orgTab" id="all" value="All" checked>
+                <label for="all">All</label>
 
-                <h5>Filter's</h5>
-                <div class="filters">
-                    <div class="filter-group">
-                        <label>Date Range</label>
-                        <input type="text" id="dateRange" placeholder="Select date range">
-                    </div>
-                    <div class="filter-group">
-                        <label>Employee</label>
-                        <select>
-                            <option>Individual Employee</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class='card'>
-                <h5 >Report Type</h5>
-                <div class="status-buttons">
-                    <input type="radio" id="status-all" name="status" value="all">
-                    <label for="status-all" class="all"><i data-lucide="list"></i> ALL</label>
-    
-                    <input type="radio" id="status-late-in" name="status" value="late-in">
-                    <label for="status-late-in" class="late-in"><i data-lucide="clock"></i> LATE IN</label>
-    
-                    <input type="radio" id="status-early-leave" name="status" value="early-leave">
-                    <label for="status-early-leave" class="early-leave"><i data-lucide="log-out"></i> EARLY LEAVE</label>
-    
-                    <input type="radio" id="status-late-times" name="status" value="late-times">
-                    <label for="status-late-times" class="late-times"><i data-lucide="timer"></i> Late In Times</label>
-    
-                    <input type="radio" id="status-lwp" name="status" value="lwp">
-                    <label for="status-lwp" class="lwp"><i data-lucide="user-x"></i> LWP/ABSENT</label>
-    
-                    <input type="radio" id="status-duty-hour" name="status" value="duty-hour">
-                    <label for="status-duty-hour" class="duty-hour"><i data-lucide="briefcase"></i> DUTY HOUR</label>
-    
-                    <input type="radio" id="status-duty-hour-details" name="status" value="duty-hour-details">
-                    <label for="status-duty-hour-details" class="duty-hour-details"><i data-lucide="file-text"></i> DUTY
-                        HOUR (DETAILS)</label>
-                </div>
+
+                <input type="radio" name="orgTab" id="egen" value="E-GEN">
+                <label for="egen">E-GEN</label>
+
+                <input type="radio" name="orgTab" id="ipag" value="IPAG">
+                <label for="ipag">IPAG</label>
             </div>
         </div>
-
     </div>
+    <div class="col-md-7">
+        <div class='card'>
+
+            <h5>Filter's</h5>
+            <div class="filters">
+                <div class="filter-group">
+                    <label>Date Range</label>
+                    <input type="text" id="dateRange" placeholder="Select date range">
+                </div>
+                <div class="filter-group">
+                    <label>Employee</label>
+                    <select>
+                        <option>Individual Employee</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class='card'>
+            <h5 >Report Type</h5>
+            <div class="status-buttons">
+                <input type="radio" id="status-all" name="status" value="all">
+                <label for="status-all" class="all"><i data-lucide="list"></i> ALL</label>
+
+                <input type="radio" id="status-late-in" name="status" value="late-in">
+                <label for="status-late-in" class="late-in"><i data-lucide="clock"></i> LATE IN</label>
+
+                <input type="radio" id="status-early-leave" name="status" value="early-leave">
+                <label for="status-early-leave" class="early-leave"><i data-lucide="log-out"></i> EARLY LEAVE</label>
+
+                <input type="radio" id="status-late-times" name="status" value="late-times">
+                <label for="status-late-times" class="late-times"><i data-lucide="timer"></i> Late In Times</label>
+
+                <input type="radio" id="status-lwp" name="status" value="lwp">
+                <label for="status-lwp" class="lwp"><i data-lucide="user-x"></i> LWP/ABSENT</label>
+
+                <input type="radio" id="status-duty-hour" name="status" value="duty-hour">
+                <label for="status-duty-hour" class="duty-hour"><i data-lucide="briefcase"></i> DUTY HOUR</label>
+
+                <input type="radio" id="status-duty-hour-details" name="status" value="duty-hour-details">
+                <label for="status-duty-hour-details" class="duty-hour-details"><i data-lucide="file-text"></i> DUTY
+                    HOUR (DETAILS)</label>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
