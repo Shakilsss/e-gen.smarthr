@@ -84,7 +84,7 @@
                             <th>to date</th>
                             <th>app. From date</th>
                             <th>app. To date</th>
-                            <th>app. days<
+                            <th>app. days</th>
                             <th>Status</th>
                             <th>Remark</th>
                             <th>Action</th>
