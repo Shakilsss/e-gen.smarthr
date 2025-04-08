@@ -1563,6 +1563,16 @@ class Attendance extends MY_Controller
         $data['subview'] = $this->load->view("admin/attendance/reports", $data, true);
         $this->load->view('admin/layout/layout_main', $data); //page load
     }
+    public function generate_report($doc_type, $report_type, $org, $date_range, $employee=null){
+        $file_name = 'attendance_report_'.$report_type.'_'.$org.'_'.$date_range.'_'.$employee.'_'.time().'.'.$doc_type;
+        $file_path = FCPATH.'downloads/temp/'.$file_name;
+        $file_url = base_url('downloads/temp/'.$file_name);
+        header('Content-Type: application/octet-stream');
+        header("Content-Transfer-Encoding: Binary"); 
+        header("Content-disposition: attachment; filename=\"".$file_name."\""); 
+        readfile($file_url);
+        unlink($file_path);
+    }
 
 
 
