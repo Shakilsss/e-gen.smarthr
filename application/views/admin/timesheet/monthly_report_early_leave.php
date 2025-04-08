@@ -154,7 +154,6 @@
 						}
 					?>
 					</td>
-					<!-- <td style="vertical-align: middle;">< ?= isset($attendance_data) ? $attendance_data->status : '' ?></td> -->
 					<td><?php echo "N/A"?></td>
 				</tr>
 
