@@ -262,7 +262,8 @@
                 let diff = Math.abs(now - emp_date);
                 let hours = Math.floor(diff / (1000 * 60 * 60));
                 let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                let time = hours + 'h ' + minutes + 'm ago';                out_html += `<tr>
+                let time = hours + 'h ' + minutes + 'm ago';                
+                out_html += `<tr>
                     <td><span class="badge badge-custom">${emp.full_name}</span></td>
                     <td><img src="<?= base_url('uploads/users/') ?>${emp.profile_picture}" /></td>
                     <td>${time}</td>
