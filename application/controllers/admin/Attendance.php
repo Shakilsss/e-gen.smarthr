@@ -1553,4 +1553,18 @@ class Attendance extends MY_Controller
         // Print the response
         echo $result;
     }
+
+    public function reports()
+    {
+        $data['title'] = $this->lang->line('dashboard_attendance').' | '.$this->Xin_model->site_title();
+        $data['breadcrumbs'] = $this->lang->line('dashboard_attendance');
+        $data['path_url'] = 'attendance';
+        // $data['all_office_shifts'] = $this->Location_model->all_office_locations();
+        $data['subview'] = $this->load->view("admin/attendance/reports", $data, true);
+        $this->load->view('admin/layout/layout_main', $data); //page load
+    }
+
+
+
+
 }
