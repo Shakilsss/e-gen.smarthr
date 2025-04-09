@@ -504,6 +504,7 @@ class Attendance_model extends CI_Model
         $this->db->where('to_date <=', $second_date);
         $this->db->order_by('employee_id', 'ASC');
         return $this->db->get('xin_leave_applications')->result();
+        dd($this->db->last_query());
     }
     public function leavesm($emp_ids =null, $first_date, $second_date)
     {

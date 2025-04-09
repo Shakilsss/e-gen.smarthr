@@ -852,9 +852,11 @@ class Attendance extends MY_Controller
     public function monthly_report(){
         $type = $this->input->post('type');
         $first_date = $this->input->post('first_date');
+        $second_date = $this->input->post('second_date');
         $sql = $this->input->post('sql');
         $emp_id = explode(',', trim($sql));
         $data['first_date'] = $first_date;
+        $data['second_date'] = $second_date;
         $data['emp_id'] = $sql;
 
         $data['xin_employees'] =  $this->Attendance_model->get_employee($emp_id);
@@ -869,10 +871,13 @@ class Attendance extends MY_Controller
             echo $this->load->view("admin/timesheet/monthly_report_duty_hour_details", $data, true);
         }
         if($type ==4){
-            echo $this->load->view("admin/timesheet/monthly_report_attn_time_status", $data, true);
+            echo $this->load->view("admin/timesheet/monthly_report_late_in", $data, true);
         }
         if($type ==5){
             echo $this->load->view("admin/timesheet/monthly_report_early_leave", $data, true);
+        }
+        if($type ==6){
+            echo $this->load->view("admin/timesheet/monthly_report_lwp", $data, true);
         }
     }
 
@@ -888,15 +893,32 @@ class Attendance extends MY_Controller
         $data['stutuss']        = $stutuss;
         $data['first_date']     = $first_date;
         $data['second_date']    = $second_date;
+        $type           = $this->input->post('type');
         $data['type']           = $this->input->post('type');
     	$salary_month           = date("Y-m", strtotime($first_date));
         $data["salary_month"]   = $salary_month;
         $data['xin_employees']  =  $this->Attendance_model->leaves($emp_id, $first_date, $second_date, $stutuss);
-        if ($this->input->post('exl') == 1) {
-            echo $this->load->view("admin/attendance/leave_report_xlx", $data, true);
-        }else{
-            echo $this->load->view("admin/attendance/leave_report", $data, true);
+        dd($data);
+        if($type == 1){
+            echo "1";
         }
+        if($type == 2){
+            echo "2";
+        }
+        if($type == 3){
+            echo "3";
+        }
+        if($type == 4){
+            echo "4";
+        }
+
+        // if ($this->input->post('exl') == 1) {
+        //     echo $this->load->view("admin/attendance/leave_report_xlx", $data, true);
+        // }
+        
+        // else{
+        //     echo $this->load->view("admin/attendance/leave_report", $data, true);
+        // }
     }
     public function monthly_report_excel()
     {
