@@ -1,5 +1,15 @@
 <?php $get_animate = $this->Xin_model->get_content_animate();?>
 <?php $session = $this->session->userdata('username');?>
+<?php $role_id = $session['role_id']; ?>
+
+<style>
+    .warning {
+        color: #740303;
+    }
+    .table>thead>tr.warning>td {
+        background-color: #fce6e3;
+    }
+</style>
 
 <div class="row">
     <div class="col-md-12">
@@ -25,8 +35,13 @@
                             <th>Action</th>
                         </tr>
 
-                        <?php foreach($results as $k => $res) { ?>
-                        <tr>
+                        <?php foreach($results as $k => $res) { $class = ''; ?>
+                            <?php if (($role_id == 3 && $res->status == 2)) {
+                                $class = 'warning';
+                            } else if ($role_id == 1 && $res->status == 3) {
+                                $class = 'warning';
+                            } ?>
+                        <tr class="<?= $class; ?>">
                             <td><?php echo $k+1; ?></td>
                             <td><?php echo $res->first_name.' '.$res->last_name;?></td>
                             <td><?php echo date("d-m-Y", strtotime($res->from_date)) ;?></td>
@@ -38,6 +53,7 @@
                             <td>--</td>
                             <td>--</td>
                             <?php } ?>
+
                             <?php if ($res->status == 1) {
                                 $status = 'Draft';
                             } elseif ($res->status == 2) {
@@ -57,7 +73,6 @@
                                     <button type="button" class="btn btn-xs btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Action <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right">
-
                                         <?php if ($session['role_id'] == 1) { ?>
                                             <li><a href="<?php echo base_url();?>admin/leave/os_leave_del_rej/6/<?php echo $res->id;?>"><i class="fa fa-pencil-square-o"></i> Approve</a></li>
                                         <?php } else { ?>

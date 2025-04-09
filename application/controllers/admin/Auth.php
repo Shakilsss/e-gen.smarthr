@@ -55,10 +55,6 @@ class Auth extends MY_Controller
 		$this->form_validation->set_rules('ipassword', 'Password', 'trim|required|xss_clean');
 		//$Return = array('result'=>'', 'error'=>'', 'csrf_hash'=>'');
 
-		/*if ($this->form_validation->run() == FALSE)
-		{
-				//$this->load->view('myform');
-		}*/
 		$username = $this->input->post('iusername');
 		$password = $this->input->post('ipassword');
 		/* Define return | here result is used to return user data and error for error message */
@@ -78,47 +74,46 @@ class Auth extends MY_Controller
 		$data = array(
 			'username' => $username,
 			'password' => $password
-			);
+		);
 		$result = $this->Login_model->login($data);
 
 		if ($result == TRUE) {
-
-				$result = $this->Login_model->read_user_information($username);
-				$session_data = array(
+			$result = $this->Login_model->read_user_information($username);
+			$session_data = array(
 				'user_id' => $result[0]->user_id,
 				'role_id' => $result[0]->user_role_id,
 				'unit_id' => $result[0]->company_id,
+				'is_lead' => $result[0]->is_emp_lead,
 				'username' => $result[0]->username,
 				'email' => $result[0]->email,
 				'base_url' =>base_url(),
-				);
-				// Add user data in session
-				$this->session->set_userdata('username', $session_data);
-				$this->session->set_userdata('user_id', $session_data);
-				$Return['result'] = $this->lang->line('xin_success_logged_in');
+			);
+			// Add user data in session
+			$this->session->set_userdata('username', $session_data);
+			$this->session->set_userdata('user_id', $session_data);
+			$Return['result'] = $this->lang->line('xin_success_logged_in');
 
-				// update last login info
-				$ipaddress = $this->input->ip_address();
+			// update last login info
+			$ipaddress = $this->input->ip_address();
+			$last_data = array(
+				'last_login_date' => date('d-m-Y H:i:s'),
+				'last_login_ip' => $ipaddress,
+				'is_logged_in' => '1'
+			);
 
-				 $last_data = array(
-					'last_login_date' => date('d-m-Y H:i:s'),
-					'last_login_ip' => $ipaddress,
-					'is_logged_in' => '1'
-				);
+			$id = $result[0]->user_id; // user id
 
-				$id = $result[0]->user_id; // user id
+			$this->Xin_model->login_update_record($last_data, $id);
+			$Return['csrf_hash'] = $this->security->get_csrf_hash();
+			$this->session->set_flashdata('expire_official_document', 'expire_official_document');
+			$this->output($Return);
 
-				$this->Xin_model->login_update_record($last_data, $id);
-				$Return['csrf_hash'] = $this->security->get_csrf_hash();
-				$this->session->set_flashdata('expire_official_document', 'expire_official_document');
-				$this->output($Return);
-
-			} else {
-				$Return['error'] = $this->lang->line('xin_error_invalid_credentials');
-				/*Return*/
-				$Return['csrf_hash'] = $this->security->get_csrf_hash();
-				$this->output($Return);
-			}
+		} else {
+			$Return['error'] = $this->lang->line('xin_error_invalid_credentials');
+			/*Return*/
+			$Return['csrf_hash'] = $this->security->get_csrf_hash();
+			$this->output($Return);
+		}
 	}
 
 	// forgot password.

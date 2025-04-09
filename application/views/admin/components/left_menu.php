@@ -3,9 +3,26 @@
     .badge-pill {
       border-radius: 10px; /* Adjust the value for pill shape */
     }
+
+    .badge {
+      display: inline-block;
+      min-width: 10px;
+      padding: 3px 7px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+      vertical-align: baseline;
+      white-space: nowrap;
+      text-align: center;
+      border-radius: 10px;
+      text-shadow: none;
+      font-family: 'Kalpurush', 'Open Sans', Arial, sans-serif;
+    }
+
     .badge-danger {
-      background-color: #e42520; /* Bootstrap's default danger color */
-      color: white; /* Text color for visibility */
+      background-color: #f35958; /* Bootstrap's default danger color */
+      color: #fff; /* Text color for visibility */
     }
   </style>
 
@@ -91,7 +108,13 @@ if($theme[0]->sub_menu_icons != ''){
 
     <!-- employees -->
     <?php  if( in_array('389',$role_resources_ids) || in_array('123',$role_resources_ids) || in_array('124',$role_resources_ids) || in_array('130',$role_resources_ids) ) {?>
-      <li class="<?php if(!empty($arr_mod['attnd_open']))echo $arr_mod['attnd_open'];?> treeview"> <a href="#"> <i class="fa fa-users"></i> <span> My </span> <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span> </a>
+      <li class="<?php if(!empty($arr_mod['attnd_open']))echo $arr_mod['attnd_open'];?> treeview">
+        <a href="#"> <i class="fa fa-users"></i>
+          <span> My </span> <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i></span>
+          <?php if ($user_info[0]->is_emp_lead == 2) { ?>
+            <span class="badge badge-danger pull-right"><?= stl_ntf(); ?></span>
+          <?php } ?>
+        </a>
         <ul class="treeview-menu">
           <?php if(in_array('389',$role_resources_ids)) { ?>
             <li class="sidenav-link <?php if(!empty($arr_mod['emp_atten_active']))echo $arr_mod['emp_atten_active'];?>"> <a href="<?php echo site_url('admin/attendance/employee_attendance');?>"><i class="fa <?php echo $submenuicon;?>"></i>Attendance</a> </li>
@@ -105,7 +128,14 @@ if($theme[0]->sub_menu_icons != ''){
             <li class="sidenav-link <?php if(!empty($arr_mod['emp_leaveo']))echo $arr_mod['emp_leaveo'];?>"> <a href="<?php echo site_url("admin/leave/emp_outstaton_leave");?>"><i class="fa <?php echo $submenuicon;?>"></i>Out Station Leave</a></li>
           <?php } ?>
 
-          <li class="sidenav-link <?php if(!empty($arr_mod['os_leaveo']))echo $arr_mod['os_leaveo'];?>"> <a href="<?php echo site_url("admin/leave/approve_os_leave");?>"><i class="fa <?php echo $submenuicon;?>"></i>Approve Station Leave</a></li>
+          <?php if ($user_info[0]->is_emp_lead == 2) { ?>
+          <li class="sidenav-link <?php if(!empty($arr_mod['os_leaveo']))echo $arr_mod['os_leaveo'];?>">
+            <a href="<?php echo site_url("admin/leave/approve_os_leave");?>">
+            <i class="fa <?php echo $submenuicon;?>"></i>App. Station Leave
+            <span class="badge badge-danger pull-right"> <?= stl_ntf(); ?> </span>
+            </a>
+            </li>
+            <?php } ?>
 
           <?php if(in_array('130',$role_resources_ids)) { ?>
             <li class="sidenav-link <?php if(!empty($arr_mod['emp_holyday']))echo $arr_mod['emp_holyday'];?>"> <a href="<?php echo site_url("admin/leave/emp_holyday");?>"><i class="fa <?php echo $submenuicon;?>"></i>Holiday</a></li>
