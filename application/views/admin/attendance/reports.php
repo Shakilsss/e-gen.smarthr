@@ -209,95 +209,105 @@ h2 {
     padding: 0;
     margin: 0;
 }
+.loader_report{
+    display: none;
+}
 
 </style>
 <div class="col-md-12">
-    <div class="col-md-7"></div>
-    <div class="col-md-5"></div>
-    <h2>Attendance Report</h2>
-    <div class="subtitle">Attendance status report depending on different type parameter</div>
-</div>
-
-<div class="col-md-12">
-    <div class="col-md-5">
-        <div class='card'>
-            <h5>Select Report download type</h5>
-            <div class="buttons">
-                <button class="pdf" data-d_type="pdf"><i data-lucide="file-text"></i> PDF</button>
-                <button class="excel" data-d_type="excel"><i data-lucide="square-equal"></i> EXCEL</button>
-                <button class="view" data-d_type="view"><i data-lucide="eye"></i> View</button>
-            </div>
+    <div class="col-md-12" style="display: flex;align-items: center;">
+        <div class="col-md-7">
+            <h2>Attendance Report</h2>
+            <div class="subtitle">Attendance status report depending on different type parameter</div>
         </div>
-        <div  class='card'>
-            <h5>Select organization</h5>
-            <div class="radio-tabs">
-                <input type="radio" name="orgTab" id="all" value="All" checked>
-                <label for="all">All</label>
-
-
-                <input type="radio" name="orgTab" id="egen" value="E-GEN">
-                <label for="egen">E-GEN</label>
-
-                <input type="radio" name="orgTab" id="ipag" value="IPAG">
-                <label for="ipag">IPAG</label>
+        <div class="col-md-5">
+            <div class="loader_report" id="loading">
+                <img src="<?php echo base_url()?>/skin/img/loader.gif" style="height: 40px;">
             </div>
         </div>
     </div>
-    <div class="col-md-7">
-        <div class='card'>
-
-            <h5>Filter's</h5>
-            <div class="filters">
-                <div class="filter-group">
-                    <label>Date Range</label>
-                    <input type="text" id="dateRange" placeholder="Select date range">
+    <div class="col-md-12">
+        <div class="col-md-5">
+            <div class='card'>
+                <h5>Select Report download type</h5>
+                <div class="buttons">
+                    <button class="pdf report" data-d_type="pdf"><i data-lucide="file-text"></i> PDF</button>
+                    <button class="excel report" data-d_type="excel"><i data-lucide="square-equal"></i> EXCEL</button>
+                    <button class="view report" data-d_type="view"><i data-lucide="eye"></i> View</button>
                 </div>
-                <div class="filter-group">
-                    <label>Employee</label>
-                    <select>
-                        <option>Individual Employee</option>
-                    </select>
+            </div>
+            <div  class='card'>
+                <h5>Select organization</h5>
+                <div class="radio-tabs">
+                    <input type="radio" name="orgTab" id="all" value="All" checked>
+                    <label for="all">All</label>
+    
+    
+                    <input type="radio" name="orgTab" id="egen" value="E-GEN">
+                    <label for="egen">E-GEN</label>
+    
+                    <input type="radio" name="orgTab" id="ipag" value="IPAG">
+                    <label for="ipag">IPAG</label>
                 </div>
             </div>
         </div>
-        <div class='card'>
-            <h5 >Report Type</h5>
-            <div class="status-buttons">
-                <input type="radio" id="status-all" name="status" value="all">
-                <label for="status-all" class="all"><i data-lucide="list"></i> ALL</label>
-
-                <input type="radio" id="status-late-in" name="status" value="late-in">
-                <label for="status-late-in" class="late-in"><i data-lucide="clock"></i> LATE IN</label>
-
-                <input type="radio" id="status-early-leave" name="status" value="early-leave">
-                <label for="status-early-leave" class="early-leave"><i data-lucide="log-out"></i> EARLY LEAVE</label>
-
-                <input type="radio" id="status-late-times" name="status" value="late-times">
-                <label for="status-late-times" class="late-times"><i data-lucide="timer"></i> Late In Times</label>
-
-                <input type="radio" id="status-lwp" name="status" value="lwp">
-                <label for="status-lwp" class="lwp"><i data-lucide="user-x"></i> LWP/ABSENT</label>
-
-                <input type="radio" id="status-duty-hour" name="status" value="duty-hour">
-                <label for="status-duty-hour" class="duty-hour"><i data-lucide="briefcase"></i> DUTY HOUR</label>
-
-                <input type="radio" id="status-duty-hour-details" name="status" value="duty-hour-details">
-                <label for="status-duty-hour-details" class="duty-hour-details"><i data-lucide="file-text"></i> DUTY
-                    HOUR (DETAILS)</label>
+        <div class="col-md-7">
+            <div class='card'>
+    
+                <h5>Filter's</h5>
+                <div class="filters">
+                    <div class="filter-group">
+                        <label>Date Range</label>
+                        <input type="text" id="dateRange" placeholder="Select date range">
+                    </div>
+                    <div class="filter-group">
+                        <label>Employee</label>
+                        <select name="employee" id="employee">
+                            <option value="">Individual Employee</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class='card'>
+                <h5 >Report Type</h5>
+                <div class="status-buttons">
+                    <input type="radio" id="status-all" name="report_type" value="all">
+                    <label for="status-all" class="all"><i data-lucide="list"></i> ALL</label>
+    
+                    <input type="radio" id="status-late-in" name="report_type" value="late-in">
+                    <label for="status-late-in" class="late-in"><i data-lucide="clock"></i> LATE IN</label>
+    
+                    <input type="radio" id="status-early-leave" name="report_type" value="early-leave">
+                    <label for="status-early-leave" class="early-leave"><i data-lucide="log-out"></i> EARLY LEAVE</label>
+    
+                    <input type="radio" id="status-late-times" name="report_type" value="late-times">
+                    <label for="status-late-times" class="late-times"><i data-lucide="timer"></i> Late In Times</label>
+    
+                    <input type="radio" id="status-lwp" name="report_type" value="lwp">
+                    <label for="status-lwp" class="lwp"><i data-lucide="user-x"></i> LWP/ABSENT</label>
+    
+                    <input type="radio" id="status-duty-hour" name="report_type" value="duty-hour">
+                    <label for="status-duty-hour" class="duty-hour"><i data-lucide="briefcase"></i> DUTY HOUR</label>
+    
+                    <input type="radio" id="status-duty-hour-details" name="report_type" value="duty-hour-details">
+                    <label for="status-duty-hour-details" class="duty-hour-details"><i data-lucide="file-text"></i> DUTY
+                        HOUR (DETAILS)</label>
+                </div>
             </div>
         </div>
+    
     </div>
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <script>
+    $()
 // Init date picker
 flatpickr("#dateRange", {
     mode: "range",
     dateFormat: "Y-m-d",
-    defaultDate: ["2025-04-01", "2025-04-08"]
+    defaultDate: [new Date().toISOString().split('T')[0], new Date().toISOString().split('T')[0]]
 });
 
 // Org radio tabs
@@ -317,3 +327,27 @@ document.querySelectorAll('input[name="status"]').forEach(radio => {
 // Load Lucide icons
 lucide.createIcons();
 </script>
+
+
+
+<script>
+    $(document).ready(function() {
+        $('.report').click(function() {
+            var doc_type = $(this).data('d_type');
+            var report_type = $('input[name="report_type"]:checked').val();
+            var org = $('input[name="orgTab"]:checked').val();
+            var date_range = $('#dateRange').val();
+            var employee = $('select[name="employee"]').val();
+            if (!report_type) {
+                alert('Please select a report type');
+                return false;
+            }
+            if (!org) {
+                alert('Please select an organization');
+                return false;
+            }
+            window.location.href = '<?php echo base_url('admin/attendance/generate_report/'); ?>' + doc_type + '/' + report_type + '/' + org + '/' + date_range + '/' + employee;
+        });
+    });
+</script>
+
