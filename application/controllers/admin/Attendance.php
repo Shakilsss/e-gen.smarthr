@@ -893,15 +893,32 @@ class Attendance extends MY_Controller
         $data['stutuss']        = $stutuss;
         $data['first_date']     = $first_date;
         $data['second_date']    = $second_date;
+        $type           = $this->input->post('type');
         $data['type']           = $this->input->post('type');
     	$salary_month           = date("Y-m", strtotime($first_date));
         $data["salary_month"]   = $salary_month;
         $data['xin_employees']  =  $this->Attendance_model->leaves($emp_id, $first_date, $second_date, $stutuss);
-        if ($this->input->post('exl') == 1) {
-            echo $this->load->view("admin/attendance/leave_report_xlx", $data, true);
-        }else{
-            echo $this->load->view("admin/attendance/leave_report", $data, true);
+        dd($data);
+        if($type == 1){
+            echo "1";
         }
+        if($type == 2){
+            echo "2";
+        }
+        if($type == 3){
+            echo "3";
+        }
+        if($type == 4){
+            echo "4";
+        }
+
+        // if ($this->input->post('exl') == 1) {
+        //     echo $this->load->view("admin/attendance/leave_report_xlx", $data, true);
+        // }
+        
+        // else{
+        //     echo $this->load->view("admin/attendance/leave_report", $data, true);
+        // }
     }
     public function monthly_report_excel()
     {

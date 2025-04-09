@@ -45,7 +45,7 @@
 	<div id="">
 		<div class="">
 			<table class="table table-bordered table-sm border-dark">
-				<!-- <thead class="header-row"> -->
+				<thead class="header-row">
 					<tr class="text-center">
 						<th>SL.</th>
 						<th>ID</th>
@@ -57,8 +57,9 @@
 						?>
 						<th><?php echo $i?></th>
 						<?php } ?>
+						<th>Total LWP</th>
 					</tr>
-				<!-- </thead> -->
+				</thead>
 				<tbody>
 				<?php
 
@@ -80,6 +81,7 @@
 				$row_count = 0;
 				$total_rows = count($xin_employees);
 				foreach ($xin_employees as $r) {
+					$count = 0;
 					if ($row_count > 0 && $row_count % 19 == 0) {
 						echo '<tr class="page-break" style="border:none"></tr>';?>
 						<!-- Add company header on new page -->
@@ -114,6 +116,7 @@
 									?>
 									<th><?php echo $i?></th>
 									<?php } ?>
+									<th>Total LWP</th>
 								</tr>
 							</thead>
 					<?php }
@@ -137,7 +140,7 @@
 						if ($status == 'Off Day') {
 							echo 'W';
 						} elseif ($status == 'Present') {
-							echo 'P';
+							echo ''; // not need to show in report
 						} elseif ($status == 'Holiday') {
 							echo 'H';
 						} elseif ($status == 'Leave') {
@@ -146,13 +149,18 @@
 							$this->db->where('to_date>=', $current_date);
 							$this->db->where('employee_id', $r->user_id);
 							$leave_type = $this->db->get('xin_leave_applications')->row("leave_type");
-							echo strtoupper($leave_type);
+							echo $leave_type == 'wp' ? 'A' : '';
+							if($leave_type == 'wp'){
+								@$count++;
+							}
 						} else {
-							echo 'A';
+							echo '';
 						}
 						echo '</td>';
 					}
 					?>
+
+					<td style="vertical-align: middle;"><?= @$count ?></td>
 				</tr>
 
 				<?php if($row_count % 19 == 0){?>
