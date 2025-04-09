@@ -924,6 +924,7 @@
     var ajaxRequest;  // The variable that makes Ajax possible!
     ajaxRequest = new XMLHttpRequest();
     first_date = document.getElementById('process_date').value;
+    second_date = document.getElementById('second_date').value;
     var checkboxes = document.getElementsByName('select_emp_id[]');
     var sql = get_checked_value(checkboxes);
 
@@ -939,7 +940,7 @@
     }else{
       document.getElementById("loading").style.visibility = "visible";
     }
-    var data = "first_date="+first_date+'&type='+type+'&sql='+sql;
+    var data = "first_date="+first_date+'&second_date='+second_date+'&type='+type+'&sql='+sql;
 
     url = base_url + "/monthly_report";
     ajaxRequest.open("POST", url, true);

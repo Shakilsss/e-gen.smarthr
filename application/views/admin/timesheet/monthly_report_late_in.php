@@ -9,7 +9,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Attendance Status Report (All)</title>
+	<title>Attendance Status Report (Late In)</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 	<style>
@@ -41,7 +41,7 @@
 
 			.page-break {
 				page-break-after: always;
-				margin-bottom: 10px;
+				/* margin-bottom: 10px; */
 			}
 		}
 		table tr:last-child td:last-child {
@@ -60,7 +60,7 @@
 						<th>Date</th>
 						<th>Name</th>
 						<th>Designation</th>
-						<th>Leave Time</th>
+						<th>In Time</th>
 						<th>Status</th>
 					</tr>
 				<!-- </thead> -->
@@ -71,26 +71,28 @@
 				$row_count = 0;
 				$total_rows = count($xin_employees);
 				foreach ($xin_employees as $r) { 
-					$current_date = date('Y-m-d', strtotime($first_date . ' + ' . ($j - 1) . ' days'));
-					$out_time = $this->db->select('out_time')
+					// $first_date = date('Y-m-01', strtotime($first_date));
+					$late_start = $this->db->select('late_start')
 					->get('emp_shift_schedule')
-					->row('out_time');
+					->row('late_start');
 					$attendance_data = $this->db->select('clock_in, clock_out, status')
-					->where("attendance_date >=", $current_date)
-					->where("attendance_date <=", $current_date) 
+					->where("attendance_date >=", $first_date)
+					->where("attendance_date <=", $second_date) 
 					->where('employee_id', $r->user_id)
-					->where('TIME(clock_out) <', date('h:i:01', strtotime($out_time)))
+					->where('TIME(clock_in) >=', date('h:i:01', strtotime($late_start)))
 					->get('xin_attendance_time')
 					->row();
-					// dd($attendance_data);
-					// if(isset($attendance_data->status) != 'Present'){
-					// 	continue;
-					// }
+
+					// dd($this->db->last_query());
+
+
 					$user_designation = $this->db->select('designation_name')
 					->where('designation_id', $r->designation_id)
 					->get('xin_designations')
 					->row('designation_name');
-
+					// if(empty($attendance_data)){
+					// 	continue;
+					// }
 					// dd($user_designation);
 					if ($row_count > 0 && $row_count % 17 == 0) {
 						echo '<tr class="page-break" style="border:none;"></tr>';?> 
@@ -101,7 +103,7 @@
 									<h3 class="fw-bold" style="margin-top:-35px;position: absolute;">e.Gen <br>Consultants Ltd</h3>
 								</div>
 								<div class="col-4">
-									<h4 class="fw-bold text-center">Attendance Report <br><p class="text-center h5">(Early Leave)</p></h4>
+									<h4 class="fw-bold text-center">Attendance Report <br><p class="text-center h5">(Late In)</p></h4>
 								</div>
 								<div class="col-4 text-end">
 									<img src="logo.png" alt="e.Gen Logo" height="60" style="margin: 5px;">
@@ -138,24 +140,31 @@
 					<td style="vertical-align: middle;"><?= $r->first_name . ' ' . $r->last_name ?></td>
 					<td style="vertical-align: middle;"><?= $user_designation ?></td>
 					<td style="vertical-align: middle;">
-					<?= isset($attendance_data) ? date('h:i:s a',strtotime($attendance_data->clock_out)) : '' ?><br>
+					<?= isset($attendance_data) ? date('h:i:s a',strtotime($attendance_data->clock_in)) : '' ?><br>
 					<?php 
 						// Assuming $attendance_data->clock_in and $attendance_data->clock_out are the time values
 						if (isset($attendance_data->clock_in) && isset($attendance_data->clock_out)) {
-							$clock_in = new DateTime($attendance_data->clock_in);
-							$clock_out = new DateTime($attendance_data->clock_out);
-							$interval = $clock_in->diff($clock_out);
+
+							$first_time = new DateTime(date('h:i:s a', strtotime($attendance_data->clock_in)));
+							$second_time = new DateTime(date('h:i:s a', strtotime($late_start)));
+							$interval = $first_time->diff($second_time);
 							$hours = $interval->h;
 							$minutes = $interval->i;
 							$seconds = $interval->s;
-							echo $hours . ' hours ' . $minutes . ' minutes ' . $seconds . ' seconds';
+							if($hours != 0) {
+								echo $hours . ' hours ';
+							}
+							if($minutes != 0) {
+								echo $minutes . ' minutes ';
+							}
+							echo $seconds . ' seconds late';
 						} else {
 							echo "N/A";
 						}
 					?>
 					</td>
 					<!-- <td style="vertical-align: middle;">< ?= isset($attendance_data) ? $attendance_data->status : '' ?></td> -->
-					<td><?php echo "N/A"?></td>
+					<td style="vertical-align: middle;"><?php echo "N/A"?></td>
 				</tr>
 
 				<?php if($row_count % 17 == 0){?>
@@ -174,7 +183,7 @@
 								<h3 class="fw-bold" style="margin-top:-35px;position: absolute;">e.Gen <br>Consultants Ltd</h3>
 							</div>
 							<div class="col-4">
-								<h4 class="fw-bold text-center">Attendance Report <br><p class="text-center h5">(Early Leave)</p></h4>
+								<h4 class="fw-bold text-center">Attendance Report <br><p class="text-center h5">(Late In)</p></h4>
 							</div>
 							<div class="col-4 text-end">
 								<img src="logo.png" alt="e.Gen Logo" height="60" style="margin: 5px;">

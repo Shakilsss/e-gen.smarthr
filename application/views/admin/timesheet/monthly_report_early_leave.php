@@ -71,21 +71,21 @@
 				$row_count = 0;
 				$total_rows = count($xin_employees);
 				foreach ($xin_employees as $r) { 
-					$current_date = date('Y-m-d', strtotime($first_date . ' + ' . ($j - 1) . ' days'));
+					$first_date = date('Y-m-d', strtotime($first_date ));
+					$second_date = date('Y-m-d', strtotime($first_date));
 					$out_time = $this->db->select('out_time')
 					->get('emp_shift_schedule')
 					->row('out_time');
 					$attendance_data = $this->db->select('clock_in, clock_out, status')
-					->where("attendance_date >=", $current_date)
-					->where("attendance_date <=", $current_date) 
+					->where("attendance_date >=", $first_date)
+					->where("attendance_date <=", $second_date) 
 					->where('employee_id', $r->user_id)
-					->where('TIME(clock_out) <', date('h:i:01', strtotime($out_time)))
+					->where('TIME(clock_out) <=', date('h:i:01', strtotime($out_time)))
+					->where('status', 'Present')
 					->get('xin_attendance_time')
 					->row();
 					// dd($attendance_data);
-					// if(isset($attendance_data->status) != 'Present'){
-					// 	continue;
-					// }
+				
 					$user_designation = $this->db->select('designation_name')
 					->where('designation_id', $r->designation_id)
 					->get('xin_designations')
@@ -142,15 +142,15 @@
 					<?php 
 						// Assuming $attendance_data->clock_in and $attendance_data->clock_out are the time values
 						if (isset($attendance_data->clock_in) && isset($attendance_data->clock_out)) {
-							$clock_in = new DateTime($attendance_data->clock_in);
-							$clock_out = new DateTime($attendance_data->clock_out);
+							$clock_in = new DateTime(date('h:i:s a', strtotime($attendance_data->clock_out)));
+							$clock_out = new DateTime(date('h:i:s a', strtotime($out_time)));
 							$interval = $clock_in->diff($clock_out);
 							$hours = $interval->h;
 							$minutes = $interval->i;
 							$seconds = $interval->s;
 							echo $hours . ' hours ' . $minutes . ' minutes ' . $seconds . ' seconds';
 						} else {
-							echo "N/A";
+							echo "--";
 						}
 					?>
 					</td>

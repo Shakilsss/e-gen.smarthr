@@ -257,6 +257,7 @@
                     <button class="btn btn-sm mr-5 sbtn mt-2" onclick="monthly_report(3)">Attendance Status (Duty Hour Details)</button>
                     <button class="btn btn-sm mr-5 sbtn mt-2" onclick="monthly_report(4)">Attendance Status (Attendance Time Status)</button>
                     <button class="btn btn-sm mr-5 sbtn mt-2" onclick="monthly_report(5)">Attendance Status (Early Leave)</button>
+                    <button class="btn btn-sm mr-5 sbtn mt-2" onclick="monthly_report(6)">LWP/Absent</button>
                     <button class="btn btn-sm mr-5 sbtn mt-2" data-toggle="modal" data-target="#requisitionModal">Open Requisition Modal</button>
                     <button class="btn btn-sm mr-5 sbtn mt-2" onclick="leavecal(2,[1,4])">Leave Report(All)</button>
                     <button class="btn btn-sm mr-5 sbtn mt-2" onclick="leavecal(2,[2])">Leave Report(Approved)</button>
