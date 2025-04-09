@@ -962,7 +962,7 @@
 
   }
 
-  function leavecal(type, stutus) {
+  function leavecal(type, status) {
     var ajaxRequest;  // The variable that makes Ajax possible!
     ajaxRequest = new XMLHttpRequest();
     var first_date;
@@ -1014,7 +1014,7 @@
       alert('Please select second date');
       return ;
     }
-    var data = "first_date="+first_date+'&second_date='+second_date+'&sql='+sql+'&stutus='+stutus+'&type='+type;
+    var data = "first_date="+first_date+'&second_date='+second_date+'&sql='+sql+'&status='+status+'&type='+type;
 
     url = base_url + "/leave_report";
     ajaxRequest.open("POST", url, true);
@@ -1033,13 +1033,13 @@
 
 }
 
-  function monthly_leave_report(type, stutus) {
+  function monthly_leave_report(type, status) {
     var ajaxRequest;  // The variable that makes Ajax possible!
     ajaxRequest = new XMLHttpRequest();
     var first_date;
     var second_date;
 
-    if(type == 1){
+    if(type == 1 || type == 4){
     first_date = document.getElementById('process_date').value;
     second_date=first_date;
     second_date = document.getElementById('second_date').value;
@@ -1059,35 +1059,26 @@
         first_date = document.getElementById('process_date').value;
         second_date = document.getElementById('second_date').value;
       }
-
-
-
     var checkboxes = document.getElementsByName('select_emp_id[]');
-
     var sql = get_checked_value(checkboxes);
-    if(sql =='')
-    {
+    if(sql ==''){
       alert('Please select employee Id');
       return ;
     }
 
-    if(first_date =='')
-    {
+    if(first_date ==''){
       alert('Please select first date');
       return ;
     }
-    if(second_date =='')
-    {
+    if(second_date ==''){
       alert('Please select second date');
       return ;
     }
-    var data = "first_date="+first_date+'&second_date='+second_date+'&sql='+sql+'&stutus='+stutus+'&type='+type;
-
+    var data = "first_date="+first_date+'&second_date='+second_date+'&sql='+sql+'&status='+status+'&type='+type;
     url = base_url + "/leave_report";
     ajaxRequest.open("POST", url, true);
     ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
     ajaxRequest.send(data);
-    // alert(url); return;
 
     ajaxRequest.onreadystatechange = function(){
       if(ajaxRequest.readyState == 4){

@@ -882,43 +882,38 @@ class Attendance extends MY_Controller
     }
 
     public function leave_report(){
-        $first_date             = $this->input->post('first_date');
-        $second_date            = $this->input->post('second_date');
-        $sql                    = $this->input->post('sql');
-        $stutus                 = $this->input->post('stutus');
-        $data['sql']            = $sql ;
-        $data['stutus']         = $stutus;
-        $emp_id                 = explode(',', trim($sql));
-        $stutuss                = explode(',', trim($stutus));
-        $data['stutuss']        = $stutuss;
-        $data['first_date']     = $first_date;
-        $data['second_date']    = $second_date;
-        $type           = $this->input->post('type');
-        $data['type']           = $this->input->post('type');
-    	$salary_month           = date("Y-m", strtotime($first_date));
-        $data["salary_month"]   = $salary_month;
-        $data['xin_employees']  =  $this->Attendance_model->leaves($emp_id, $first_date, $second_date, $stutuss);
-        dd($data);
+        $first_date = $this->input->post('first_date');
+        $second_date = $this->input->post('second_date');
+        $sql = $this->input->post('sql');
+        $status = $this->input->post('status');
+        $type = $this->input->post('type');
+
+        $data = [
+            'sql' => $sql,
+            'first_date' => $first_date,
+            'second_date' => $second_date,
+            'type' => $type,
+            'salary_month' => date("Y-m", strtotime($first_date)),
+            'xin_employees' => $this->Attendance_model->leaves(
+                explode(',', trim($sql)),
+                $first_date,
+                $second_date,
+                explode(',', trim($status))
+            )
+        ];
+        // dd($data);
         if($type == 1){
-            echo "1";
+            echo $this->load->view("admin/timesheet/leave_report_all", $data, true);
         }
         if($type == 2){
-            echo "2";
+            echo $this->load->view("admin/timesheet/leave_report_approved", $data, true);
         }
         if($type == 3){
-            echo "3";
+            echo $this->load->view("admin/timesheet/leave_report_pending", $data, true);
         }
         if($type == 4){
-            echo "4";
+            echo $this->load->view("admin/timesheet/leave_report_declined", $data, true);
         }
-
-        // if ($this->input->post('exl') == 1) {
-        //     echo $this->load->view("admin/attendance/leave_report_xlx", $data, true);
-        // }
-        
-        // else{
-        //     echo $this->load->view("admin/attendance/leave_report", $data, true);
-        // }
     }
     public function monthly_report_excel()
     {

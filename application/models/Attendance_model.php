@@ -495,16 +495,16 @@ class Attendance_model extends CI_Model
         return $this->db->get('xin_employee_move_register');
     }
 
-    public function leaves($emp_ids, $first_date, $second_date, $stutuss)
+    public function leaves($emp_ids, $first_date, $second_date, $status)
     {
+        // dd($status);
         $this->db->select('*');
         $this->db->where_in('employee_id', $emp_ids);
-        $this->db->where_in('status', $stutuss);
+        $this->db->where_in('status', $status);
         $this->db->where('from_date >=', $first_date);
         $this->db->where('to_date <=', $second_date);
         $this->db->order_by('employee_id', 'ASC');
         return $this->db->get('xin_leave_applications')->result();
-        dd($this->db->last_query());
     }
     public function leavesm($emp_ids =null, $first_date, $second_date)
     {
