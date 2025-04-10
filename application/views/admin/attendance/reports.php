@@ -369,9 +369,14 @@ $(document).ready(function() {
         $('#loading').show();
 
         $.ajax({
-            url: '<?php echo base_url('admin/attendance/generate_report/'); ?>' + doc_type +
-                '/' + report_type + '/' + org + '/' + date_range + '/' + employee,
-            type: 'GET',
+            url: '<?php echo base_url('admin/attendance/generate_report/'); ?>',
+            type: 'post',
+            data: {
+                report_type: report_type,
+                org: org,
+                date_range: date_range,
+                employee: employee
+            },
             dataType: 'json',
             success: function(response) {
                 $('#loading').hide();
