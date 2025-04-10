@@ -1593,26 +1593,26 @@ class Attendance extends MY_Controller
             ->get('xin_employees')
             ->result();    
         }
-        if($report == 'all'){
+        if($report_type == 'all'){
             $view_report = $this->load->view("admin/timesheet/monthly_report_all", $data, true);
         }
         if($report == 'late-in'){
             $view_report = $this->load->view("admin/timesheet/monthly_report_late_in", $data, true);
         }
-        if($report == 'early-leave'){
+        if($report_type == 'early-leave'){
             $view_report = $this->load->view("admin/timesheet/monthly_report_early_leave", $data, true);
         }
-        if($report == 'late-times'){
+        if($report_type == 'late-times'){
             $view_report = "Processing";
             // $view_report = $this->load->view("admin/timesheet/monthly_report_all", $data, true);
         }
-        if($report == 'lwp'){
+        if($report_type == 'lwp'){
             $view_report = $this->load->view("admin/timesheet/monthly_report_lwp", $data, true);
         }
-        if($report == 'duty-hour'){
+        if($report_type == 'duty-hour'){
             $view_report = $this->load->view("admin/timesheet/monthly_report_duty_hour", $data, true);
         }
-        if($report == 'duty-hour-details'){
+        if($report_type == 'duty-hour-details'){
             $view_report =  $this->load->view("admin/timesheet/monthly_report_duty_hour_details", $data, true);
         }        
         echo json_encode($view_report);
