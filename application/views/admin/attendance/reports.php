@@ -342,7 +342,12 @@ lucide.createIcons();
 </script>
 
 <!-- jsPDF for PDF generation -->
+<!-- jsPDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<!-- html2canvas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<!-- jsPDF autoTable plugin -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
 <!-- SheetJS (xlsx) for Excel export -->
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -380,18 +385,27 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(response) {
                 $('#loading').hide();
-
                 if (doc_type.toLowerCase() == 'pdf') {
                     const {
                         jsPDF
                     } = window.jspdf;
-                    const doc = new jsPDF();
+                    const doc = new jsPDF('landscape', 'pt', 'a4');
 
-                    doc.text("Attendance Report", 10, 10);
-                    doc.setFontSize(10);
-                    doc.text(response.replace(/<[^>]+>/g, ''), 10, 20); // Remove HTML tags
+                    // Convert response HTML to a DOM node
+                    const wrapper = document.createElement('div');
+                    wrapper.innerHTML = response;
 
-                    doc.save('attendance_report.pdf');
+                    const table = wrapper.querySelector('table');
+
+                    if (table) {
+                        doc.autoTable({
+                            html: table
+                        });
+                        doc.save('attendance_report.pdf');
+                    } else {
+                        doc.text("No table data found", 10, 10);
+                        doc.save('attendance_report.pdf');
+                    }
                 } else if (doc_type.toLowerCase() == 'excel') {
                     let worksheet = XLSX.utils.table_to_sheet($('<div>' + response +
                         '</div>').find('table')[0]);
