@@ -1611,6 +1611,7 @@ class Attendance extends MY_Controller
         header("Content-disposition: attachment; filename=\"".$file_name."\""); 
         readfile($file_url);
         unlink($file_path);
+        
     }
 
 }

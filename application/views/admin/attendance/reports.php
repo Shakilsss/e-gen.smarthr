@@ -328,7 +328,6 @@ lucide.createIcons();
 </script>
 
 
-
 <script>
     $(document).ready(function() {
         $('.report').click(function() {
@@ -346,7 +345,25 @@ lucide.createIcons();
                 alert('Please select an organization');
                 return false;
             }
-            window.location.href = '<?php echo base_url('admin/attendance/generate_report/'); ?>' + doc_type + '/' + report_type + '/' + org + '/' + date_range + '/' + employee;
+            // window.location.href = '<?php echo base_url('admin/attendance/generate_report/'); ?>' + doc_type + '/' + report_type + '/' + org + '/' + date_range + '/' + employee;
+            $.ajax({
+                url: '<?php echo base_url('admin/attendance/generate_report/'); ?>' + doc_type + '/' + report_type + '/' + org + '/' + date_range + '/' + employee,
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    var view_page = response.view_page;
+                    if (doc_type.toLowerCase() == 'pdf') {
+                        var a = window.open('', '_blank');
+                        a.document.write(view_page);
+                        a.document.close();
+                        a.print();
+                    } else if (doc_type.toLowerCase() == 'excel') {
+                        var a = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(view_page));
+                        a.document.close();
+                        a.focus();
+                    }
+                }
+            })
         });
     });
 </script>

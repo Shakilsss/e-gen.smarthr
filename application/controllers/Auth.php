@@ -38,9 +38,9 @@ class Auth extends MY_Controller {
 		/*Final JSON response*/
 		exit(json_encode($Return));
 	}
-		 
+
 	 public function login() {
-		 		
+
 		
 		/* Define return | here result is used to return user data and error for error message */
 		$Return = array('result'=>'', 'error'=>'', 'user_type'=>'', 'csrf_hash'=>'');

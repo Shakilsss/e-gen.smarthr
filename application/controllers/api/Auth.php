@@ -35,41 +35,49 @@ class Auth extends API_Controller
      * @method POST
      * @return Response|void
      */
-    public function login()
-    {
-        header("Access-Control-Allow-Origin: *");
-        // API Configuration
-        $this->_apiConfig([
-            'methods' => ['POST'],
-        ]);
-        $data = array(
-            'email' => $this->input->post('username'),
-            'password' => $this->input->post('password'),
-        );
-        $auth = $this->login_auth($data);
-        if ($auth['status'] == true) {
-            // you user authentication code will go here, you can compare the user with the database or whatever
-            $payload = [
-                'id' => $this->input->post('username'),
-                'other' => $this->input->post('password')
-            ];
-            // generate a token
-            $token = $this->authorization_token->generateToken($data);
-            $row = $this->db->where('user_id', $auth['user_id'])->get('api_keys')->row();
-            if (empty($row)) {
-                $this->db->insert('api_keys', array('api_key' => $token, 'user_id' => $auth['user_id'],'device_token'=>$this->input->post('device_token')));
-            } else {
-                $this->db->where('user_id', $auth['user_id'])->update('api_keys', array('api_key' => $token,'device_token'=>$this->input->post('device_token')));
-            }
-            $user_info = api_auth($token);
-            if ($user_info) {
-                $user_info['user_info']->token = $token;
-                $user_info['user_info']->device_token = $this->input->post('device_token');
-                $this->api_return([
-                    'status' => true,
-                    'message' => 'User login successful.',
-                    'data' => $user_info['user_info'],
-                ], 200);
+        public function login()
+        {
+            header("Access-Control-Allow-Origin: *");
+            // API Configuration
+            $this->_apiConfig([
+                'methods' => ['POST'],
+            ]);
+            $data = array(
+                'email' => $this->input->post('username'),
+                'password' => $this->input->post('password'),
+            );
+            $auth = $this->login_auth($data);
+            if ($auth['status'] == true) {
+                // you user authentication code will go here, you can compare the user with the database or whatever
+                $payload = [
+                    'id' => $this->input->post('username'),
+                    'other' => $this->input->post('password')
+                ];
+                // generate a token
+                $token = $this->authorization_token->generateToken($data);
+                $row = $this->db->where('user_id', $auth['user_id'])->get('api_keys')->row();
+                if (empty($row)) {
+                    $this->db->insert('api_keys', array('api_key' => $token, 'user_id' => $auth['user_id'],'device_token'=>$this->input->post('device_token')));
+                } else {
+                    $this->db->where('user_id', $auth['user_id'])->update('api_keys', array('api_key' => $token,'device_token'=>$this->input->post('device_token')));
+                }
+                $user_info = api_auth($token);
+                if ($user_info) {
+                    $user_info['user_info']->token = $token;
+                    $user_info['user_info']->device_token = $this->input->post('device_token');
+                    $this->api_return([
+                        'status' => true,
+                        'message' => 'User login successful.',
+                        'data' => $user_info['user_info'],
+                    ], 200);
+                } else {
+                    $this->api_return([
+                        'status' => false,
+                        'message' => 'User login unsuccessful.',
+                        'data' => [],
+                    ], 404);
+                }
+
             } else {
                 $this->api_return([
                     'status' => false,
@@ -77,21 +85,15 @@ class Auth extends API_Controller
                     'data' => [],
                 ], 404);
             }
-
-        } else {
-            $this->api_return([
-                'status' => false,
-                'message' => 'User login unsuccessful.',
-                'data' => [],
-            ], 404);
         }
-    }
     public function logout()
     {
         $authorization = $this->input->get_request_header('Authorization');
         // Validate and sanitize the authorization value
         if (!empty($authorization) && is_string($authorization)) {
             $authorization = trim($authorization);
+
+
             // Verify the validity of the API key before deleting it
             $existingKey = $this->db->where('api_key', $authorization)->get('api_keys')->row();
             if ($existingKey) {
@@ -103,6 +105,8 @@ class Auth extends API_Controller
                     'message' => 'User logout successful.',
                     'data' => [],
                 ], 200);
+
+                
                 
             } else {
                 // Error response for invalid API key
