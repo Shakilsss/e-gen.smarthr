@@ -1588,7 +1588,7 @@ class Attendance extends MY_Controller
         $decoded_range = urldecode($date_range);
         $dates         = explode(' to ', $decoded_range);
         $data['first_date']  = $dates[0];
-        $data['second_date'] = $dates[1];
+        $data['second_date'] = isset($dates[1]) ? $dates[1] : $dates[0];
         if($employee == null){
             $data['xin_employees'] = $this->db->distinct()
             ->select('user_id,first_name,last_name')
