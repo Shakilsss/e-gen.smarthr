@@ -20,6 +20,22 @@
  * @param	mixed
  */
 
+if (!function_exists('leave_ntf'))
+{
+    // leave cal
+    function leave_ntf() // station leave notification cal
+    {
+        $CI =& get_instance();
+        $session = $CI->session->userdata('username');
+        $CI->db->select('count(*) as total');
+		if ($session['role_id'] == 1) {
+			$CI->db->where_not_in('status', array(2,3));
+		}
+        $row = $CI->db->get('xin_leave_applications as os')->row();
+        return $row->total ? $row->total : 0;
+    }
+}
+
 if (!function_exists('stl_ntf'))
 {
     // leave cal
