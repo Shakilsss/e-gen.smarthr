@@ -1593,16 +1593,28 @@ class Attendance extends MY_Controller
             ->get('xin_employees')
             ->result();    
         }
-
-        $view_report = [
-            'all_report'               => $this->load->view("admin/timesheet/monthly_report_all", $data, true),
-            'duty_hour_report'         => $this->load->view("admin/timesheet/monthly_report_duty_hour", $data, true),
-            'duty_hour_details_report' => $this->load->view("admin/timesheet/monthly_report_duty_hour_details", $data, true),
-            'late_in_report'           => $this->load->view("admin/timesheet/monthly_report_late_in", $data, true),
-            'early_leave_report'       => $this->load->view("admin/timesheet/monthly_report_early_leave", $data, true),
-            'lwp_report'               => $this->load->view("admin/timesheet/monthly_report_lwp", $data, true)
-        ];
-        
+        if($report_type == 'all'){
+            $view_report = $this->load->view("admin/timesheet/monthly_report_all", $data, true);
+        }
+        if($report == 'late-in'){
+            $view_report = $this->load->view("admin/timesheet/monthly_report_late_in", $data, true);
+        }
+        if($report_type == 'early-leave'){
+            $view_report = $this->load->view("admin/timesheet/monthly_report_early_leave", $data, true);
+        }
+        if($report_type == 'late-times'){
+            $view_report = "Processing";
+            // $view_report = $this->load->view("admin/timesheet/monthly_report_all", $data, true);
+        }
+        if($report_type == 'lwp'){
+            $view_report = $this->load->view("admin/timesheet/monthly_report_lwp", $data, true);
+        }
+        if($report_type == 'duty-hour'){
+            $view_report = $this->load->view("admin/timesheet/monthly_report_duty_hour", $data, true);
+        }
+        if($report_type == 'duty-hour-details'){
+            $view_report =  $this->load->view("admin/timesheet/monthly_report_duty_hour_details", $data, true);
+        }        
         echo json_encode($view_report);
     }
 

@@ -2,8 +2,6 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 
 <style>
-
-
 .container {
     background: #ffffff;
     border-radius: 12px;
@@ -51,7 +49,7 @@ h2 {
 
 .buttons {
     display: flex;
-    flex-direction:row;
+    flex-direction: row;
     align-items: center;
 
     gap: 10px;
@@ -76,6 +74,7 @@ h2 {
 .buttons .excel {
     background-color: #1dbf73;
 }
+
 .buttons .view {
     background-color: #0074d9;
 }
@@ -205,14 +204,15 @@ h2 {
     width: 18px;
     height: 18px;
 }
+
 .col-md-12 {
     padding: 0;
     margin: 0;
 }
-.loader_report{
+
+.loader_report {
     display: none;
 }
-
 </style>
 <div class="col-md-12">
     <div class="col-md-12" style="display: flex;align-items: center;">
@@ -231,12 +231,12 @@ h2 {
             <div class='card'>
                 <h5>Select Report download type</h5>
                 <div class="buttons">
-                    <button class="pdf report"   data-d_type="pdf">   <i data-lucide="file-text"></i>    PDF   </button>
+                    <button class="pdf report" data-d_type="pdf"> <i data-lucide="file-text"></i> PDF </button>
                     <button class="excel report" data-d_type="excel"> <i data-lucide="square-equal"></i> EXCEL </button>
-                    <button class="view report"  data-d_type="view">  <i data-lucide="eye"></i>          View  </button>
+                    <button class="view report" data-d_type="view"> <i data-lucide="eye"></i> View </button>
                 </div>
             </div>
-            <div  class='card'>
+            <div class='card'>
                 <h5>Select organization</h5>
                 <div class="radio-tabs">
                     <input type="radio" name="orgTab" id="all" value="All" checked>
@@ -244,7 +244,7 @@ h2 {
 
                     <input type="radio" name="orgTab" id="egen" value="E-GEN">
                     <label for="egen">E-GEN</label>
-    
+
                     <input type="radio" name="orgTab" id="ipag" value="IPAG">
                     <label for="ipag">IPAG</label>
                 </div>
@@ -252,7 +252,7 @@ h2 {
         </div>
         <div class="col-md-7">
             <div class='card'>
-    
+
                 <h5>Filter's</h5>
                 <div class="filters">
                     <div class="filter-group">
@@ -268,40 +268,54 @@ h2 {
                 </div>
             </div>
             <div class='card'>
-                <h5 >Report Type</h5>
+                <h5>Report Type</h5>
                 <div class="status-buttons">
                     <input type="radio" id="status-all" name="report_type" value="all">
                     <label for="status-all" class="all"><i data-lucide="list"></i> ALL</label>
-    
+
                     <input type="radio" id="status-late-in" name="report_type" value="late-in">
                     <label for="status-late-in" class="late-in"><i data-lucide="clock"></i> LATE IN</label>
-    
+
                     <input type="radio" id="status-early-leave" name="report_type" value="early-leave">
-                    <label for="status-early-leave" class="early-leave"><i data-lucide="log-out"></i> EARLY LEAVE</label>
-    
+                    <label for="status-early-leave" class="early-leave"><i data-lucide="log-out"></i> EARLY
+                        LEAVE</label>
+
                     <input type="radio" id="status-late-times" name="report_type" value="late-times">
                     <label for="status-late-times" class="late-times"><i data-lucide="timer"></i> Late In Times</label>
-    
+
                     <input type="radio" id="status-lwp" name="report_type" value="lwp">
                     <label for="status-lwp" class="lwp"><i data-lucide="user-x"></i> LWP/ABSENT</label>
-    
+
                     <input type="radio" id="status-duty-hour" name="report_type" value="duty-hour">
                     <label for="status-duty-hour" class="duty-hour"><i data-lucide="briefcase"></i> DUTY HOUR</label>
-    
+
                     <input type="radio" id="status-duty-hour-details" name="report_type" value="duty-hour-details">
                     <label for="status-duty-hour-details" class="duty-hour-details"><i data-lucide="file-text"></i> DUTY
                         HOUR (DETAILS)</label>
                 </div>
             </div>
         </div>
-    
+
     </div>
 </div>
+
+<!-- Report Modal -->
+<div id="reportModal" style="display:none;">
+    <div id="modalBackdrop"
+        style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:999;"></div>
+    <div
+        style="position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:white;padding:20px;max-width:90%;max-height:90%;overflow:auto;z-index:1000;border-radius:12px;">
+        <button onclick="closeModal()"
+            style="float:right;background:red;color:white;border:none;padding:5px 10px;border-radius:5px;">X</button>
+        <div id="modalContent"></div>
+    </div>
+</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <script>
-    $()
+$()
 // Init date picker
 flatpickr("#dateRange", {
     mode: "range",
@@ -327,44 +341,70 @@ document.querySelectorAll('input[name="status"]').forEach(radio => {
 lucide.createIcons();
 </script>
 
+<!-- jsPDF for PDF generation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<!-- SheetJS (xlsx) for Excel export -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
 
 <script>
-    $(document).ready(function() {
-        $('.report').click(function() {
-            var doc_type = $(this).data('d_type');
-            var report_type = $('input[name="report_type"]:checked').val();
-            var org = $('input[name="orgTab"]:checked').val();
-            var date_range = $('#dateRange').val();
-            // console.log(date_range);
-            var employee = $('select[name="employee"]').val();
-            if (!report_type) {
-                alert('Please select a report type');
-                return false;
-            }
-            if (!org) {
-                alert('Please select an organization');
-                return false;
-            }
-            // window.location.href = '<?php echo base_url('admin/attendance/generate_report/'); ?>' + doc_type + '/' + report_type + '/' + org + '/' + date_range + '/' + employee;
-            $.ajax({
-                url: '<?php echo base_url('admin/attendance/generate_report/'); ?>' + doc_type + '/' + report_type + '/' + org + '/' + date_range + '/' + employee,
-                type: 'GET',
-                dataType: 'json',
-                success: function(response) {
-                    var view_page = response.view_page;
-                    if (doc_type.toLowerCase() == 'pdf') {
-                        var a = window.open('', '_blank');
-                        a.document.write(view_page);
-                        a.document.close();
-                        a.print();
-                    } else if (doc_type.toLowerCase() == 'excel') {
-                        var a = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(view_page));
-                        a.document.close();
-                        a.focus();
-                    }
+$(document).ready(function() {
+    $('.report').click(function() {
+        var doc_type = $(this).data('d_type');
+        var report_type = $('input[name="report_type"]:checked').val();
+        var org = $('input[name="orgTab"]:checked').val();
+        var date_range = $('#dateRange').val();
+        var employee = $('select[name="employee"]').val();
+
+        if (!report_type) {
+            alert('Please select a report type');
+            return false;
+        }
+        if (!org) {
+            alert('Please select an organization');
+            return false;
+        }
+
+        $('#loading').show();
+
+        $.ajax({
+            url: '<?php echo base_url('admin/attendance/generate_report/'); ?>',
+            type: 'post',
+            data: {
+                report_type: report_type,
+                org: org,
+                date_range: date_range,
+                employee: employee
+            },
+            dataType: 'json',
+            success: function(response) {
+                $('#loading').hide();
+
+                if (doc_type.toLowerCase() == 'pdf') {
+                    const {
+                        jsPDF
+                    } = window.jspdf;
+                    const doc = new jsPDF();
+
+                    doc.text("Attendance Report", 10, 10);
+                    doc.setFontSize(10);
+                    doc.text(response.replace(/<[^>]+>/g, ''), 10, 20); // Remove HTML tags
+
+                    doc.save('attendance_report.pdf');
+                } else if (doc_type.toLowerCase() == 'excel') {
+                    let worksheet = XLSX.utils.table_to_sheet($('<div>' + response +
+                        '</div>').find('table')[0]);
+                    let workbook = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(workbook, worksheet, "Report");
+
+                    XLSX.writeFile(workbook, 'attendance_report.xlsx');
+                } else if (doc_type.toLowerCase() == 'view') {
+                    $('#modalContent').html(response);
+                    $('#reportModal').show();
                 }
-            })
+            }
         });
     });
+});
 </script>
-
