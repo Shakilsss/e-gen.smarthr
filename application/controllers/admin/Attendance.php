@@ -1579,7 +1579,12 @@ class Attendance extends MY_Controller
         $data['subview'] = $this->load->view("admin/attendance/reports", $data, true);
         $this->load->view('admin/layout/layout_main', $data); //page load
     }
-    public function generate_report($doc_type, $report_type, $org, $date_range, $employee=null){
+    public function generate_report(){
+        // $doc_type = $this->input->post('doc_type');
+        $report_type = $this->input->post('report_type');
+        $org         = $this->input->post('org');
+        $date_range  = $this->input->post('date_range');
+        $employee    = $this->input->post('employee');
         $decoded_range = urldecode($date_range);
         $dates         = explode(' to ', $decoded_range);
         $data['first_date']  = $dates[0];
