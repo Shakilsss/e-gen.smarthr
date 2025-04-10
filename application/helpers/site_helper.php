@@ -17,36 +17,56 @@
  * Prints human-readable information about a variable
  *
  * @access	public
- * @param	mixed 
+ * @param	mixed
  */
+
+if (!function_exists('stl_ntf'))
+{
+    // leave cal
+    function stl_ntf() // station leave notification cal
+    {
+        $CI =& get_instance();
+        $session = $CI->session->userdata('username');
+        $CI->db->select('count(*) as total');
+		if ($session['role_id'] == 3) {
+			$CI->db->where('status', 2)->where('control_person',$session['user_id']);
+		} else if ($session['role_id'] == 1) {
+			$CI->db->where('status', 3);
+		}
+        $row = $CI->db->get('leave_out_station as os')->row();
+        return $row->total ? $row->total : 0;
+    }
+}
+
+
 if ( ! function_exists('GetDay'))
 {
     function GetDay($sStartDate, $sEndDate)
-    {  
+    {
         $CI =& get_instance();
 
-        $sStartDate = date("Y-m-d", strtotime($sStartDate)); 
-        $sEndDate = date("Y-m-d", strtotime($sEndDate)); 
-          
-        // Start the variable off with the start date  
-        $aDays[] = date("l", strtotime($sStartDate));  
-    
-        // Set a 'temp' variable, sCurrentDate, with  
-        // the start date - before beginning the loop  
-        $sCurrentDate = $sStartDate;  
-    
-        // While the current date is less than the end date  
+        $sStartDate = date("Y-m-d", strtotime($sStartDate));
+        $sEndDate = date("Y-m-d", strtotime($sEndDate));
+
+        // Start the variable off with the start date
+        $aDays[] = date("l", strtotime($sStartDate));
+
+        // Set a 'temp' variable, sCurrentDate, with
+        // the start date - before beginning the loop
+        $sCurrentDate = $sStartDate;
+
+        // While the current date is less than the end date
         while($sCurrentDate < $sEndDate)
-        {  
-            // Add a day to the current date  
-            $sCurrentDate = date("Y-m-d", strtotime("+1 day", strtotime($sCurrentDate)));  
-     
-            // Add this new day to the aDays array  
-                $aDays[] = date("l", strtotime($sCurrentDate)); 
+        {
+            // Add a day to the current date
+            $sCurrentDate = date("Y-m-d", strtotime("+1 day", strtotime($sCurrentDate)));
+
+            // Add this new day to the aDays array
+                $aDays[] = date("l", strtotime($sCurrentDate));
             //print_r($aDays);
-        }  
-     // Once the loop has finished, return the  
-     return $aDays;  
+        }
+     // Once the loop has finished, return the
+     return $aDays;
     }
 }
 
@@ -54,31 +74,31 @@ if ( ! function_exists('GetDay'))
 if ( ! function_exists('GetDayDate'))
 {
     function GetDayDate($sStartDate, $sEndDate)
-    {  
+    {
         $CI =& get_instance();
 
-        $sStartDate = date("Y-m-d", strtotime($sStartDate)); 
-        $sEndDate = date("Y-m-d", strtotime($sEndDate)); 
-          
-        // Start the variable off with the start date  
-        $aDays[] = (object) ['date' => $sStartDate, 'day' => date("l", strtotime($sStartDate))];  
-    
-        // Set a 'temp' variable, sCurrentDate, with  
-        // the start date - before beginning the loop  
-        $sCurrentDate = $sStartDate;  
-    
-        // While the current date is less than the end date  
+        $sStartDate = date("Y-m-d", strtotime($sStartDate));
+        $sEndDate = date("Y-m-d", strtotime($sEndDate));
+
+        // Start the variable off with the start date
+        $aDays[] = (object) ['date' => $sStartDate, 'day' => date("l", strtotime($sStartDate))];
+
+        // Set a 'temp' variable, sCurrentDate, with
+        // the start date - before beginning the loop
+        $sCurrentDate = $sStartDate;
+
+        // While the current date is less than the end date
         while($sCurrentDate < $sEndDate)
-        {  
-            // Add a day to the current date  
-            $sCurrentDate = date("Y-m-d", strtotime("+1 day", strtotime($sCurrentDate)));  
-     
-            // Add this new day to the aDays array  
-            $aDays[] = (object) ['date' => $sCurrentDate, 'day' => date("l", strtotime($sCurrentDate))]; 
+        {
+            // Add a day to the current date
+            $sCurrentDate = date("Y-m-d", strtotime("+1 day", strtotime($sCurrentDate)));
+
+            // Add this new day to the aDays array
+            $aDays[] = (object) ['date' => $sCurrentDate, 'day' => date("l", strtotime($sCurrentDate))];
             //print_r($aDays);
-        }  
-     // Once the loop has finished, return the  
-     return $aDays;  
+        }
+     // Once the loop has finished, return the
+     return $aDays;
     }
 
 }
@@ -161,9 +181,9 @@ if ( ! function_exists('get_cal_leave'))
             $qty = 0;
         } else {
             $effective_date = date("Y")."-12-31";
-            $d1 = new DateTime($effective_date); 
-            $d2 = new DateTime($join_cal_date);   
-            $Months = $d2->diff($d1); 
+            $d1 = new DateTime($effective_date);
+            $d2 = new DateTime($join_cal_date);
+            $Months = $d2->diff($d1);
             $month = $Months->m;
 
             if ($type == 2) {

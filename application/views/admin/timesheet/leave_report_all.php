@@ -1,6 +1,6 @@
 <?php 
 	$first_date  = date('Y-m-01', strtotime($first_date));
-	$second_date = date('Y-m-t', strtotime($first_date));
+	$second_date = date('Y-m-d', strtotime($second_date));
 	$total_days = date('t', strtotime($first_date));
 	$row_count = 0;
 ?>
@@ -9,7 +9,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Attendance Status Report (All)</title>
+	<title>Leave Report (All)</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 	<style>
@@ -41,7 +41,7 @@
 
 			.page-break {
 				page-break-after: always;
-				margin-bottom: 10px;
+				/* margin-bottom: 10px; */
 			}
 		}
 		table tr:last-child td:last-child {
@@ -56,12 +56,10 @@
 				<!-- <thead class="header-row"> -->
 					<tr class="text-center">
 						<th>SL.</th>
-						<th>ID</th>
-						<th>Date</th>
-						<th>Name</th>
-						<th>Designation</th>
-						<th>Leave Time</th>
-						<th>Status</th>
+						<th>NAME</th>
+						<th>DASIGNATION</th>
+						<th>LEAVE DAYS</th>
+						<th>TOTAL</th>
 					</tr>
 				<!-- </thead> -->
 				<tbody>
@@ -71,27 +69,13 @@
 				$row_count = 0;
 				$total_rows = count($xin_employees);
 				foreach ($xin_employees as $r) { 
-					$first_date = date('Y-m-d', strtotime($first_date ));
-					$second_date = date('Y-m-d', strtotime($first_date));
-					$out_time = $this->db->select('out_time')
-					->get('emp_shift_schedule')
-					->row('out_time');
-					$attendance_data = $this->db->select('clock_in, clock_out, status')
-					->where("attendance_date >=", $first_date)
-					->where("attendance_date <=", $second_date) 
-					->where('employee_id', $r->user_id)
-					->where('TIME(clock_out) <=', date('h:i:01', strtotime($out_time)))
-					->where('status', 'Present')
-					->get('xin_attendance_time')
-					->row();
-					// dd($attendance_data);
-				
-					$user_designation = $this->db->select('designation_name')
-					->where('designation_id', $r->designation_id)
-					->get('xin_designations')
-					->row('designation_name');
+					// dd($r);
+					$emp_data   = $this->db->select('xin_employees.first_name, xin_employees.last_name,xin_designations.designation_name')
+					->from('xin_employees')
+					->join('xin_designations', 'xin_designations.designation_id = xin_employees.designation_id', 'left')
+					->where('xin_employees.user_id', $r->employee_id)
+					->get()->row();
 
-					// dd($user_designation);
 					if ($row_count > 0 && $row_count % 17 == 0) {
 						echo '<tr class="page-break" style="border:none;"></tr>';?> 
 						<!-- Add company header on new page -->
@@ -101,7 +85,7 @@
 									<h3 class="fw-bold" style="margin-top:-35px;position: absolute;">e.Gen <br>Consultants Ltd</h3>
 								</div>
 								<div class="col-4">
-									<h4 class="fw-bold text-center">Attendance Report <br><p class="text-center h5">(Early Leave)</p></h4>
+									<h4 class="fw-bold text-center">Leave Report <br><p class="text-center h5">(All)</p></h4>
 								</div>
 								<div class="col-4 text-end">
 									<img src="logo.png" alt="e.Gen Logo" height="60" style="margin: 5px;">
@@ -118,13 +102,10 @@
 							<thead class="header-row">
 								<tr class="text-center">
 									<th>SL.</th>
-									<th>ID</th>
-									<th>Date</th>
-									<th>Name</th>
-									<th>Designation</th>
-									<th>Leave</th>
-									<th>Time</th>
-									<th>Status</th>
+									<th>NAME</th>
+									<th>DASIGNATION</th>
+									<th>LEAVE DAYS</th>
+									<th>TOTAL</th>
 								</tr>
 							</thead>
 					<?php }
@@ -133,28 +114,10 @@
 
 				<tr class="text-center">
 					<td style="vertical-align: middle;"><?= $j++ ?></td>
-					<td style="vertical-align: middle;"><?= $r->user_id ?></td>
-					<td style="vertical-align: middle;"><?= date('Y-m-d')?></td>
-					<td style="vertical-align: middle;"><?= $r->first_name . ' ' . $r->last_name ?></td>
-					<td style="vertical-align: middle;"><?= $user_designation ?></td>
-					<td style="vertical-align: middle;">
-					<?= isset($attendance_data) ? date('h:i:s a',strtotime($attendance_data->clock_out)) : '' ?><br>
-					<?php 
-						// Assuming $attendance_data->clock_in and $attendance_data->clock_out are the time values
-						if (isset($attendance_data->clock_in) && isset($attendance_data->clock_out)) {
-							$clock_in = new DateTime(date('h:i:s a', strtotime($attendance_data->clock_out)));
-							$clock_out = new DateTime(date('h:i:s a', strtotime($out_time)));
-							$interval = $clock_in->diff($clock_out);
-							$hours = $interval->h;
-							$minutes = $interval->i;
-							$seconds = $interval->s;
-							echo $hours . ' hours ' . $minutes . ' minutes ' . $seconds . ' seconds';
-						} else {
-							echo "--";
-						}
-					?>
-					</td>
-					<td><?php echo "N/A"?></td>
+					<td style="vertical-align: middle;"><?= $emp_data->first_name.' '.$emp_data->last_name?></td>
+					<td style="vertical-align: middle;"><?= $emp_data->designation_name?></td>
+					<td style="vertical-align: middle;"><?= date('d M Y',strtotime($r->from_date)).' to '.date('d M Y',strtotime($r->to_date))?></td>
+					<td style="vertical-align: middle;"><?= $r->qty?></td>
 				</tr>
 
 				<?php if($row_count % 17 == 0){?>
@@ -173,7 +136,7 @@
 								<h3 class="fw-bold" style="margin-top:-35px;position: absolute;">e.Gen <br>Consultants Ltd</h3>
 							</div>
 							<div class="col-4">
-								<h4 class="fw-bold text-center">Attendance Report <br><p class="text-center h5">(Early Leave)</p></h4>
+								<h4 class="fw-bold text-center">Leave Report <br><p class="text-center h5">(All)</p></h4>
 							</div>
 							<div class="col-4 text-end">
 								<img src="logo.png" alt="e.Gen Logo" height="60" style="margin: 5px;">
