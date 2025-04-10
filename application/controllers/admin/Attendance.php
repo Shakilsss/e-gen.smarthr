@@ -1582,6 +1582,27 @@ class Attendance extends MY_Controller
         $this->load->view('admin/layout/layout_main', $data); //page load
     }
     public function generate_report($doc_type, $report_type, $org, $date_range, $employee=null){
+       
+        $decoded_range = urldecode($date_range);
+        $dates = explode(' to ', $decoded_range);
+        $data['first_date'] = $dates[0];
+        $data['second_date'] = $dates[1];
+        if($employee == null){
+            $emp_ids = $this->db->distinct()
+            ->select('employee_id,first_name,last_name')
+            ->get('xin_employees')
+            ->result();    
+        }
+
+        $view_report = [
+            'all_report'               => $this->load->view("admin/timesheet/monthly_report_all", $data, true),
+            'duty_hour_report'         => $this->load->view("admin/timesheet/monthly_report_duty_hour", $data, true),
+            'duty_hour_details_report' => $this->load->view("admin/timesheet/monthly_report_duty_hour_details", $data, true),
+            'late_in_report'           => $this->load->view("admin/timesheet/monthly_report_late_in", $data, true),
+            'early_leave_report'       => $this->load->view("admin/timesheet/monthly_report_early_leave", $data, true),
+            'lwp_report'               => $this->load->view("admin/timesheet/monthly_report_lwp", $data, true)
+        ];
+
         $file_name = 'attendance_report_'.$report_type.'_'.$org.'_'.$date_range.'_'.$employee.'_'.time().'.'.$doc_type;
         $file_path = FCPATH.'downloads/temp/'.$file_name;
         $file_url = base_url('downloads/temp/'.$file_name);
@@ -1591,8 +1612,5 @@ class Attendance extends MY_Controller
         readfile($file_url);
         unlink($file_path);
     }
-
-
-
 
 }

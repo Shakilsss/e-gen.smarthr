@@ -231,9 +231,9 @@ h2 {
             <div class='card'>
                 <h5>Select Report download type</h5>
                 <div class="buttons">
-                    <button class="pdf report" data-d_type="pdf"><i data-lucide="file-text"></i> PDF</button>
-                    <button class="excel report" data-d_type="excel"><i data-lucide="square-equal"></i> EXCEL</button>
-                    <button class="view report" data-d_type="view"><i data-lucide="eye"></i> View</button>
+                    <button class="pdf report"   data-d_type="pdf">   <i data-lucide="file-text"></i>    PDF   </button>
+                    <button class="excel report" data-d_type="excel"> <i data-lucide="square-equal"></i> EXCEL </button>
+                    <button class="view report"  data-d_type="view">  <i data-lucide="eye"></i>          View  </button>
                 </div>
             </div>
             <div  class='card'>
@@ -241,8 +241,7 @@ h2 {
                 <div class="radio-tabs">
                     <input type="radio" name="orgTab" id="all" value="All" checked>
                     <label for="all">All</label>
-    
-    
+
                     <input type="radio" name="orgTab" id="egen" value="E-GEN">
                     <label for="egen">E-GEN</label>
     
@@ -337,6 +336,7 @@ lucide.createIcons();
             var report_type = $('input[name="report_type"]:checked').val();
             var org = $('input[name="orgTab"]:checked').val();
             var date_range = $('#dateRange').val();
+            // console.log(date_range);
             var employee = $('select[name="employee"]').val();
             if (!report_type) {
                 alert('Please select a report type');
