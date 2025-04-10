@@ -351,7 +351,7 @@ lucide.createIcons();
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
-                    var view_page = response.view_page;
+                    var view_page = response;
                     if (doc_type.toLowerCase() == 'pdf') {
                         var a = window.open('', '_blank');
                         a.document.write(view_page);
