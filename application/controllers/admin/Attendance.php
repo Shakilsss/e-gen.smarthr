@@ -1602,16 +1602,8 @@ class Attendance extends MY_Controller
             'early_leave_report'       => $this->load->view("admin/timesheet/monthly_report_early_leave", $data, true),
             'lwp_report'               => $this->load->view("admin/timesheet/monthly_report_lwp", $data, true)
         ];
-
-        $file_name = 'attendance_report_'.$report_type.'_'.$org.'_'.$date_range.'_'.$employee.'_'.time().'.'.$doc_type;
-        $file_path = FCPATH.'downloads/temp/'.$file_name;
-        $file_url = base_url('downloads/temp/'.$file_name);
-        header('Content-Type: application/octet-stream');
-        header("Content-Transfer-Encoding: Binary"); 
-        header("Content-disposition: attachment; filename=\"".$file_name."\""); 
-        readfile($file_url);
-        unlink($file_path);
         
+        echo json_encode($view_report);
     }
 
 }
