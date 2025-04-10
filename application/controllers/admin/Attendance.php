@@ -1596,7 +1596,7 @@ class Attendance extends MY_Controller
         if($report_type == 'all'){
             $view_report = $this->load->view("admin/timesheet/monthly_report_all", $data, true);
         }
-        if($report == 'late-in'){
+        if($report_type == 'late-in'){
             $view_report = $this->load->view("admin/timesheet/monthly_report_late_in", $data, true);
         }
         if($report_type == 'early-leave'){
