@@ -298,6 +298,16 @@ h2 {
     </div>
 </div>
 
+<!-- Report Modal -->
+<div id="reportModal" style="display:none;">
+    <div id="modalBackdrop" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:999;"></div>
+    <div style="position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:white;padding:20px;max-width:90%;max-height:90%;overflow:auto;z-index:1000;border-radius:12px;">
+        <button onclick="closeModal()" style="float:right;background:red;color:white;border:none;padding:5px 10px;border-radius:5px;">X</button>
+        <div id="modalContent"></div>
+    </div>
+</div>
+
+
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <script>
@@ -329,42 +339,50 @@ lucide.createIcons();
 
 
 <script>
-    $(document).ready(function() {
-        $('.report').click(function() {
-            var doc_type = $(this).data('d_type');
-            var report_type = $('input[name="report_type"]:checked').val();
-            var org = $('input[name="orgTab"]:checked').val();
-            var date_range = $('#dateRange').val();
-            // console.log(date_range);
-            var employee = $('select[name="employee"]').val();
-            if (!report_type) {
-                alert('Please select a report type');
-                return false;
-            }
-            if (!org) {
-                alert('Please select an organization');
-                return false;
-            }
-            // window.location.href = '<?php echo base_url('admin/attendance/generate_report/'); ?>' + doc_type + '/' + report_type + '/' + org + '/' + date_range + '/' + employee;
-            $.ajax({
-                url: '<?php echo base_url('admin/attendance/generate_report/'); ?>' + doc_type + '/' + report_type + '/' + org + '/' + date_range + '/' + employee,
-                type: 'GET',
-                dataType: 'json',
-                success: function(response) {
-                    var view_page = response;
-                    if (doc_type.toLowerCase() == 'pdf') {
-                        var a = window.open('', '_blank');
-                        a.document.write(view_page);
-                        a.document.close();
-                        a.print();
-                    } else if (doc_type.toLowerCase() == 'excel') {
-                        var a = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(view_page));
-                        a.document.close();
-                        a.focus();
-                    }
+ $(document).ready(function () {
+    $('.report').click(function () {
+        var doc_type = $(this).data('d_type');
+        var report_type = $('input[name="report_type"]:checked').val();
+        var org = $('input[name="orgTab"]:checked').val();
+        var date_range = $('#dateRange').val();
+        var employee = $('select[name="employee"]').val();
+
+        if (!report_type) {
+            alert('Please select a report type');
+            return false;
+        }
+        if (!org) {
+            alert('Please select an organization');
+            return false;
+        }
+
+        $('#loading').show();
+
+        $.ajax({
+            url: '<?php echo base_url('admin/attendance/generate_report/'); ?>' + doc_type + '/' + report_type + '/' + org + '/' + date_range + '/' + employee,
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                var view_page = response;
+                $('#loading').hide();
+
+                if (doc_type.toLowerCase() == 'pdf') {
+                    var a = window.open('', '_blank');
+                    a.document.write(view_page);
+                    a.document.close();
+                    a.print();
+                } else if (doc_type.toLowerCase() == 'excel') {
+                    var a = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(view_page));
+                    a.document.close();
+                    a.focus();
+                } else if (doc_type.toLowerCase() == 'view') {
+                    $('#modalContent').html(view_page);
+                    $('#reportModal').show();
                 }
-            })
+            }
         });
     });
+});
+
 </script>
 
