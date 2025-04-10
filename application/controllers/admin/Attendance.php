@@ -850,17 +850,15 @@ class Attendance extends MY_Controller
 
 
     public function monthly_report(){
-        $type = $this->input->post('type');
-        $first_date = $this->input->post('first_date');
+        $type        = $this->input->post('type');
+        $first_date  = $this->input->post('first_date');
         $second_date = $this->input->post('second_date');
-        $sql = $this->input->post('sql');
-        $emp_id = explode(',', trim($sql));
-        $data['first_date'] = $first_date;
+        $sql         = $this->input->post('sql');
+        $emp_id              = explode(',', trim($sql));
+        $data['first_date']  = $first_date;
         $data['second_date'] = $second_date;
-        $data['emp_id'] = $sql;
-
+        $data['emp_id']      = $sql;
         $data['xin_employees'] =  $this->Attendance_model->get_employee($emp_id);
-
         if($type == 1){
             echo $this->load->view("admin/timesheet/monthly_report_all", $data, true);
         }
@@ -1582,21 +1580,22 @@ class Attendance extends MY_Controller
         $this->load->view('admin/layout/layout_main', $data); //page load
     }
     public function generate_report($doc_type, $report_type, $org, $date_range, $employee=null){
-       
         $decoded_range = urldecode($date_range);
-        $dates = explode(' to ', $decoded_range);
-        $data['first_date'] = $dates[0];
+        $dates         = explode(' to ', $decoded_range);
+        $data['first_date']  = $dates[0];
         $data['second_date'] = $dates[1];
         if($employee == null){
-            $emp_ids = $this->db->distinct()
-            ->select('employee_id,first_name,last_name')
+            $data['xin_employees'] = $this->db->distinct()
+            ->select('user_id,first_name,last_name')
+            ->where('is_active', 1)
             ->get('xin_employees')
             ->result();    
         }
+        // dd($data['xin_employees']);
         if($report_type == 'all'){
             $view_report = $this->load->view("admin/timesheet/monthly_report_all", $data, true);
         }
-        if($report == 'late-in'){
+        if($report_type == 'late-in'){
             $view_report = $this->load->view("admin/timesheet/monthly_report_late_in", $data, true);
         }
         if($report_type == 'early-leave'){
