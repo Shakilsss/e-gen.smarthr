@@ -150,7 +150,7 @@ if($theme[0]->sub_menu_icons != ''){
       <li class="<?php if(!empty($arr_mod['attnd_open']))echo $arr_mod['attnd_open'];?> treeview">
         <a href="#"> <i class="fa fa-users"></i> <span> HR </span> <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span>
         <?php if ($user_info[0]->user_role_id == 1) { ?>
-          <span class="badge badge-danger pull-right"><?= stl_ntf(); ?></span>
+          <span class="badge badge-danger pull-right"><?= stl_ntf() + leave_ntf(); ?></span>
         <?php } ?>
        </a>
         <ul class="treeview-menu">
@@ -168,11 +168,17 @@ if($theme[0]->sub_menu_icons != ''){
           <?php } ?>
 
           <?php if(in_array('46',$role_resources_ids)) { ?>
-          <li class="sidenav-link <?php if(!empty($arr_mod['leave_active']))echo $arr_mod['leave_active'];?>"> <a href="<?php echo site_url('admin/timesheet/leave');?>"> <i class="fa <?php echo $submenuicon;?>"></i> <?php echo $this->lang->line('xin_manage_leaves');?> </a> </li>
+          <li class="sidenav-link <?php if(!empty($arr_mod['leave_active']))echo $arr_mod['leave_active'];?>">
+            <a href="<?php echo site_url('admin/timesheet/leave');?>">
+              <i class="fa <?php echo $submenuicon;?>"></i> <?php echo $this->lang->line('xin_manage_leaves');?>
+              <span class="badge badge-danger pull-right"> <?= leave_ntf(); ?> </span>
+            </a>
+          </li>
           <?php } ?>
 
           <li class="sidenav-link <?php if(!empty($arr_mod['os_leaveo']))echo $arr_mod['os_leaveo'];?>">
-            <a href="<?php echo site_url("admin/leave/approve_os_leave");?>"><i class="fa <?php echo $submenuicon;?>"></i> Station Leave
+            <a href="<?php echo site_url("admin/leave/approve_os_leave");?>">
+            <i class="fa <?php echo $submenuicon;?>"></i> Station Leave
             <span class="badge badge-danger pull-right"> <?= stl_ntf(); ?> </span>
             </a>
           </li>
