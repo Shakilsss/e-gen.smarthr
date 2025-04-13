@@ -1,6 +1,22 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://unpkg.com/lucide@latest"></script>
 
+<!-- Report Modal -->
+<div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reportModalLabel">Reports</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalContent">
+            </div>
+        </div>
+    </div>
+</div>
+
 <style>
 .container {
     background: #ffffff;
@@ -299,17 +315,7 @@ h2 {
     </div>
 </div>
 
-<!-- Report Modal -->
-<div id="reportModal" style="display:none;">
-    <div id="modalBackdrop"
-        style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:999;"></div>
-    <div
-        style="position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:white;padding:20px;max-width:90%;max-height:90%;overflow:auto;z-index:1000;border-radius:12px;">
-        <button onclick="closeModal()"
-            style="float:right;background:red;color:white;border:none;padding:5px 10px;border-radius:5px;">X</button>
-        <div id="modalContent"></div>
-    </div>
-</div>
+
 
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -417,6 +423,10 @@ $(document).ready(function() {
                     $('#modalContent').html(response);
                     $('#reportModal').show();
                 }
+            },
+            error: function(xhr, status, error) {
+                $('#loading').hide();
+                alert('Error: ' + error);
             }
         });
     });
