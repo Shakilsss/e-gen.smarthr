@@ -156,8 +156,70 @@ class Attendance_model extends CI_Model
             } else {
                 $this->db->insert('xin_attendance_time', $data);
             }
+
+            // cal leave deduction to late
+            $this->update_leave_deduction($emp_id, $process_date);
         }
         return true;
+    }
+
+    public function update_leave_deduction($emp_id, $process_date)
+    {
+        $date1 = date('Y-m-01', strtotime($process_date));
+        $date2 = date('Y-m-t', strtotime($process_date));
+        $late_rule = $this->db->where('status', 1)->get('leave_settings')->row();
+        $rule = $late_rule->deduct_leave;
+        // check late deduction date, if exist then update
+        $this->db->where('cal_date <=', $date2)->where('cal_date >=', $date1)->where('emp_id', $emp_id);
+        $check=$this->db->where('month',$date1)->order_by('cal_date','desc')->get('leave_late_deduct')->row();
+        if (!empty($check)) {
+            $date1 = date('Y-m-d', strtotime($check->cal_date . ' +1 days'));
+            $rule = $late_rule->more_deduct;
+        }
+        // dd($date1 .'='. $date2);
+
+        // get late days
+        $late_num = 0;
+        $late_days = $this->get_late_days($emp_id, $date1, $date2, $rule);
+        if (isset($late_days) && $late_days !== null) {
+            $late_num = $late_days->num_rows();
+        }
+
+        if ($late_num > 0 && $late_num >= $rule) {
+            if ($this->check_late_leaves($emp_id, $date1, $date2)) {
+                $res = $late_days->result();
+                $data = array(
+                    'emp_id' => $emp_id,
+                    'month' => date('Y-m-01', strtotime($process_date)),
+                    'type' => $rule >= $late_rule->deduct_leave ? 1 : 2,
+                    'days' => $rule,  // 1 leave deduct for late
+                    'amt' => 1,  // 1 leave deduct
+                    'cal_date' => end($res)->attendance_date,
+                );
+                $this->db->insert('leave_late_deduct', $data);
+            }
+        }
+        return true;
+    }
+
+    function check_late_leaves($emp_id, $date, $date1) {
+        $query = $this->db->where('emp_id', $emp_id)->where('cal_date >=', $date)->where('cal_date <=', $date1)->get('leave_late_deduct');
+        if ($query->num_rows() > 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function get_late_days($emp_id, $date1, $date2, $limit) {
+        $this->db->where('employee_id', $emp_id)->where('late_status', 1);
+        $this->db->where('attendance_date <=', $date2)->where('attendance_date >=', $date1);
+        $query = $this->db->limit($limit)->order_by('attendance_date', 'asc')->get('xin_attendance_time');
+        if ($query->num_rows() > 0) {
+            return $query;
+        } else {
+            return null;
+        }
     }
 
     public function chech_station_leave($process_date, $emp_id)

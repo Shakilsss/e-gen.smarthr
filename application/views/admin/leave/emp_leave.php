@@ -326,7 +326,6 @@
 
 <script>
     function getdata(status) {
-
         // console.log(status.id);
         if (status.id == 'datef') {
             var firstdate = document.getElementById('datef').value
