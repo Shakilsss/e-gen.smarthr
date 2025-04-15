@@ -42,8 +42,7 @@
 	</style>
 </head>
 <body class="container-fluid py-4">
-	<div id="">
-		<div class="">
+
 			<table class="table table-bordered table-sm border-dark">
 				<!-- <thead class="header-row"> -->
 					<tr class="text-center">
@@ -83,39 +82,39 @@
 					if ($row_count > 0 && $row_count % 16 == 0) {
 						echo '<tr class="page-break" style="border:none"></tr>';?>
 						<!-- Add company header on new page -->
-						<div class="company-header mb-4">
-							<div class="row align-items-center">
-								<div class="col-4">
-									<h3 class="fw-bold" style="margin-top:-35px;position: absolute;">e.Gen Consultants Ltd</h3>
+						<tr class="company-header mb-4">
+							<td colspan="30" style="border:none !important">
+								<div class="row align-items-center">
+									<div class="col-4">
+										<h3 class="fw-bold" style="margin-top:-35px;position: absolute;">e.Gen Consultants Ltd</h3>
+									</div>
+									<div class="col-4">
+										<h4 class="fw-bold text-center">Attendance Report <br><p class="text-center h5">(All)</p></h4>
+									</div>
+									<div class="col-4 text-end">
+										<img src="" alt="e.Gen Logo" height="60" style="margin: 5px;">
+									</div>
 								</div>
-								<div class="col-4">
-									<h4 class="fw-bold text-center">Attendance Report <br><p class="text-center h5">(All)</p></h4>
-								</div>
-								<div class="col-4 text-end">
-									<img src="" alt="e.Gen Logo" height="60" style="margin: 5px;">
-								</div>
-							</div>
-						</div>
+							</td>
+						</tr>
 
-						<div class="mb-3">
-							<strong>Reporting Date: <?php echo date('Y-m-d',strtotime($first_date)).' to '.date('Y-m-d',strtotime($second_date))?></strong><br>
-							<strong>Report Generated Date:</strong> <?php echo date('d M Y').', '.date('h:i:s A')?>
-						</div>
-
-						<div class="legend mb-3">
-							<span>*Legend:</span>
-							<strong>CL - Casual Leave,</strong>
-							<strong> SL - Sick Leave,</strong>
-							<strong> Stl - Station Leave,</strong>
-							<strong> NL - Night Stay Leave,</strong>
-							<strong> W - Weekend,</strong>
-							<strong> H - Holiday,</strong>
-							<strong> A - Absent,</strong>
-							<strong> P - Present,</strong>
-							<strong> E - Early Leave,</strong>
-							<strong> L - Late In,</strong>
-							<strong> L/E - Early Leave and Late In</strong>
-						</div>
+						<tr class="mb-3">
+							<td>Reporting Date: <?php echo date('Y-m-d',strtotime($first_date)).' to '.date('Y-m-d',strtotime($second_date))?></td><br>
+							<td>Report Generated Date:</td> <?php echo date('d M Y').', '.date('h:i:s A')?>
+						</tr>
+						<tr>
+							<td><span>*Legend:</span></td>
+							<td><strong>CL - Casual Leave</strong></td>
+							<td><strong>, SL - Sick Leave</strong></td>
+							<td><strong>, Stl - Station Leave</strong></td>
+							<td><strong>, NL - Night Stay Leave</strong></td>
+							<td><strong>, H - Holiday</strong></td>
+							<td><strong>, A - Absent</strong></td>
+							<td><strong>, P - Present</strong></td>
+							<td><strong>, E - Early Leave</strong></td>
+							<td><strong>, L - Late in</strong></td>
+							<td><strong>, L/E - Early Leave and Late in</strong></td>
+						</tr>
 
 						<table class="table table-bordered table-sm border-dark">
 							<thead class="header-row">
@@ -180,38 +179,42 @@
 				}
 				if ($row_count == $total_rows) { ?>
 					<!-- Add company header and legend on the final page -->
-					<div class="company-header mb-4">
-						<div class="row align-items-center">
-							<div class="col-4">
-								<h3 class="fw-bold" style="margin-top:-35px;position: absolute;">e.Gen Consultants Ltd</h3>
-							</div>
-							<div class="col-4">
-								<h4 class="fw-bold text-center">Attendance Report <br><p class="text-center h5">(All)</p></h4>
-							</div>
-							<div class="col-4 text-end">
-								<img src="" alt="e.Gen Logo" height="60" style="margin: 5px;">
-							</div>
-						</div>
-					</div>
-
-					<div class="mb-3">
-						<strong>Reporting Date: <?php echo date('Y-m-d',strtotime($first_date)).' to '.date('Y-m-d',strtotime($second_date))?></strong><br>
-						<strong>Report Generated Date:</strong> <?php echo date('d M Y').', '.date('h:i:s A')?>
-					</div>
-
-					<div class="legend mb-3">
-						<span>*Legend:</span>
-						<strong>CL - Casual Leave</strong>
-						<strong>SL - Sick Leave</strong>
-						<strong>Stl - Station Leave</strong>
-						<strong>NL - Night Stay Leave</strong>
-						<strong>H - Holiday</strong>
-						<strong>A - Absent</strong>
-						<strong>P - Present</strong>
-						<strong>E - Early Leave</strong>
-						<strong>L - Late in</strong>
-						<strong>L/E - Early Leave and Late in</strong>
-					</div>
+					<tr>
+						<td colspan="7" class="company-header mb-4">
+							<table style="width:100%">
+								<tr>
+									<td style="width:33.33%">
+										<h3 class="fw-bold" style="margin-top:-35px;position: absolute;">e.Gen Consultants Ltd</h3>
+									</td>
+									<td style="width:33.33%">
+										<h4 class="fw-bold text-center">Attendance Report <br><p class="text-center h5">(All)</p></h4>
+									</td>
+									<td style="width:33.33%" class="text-end">
+										<img src="" alt="e.Gen Logo" height="60" style="margin: 5px;">
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="7" class="text-center">
+							<strong>Reporting Date: <?php echo date('Y-m-d',strtotime($first_date)).' to '.date('Y-m-d',strtotime($second_date))?></strong><br>
+							<strong>Report Generated Date:</strong> <?php echo date('d M Y').', '.date('h:i:s A')?>
+						</td>
+					</tr>
+					<tr>
+						<td><span>*Legend:</span></td>
+						<td><strong>CL - Casual Leave</strong></td>
+						<td><strong>, SL - Sick Leave</strong></td>
+						<td><strong>, Stl - Station Leave</strong></td>
+						<td><strong>, NL - Night Stay Leave</strong></td>
+						<td><strong>, H - Holiday</strong></td>
+						<td><strong>, A - Absent</strong></td>
+						<td><strong>, P - Present</strong></td>
+						<td><strong>, E - Early Leave</strong></td>
+						<td><strong>, L - Late in</strong></td>
+						<td><strong>, L/E - Early Leave and Late in</strong></td>
+					</tr>
 				<?php } ?>
 
 				<tr class="text-center" style='border:none !important'>
@@ -219,8 +222,7 @@
 				</tr>
 				</tbody>
 			</table>
-		</div>
-	</div>
+
 </body>
 </html>
 

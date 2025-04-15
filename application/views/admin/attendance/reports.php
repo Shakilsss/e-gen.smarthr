@@ -249,7 +249,7 @@ h2 {
                 <div class="buttons">
                     <button class="pdf report" data-d_type="pdf"> <i data-lucide="file-text"></i> PDF </button>
                     <button class="excel report" data-d_type="excel"> <i data-lucide="square-equal"></i> EXCEL </button>
-                    <button class="view report" data-d_type="view"> <i data-lucide="eye"></i> View </button>
+                    <!-- <button class="view report" data-d_type="view"> <i data-lucide="eye"></i> View </button> -->
                 </div>
             </div>
             <div class='card'>

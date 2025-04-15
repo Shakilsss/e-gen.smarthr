@@ -121,7 +121,7 @@
 							->result();
 						echo '<td style="vertical-align: middle;">';
 						if (empty($attendance_data)) {
-							echo '00:00';
+							echo '';
 						} else {
 							$day_minutes = 0;
 

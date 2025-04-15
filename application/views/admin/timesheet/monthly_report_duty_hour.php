@@ -13,9 +13,7 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 	<style>
-		/* .table-wrapper {
-			overflow-x: auto;
-		} */
+
 		table tr th, table tr td {
 			font-size: 13px;
 		}
@@ -67,7 +65,7 @@
 				$total_rows = count($xin_employees);
 				foreach ($xin_employees as $r) { 
 
-					if ($row_count > 0 && $row_count % 17 == 0) {
+					if ($row_count > 0 && $row_count % 15 == 0) {
 						echo '<tr class="page-break"></tr>';?> 
 						<!-- Add company header on new page -->
 						<div class="company-header mb-4">
