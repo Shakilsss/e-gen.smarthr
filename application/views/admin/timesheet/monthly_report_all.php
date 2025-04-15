@@ -92,7 +92,7 @@
 									<h4 class="fw-bold text-center">Attendance Report <br><p class="text-center h5">(All)</p></h4>
 								</div>
 								<div class="col-4 text-end">
-									<img src="logo.png" alt="e.Gen Logo" height="60" style="margin: 5px;">
+									<img src="" alt="e.Gen Logo" height="60" style="margin: 5px;">
 								</div>
 							</div>
 						</div>
@@ -104,16 +104,17 @@
 
 						<div class="legend mb-3">
 							<span>*Legend:</span>
-							<strong>CL - Casual Leave</strong>
-							<strong>SL - Sick Leave</strong>
-							<strong>Stl - Station Leave</strong>
-							<strong>NL - Night Stay Leave</strong>
-							<strong>H - Holiday</strong>
-							<strong>A - Absent</strong>
-							<strong>P - Present</strong>
-							<strong>E - Early Leave</strong>
-							<strong>L - Late in</strong>
-							<strong>L/E - Early Leave and Late in</strong>
+							<strong>CL - Casual Leave,</strong>
+							<strong> SL - Sick Leave,</strong>
+							<strong> Stl - Station Leave,</strong>
+							<strong> NL - Night Stay Leave,</strong>
+							<strong> W - Weekend,</strong>
+							<strong> H - Holiday,</strong>
+							<strong> A - Absent,</strong>
+							<strong> P - Present,</strong>
+							<strong> E - Early Leave,</strong>
+							<strong> L - Late In,</strong>
+							<strong> L/E - Early Leave and Late In</strong>
 						</div>
 
 						<table class="table table-bordered table-sm border-dark">
@@ -188,7 +189,7 @@
 								<h4 class="fw-bold text-center">Attendance Report <br><p class="text-center h5">(All)</p></h4>
 							</div>
 							<div class="col-4 text-end">
-								<img src="logo.png" alt="e.Gen Logo" height="60" style="margin: 5px;">
+								<img src="" alt="e.Gen Logo" height="60" style="margin: 5px;">
 							</div>
 						</div>
 					</div>

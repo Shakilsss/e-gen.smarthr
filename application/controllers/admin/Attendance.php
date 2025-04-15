@@ -1598,7 +1598,7 @@ class Attendance extends MY_Controller
         }
         // dd($data['xin_employees']);
         if($report_type == 'all'){
-            $view_report = $this->load->view("admin/timesheet/monthly_report_all", $data, true);
+            $view_report = $this->load->view("admin/timesheet/monthly_report_all_pdf", $data, true);
         }
         if($report_type == 'late-in'){
             $view_report = $this->load->view("admin/timesheet/monthly_report_late_in", $data, true);
@@ -1614,10 +1614,10 @@ class Attendance extends MY_Controller
             $view_report = $this->load->view("admin/timesheet/monthly_report_lwp", $data, true);
         }
         if($report_type == 'duty-hour'){
-            $view_report = $this->load->view("admin/timesheet/monthly_report_duty_hour", $data, true);
+            $view_report = $this->load->view("admin/timesheet/monthly_report_duty_hour_pdf", $data, true);
         }
         if($report_type == 'duty-hour-details'){
-            $view_report =  $this->load->view("admin/timesheet/monthly_report_duty_hour_details", $data, true);
+            $view_report =  $this->load->view("admin/timesheet/monthly_report_duty_hour_details_pdf", $data, true);
         }        
         echo json_encode($view_report);
     }
