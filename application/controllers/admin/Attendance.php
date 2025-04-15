@@ -1601,10 +1601,10 @@ class Attendance extends MY_Controller
             $view_report = $this->load->view("admin/timesheet/monthly_report_all_pdf", $data, true);
         }
         if($report_type == 'late-in'){
-            $view_report = $this->load->view("admin/timesheet/monthly_report_late_in", $data, true);
+            $view_report = $this->load->view("admin/timesheet/monthly_report_late_in_pdf", $data, true);
         }
         if($report_type == 'early-leave'){
-            $view_report = $this->load->view("admin/timesheet/monthly_report_early_leave", $data, true);
+            $view_report = $this->load->view("admin/timesheet/monthly_report_early_leave_pdf", $data, true);
         }
         if($report_type == 'late-times'){
             $view_report = "Processing";
@@ -1614,7 +1614,7 @@ class Attendance extends MY_Controller
             $view_report = $this->load->view("admin/timesheet/monthly_report_lwp", $data, true);
         }
         if($report_type == 'duty-hour'){
-            $view_report = $this->load->view("admin/timesheet/monthly_report_duty_hour_pdf", $data, true);
+            $view_report = $this->load->view("admin/timesheet/duty_hour_pdf", $data, true);
         }
         if($report_type == 'duty-hour-details'){
             $view_report =  $this->load->view("admin/timesheet/monthly_report_duty_hour_details_pdf", $data, true);
