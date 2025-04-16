@@ -395,9 +395,7 @@ $(document).ready(function() {
                 
                 $('#loading').hide();
                 if (doc_type.toLowerCase() == 'pdf') {
-                    const {
-                        jsPDF
-                    } = window.jspdf;
+                    const { jsPDF } = window.jspdf;
                     const doc = new jsPDF('landscape', 'pt', 'a4');
 
                     // Convert response HTML to a DOM node
@@ -407,13 +405,44 @@ $(document).ready(function() {
                     const table = wrapper.querySelector('table');
 
                     if (table) {
+                        // Customize table rendering using autoTable
                         doc.autoTable({
                             html: table,
-                            windowWidth: table.scrollWidth,
-                            width: 792,
-                            scale: 0.5, 
+                            startY: 70, // push table down so header fits
+                            styles: {
+                                fontSize: 10,
+                                cellPadding: 5,
+                                halign: 'center',
+                                valign: 'middle',
+                                lineColor: [211, 211, 211],
+                                lineWidth: 0.5,
+                                font: 'helvetica', // Default font for text
+                            },
+                            theme: 'grid', // Grid theme for clear table borders
+                            columnStyles: {
+                                0: { // Column 1 (index 0) customization if needed
+                                    cellWidth: 'auto',
+                                    halign: 'left',
+                                },
+                                1: { // Column 2 (index 1) customization if needed
+                                    cellWidth: 'auto',
+                                    halign: 'center',
+                                },
+                                // Add more column-specific styling here if necessary
+                            },
+                            didDrawPage: function (data) {
+                                // Title and other content outside the table
+                                doc.setFontSize(20);
+                                doc.setFont('helvetica', 'bold');
+                                doc.text("e.Gen Consultants Ltd", 400, 50, { align: 'center' });
+                            }
                         });
+
+                        // Save the PDF file
                         doc.save('attendance_report.pdf');
+                    
+
+
                     } else {
                         doc.text("No table data found", 10, 10);
                         doc.save('attendance_report.pdf');
