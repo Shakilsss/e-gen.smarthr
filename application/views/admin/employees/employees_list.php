@@ -210,17 +210,10 @@
                         <input type="hidden" name="company_id" value="1">
                         <input type="hidden" name="location_id" value="1">
                     </div>
-
+                    <!-- department and designation row -->
                     <div class="row">
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="proxi_id" class="control-label">Set Salary<i class="hrsale-asterisk"><span
-                                            style="color:red">*</span></i></label>
-                                <input class="form-control" placeholder="Set Salary" name="salary" type="text" value=""
-                                    required>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
+                        <input name="salary" type="hidden" value="0">
+                        <div class="col-md-4">
                             <div class="form-group" id="ajx_department">
                                 <label for="designation"><?php echo $this->lang->line('xin_hr_main_department');?><i
                                         class="hrsale-asterisk">*</i></label>
@@ -235,7 +228,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3" id="designation_ajax">
+                        <div class="col-md-4" id="designation_ajax">
                             <div class="form-group">
                                 <label for="designation"><?php echo $this->lang->line('xin_designation');?><i
                                         class="hrsale-asterisk">*</i></label>
@@ -260,71 +253,23 @@
                         </div>
                     </div>
 
+                    <!-- joining row -->
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="date_of_joining"
-                                    class="control-label"><?php echo $this->lang->line('xin_employee_doj');?><i
-                                        class="hrsale-asterisk"></i></label>
-                                <input class="form-control date_of_joining" readonly
-                                    placeholder="<?php echo $this->lang->line('xin_employee_doj');?>"
-                                    name="date_of_joining" type="text" value="">
+                                <label for="date_of_joining" class="control-label"><?php echo $this->lang->line('xin_employee_doj');?><i class="hrsale-asterisk"></i></label>
+                                <input class="form-control date_of_joining" readonly placeholder="<?php echo $this->lang->line('xin_employee_doj');?>" name="date_of_joining" type="text" value="">
                             </div>
                         </div>
-
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="probition" class="control-label">Intern/Probation month<i
-                                        class="hrsale-asterisk"><span style="color:red">*</span></i></label>
-                                <input class="form-control" placeholder="Number of probition month" name="probation"
-                                    type="text" value="">
+                                <label for="date_of_birth"><?php echo $this->lang->line('xin_employee_dob');?><i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                <input class="form-control date_of_birth" readonly placeholder="<?php echo $this->lang->line('xin_employee_dob');?>" name="date_of_birth" type="text" value="">
                             </div>
                         </div>
-
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <div class="form-group">
-                                <label for="status"><?php echo $this->lang->line('dashboard_xin_status');?><i
-                                        class="hrsale-asterisk"><span style="color:red">*</span></i></label>
-                                <select name="status" id="status" class="form-control" data-plugin="select_hrm">
-                                    <option> Select Status </option>
-                                    <option value="4">Internship</option>
-                                    <option value="5">Probation</option>
-                                    <option value="1">Regular</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="floor_status">Floor Set<i class="hrsale-asterisk"><span
-                                            style="color:red">*</span></i></label>
-                                <select name="floor_status" id="floor_status" class="form-control">
-                                    <option>Select Floor</option>
-                                    <option value="3">3 <sup>rd</sup></option>
-                                    <option value="5">5 <sup>th</sup></option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="date_of_birth"><?php echo $this->lang->line('xin_employee_dob');?><i
-                                        class="hrsale-asterisk"><span style="color:red">*</span></i></label>
-                                <input class="form-control date_of_birth" readonly
-                                    placeholder="<?php echo $this->lang->line('xin_employee_dob');?>"
-                                    name="date_of_birth" type="text" value="">
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <input type="hidden" name="subdepartment_id" value="YES" />
-
-                    <div class="row">
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="gender"
-                                    class="control-label"><?php echo $this->lang->line('xin_employee_gender');?></label>
+                                <label for="gender" class="control-label"><?php echo $this->lang->line('xin_employee_gender');?></label>
                                 <select class="form-control" name="gender" data-plugin="select_hrm"
                                     data-placeholder="<?php echo $this->lang->line('xin_employee_gender');?>">
                                     <option value="Male"><?php echo $this->lang->line('xin_gender_male');?></option>
@@ -332,10 +277,9 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <div class="form-group">
-                                <label for="office_shift_id"
-                                    class="control-label"><?php echo $this->lang->line('xin_employee_office_shift');?></label>
+                                <label for="office_shift_id" class="control-label"><?php echo $this->lang->line('xin_employee_office_shift');?></label>
                                 <select class="form-control" name="office_shift_id" data-plugin="select_hrm"
                                     data-placeholder="<?php echo $this->lang->line('xin_employee_office_shift');?>">
                                     <?php foreach($all_office_shifts as $shift) {?>
@@ -345,11 +289,16 @@
                                 </select>
                             </div>
                         </div>
+                        <input type="hidden" name="probation" value="1">
+                        <input type="hidden" name="status" id="status" value="1">
+                        <input type="hidden" name="subdepartment_id" value="YES" />
+                    </div>
 
-                        <div class="col-md-2">
+                    <!-- role and floor row -->
+                    <div class="row">
+                        <div class="col-md-3">
                             <div class="form-group">
-                                <label for="role"><?php echo $this->lang->line('xin_employee_role');?><i
-                                        class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                <label for="role"><?php echo $this->lang->line('xin_employee_role');?><i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
                                 <select class="form-control" name="role" data-plugin="select_hrm"
                                     data-placeholder="<?php echo $this->lang->line('xin_employee_role');?>">
                                     <option value=""></option>
@@ -365,19 +314,29 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <div class="form-group">
-                                <label for="xin_hr_leave_cat">Employee or Lead</label>
-                                <select class="form-control" name="is_emp_lead">
-                                    <option value="1">Employee</option>
-                                    <option value="2">Team Lead</option>
+                                <label for="floor_status">Floor Set<i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                <select name="floor_status" id="floor_status" class="form-control">
+                                    <option>Select Floor</option>
+                                    <option value="3">3 <sup>rd</sup></option>
+                                    <option value="5">5 <sup>th</sup></option>
                                 </select>
                             </div>
                         </div>
 
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <div class="form-group">
-                                <label for="xin_hr_leave_cat">Team Leader</label>
+                                <label for="xin_hr_leave_cat">Employee or Supervisor</label>
+                                <select class="form-control" name="is_emp_lead">
+                                    <option value="1">Employee</option>
+                                    <option value="2">Supervisor</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="xin_hr_leave_cat">Supervisor Name</label>
                                 <select class="form-control" name="is_emp_lead">
                                     <?php
                                         $team_leads = $this->db->select('user_id,first_name,last_name')->where('is_emp_lead',2)->get('xin_employees')->result();
@@ -389,23 +348,7 @@
                                 </select>
                             </div>
                         </div>
-
-
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label
-                                    for="xin_hr_leave_cat"><?php echo $this->lang->line('xin_hr_leave_cat');?></label>
-                                <input type="hidden" name="leave_categories[]" value="0" />
-                                <select multiple="multiple" class="form-control" name="leave_categories[]"
-                                    data-plugin="select_hrm"
-                                    data-placeholder="<?php echo $this->lang->line('xin_hr_leave_cat');?>">
-                                    <?php foreach($all_leave_types as $leave_type) {?>
-                                    <option value="<?php echo $leave_type->leave_type_id?>">
-                                        <?php echo $leave_type->type_name?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                        </div>
+                        <input type="hidden" name="leave_categories[]" value="0" />
                     </div>
 
                     <!-- row -->
@@ -479,7 +422,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="name_en">Select Post Office</label>
-                                    <select name="po_id_pre" id="po_id_pre" class="form-control" required>
+                                    <select name="po_id_pre" id="po_id_pre" class="form-control">
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -517,7 +460,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="name_en">Select Post Office</label>
-                                    <select name="po_id_per" id="po_id_per" class="form-control" required>
+                                    <select name="po_id_per" id="po_id_per" class="form-control">
                                     </select>
                                 </div>
                                 <div class="form-group">

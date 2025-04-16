@@ -303,4 +303,131 @@ class Leave extends API_Controller
             ], 401);
         }
     }
+    public function out_of_office_add()
+    {
+        $authorization = $this->input->get_request_header('Authorization');
+        $user_info = api_auth($authorization);
+        if ($user_info['status'] == true) {
+            $user_data=$user_info['user_info'];
+            $userid=$user_data->user_id;
+            $unit_id=$user_data->unit_id;
+            $in = $this->input->post('in_time');
+			$ot = $this->input->post('out_time');
+			$data = array(
+				'date' 				=> date('Y-m-d', strtotime($this->input->post('date'))),//$this->input->post('date'),
+				'in_time' 			=> $in ? date('H:i:s', strtotime($in)) : '',
+				'out_time' 			=> $ot ? date('H:i:s', strtotime($ot)) : '',
+				'status' 			=> 1,
+				'updated_at' 		=> date('Y-m-d'),
+				'remark' 			=> $this->input->post('remark'),
+				'emp_id' 			=> $userid,
+				'unit_id' 			=> $unit_id,
+			);
+			// insert data
+			if ($this->db->insert('leave_out_off_office', $data)) {
+                $this->api_return([
+                    'status'    =>  true,
+                    'message'    =>  'successful',
+                    'data'       =>  null,
+                ], 200);
+            }else{
+                $this->api_return([
+                    'status'  =>   false,
+                    'message'  =>   'Unsuccessful',
+                    'data'     =>   null,
+                ], 404);
+            }
+        } else {
+            $this->api_return([
+                'status' => false,
+                'message' => 'Unauthorized User',
+                'data' => [],
+            ], 401);
+        }
+    }
+    public function out_of_office_list()
+    {
+        $authorization = $this->input->get_request_header('Authorization');
+        $user_info = api_auth($authorization);
+        if ($user_info['status'] == true) {
+            $user_data=$user_info['user_info'];
+            $userid=$user_data->user_id;
+            $unit_id=$user_data->unit_id;
+            $leave_out_off_office=$this->db->order_by('id', 'desc')->get_where('leave_out_off_office', array('emp_id' => $userid))->result();
+                $this->api_return([
+                    'status'    =>  true,
+                    'message'    =>  'successful',
+                    'data'       =>  $leave_out_off_office,
+                ], 200);
+        } else {
+            $this->api_return([
+                'status' => false,
+                'message' => 'Unauthorized User',
+                'data' => [],
+            ], 401);
+        }
+    }
+    public function emp_outstaton_leave_add()
+    {
+        $authorization = $this->input->get_request_header('Authorization');
+        $user_info = api_auth($authorization);
+        if ($user_info['status'] == true) {
+            $user_data=$user_info['user_info'];
+            $userid=$user_data->user_id;
+            $unit_id=$user_data->unit_id;
+            $tl = $this->db->where('user_id', $userid)->get('xin_employees')->row();
+			$data = array(
+				'from_date' 		=> date('Y-m-d', strtotime($this->input->post('from_date'))),//$this->input->post('from_date'),
+				'to_date' 			=> date('Y-m-d', strtotime($this->input->post('to_date'))),//$this->input->post('to_date'),
+				'control_person' 	=> !empty($tl->lead_user_id)?$tl->lead_user_id:0,
+				'ap_date' 			=> date('Y-m-d'),
+				'status' 			=> $this->input->post('status'),
+				'remark' 			=> $this->input->post('remark'),
+				'emp_id' 			=> $userid,
+				'unit_id' 			=> $unit_id,
+			);
+			// insert data
+			if ($this->db->insert('leave_out_station', $data)) {
+                $this->api_return([
+                    'status'    =>  true,
+                    'message'    =>  'successful',
+                    'data'       =>  null,
+                ], 200);
+            }else{
+                $this->api_return([
+                    'status'  =>   false,
+                    'message'  =>   'Unsuccessful',
+                    'data'     =>   null,
+                ], 404);
+            }
+        } else {
+            $this->api_return([
+                'status' => false,
+                'message' => 'Unauthorized User',
+                'data' => null,
+            ], 401);
+        }
+    }
+    public function emp_outstaton_leave_list()
+    {
+        $authorization = $this->input->get_request_header('Authorization');
+        $user_info = api_auth($authorization);
+        if ($user_info['status'] == true) {
+            $user_data=$user_info['user_info'];
+            $userid=$user_data->user_id;
+            $unit_id=$user_data->unit_id;
+            $leave_out_off_office=$this->db->order_by('id', 'desc')->get_where('leave_out_station', array('emp_id' => $userid))->result();
+                $this->api_return([
+                    'status'    =>  true,
+                    'message'    =>  'successful',
+                    'data'       =>  $leave_out_off_office,
+                ], 200);
+        } else {
+            $this->api_return([
+                'status' => false,
+                'message' => 'Unauthorized User',
+                'data' => [],
+            ], 401);
+        }
+    }
 }

@@ -11,6 +11,7 @@ if ( ! function_exists('api_auth'))
         if (!empty($q)) {
             $CI->db->select('
                 e.user_id,
+                e.company_id as unit_id,
                 e.username ,
                 e.employee_id, 
                 e.first_name, 
