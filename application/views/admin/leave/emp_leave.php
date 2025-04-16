@@ -103,10 +103,20 @@
     <?php
         $userid  = $session['user_id'];
         $unit_id  = $session['unit_id'];
+        $date = date('Y-m-01');
+        $date1 = date('Y-12-31');
+        $latededuct = 0;
 
         $gearn = $this->db->where('type', 'cl')->get('xin_leave_type')->row()->days_per_year;
         $gsick = $this->db->where('type', 'sl')->get('xin_leave_type')->row()->days_per_year;
-        $earn = $gearn - $used_leave->cl;
+
+        $this->db->where('month >=', $date)->where('month <=', $date1);
+        $query = $this->db->where('emp_id', $userid)->get('leave_late_deduct');
+        if ($query->num_rows() > 0) {
+            $latededuct = $query->num_rows();
+        }
+
+        $earn = $gearn - $used_leave->cl - $latededuct;
         $sick = $gsick - $used_leave->sl;
     ?>
 
