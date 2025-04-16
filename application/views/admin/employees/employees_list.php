@@ -422,7 +422,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="name_en">Select Post Office</label>
-                                    <select name="po_id_pre" id="po_id_pre" class="form-control" required>
+                                    <select name="po_id_pre" id="po_id_pre" class="form-control">
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -460,7 +460,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="name_en">Select Post Office</label>
-                                    <select name="po_id_per" id="po_id_per" class="form-control" required>
+                                    <select name="po_id_per" id="po_id_per" class="form-control">
                                     </select>
                                 </div>
                                 <div class="form-group">
