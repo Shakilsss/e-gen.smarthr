@@ -19,7 +19,7 @@ foreach ($attendance_data as $data) {
 function renderTableHeader($total_days) {
 
 		echo '<tr class="company-header mb-4">
-			<td colspan="'.($total_days + 3).'" style="border:none !important">
+			<th colspan="'.($total_days + 3).'" style="border:none !important">
 				<div class="row align-items-center">
 					<div class="col-4">
 						<h3 class="fw-bold" style="margin-top:-35px;position: absolute;">e.Gen Consultants Ltd</h3>
@@ -31,12 +31,12 @@ function renderTableHeader($total_days) {
 						<img src="" alt="e.Gen Logo" height="60" style="margin: 5px;">
 					</div>
 				</div>
-			</td>
+			</th>
 		</tr>';
 
-	echo '<tr class="text-center"><th>SL.</th><th>ID</th><th>Name</th>';
+	echo '<tr class="text-center"><td>SL.</td><td>ID</td><td>Name</td>';
 	for ($i = 1; $i <= $total_days; $i++) {
-		echo "<th>$i</th>";
+		echo "<td>$i</td>";
 	}
 	echo '</tr>';
 }
@@ -79,22 +79,23 @@ function renderAttendanceCell($status, $current_date, $user_id, $db) {
 	<title>Attendance Status Report (All) PDF</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 	<style>
-		table th, table td { font-size: 0.9rem; }
-		.header-row { background-color: #f8f9fa; }
-		@media print { @page { size: A4 landscape; margin-top: 5px; } }
+			@media print { 
+				@page { 
+					size: A4 landscape; 
+					margin-top: 5px; 
+				} 
+			}
 	</style>
 </head>
-<body class="container-fluid py-4">
-	<table class="table table-bordered table-sm border-dark">
-		<thead class="header-row">
-			<?php renderTableHeader($total_days); ?>
-		</thead>
+<body>
+	<table>
 		<tbody>
+			<?php renderTableHeader($total_days); ?>
 		<?php
 		$j = 1;
 		foreach ($xin_employees as $r) {
 			if ($row_count > 0 && $row_count % 19 == 0) {
-				echo '<div style="page-break-after: always;"></div>';
+				echo '<tr style="page-break-after:always"><td colspan="'.($total_days + 3).'"></td></tr>';
 				renderTableHeader($total_days);
 			}
 			$row_count++;
