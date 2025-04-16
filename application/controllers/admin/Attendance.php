@@ -980,7 +980,7 @@ class Attendance extends MY_Controller
         $this->db->update('xin_employee_move_register', $data);
         echo "Success";
     }
-    // ========================================Employee view===========================================
+    // ============================ Employee view ===================================
     // attandancevied code here
     public function employee_attendance()
     {
@@ -1594,7 +1594,7 @@ class Attendance extends MY_Controller
             ->select('user_id,first_name,last_name')
             ->where('is_active', 1)
             ->get('xin_employees')
-            ->result();    
+            ->result();
         }
         // dd($data['xin_employees']);
         if($report_type == 'all'){
@@ -1618,7 +1618,7 @@ class Attendance extends MY_Controller
         }
         if($report_type == 'duty-hour-details'){
             $view_report =  $this->load->view("admin/timesheet/monthly_report_duty_hour_details_pdf", $data, true);
-        }        
+        }
         echo json_encode($view_report);
     }
 
