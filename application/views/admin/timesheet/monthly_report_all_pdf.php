@@ -17,10 +17,9 @@ foreach ($attendance_data as $data) {
 }
 // Function to render table header
 function renderTableHeader($total_days) {
-
-	echo '<tr class="text-center"><th>SL.</th><th>ID</th><th>Name</th>';
+	echo '<tr class="text-center font-weight-bold"><th>SL.</th><th>ID</th><th>Name</th>';
 	for ($i = 1; $i <= $total_days; $i++) {
-		echo "<th>$i</th>";
+		echo "<th><b>$i</b></th>";
 	}
 	echo '</tr>';
 }
@@ -71,13 +70,14 @@ function renderAttendanceCell($status, $current_date, $user_id, $db) {
 <body class="container-fluid py-4">
 	<table class="table table-bordered table-sm border-dark">
 		<thead class="header-row">
-			<?php renderTableHeader($total_days); ?>
+			<?php renderTableHeader($total_days);?>
 		</thead>
 		<tbody>
 		<?php
+
 		$j = 1;
 		foreach ($xin_employees as $r) {
-			if ($row_count > 0 && $row_count % 19 == 0) {
+			if ($row_count > 0 && $row_count % 15 == 0) {
 				echo '<div style="page-break-after: always;"></div>';
 				renderTableHeader($total_days);
 			}
