@@ -45,15 +45,17 @@
 </head>
 <body class="container-fluid py-4">
 	<table class="table table-bordered table-sm border-dark">
-		<tr class="text-center">
-			<th>SL.</th>
-			<th>ID</th>
-			<th>Date</th>
-			<th>Name</th>
-			<th>Designation</th>
-			<th>Leave Time</th>
-			<th>Status</th>
-		</tr>
+		<thead>
+			<tr class="text-center">
+				<th>SL.</th>
+				<th>ID</th>
+				<th>Date</th>
+				<th>Name</th>
+				<th>Designation</th>
+				<th>Leave Time</th>
+				<th>Status</th>
+			</tr>
+		</thead>
 		<tbody>
 		<?php
 		$j = 1;
@@ -81,26 +83,6 @@
 
 			if ($row_count > 0 && $row_count % 17 == 0) {
 				echo '<tr class="page-break" style="border:none;"></tr>'; ?>
-				<tr>
-					<td colspan="7" class="text-center">
-						<table class="table table-bordered">
-							<tr>
-								<td colspan="3">
-									<h3 class="fw-bold">e.Gen <br>Consultants Ltd</h3>
-								</td>
-								<td colspan="4" class="text-center">
-									<h4 class="fw-bold">Attendance Report <br><span class="h5">(Early Leave)</span></h4>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="7">
-									<strong>Reporting Date:</strong> <?php echo date('Y-m-d',strtotime($first_date)).' to '.date('Y-m-d',strtotime($second_date))?><br>
-									<strong>Report Generated Date:</strong> <?php echo date('d M Y').', '.date('h:i:s A')?>
-								</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
 			<?php }
 			$row_count++;
 		?>
@@ -130,40 +112,8 @@
 			<td><?php echo "N/A"?></td>
 		</tr>
 
-		<?php if($row_count % 17 == 0){?>
-			<tr class="text-center" style='border:none !important'>
-				<td colspan="7" style='border:none !important;margin-bottom:15px !important'>Page <?php echo @$k=1+$k?></td>
-			</tr>
-		<?php } ?>
-			
-		<?php 
-		} 
-		if ($row_count == $total_rows) { ?>
-			<tr>
-				<td colspan="7" class="text-center">
-					<table class="table table-bordered">
-						<tr>
-							<td colspan="3">
-								<h3 class="fw-bold">e.Gen <br>Consultants Ltd</h3>
-							</td>
-							<td colspan="4" class="text-center">
-								<h4 class="fw-bold">Attendance Report <br><span class="h5">(Early Leave)</span></h4>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="7">
-								<strong>Reporting Date:</strong> <?php echo date('Y-m-d',strtotime($first_date)).' to '.date('Y-m-d',strtotime($second_date))?><br>
-								<strong>Report Generated Date:</strong> <?php echo date('d M Y').', '.date('h:i:s A')?>
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
 		<?php } ?>
 
-		<tr class="text-center" style='border:none !important'>
-			<td colspan="7" style='border:none !important;margin-bottom:15px !important'>Page <?php echo @$k+1?></td>
-		</tr>
 		</tbody>
 	</table>
 </body>

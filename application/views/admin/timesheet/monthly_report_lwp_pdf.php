@@ -50,7 +50,6 @@
 				<th>Name</th>
 				<?php
 					$day_of_month = date('t',strtotime($first_date));
-					// Print the days column header only once
 					for ($i = 1; $i <= $day_of_month; $i++) {
 				?>
 				<th><?php echo $i?></th>
@@ -64,12 +63,9 @@
 		// Fetch all attendance data in one query
 		$attendance_data = $this->db->select('employee_id, attendance_date, e_status, status')
 			->where("attendance_date >=", $first_date)
-			->where("attendance_date <=", $second_date) // Avoid duplicate data
+			->where("attendance_date <=", $second_date) 
 			->get('xin_attendance_time')
 			->result();
-		// dd($attendance_data);
-
-		// Organize attendance data by employee_id and date
 		$attendance_by_employee = [];
 		foreach ($attendance_data as $data) {
 			$attendance_by_employee[$data->employee_id][$data->attendance_date] = $data->status;
@@ -82,42 +78,20 @@
 			$count = 0;
 			if ($row_count > 0 && $row_count % 19 == 0) {
 				echo '<tr class="page-break" style="border:none"></tr>';?>
-				<!-- Add company header on new page -->
-				<tr class="company-header mb-4">
-					<td colspan="30" style="border:none !important">
-						<div class="row align-items-center">
-							<div class="col-4">
-								<h3 class="fw-bold" style="margin-top:-35px;position: absolute;">e.Gen Consultants Ltd</h3>
-							</div>
-							<div class="col-4">
-								<h4 class="fw-bold text-center">Attendance Report <br><p class="text-center h5">(LWP/Absent)</p></h4>
-							</div>
-							<div class="col-4 text-end">
-								<img src="logo.png" alt="e.Gen Logo" height="60" style="margin: 5px;">
-							</div>
-						</div>
-					</td>
-				</tr>
+			
 
-				<tr>
-					<td colspan="30" style="border:none !important">
-						<strong>Reporting Date: <?php echo date('Y-m-d',strtotime($first_date)).' to '.date('Y-m-d',strtotime($second_date))?></strong><br>
-						<!-- <strong>Report Generated Date:</strong> <?php echo date('d M Y').', '.date('h:i:s A')?> -->
-					</td>
-				</tr>
-
-				<tr class="text-center">
+				<!-- <tr class="text-center">
 					<th>SL.</th>
 					<th>ID</th>
 					<th>Name</th>
-					<?php
+					< ?php
 						// Print the days column header again on a new page
 						for ($i = 1; $i <= $day_of_month; $i++) {
 					?>
-					<th><?php echo $i?></th>
-					<?php } ?>
+					<th>< ?php echo $i?></th>
+					< ?php } ?>
 					<th>Total LWP</th>
-				</tr>
+				</tr> -->
 		<?php }
 			$row_count++;
 		?>
@@ -129,9 +103,7 @@
 			<?php
 			for ($d = 1; $d <= $total_days; $d++) {
 				$current_date = date('Y-m-d', strtotime("$first_date +".($d - 1)." days"));
-				$status = isset($attendance_by_employee[$r->user_id][$current_date]) ? $attendance_by_employee[$r->user_id][$current_date] : 'Absent'; // Default to Absent
-				// dd($status);
-				// Set background and text color
+				$status = isset($attendance_by_employee[$r->user_id][$current_date]) ? $attendance_by_employee[$r->user_id][$current_date] : 'Absent';
 				$bg_color = $status == 'Off Day' ? 'red' : ($status == 'Holiday' ? 'red' : '');
 				$text_color = $status == 'Off Day' || $status == 'Holiday' ? 'white' : '';
 
@@ -139,7 +111,7 @@
 				if ($status == 'Off Day') {
 					echo 'W';
 				} elseif ($status == 'Present') {
-					echo ''; // not need to show in report
+					echo ''; 
 				} elseif ($status == 'Holiday') {
 					echo 'H';
 				} elseif ($status == 'Leave') {
@@ -159,46 +131,19 @@
 			}
 			?>
 
-			<td style="vertical-align: middle;"><?= @$count ?></td>
+			<!-- <td style="vertical-align: middle;">< ?= @$count ?></td> -->
 		</tr>
 
 		<?php if($row_count % 19 == 0){?>
-			<tr class="text-center" style='border:none !important'>
-				<td colspan="30" style='border:none !important'>Page <?php echo @$k=1+$k?></td>
-			</tr>
+		
 		<?php }?>
 
 		<?php
 		}
 		if ($row_count == $total_rows) { ?>
-			<!-- Add company header and legend on the final page -->
-			<tr class="company-header mb-4">
-				<td colspan="30" style="border:none !important">
-					<div class="row align-items-center">
-						<div class="col-4">
-							<h3 class="fw-bold" style="margin-top:-35px;position: absolute;">e.Gen Consultants Ltd</h3>
-						</div>
-						<div class="col-4">
-							<h4 class="fw-bold text-center">Attendance Report <br><p class="text-center h5">(LWP/Absent)</p></h4>
-						</div>
-						<div class="col-4 text-end">
-							<img src="logo.png" alt="e.Gen Logo" height="60" style="margin: 5px;">
-						</div>
-					</div>
-				</td>
-			</tr>
 
-			<tr>
-				<td colspan="30" style="border:none !important">
-					<strong>Reporting Date: <?php echo date('Y-m-d',strtotime($first_date)).' to '.date('Y-m-d',strtotime($second_date))?></strong><br>
-					<!-- <strong>Report Generated Date:</strong> <?php echo date('d M Y').', '.date('h:i:s A')?> -->
-				</td>
-			</tr>
 		<?php } ?>
 
-		<tr class="text-center" style='border:none !important'>
-			<td colspan="30" style='border:none !important'>Page <?php echo @$k+1?></td>
-		</tr>
 		</tbody>
 	</table>
 </body>
