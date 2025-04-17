@@ -33,7 +33,6 @@
 
 			@page {
 				size: A4;
-				/* margin-top: 5px; */
 				margin-bottom: 0px;
 			}
 
@@ -47,29 +46,7 @@
 <body>
 
 			<table class="table table-bordered table-sm" style="border: 1px solid #ddd;">
-				<tr>
-					<td colspan="7" style="text-align: center;">
-						<table>
-							<tr>
-								<td colspan="7" class="company-header mb-4 mt-1">
-									<table class="w-100">
-										<tr class="row align-items-center">
-											<td class="col-4">
-												e.Gen <br>Consultants Ltd
-											</td>
-											<td class="col-4">
-												<h4 class="fw-bold text-center">Attendance Report <br><p class="text-center h5">(Late In)</p></h4>
-											</td>
-											<td class="col-4 text-end">
-												<img src="logo.png" alt="e.Gen Logo" height="60" style="margin: 5px;">
-											</td>
-										</tr>
-									</table>
-								</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
+			
 				<tr class="text-center">
 					<td>SL.</td>
 					<td>ID</td>
@@ -102,30 +79,17 @@
 					->get('xin_designations')
 					->row('designation_name');
 
-					if ($row_count > 0 && $row_count % 17 == 0) {
+					if ($row_count > 0 && $row_count % 11 == 0) {
 						echo '<tr class="page-break" style="border:none;"></tr>';?> 
-						<!-- Add company header on new page -->
-
-						<tr class="mb-3">
-							<td>Reporting Date: <?php echo date('Y-m-d',strtotime($first_date)).' to '.date('Y-m-d',strtotime($second_date))?></td><br>
-							<td>Report Generated Date:</td> <?php echo date('d M Y').', '.date('h:i:s A')?>
-						</tr>
-
-						<tr>
-							<td colspan="30" style="text-align: center;">
-									<table class="table table-bordered table-sm" style="border: 1px solid #ddd;">
-											<tr class="text-center">
-												<td>SL.</td>
-												<td>ID</td>
-												<td>Date</td>
-												<td>Name</td>
-												<td>Designation</td>
-												<td>Leave</td>
-												<td>Time</td>
-												<td>Status</td>
-											</tr>
-									</table>
-							</td>
+						<tr class="text-center">
+							<td>SL.</td>
+							<td>ID</td>
+							<td>Date</td>
+							<td>Name</td>
+							<td>Designation</td>
+							<td>Leave</td>
+							<td>Time</td>
+							<td>Status</td>
 						</tr>
 					<?php }
 					$row_count++;
@@ -140,7 +104,6 @@
 					<td style="vertical-align: middle;">
 					<?= isset($attendance_data) ? date('h:i:s a',strtotime($attendance_data->clock_in)) : '' ?><br>
 					<?php 
-						// Assuming $attendance_data->clock_in and $attendance_data->clock_out are the time values
 						if (isset($attendance_data->clock_in) && isset($attendance_data->clock_out)) {
 
 							$first_time = new DateTime(date('h:i:s a', strtotime($attendance_data->clock_in)));
@@ -161,44 +124,23 @@
 						}
 					?>
 					</td>
-					<!-- <td style="vertical-align: middle;">< ?= isset($attendance_data) ? $attendance_data->status : '' ?></td> -->
 					<td style="vertical-align: middle;"><?php echo "N/A"?></td>
 				</tr>
 
-				<?php if($row_count % 17 == 0){?>
-					<tr class="text-center" style='border:none !important'>
-						<td colspan="30" style='border:none !important;margin-bottom:15px !important'>Page <?php echo @$k=1+$k?></td>
+				<?php if($row_count % 11 == 0){?>
+					<tr  style='border:none !important'>
+						<td colspan="30" class="text-center" style='border:none !important;margin-bottom:15px !important'>Page <?php echo @$k=1+$k?></td>
 					</tr>
 				<?php }?>
 					
 				<?php 
 				} 
 				if ($row_count == $total_rows) { ?>
-					<!-- Add company header and legend on the final page -->
-					<tr>
-						<td colspan="30" style="text-align: center;">
-							<h3 class="fw-bold">e.Gen <br>Consultants Ltd</h3>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="30" style="text-align: center;">
-							<h4 class="fw-bold">Attendance Report <br><p class="text-center h5">(Late In)</p></h4>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="30" style="text-align: right;">
-							<img src="logo.png" alt="e.Gen Logo" height="60" style="margin: 5px;">
-						</td>
-					</tr>
 
-					<tr class="mb-3">
-						<td>Reporting Date: <?php echo date('Y-m-d',strtotime($first_date)).' to '.date('Y-m-d',strtotime($second_date))?></td><br>
-						<td>Report Generated Date:</td> <?php echo date('d M Y').', '.date('h:i:s A')?>
-					</tr>
 				<?php } ?>
 
-				<tr class="text-center" style='border:none !important'>
-					<td colspan="30" style='border:none !important;margin-bottom:15px !important'>Page <?php echo @$k+1?></td>
+				<tr style='border:none !important'>
+					<td colspan="30" class="text-center" style='border:none !important;margin-bottom:15px !important'>Page <?php echo @$k+1?></td>
 				</tr>
 				</tbody>
 			</table>
