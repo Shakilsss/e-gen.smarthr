@@ -308,7 +308,7 @@ if($theme[0]->sub_menu_icons != ''){
         <ul class="treeview-menu">
 
           <?php if(in_array('400',$role_resources_ids)) { ?>
-          <li class="<?php if(!empty($arr_mod['team_leads_active']))echo $arr_mod['team_leads_active'];?>"><a href="<?php echo site_url('admin/employees/set_team_leads');?>"><i class="fa <?php echo $submenuicon;?>"></i> Set Department Head<span class="label label-danger pull-right"></span></a></li>
+          <li class="<?php if(!empty($arr_mod['team_leads_active']))echo $arr_mod['team_leads_active'];?>"><a href="<?php echo site_url('admin/employees/set_team_leads');?>"><i class="fa <?php echo $submenuicon;?>"></i> Set Supervisor<span class="label label-danger pull-right"></span></a></li>
           <?php } ?>
 
           <?php if(in_array('5',$role_resources_ids)) { ?>
