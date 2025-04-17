@@ -95,6 +95,7 @@
                                     </div>
                                 </div>
 
+                                <!-- right content -->
                                 <div class="col-md-9">
                                     <div class="tab-content">
                                         <div class="tab-pane active current-tab <?php echo $get_animate;?>"
@@ -107,8 +108,10 @@
                                                 <?php $attributes = array('name' => 'basic_info', 'id' => 'basic_info', 'autocomplete' => 'off');?>
                                                 <?php $hidden = array('user_id' => $user_id, 'u_basic_info' => 'UPDATE');?>
                                                 <?php echo form_open_multipart('admin/employees/basic_info', $attributes, $hidden);?>
+
                                                 <!-- basic information -->
                                                 <div class="bg-white">
+                                                    <!-- name row -->
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
@@ -130,51 +133,29 @@
                                                         </div>
                                                     </div>
 
+                                                    <!-- employee id row -->
                                                     <div class="row">
-                                                        <div class="col-md-3">
+                                                        <div class="col-md-4">
                                                             <div class="form-group">
-                                                                <label
-                                                                    for="employee_id"><?php echo $this->lang->line('dashboard_employee_id');?><i
-                                                                        class="hrsale-asterisk"><span
-                                                                            style="color:red">*</span></i></label>
-                                                                <input class="form-control"
-                                                                    placeholder="<?php echo $this->lang->line('dashboard_employee_id');?>"
-                                                                    name="employee_id" type="text"
-                                                                    value="<?php echo $employee_id;?>">
+                                                                <label for="employee_id"><?php echo $this->lang->line('dashboard_employee_id');?><i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                                                <input class="form-control" placeholder="<?php echo $this->lang->line('dashboard_employee_id');?>" name="employee_id" type="text" value="<?php echo $employee_id;?>">
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-2">
+
+                                                        <div class="col-md-4">
                                                             <div class="form-group">
-                                                                <label for="employee_id">Proxi ID<i
-                                                                        class="hrsale-asterisk"><span
-                                                                            style="color:red">*</span></i></label>
-                                                                <input id="proxi_id" class="form-control"
-                                                                    placeholder="Proxi ID" name="proxi_id" type="text"
-                                                                    value="<?php echo $proxi_id?>">
+                                                                <label for="employee_id">Proxi ID<i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                                                <input id="proxi_id" class="form-control" placeholder="Proxi ID" name="proxi_id" type="text" value="<?php echo $proxi_id?>">
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-3">
+
+                                                        <div class="col-md-4">
                                                             <div class="form-group">
-                                                                <label
-                                                                    for="username"><?php echo $this->lang->line('dashboard_username');?><i
-                                                                        class="hrsale-asterisk"><span
-                                                                            style="color:red">*</span></i></label>
+                                                                <label for="username"><?php echo $this->lang->line('dashboard_username');?><i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
                                                                 <input class="form-control"
                                                                     placeholder="<?php echo $this->lang->line('dashboard_username');?>"
                                                                     name="username" type="text"
                                                                     value="<?php echo $username;?>">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="email"
-                                                                    class="control-label"><?php echo $this->lang->line('dashboard_email');?><i
-                                                                        class="hrsale-asterisk"><span
-                                                                            style="color:red">*</span></i></label>
-                                                                <input class="form-control"
-                                                                    placeholder="<?php echo $this->lang->line('dashboard_email');?>"
-                                                                    name="email" type="text"
-                                                                    value="<?php echo $email;?>">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -198,6 +179,7 @@
                                                         <?php $eall_designations = $this->Designation_model->ajax_is_designation_information($department_id);?>
                                                     <?php } ?>
 
+                                                    <!-- department row -->
                                                     <div class="row">
                                                         <div class="col-md-<?php echo $colmd;?>">
                                                             <div class="form-group" id="department_ajax">
@@ -305,6 +287,7 @@
                                                         </div>
                                                     </div>
 
+                                                    <!-- joining Details -->
                                                     <div class="row">
                                                         <div class="col-md-3">
                                                             <div class="form-group">
@@ -319,103 +302,31 @@
                                                             </div>
                                                         </div>
 
-                                                        <input type="hidden" name="company_id"
-                                                            value="<?php echo $company_id?>">
-                                                        <input type="hidden" name="location_id"
-                                                            value="<?php echo $location_id?>">
-
                                                         <div class="col-md-3">
                                                             <div class="form-group">
-                                                                <label for="probation">Next Incre/Prob Date<i
-                                                                        class="hrsale-asterisk"><span
-                                                                            style="color:red">*</span></i></label>
-                                                                <input class="form-control date"
-                                                                    placeholder="<?php echo $this->lang->line('xin_contact_number');?>"
-                                                                    name="notify_incre_prob" autocomplete="off"
-                                                                    type="text"
-                                                                    value="<?php echo $notify_incre_prob;?>">
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-3" id="status">
-                                                            <div class="form-group">
-                                                                <label
-                                                                    for="status"><?php echo $this->lang->line('dashboard_xin_status');?><i
-                                                                        class="hrsale-asterisk"><span
-                                                                            style="color:red">*</span></i></label>
-                                                                <select name="status" id="status" class="form-control"
-                                                                    data-plugin="select_hrm">
-                                                                    <option>-- Select Status --</option>
-                                                                    <option value="4"
-                                                                        <?php echo ($status == 4)? "selected":"";?>>
-                                                                        Internship</option>
-                                                                    <option value="5"
-                                                                        <?php echo ($status == 5)? "selected":"";?>>
-                                                                        Probation</option>
-                                                                    <option value="1"
-                                                                        <?php echo ($status == 1)? "selected":"";?>>
-                                                                        Regular</option>
-                                                                </select>
+                                                                <label for="date_of_birth"><?php echo $this->lang->line('xin_employee_dob');?><i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                                                <input class="form-control date" readonly
+                                                                    placeholder="<?php echo $this->lang->line('xin_employee_dob');?>"
+                                                                    name="date_of_birth" type="text"
+                                                                    value="<?php echo $date_of_birth;?>">
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-3">
                                                             <div class="form-group">
-                                                                <label for="floor_status">Floor Set<i
-                                                                        class="hrsale-asterisk"><span
-                                                                            style="color:red">*</span></i></label>
-                                                                <select name="floor_status" id="floor_status"
-                                                                    class="form-control">
-                                                                    <option>-- Select Floor --</option>
-                                                                    <option value="3"
-                                                                        <?php echo ($floor_status == 3)? "selected":"";?>>
-                                                                        3 <sup>rd</sup></option>
-                                                                    <option value="5"
-                                                                        <?php echo ($floor_status == 5)? "selected":"";?>>
-                                                                        5 <sup>th</sup></option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="office_shift_id"
-                                                                    class="control-label"><?php echo $this->lang->line('xin_employee_office_shift');?></label>
-                                                                <select class="form-control" name="office_shift_id"
-                                                                    data-plugin="select_hrm"
-                                                                    data-placeholder="<?php echo $this->lang->line('xin_employee_office_shift');?>">
-                                                                    <?php foreach($all_office_shifts as $shift) {?>
-                                                                    <option value="<?php echo $shift->office_shift_id?>"
-                                                                        <?php if($office_shift_id == $shift->office_shift_id):?>
-                                                                        selected="selected" <?php endif; ?>>
-                                                                        <?php echo $shift->shift_name?></option>
-                                                                    <?php } ?>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="gender"
-                                                                    class="control-label"><?php echo $this->lang->line('xin_employee_gender');?></label>
+                                                                <label for="gender" class="control-label"><?php echo $this->lang->line('xin_employee_gender');?></label>
                                                                 <select class="form-control" name="gender"
                                                                     data-plugin="select_hrm"
                                                                     data-placeholder="<?php echo $this->lang->line('xin_employee_gender');?>">
-                                                                    <option value="Male" <?php if($gender=='Male'):?>
-                                                                        selected <?php endif; ?>>Male</option>
-                                                                    <option value="Female"
-                                                                        <?php if($gender=='Female'):?> selected
-                                                                        <?php endif; ?>>Female</option>
+                                                                    <option value="Male" <?php if($gender=='Male'):?> selected <?php endif; ?>>Male</option>
+                                                                    <option value="Female" <?php if($gender=='Female'):?> selected <?php endif; ?>>Female</option>
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-4">
+
+                                                        <div class="col-md-3">
                                                             <div class="form-group">
-                                                                <label for="marital_status"
-                                                                    class="control-label"><?php echo $this->lang->line('xin_employee_mstatus');?></label>
+                                                                <label for="marital_status" class="control-label"><?php echo $this->lang->line('xin_employee_mstatus');?></label>
                                                                 <select class="form-control" name="marital_status"
                                                                     data-plugin="select_hrm"
                                                                     data-placeholder="<?php echo $this->lang->line('xin_employee_mstatus');?>">
@@ -442,8 +353,57 @@
                                                                 </select>
                                                             </div>
                                                         </div>
+
+                                                        <input type="hidden" name="company_id" value="<?php echo $company_id?>">
+                                                        <input type="hidden" name="location_id" value="<?php echo $location_id?>">
+                                                        <input type="hidden" name="notify_incre_prob" value="<?php echo $notify_incre_prob;?>">
+                                                        <input type="hidden" name="status" value="<?php echo $status;?>" id="status" >
                                                     </div>
 
+                                                    <!-- shift row -->
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="office_shift_id" class="control-label"><?php echo $this->lang->line('xin_employee_office_shift');?></label>
+                                                                <select class="form-control" name="office_shift_id"
+                                                                    data-plugin="select_hrm" data-placeholder="<?php echo $this->lang->line ('xin_employee_office_shift');?>">
+                                                                    <?php foreach($all_office_shifts as $shift) {?>
+                                                                    <option value="<?php echo $shift->office_shift_id?>"
+                                                                        <?php if($office_shift_id == $shift->office_shift_id):?>
+                                                                        selected="selected" <?php endif; ?>>
+                                                                        <?php echo $shift->shift_name?></option>
+                                                                    <?php } ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="floor_status">Floor Set<i
+                                                                        class="hrsale-asterisk"><span
+                                                                            style="color:red">*</span></i></label>
+                                                                <select name="floor_status" id="floor_status"
+                                                                    class="form-control">
+                                                                    <option>-- Select Floor --</option>
+                                                                    <option value="3"
+                                                                        <?php echo ($floor_status == 3)? "selected":"";?>>
+                                                                        3 <sup>rd</sup></option>
+                                                                    <option value="5"
+                                                                        <?php echo ($floor_status == 5)? "selected":"";?>>
+                                                                        5 <sup>th</sup></option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-5">
+                                                            <div class="form-group">
+                                                                <label for="email"  class="control-label"><?php echo $this->lang->line('dashboard_email');?><i  class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                                                <input class="form-control" placeholder="<?php echo $this->lang->line('dashboard_email');?>" name="email" type="text" value="<?php echo $email;?>">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- contact number row -->
                                                     <div class="row">
                                                         <div class="col-md-4">
                                                             <div class="form-group">
@@ -475,7 +435,6 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="date_of_leaving"
@@ -488,55 +447,8 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label
-                                                                    for="date_of_birth"><?php echo $this->lang->line('xin_employee_dob');?><i
-                                                                        class="hrsale-asterisk"><span
-                                                                            style="color:red">*</span></i></label>
-                                                                <input class="form-control date" readonly
-                                                                    placeholder="<?php echo $this->lang->line('xin_employee_dob');?>"
-                                                                    name="date_of_birth" type="text"
-                                                                    value="<?php echo $date_of_birth;?>">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label
-                                                                    for="xin_hr_leave_cat"><?php echo $this->lang->line('xin_hr_leave_cat');?></label>
-                                                                <input type="hidden" name="leave_categories[]"
-                                                                    value="0" />
-                                                                <select multiple="multiple" class="form-control"
-                                                                    name="leave_categories[]" data-plugin="select_hrm"
-                                                                    data-placeholder="<?php echo $this->lang->line('xin_hr_leave_cat');?>">
-                                                                    <?php foreach($all_leave_types as $leave_type) {?>
-                                                                    <option
-                                                                        value="<?php echo $leave_type->leave_type_id?>"
-                                                                        <?php if(isset($_GET)) { if(in_array($leave_type->leave_type_id,$leave_categories_ids)):?>
-                                                                        selected <?php endif; }?>>
-                                                                        <?php echo $leave_type->type_name?></option>
-                                                                    <?php } ?>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="email" class="control-label">Give
-                                                                    Letter</label>
-                                                                <select class="form-control" name="letter_status"
-                                                                    data-plugin="select_hrm">
-                                                                    <option value="0"
-                                                                        <?php echo ($letter_status == 0) ? 'selected' : ''; ?>>
-                                                                        No</option>
-                                                                    <option value="1"
-                                                                        <?php echo ($letter_status == 1) ? 'selected' : ''; ?>>
-                                                                        Yes</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    <input type="hidden" name="leave_categories[]" value="0" />
+                                                    <input type="hidden" name="letter_status" value="0" />
 
                                                     <!-- Present and Permanent Address -->
                                                     <div class="row">

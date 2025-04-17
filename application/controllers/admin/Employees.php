@@ -2233,6 +2233,7 @@ class Employees extends MY_Controller {
 			}else{
 				$nname = '';
 			}
+			
 			$data = array(
 				'employee_id' => $employee_id,
 				'office_shift_id' => $this->input->post('office_shift_id'),
@@ -2240,7 +2241,6 @@ class Employees extends MY_Controller {
 				'last_name' => $last_name,
 				'username' => $username,
 				'company_id' => $this->input->post('company_id'),
-				'location_id' => $this->input->post('location_id'),
 				'email' => $this->input->post('email'),
 				'status' => $this->input->post('status'),
 				'floor_status' => $this->input->post('floor_status'),
@@ -2249,7 +2249,6 @@ class Employees extends MY_Controller {
 				'gender' => $this->input->post('gender'),
 				'user_role_id' => $this->input->post('role'),
 				'department_id' => $this->input->post('department_id'),
-				'sub_department_id' => $this->input->post('subdepartment_id'),
 				'designation_id' => $this->input->post('designation_id'),
 				'salary' => $this->input->post('salary'),
 				'basic_salary' => $this->input->post('salary'),
@@ -2275,6 +2274,7 @@ class Employees extends MY_Controller {
 				'po_id_per' => $this->input->post('po_id_per'),
 				'village_per' => $this->input->post('village_per'),
 			);
+
 			$iresult = $this->Employees_model->add($data);
 
 				$emdata = array(

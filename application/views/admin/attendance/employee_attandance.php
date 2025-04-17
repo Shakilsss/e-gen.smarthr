@@ -7,36 +7,37 @@
 
 ?>
 <style>
-body {
-    font-family: 'Fira Mono', monospace;
-}
+    body {
+        font-family: 'Fira Mono', monospace;
+    }
 
-.list-group>li:nth-child(5n+1) {
-    border-top: 1px solid rgba(0, 0, 0, .125);
-    border-top-left-radius: .25rem;
-    border-top-right-radius: .25rem;
-}
+    .list-group>li:nth-child(5n+1) {
+        border-top: 1px solid rgba(0, 0, 0, .125);
+        border-top-left-radius: .25rem;
+        border-top-right-radius: .25rem;
+    }
 
-.modal-dialog {
-    width: 600px;
-    margin: 95px auto;
-}
+    .modal-dialog {
+        width: 600px;
+        margin: 95px auto;
+    }
 
-.list-group>li:nth-child(5n+0) {
-    border-bottom-left-radius: .25rem;
-    border-bottom-right-radius: .25rem;
-}
+    .list-group>li:nth-child(5n+0) {
+        border-bottom-left-radius: .25rem;
+        border-bottom-right-radius: .25rem;
+    }
 
-.pagination-container {
-    justify-content: right !important;
-    display: flex !important;
-}
+    .pagination-container {
+        justify-content: right !important;
+        display: flex !important;
+    }
 </style>
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&amp;display=swap">
 <link rel="stylesheet" href="<?= base_url('skin/hrsale_assets/css/lunch_emp_bill.css') ?>">
 <link rel="stylesheet" href="<?= base_url('skin/hrsale_assets/css/emp_attandenc.css') ?>">
 
+<!-- job card form modal -->
 <div class="modal fade" id="jobcardinput" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
@@ -60,38 +61,42 @@ body {
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" onclick="get_job_card()" class="btn btn-primary">Get</button>
-
             </div>
         </div>
-
     </div>
 </div>
+
+<!-- punch request form modal -->
 <div class="modal fade" id="punch_request" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Job Card Form</h4>
+                <h4 class="modal-title">Punch Request Form</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         <label for="">Type</label>
                         <select id="punch_type" class="form-control select2">
                             <option value="in">Punch In</option>
                             <option value="out">Punch Out</option>
                         </select>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         <label for="">Date</label>
                         <input type="date" min="<?= date('Y-m-d', strtotime('-2 day')) ?>" max="<?= date('Y-m-d') ?>"
                             value="<?= date('Y-m-d') ?>" class="form-control" id="p_date">
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         <label for="">Time</label>
                         <input type="time" class="form-control" id="p_time">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label for="">Remark</label>
+                        <textarea class="form-control" id="p_remark"></textarea>
                     </div>
                 </div>
             </div>
@@ -101,7 +106,6 @@ body {
                     class="btn btn-primary">Submit</button>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -137,8 +141,8 @@ body {
                     value="<?= date('Y-m-d') ?>" id="datef">
             </div>
         </div>
-
     </div>
+
     <div class="col-md-3 divform-group">
         <div class="input">
             <div class="level">Select Month</div>
@@ -147,12 +151,11 @@ body {
                     value="<?= date('Y-m') ?>" name="" id="">
             </div>
         </div>
-
     </div>
+
     <div class="col-md-2 divform-group">
         <div class="input">
             <?php $years = range(1900, strftime("%Y", time())); ?>
-
             <div class="level">Select Year</div>
             <div class="pseudo6">
                 <select onchange=getdata(this) id="year" style="width: 98%;border: none;cursor: pointer;">
@@ -164,8 +167,8 @@ body {
                 </select>
             </div>
         </div>
-
     </div>
+
     <div class="col-md-2 divform-group">
         <a data-toggle="modal" data-target="#jobcardinput">
             <div class="input serceb">
@@ -173,6 +176,7 @@ body {
             </div>
         </a>
     </div>
+
     <div class="col-md-2 divform-group">
         <a data-toggle="modal" data-target="#punch_request">
             <div class="input serceb">
@@ -181,119 +185,126 @@ body {
         </a>
     </div>
 </div>
+
 <div id="datatable" class="table-responsive">
     <?php echo $tablebody;?>
 </div>
+
 <script>
-function getdata(status) {
-    if (status.id == 'datef') {
-        var firstdate = document.getElementById('datef').value
-        var seconddate = document.getElementById('datef').value
-    } else if (status.id == 'month') {
-        var date = new Date(document.getElementById('month').value);
+    function getdata(status) {
+        if (status.id == 'datef') {
+            var firstdate = document.getElementById('datef').value
+            var seconddate = document.getElementById('datef').value
+        } else if (status.id == 'month') {
+            var date = new Date(document.getElementById('month').value);
 
 
-        var firstDate = new Date(date.getFullYear(), date.getMonth(), 2);
+            var firstDate = new Date(date.getFullYear(), date.getMonth(), 2);
 
-        // Get the last date of the month by setting the day to 0 (which gives the last day of the previous month) and adding 1 day
-        var lastDate = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+            // Get the last date of the month by setting the day to 0 (which gives the last day of the previous month) and adding 1 day
+            var lastDate = new Date(date.getFullYear(), date.getMonth() + 1, 1);
 
-        // Format the dates as strings in the format 'YYYY-MM-DD'
-        var firstdate = firstDate.toISOString().slice(0, 10);
-        var seconddate = lastDate.toISOString().slice(0, 10);
+            // Format the dates as strings in the format 'YYYY-MM-DD'
+            var firstdate = firstDate.toISOString().slice(0, 10);
+            var seconddate = lastDate.toISOString().slice(0, 10);
 
-    } else if (status.id == 'year') {
-        var date = document.getElementById('year').value;
-        var firstDate = new Date(date, 0, 1); // Month is zero-based, so 0 represents January
-        var lastDate = new Date(date, 11, 31); // Month is zero-based, so 11 represents December
+        } else if (status.id == 'year') {
+            var date = document.getElementById('year').value;
+            var firstDate = new Date(date, 0, 1); // Month is zero-based, so 0 represents January
+            var lastDate = new Date(date, 11, 31); // Month is zero-based, so 11 represents December
 
-        // Format the dates as strings
-        var firstdate = firstDate.toDateString();
-        var seconddate = lastDate.toDateString();
-    }
-    $.ajax({
-        url: '<?php echo base_url('admin/attendance/employee_attendance'); ?>',
-        method: 'GET',
-        data: {
-            firstdate: firstdate,
-            seconddate: seconddate
-        },
-        success: function(resp) {
-            $('#datatable').empty();
-            $('#datatable').html(resp);
+            // Format the dates as strings
+            var firstdate = firstDate.toDateString();
+            var seconddate = lastDate.toDateString();
         }
-    });
-}
+        $.ajax({
+            url: '<?php echo base_url('admin/attendance/employee_attendance'); ?>',
+            method: 'GET',
+            data: {
+                firstdate: firstdate,
+                seconddate: seconddate
+            },
+            success: function(resp) {
+                $('#datatable').empty();
+                $('#datatable').html(resp);
+            }
+        });
+    }
 </script>
 <script>
-function get_job_card() {
-    var ajaxRequest; // The variable that makes Ajax possible!
-    ajaxRequest = new XMLHttpRequest();
+    function get_job_card() {
+        var ajaxRequest; // The variable that makes Ajax possible!
+        ajaxRequest = new XMLHttpRequest();
 
-    first_date = document.getElementById('emp_j_from_date').value;
-    second_date = document.getElementById('emp_j_to_date').value;
+        first_date = document.getElementById('emp_j_from_date').value;
+        second_date = document.getElementById('emp_j_to_date').value;
 
-    if (first_date == '') {
-        alert('Please select first date');
-        return;
-    }
-    if (second_date == '') {
-        alert('Please select second date');
-        return;
-    }
+        if (first_date == '') {
+            alert('Please select first date');
+            return;
+        }
+        if (second_date == '') {
+            alert('Please select second date');
+            return;
+        }
 
-    var data = "first_date=" + first_date + '&second_date=' + second_date;
+        var data = "first_date=" + first_date + '&second_date=' + second_date;
 
-    url = '<?php echo base_url('admin/attendance/get_job_card_emp'); ?>';
-    ajaxRequest.open("POST", url, true);
-    ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-    ajaxRequest.send(data);
-    // alert(url); return;
+        url = '<?php echo base_url('admin/attendance/get_job_card_emp'); ?>';
+        ajaxRequest.open("POST", url, true);
+        ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+        ajaxRequest.send(data);
+        // alert(url); return;
 
-    ajaxRequest.onreadystatechange = function() {
-        if (ajaxRequest.readyState == 4) {
-            // console.log(ajaxRequest.responseText); return;
-            var resp = ajaxRequest.responseText;
-            a = window.open('', '_blank', 'menubar=1,resizable=1,scrollbars=1,width=1600,height=800');
-            a.document.write(resp);
-            // a.close();
+        ajaxRequest.onreadystatechange = function() {
+            if (ajaxRequest.readyState == 4) {
+                // console.log(ajaxRequest.responseText); return;
+                var resp = ajaxRequest.responseText;
+                a = window.open('', '_blank', 'menubar=1,resizable=1,scrollbars=1,width=1600,height=800');
+                a.document.write(resp);
+                // a.close();
+            }
         }
     }
-}
 </script>
 <script>
-function punch_request() {
-    var ajaxRequest; // The variable that makes Ajax possible!
-    ajaxRequest = new XMLHttpRequest();
+    function punch_request() {
+        var ajaxRequest; // The variable that makes Ajax possible!
+        ajaxRequest = new XMLHttpRequest();
 
-    punch_type = document.getElementById('punch_type').value;
-    p_date = document.getElementById('p_date').value;
-    p_time = document.getElementById('p_time').value;
+        punch_type = document.getElementById('punch_type').value;
+        p_date = document.getElementById('p_date').value;
+        p_time = document.getElementById('p_time').value;
+        p_remark = document.getElementById('p_remark').value;
 
-    if (punch_type == '') {
-        alert('Please select punch type');
-        return;
-    }
-    if (p_date == '') {
-        alert('Please select date');
-        return;
-    }
-    if (p_time == '') {
-        alert('Please select time');
-        return;
-    }
+        if (punch_type == '') {
+            alert('Please select punch type');
+            return;
+        }
+        if (p_date == '') {
+            alert('Please select date');
+            return;
+        }
+        if (p_time == '') {
+            alert('Please select time');
+            return;
+        }
+        if (p_remark == '') {
+            alert('Please write remark');
+            return;
+        }
 
 
-    var data = "punch_type=" + punch_type + '&p_date=' + p_date + '&p_time=' + p_time;
+        var data = "punch_type=" + punch_type + '&p_date=' + p_date + '&p_time=' + p_time + '&p_remark=' + p_remark;
 
-    url = '<?php echo base_url('admin/attendance/punch_request'); ?>';
-    ajaxRequest.open("POST", url, true);
-    ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-    ajaxRequest.send(data);
-    ajaxRequest.onreadystatechange = function() {
-        if (ajaxRequest.readyState == 4) {
-            alert(ajaxRequest.responseText);
+        url = '<?php echo base_url('admin/attendance/punch_request'); ?>';
+        ajaxRequest.open("POST", url, true);
+        ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+        ajaxRequest.send(data);
+        ajaxRequest.onreadystatechange = function() {
+            if (ajaxRequest.readyState == 4) {
+                alert(ajaxRequest.responseText);
+            }
         }
     }
-}
 </script>

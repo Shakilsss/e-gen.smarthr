@@ -92,7 +92,7 @@ h2 {
 }
 
 .buttons .view {
-    background-color: #0074d9;
+    background-color:rgb(242, 244, 247);
 }
 
 .buttons button:hover {
@@ -390,6 +390,9 @@ $(document).ready(function() {
             },
             dataType: 'json',
             success: function(response) {
+
+                // console.log(response);
+                
                 $('#loading').hide();
                 if (doc_type.toLowerCase() == 'pdf') {
                     const {
@@ -405,7 +408,10 @@ $(document).ready(function() {
 
                     if (table) {
                         doc.autoTable({
-                            html: table
+                            html: table,
+                            windowWidth: table.scrollWidth,
+                            width: 792,
+                            scale: 0.5, 
                         });
                         doc.save('attendance_report.pdf');
                     } else {

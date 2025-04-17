@@ -980,12 +980,12 @@ class Attendance extends MY_Controller
         $this->db->update('xin_employee_move_register', $data);
         echo "Success";
     }
+
     // ============================ Employee view ===================================
     // attandancevied code here
     public function employee_attendance()
     {
         $session = $this->session->userdata('username');
-        //  dd($session['user_id']);
         if(empty($session)) {
             redirect('admin/');
         }
@@ -1020,38 +1020,31 @@ class Attendance extends MY_Controller
             $this->load->view('admin/layout/layout_main', $data);
         }
     }
+
     public function punch_request(){
-        $punch_type=$this->input->post('punch_type');
-        $p_date=$this->input->post('p_date');
-        $p_time=$this->input->post('p_time');
+        $punch_type = $this->input->post('punch_type');
+        $p_date = $this->input->post('p_date');
+        $p_time = $this->input->post('p_time');
+        $p_remark = $this->input->post('p_remark');
         $session = $this->session->userdata('username');
         $user_id  = $session[ 'user_id' ];
-        $proxi_id = $this->db->where('emp_id', $user_id)->get('xin_proxi')->row()->proxi_id;
-
-        $sql = "CREATE TABLE IF NOT EXISTS `leave_out_off_office` (
-            `id` int(11) NOT NULL AUTO_INCREMENT,
-            `emp_id` int(11) NOT NULL,
-            `proxi_id` int(11) NOT NULL,
-            `punch_type` varchar(255) NOT NULL,
-            `p_date` date NOT NULL,
-            `p_time` time NOT NULL,
-            `status` tinyint(1) NOT NULL,
-            PRIMARY KEY (`id`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
-        $this->db->query($sql);
 
         $data = array(
-            'emp_id' => $session['user_id'],
-            'proxi_id' => $proxi_id,
-            'punch_type' => $punch_type,
-            'p_date' => $p_date,
-            'p_time' => $p_time,
-            'status' => 0,
+            'emp_id'  => $session['user_id'],
+            'unit_id' => $session['unit_id'],
+            'remark' => $p_remark,
+            'date' => $p_date,
+            'status' => 1,
+            'updated_at' => date('Y-m-d'),
         );
+        if ($punch_type == 'in') {
+            $data['in_time'] = $p_time;
+        } else {
+            $data['out_time'] = $p_time;
+        }
         $this->db->insert('leave_out_off_office', $data);
         echo 'Success';
     }
-
 
     public function punch_request_list(){
         $session = $this->session->userdata('username');
@@ -1597,26 +1590,26 @@ class Attendance extends MY_Controller
             ->result();
         }
         // dd($data['xin_employees']);
-        if($report_type == 'all'){
-            $view_report = $this->load->view("admin/timesheet/monthly_report_all_pdf", $data, true);
+        if($report_type ==  'all'){
+            $view_report =  $this->load->view("admin/timesheet/monthly_report_all_pdf", $data, true);
         }
-        if($report_type == 'late-in'){
-            $view_report = $this->load->view("admin/timesheet/monthly_report_late_in_pdf", $data, true);
+        if($report_type ==  'late-in'){
+            $view_report =  $this->load->view("admin/timesheet/monthly_report_late_in_pdf", $data, true);
         }
-        if($report_type == 'early-leave'){
-            $view_report = $this->load->view("admin/timesheet/monthly_report_early_leave_pdf", $data, true);
+        if($report_type ==  'early-leave'){
+            $view_report =  $this->load->view("admin/timesheet/monthly_report_early_leave_pdf", $data, true);
         }
-        if($report_type == 'late-times'){
-            $view_report = "Processing";
+        if($report_type ==  'late-times'){
+            $view_report =  "Processing";
             // $view_report = $this->load->view("admin/timesheet/monthly_report_all", $data, true);
         }
-        if($report_type == 'lwp'){
-            $view_report = $this->load->view("admin/timesheet/monthly_report_lwp", $data, true);
+        if($report_type ==  'lwp'){
+            $view_report =  $this->load->view("admin/timesheet/monthly_report_lwp", $data, true);
         }
-        if($report_type == 'duty-hour'){
-            $view_report = $this->load->view("admin/timesheet/duty_hour_pdf", $data, true);
+        if($report_type ==  'duty-hour'){
+            $view_report =  $this->load->view("admin/timesheet/duty_hour_pdf", $data, true);
         }
-        if($report_type == 'duty-hour-details'){
+        if($report_type ==  'duty-hour-details'){
             $view_report =  $this->load->view("admin/timesheet/monthly_report_duty_hour_details_pdf", $data, true);
         }
         echo json_encode($view_report);
