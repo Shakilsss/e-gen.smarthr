@@ -261,19 +261,35 @@
                                 <input class="form-control date_of_joining" readonly placeholder="<?php echo $this->lang->line('xin_employee_doj');?>" name="date_of_joining" type="text" value="">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <label for="date_of_birth"><?php echo $this->lang->line('xin_employee_dob');?><i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
                                 <input class="form-control date_of_birth" readonly placeholder="<?php echo $this->lang->line('xin_employee_dob');?>" name="date_of_birth" type="text" value="">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <label for="gender" class="control-label"><?php echo $this->lang->line('xin_employee_gender');?></label>
                                 <select class="form-control" name="gender" data-plugin="select_hrm"
                                     data-placeholder="<?php echo $this->lang->line('xin_employee_gender');?>">
                                     <option value="Male"><?php echo $this->lang->line('xin_gender_male');?></option>
                                     <option value="Female"><?php echo $this->lang->line('xin_gender_female');?></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="blood_group" class="control-label">Blood Group</label>
+                                <select class="form-control" name="blood_group" data-plugin="select_hrm"
+                                    data-placeholder="Blood Group">
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
                                 </select>
                             </div>
                         </div>

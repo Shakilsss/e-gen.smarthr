@@ -1408,6 +1408,7 @@ class Employees extends MY_Controller {
 			'all_leave_types' => $this->Timesheet_model->all_leave_types(),
 			// 'is_emp_lead' => $result[0]->is_emp_lead,
 			'lead_user_id' => $result[0]->lead_user_id,
+			'blood_group' => $result[0]->blood_group,
 			'user_password' => 0,
 		);
 		// dd($data);
@@ -2273,6 +2274,7 @@ class Employees extends MY_Controller {
 				'up_id_per' => $this->input->post('up_id_per'),
 				'po_id_per' => $this->input->post('po_id_per'),
 				'village_per' => $this->input->post('village_per'),
+				'blood_group' => $this->input->post('blood_group'),
 			);
 
 			$iresult = $this->Employees_model->add($data);
@@ -2560,6 +2562,8 @@ class Employees extends MY_Controller {
 			'floor_status' => $this->input->post('floor_status'),
 			'user_password' => $this->input->post('user_password'),
 			'punch_id' => $this->input->post('proxi_id'),
+			'blood_group' => $this->input->post('blood_group'),
+
 		);
 
 		if($this->input->post('letter_status')!=''){

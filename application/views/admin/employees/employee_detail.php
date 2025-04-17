@@ -1,4 +1,3 @@
-
 <?php $session = $this->session->userdata('username');?>
 <?php $system = $this->Xin_model->read_setting_info(1);?>
 <?php
@@ -17,31 +16,36 @@
 <?php $role_resources_ids = $this->Xin_model->user_role_resource(); ?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
 <style>
-    #nda_start {
-        display: none;
-    }
+#nda_start {
+    display: none;
+}
 
-    #nda_end {
-        display: none;
-    }
+#nda_end {
+    display: none;
+}
 </style>
 <div class="row">
     <div class="col-md-12">
         <div class="nav-tabs-custom mb-4">
             <!-- top tsp menu -->
             <ul class="nav nav-tabs">
-                <li class="nav-item active"> <a class="nav-link active show" data-toggle="tab" href="#xin_general"><?php echo $this->lang->line('xin_general');?></a> </li>
-                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#xin_profile_picture"><?php echo $this->lang->line('xin_e_details_profile_picture');?></a>
+                <li class="nav-item active"> <a class="nav-link active show" data-toggle="tab"
+                        href="#xin_general"><?php echo $this->lang->line('xin_general');?></a> </li>
+                <li class="nav-item"> <a class="nav-link" data-toggle="tab"
+                        href="#xin_profile_picture"><?php echo $this->lang->line('xin_e_details_profile_picture');?></a>
                 </li>
 
                 <?php if(in_array('351',$role_resources_ids)) {?>
-                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#xin_employee_set_salary"><?php echo $this->lang->line('xin_employee_set_salary');?></a>
-                    </li>
+                <li class="nav-item"> <a class="nav-link" data-toggle="tab"
+                        href="#xin_employee_set_salary"><?php echo $this->lang->line('xin_employee_set_salary');?></a>
+                </li>
                 <?php } ?>
-                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#xin_leaves"><?php echo $this->lang->line('left_leaves');?></a> </li>
+                <li class="nav-item"> <a class="nav-link" data-toggle="tab"
+                        href="#xin_leaves"><?php echo $this->lang->line('left_leaves');?></a> </li>
                 <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#NDA">NDA</a> </li>
                 <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#remarks">Remarks</a> </li>
-                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#salary_review">Salary Review</a> </li>
+                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#salary_review">Salary Review</a>
+                </li>
             </ul>
 
             <div class="tab-content">
@@ -101,7 +105,8 @@
                                         <div class="tab-pane active current-tab <?php echo $get_animate;?>"
                                             id="user_basic_info">
                                             <div class="box-header with-border">
-                                                <h3 class="box-title"> <?php echo $this->lang->line('xin_e_details_basic_info');?> </h3>
+                                                <h3 class="box-title">
+                                                    <?php echo $this->lang->line('xin_e_details_basic_info');?> </h3>
                                             </div>
 
                                             <div class="box-body">
@@ -115,8 +120,14 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label  for="first_name"><?php echo $this->lang->line('xin_employee_first_name');?><i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
-                                                                <input class="form-control" placeholder="<?php echo $this->lang->line('xin_employee_first_name');?>" name="first_name" type="text" value="<?php echo $first_name;?>">
+                                                                <label
+                                                                    for="first_name"><?php echo $this->lang->line('xin_employee_first_name');?><i
+                                                                        class="hrsale-asterisk"><span
+                                                                            style="color:red">*</span></i></label>
+                                                                <input class="form-control"
+                                                                    placeholder="<?php echo $this->lang->line('xin_employee_first_name');?>"
+                                                                    name="first_name" type="text"
+                                                                    value="<?php echo $first_name;?>">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
@@ -137,21 +148,34 @@
                                                     <div class="row">
                                                         <div class="col-md-4">
                                                             <div class="form-group">
-                                                                <label for="employee_id"><?php echo $this->lang->line('dashboard_employee_id');?><i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
-                                                                <input class="form-control" placeholder="<?php echo $this->lang->line('dashboard_employee_id');?>" name="employee_id" type="text" value="<?php echo $employee_id;?>">
+                                                                <label
+                                                                    for="employee_id"><?php echo $this->lang->line('dashboard_employee_id');?><i
+                                                                        class="hrsale-asterisk"><span
+                                                                            style="color:red">*</span></i></label>
+                                                                <input class="form-control"
+                                                                    placeholder="<?php echo $this->lang->line('dashboard_employee_id');?>"
+                                                                    name="employee_id" type="text"
+                                                                    value="<?php echo $employee_id;?>">
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-4">
                                                             <div class="form-group">
-                                                                <label for="employee_id">Proxi ID<i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
-                                                                <input id="proxi_id" class="form-control" placeholder="Proxi ID" name="proxi_id" type="text" value="<?php echo $proxi_id?>">
+                                                                <label for="employee_id">Proxi ID<i
+                                                                        class="hrsale-asterisk"><span
+                                                                            style="color:red">*</span></i></label>
+                                                                <input id="proxi_id" class="form-control"
+                                                                    placeholder="Proxi ID" name="proxi_id" type="text"
+                                                                    value="<?php echo $proxi_id?>">
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-4">
                                                             <div class="form-group">
-                                                                <label for="username"><?php echo $this->lang->line('dashboard_username');?><i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                                                <label
+                                                                    for="username"><?php echo $this->lang->line('dashboard_username');?><i
+                                                                        class="hrsale-asterisk"><span
+                                                                            style="color:red">*</span></i></label>
                                                                 <input class="form-control"
                                                                     placeholder="<?php echo $this->lang->line('dashboard_username');?>"
                                                                     name="username" type="text"
@@ -174,9 +198,9 @@
                                                     <?php $eall_departments = $this->Department_model->ajax_location_departments_information($location_id);?>
 
                                                     <?php if($system[0]->is_active_sub_departments=='yes'){?>
-                                                        <?php $eall_designations = $this->Designation_model->ajax_designation_information($sub_department_id);?>
+                                                    <?php $eall_designations = $this->Designation_model->ajax_designation_information($sub_department_id);?>
                                                     <?php } else {?>
-                                                        <?php $eall_designations = $this->Designation_model->ajax_is_designation_information($department_id);?>
+                                                    <?php $eall_designations = $this->Designation_model->ajax_is_designation_information($department_id);?>
                                                     <?php } ?>
 
                                                     <!-- department row -->
@@ -205,39 +229,42 @@
 
                                                         <?php $colmd=3; if($system[0]->is_active_sub_departments=='yes'){ $ncolmd = 3; } else { $ncolmd = 4;}?>
                                                         <?php if($system[0]->is_active_sub_departments=='yes'){?>
-                                                            <div class="col-md-<?php echo $ncolmd;?>"
-                                                                id="subdepartment_ajax">
-                                                                <?php $depid = $eresult[0]->department_id; ?>
-                                                                <?php if(!isset($depid)): $depid = 1; else: $depid = $depid; endif;?>
-                                                                <?php $subresult = get_sub_departments($depid);?>
-                                                                <div class="form-group">
-                                                                    <label
-                                                                        for="designation"><?php echo $this->lang->line('xin_hr_sub_department');?><i
-                                                                            class="hrsale-asterisk"><span
-                                                                                style="color:red">*</span></i></label>
-                                                                    <select class="form-control" name="subdepartment_id"
-                                                                        data-plugin="select_hrm"
-                                                                        data-placeholder="<?php echo $this->lang->line('xin_employee_department');?>"
-                                                                        id="aj_subdepartment">
-                                                                        <option value=""></option>
-                                                                        <?php foreach($subresult as $sbdeparment) {?>
-                                                                        <option
-                                                                            value="<?php echo $sbdeparment->sub_department_id;?>"
-                                                                            <?php if($sub_department_id==$sbdeparment->sub_department_id):?>
-                                                                            selected <?php endif;?>>
-                                                                            <?php echo $sbdeparment->department_name;?>
-                                                                        </option>
-                                                                        <?php } ?>
-                                                                    </select>
-                                                                </div>
+                                                        <div class="col-md-<?php echo $ncolmd;?>"
+                                                            id="subdepartment_ajax">
+                                                            <?php $depid = $eresult[0]->department_id; ?>
+                                                            <?php if(!isset($depid)): $depid = 1; else: $depid = $depid; endif;?>
+                                                            <?php $subresult = get_sub_departments($depid);?>
+                                                            <div class="form-group">
+                                                                <label
+                                                                    for="designation"><?php echo $this->lang->line('xin_hr_sub_department');?><i
+                                                                        class="hrsale-asterisk"><span
+                                                                            style="color:red">*</span></i></label>
+                                                                <select class="form-control" name="subdepartment_id"
+                                                                    data-plugin="select_hrm"
+                                                                    data-placeholder="<?php echo $this->lang->line('xin_employee_department');?>"
+                                                                    id="aj_subdepartment">
+                                                                    <option value=""></option>
+                                                                    <?php foreach($subresult as $sbdeparment) {?>
+                                                                    <option
+                                                                        value="<?php echo $sbdeparment->sub_department_id;?>"
+                                                                        <?php if($sub_department_id==$sbdeparment->sub_department_id):?>
+                                                                        selected <?php endif;?>>
+                                                                        <?php echo $sbdeparment->department_name;?>
+                                                                    </option>
+                                                                    <?php } ?>
+                                                                </select>
                                                             </div>
+                                                        </div>
                                                         <?php } else {?>
-                                                            <input type="hidden" name="subdepartment_id" value="0" />
+                                                        <input type="hidden" name="subdepartment_id" value="0" />
                                                         <?php } ?>
 
                                                         <div class="col-md-<?php echo $ncolmd;?>">
                                                             <div class="form-group" id="designation_ajax">
-                                                                <label for="designation"><?php echo $this->lang->line('xin_designation');?><i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                                                <label
+                                                                    for="designation"><?php echo $this->lang->line('xin_designation');?><i
+                                                                        class="hrsale-asterisk"><span
+                                                                            style="color:red">*</span></i></label>
                                                                 <select class="form-control" name="designation_id"
                                                                     data-plugin="select_hrm"
                                                                     data-placeholder="<?php echo $this->lang->line('xin_designation');?>">
@@ -256,31 +283,34 @@
 
                                                         <div class="col-md-4">
                                                             <div class="form-group">
-                                                                <label  for="role"><?php echo $this->lang->line('xin_employee_role');?><i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                                                <label
+                                                                    for="role"><?php echo $this->lang->line('xin_employee_role');?><i
+                                                                        class="hrsale-asterisk"><span
+                                                                            style="color:red">*</span></i></label>
                                                                 <select class="form-control" name="role"
                                                                     data-plugin="select_hrm"
                                                                     data-placeholder="<?php echo $this->lang->line('xin_employee_role');?>">
                                                                     <option value=""></option>
                                                                     <?php foreach($all_user_roles as $role) {?>
-                                                                        <?php if($user_info[0]->user_role_id == 1){ ?>
-                                                                        <option value="<?php echo $role->role_id?>"
-                                                                            <?php if($user_role_id==$role->role_id):?>
-                                                                            selected <?php endif;?>>
-                                                                            <?php echo $role->role_name?></option>
-                                                                        <?php } else if ($user_info[0]->user_role_id == 2) { ?>
-                                                                            <?php if($role->role_id!=1){?>
-                                                                            <option value="<?php echo $role->role_id?>"
-                                                                                <?php if($user_role_id==$role->role_id):?>
-                                                                                selected <?php endif;?>>
-                                                                                <?php echo $role->role_name?></option>
-                                                                            <?php } ?>
-                                                                        <?php } else { ?>
-                                                                            <?php if(!in_array($role->role_id, array(1,2,6,7))){ ?>
-                                                                            <option value="<?php echo $role->role_id?>"
-                                                                                <?php if($user_role_id==$role->role_id):?>
-                                                                                selected <?php endif;?>>
-                                                                                <?php echo $role->role_name?></option>
-                                                                        <?php } } ?>
+                                                                    <?php if($user_info[0]->user_role_id == 1){ ?>
+                                                                    <option value="<?php echo $role->role_id?>"
+                                                                        <?php if($user_role_id==$role->role_id):?>
+                                                                        selected <?php endif;?>>
+                                                                        <?php echo $role->role_name?></option>
+                                                                    <?php } else if ($user_info[0]->user_role_id == 2) { ?>
+                                                                    <?php if($role->role_id!=1){?>
+                                                                    <option value="<?php echo $role->role_id?>"
+                                                                        <?php if($user_role_id==$role->role_id):?>
+                                                                        selected <?php endif;?>>
+                                                                        <?php echo $role->role_name?></option>
+                                                                    <?php } ?>
+                                                                    <?php } else { ?>
+                                                                    <?php if(!in_array($role->role_id, array(1,2,6,7))){ ?>
+                                                                    <option value="<?php echo $role->role_id?>"
+                                                                        <?php if($user_role_id==$role->role_id):?>
+                                                                        selected <?php endif;?>>
+                                                                        <?php echo $role->role_name?></option>
+                                                                    <?php } } ?>
                                                                     <?php } ?>
                                                                 </select>
                                                             </div>
@@ -304,7 +334,10 @@
 
                                                         <div class="col-md-3">
                                                             <div class="form-group">
-                                                                <label for="date_of_birth"><?php echo $this->lang->line('xin_employee_dob');?><i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                                                <label
+                                                                    for="date_of_birth"><?php echo $this->lang->line('xin_employee_dob');?><i
+                                                                        class="hrsale-asterisk"><span
+                                                                            style="color:red">*</span></i></label>
                                                                 <input class="form-control date" readonly
                                                                     placeholder="<?php echo $this->lang->line('xin_employee_dob');?>"
                                                                     name="date_of_birth" type="text"
@@ -314,19 +347,25 @@
 
                                                         <div class="col-md-3">
                                                             <div class="form-group">
-                                                                <label for="gender" class="control-label"><?php echo $this->lang->line('xin_employee_gender');?></label>
+                                                                <label for="gender"
+                                                                    class="control-label"><?php echo $this->lang->line('xin_employee_gender');?></label>
                                                                 <select class="form-control" name="gender"
                                                                     data-plugin="select_hrm"
                                                                     data-placeholder="<?php echo $this->lang->line('xin_employee_gender');?>">
-                                                                    <option value="Male" <?php if($gender=='Male'):?> selected <?php endif; ?>>Male</option>
-                                                                    <option value="Female" <?php if($gender=='Female'):?> selected <?php endif; ?>>Female</option>
+                                                                    <option value="Male" <?php if($gender=='Male'):?>
+                                                                        selected <?php endif; ?>>Male</option>
+                                                                    <option value="Female"
+                                                                        <?php if($gender=='Female'):?> selected
+                                                                        <?php endif; ?>>Female</option>
                                                                 </select>
                                                             </div>
                                                         </div>
+                                                        
 
                                                         <div class="col-md-3">
                                                             <div class="form-group">
-                                                                <label for="marital_status" class="control-label"><?php echo $this->lang->line('xin_employee_mstatus');?></label>
+                                                                <label for="marital_status"
+                                                                    class="control-label"><?php echo $this->lang->line('xin_employee_mstatus');?></label>
                                                                 <select class="form-control" name="marital_status"
                                                                     data-plugin="select_hrm"
                                                                     data-placeholder="<?php echo $this->lang->line('xin_employee_mstatus');?>">
@@ -353,20 +392,44 @@
                                                                 </select>
                                                             </div>
                                                         </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="blood_group" class="control-label">Blood
+                                                                    Group</label>
+                                                                <select class="form-control" name="blood_group"
+                                                                    data-plugin="select_hrm"
+                                                                    data-placeholder="Blood Group">
+                                                                    <option value="A+" <?= $blood_group=="A+"?"selected":""?> >A+</option>
+                                                                    <option value="A-" <?= $blood_group=="A-"?"selected":""?> >A-</option>
+                                                                    <option value="B+" <?= $blood_group=="B+"?"selected":""?> >B+</option>
+                                                                    <option value="B-" <?= $blood_group=="B-"?"selected":""?> >B-</option>
+                                                                    <option value="AB+" <?= $blood_group=="AB+"?"selected":""?> >AB+</option>
+                                                                    <option value="AB-" <?= $blood_group=="AB-"?"selected":""?> >AB-</option>
+                                                                    <option value="O+" <?= $blood_group=="O+"?"selected":""?> >O+</option>
+                                                                    <option value="O-" <?= $blood_group=="O-"?"selected":""?> >O-</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
 
-                                                        <input type="hidden" name="company_id" value="<?php echo $company_id?>">
-                                                        <input type="hidden" name="location_id" value="<?php echo $location_id?>">
-                                                        <input type="hidden" name="notify_incre_prob" value="<?php echo $notify_incre_prob;?>">
-                                                        <input type="hidden" name="status" value="<?php echo $status;?>" id="status" >
+                                                        <input type="hidden" name="company_id"
+                                                            value="<?php echo $company_id?>">
+                                                        <input type="hidden" name="location_id"
+                                                            value="<?php echo $location_id?>">
+                                                        <input type="hidden" name="notify_incre_prob"
+                                                            value="<?php echo $notify_incre_prob;?>">
+                                                        <input type="hidden" name="status" value="<?php echo $status;?>"
+                                                            id="status">
                                                     </div>
 
                                                     <!-- shift row -->
                                                     <div class="row">
                                                         <div class="col-md-4">
                                                             <div class="form-group">
-                                                                <label for="office_shift_id" class="control-label"><?php echo $this->lang->line('xin_employee_office_shift');?></label>
+                                                                <label for="office_shift_id"
+                                                                    class="control-label"><?php echo $this->lang->line('xin_employee_office_shift');?></label>
                                                                 <select class="form-control" name="office_shift_id"
-                                                                    data-plugin="select_hrm" data-placeholder="<?php echo $this->lang->line ('xin_employee_office_shift');?>">
+                                                                    data-plugin="select_hrm"
+                                                                    data-placeholder="<?php echo $this->lang->line ('xin_employee_office_shift');?>">
                                                                     <?php foreach($all_office_shifts as $shift) {?>
                                                                     <option value="<?php echo $shift->office_shift_id?>"
                                                                         <?php if($office_shift_id == $shift->office_shift_id):?>
@@ -397,8 +460,14 @@
 
                                                         <div class="col-md-5">
                                                             <div class="form-group">
-                                                                <label for="email"  class="control-label"><?php echo $this->lang->line('dashboard_email');?><i  class="hrsale-asterisk"><span style="color:red">*</span></i></label>
-                                                                <input class="form-control" placeholder="<?php echo $this->lang->line('dashboard_email');?>" name="email" type="text" value="<?php echo $email;?>">
+                                                                <label for="email"
+                                                                    class="control-label"><?php echo $this->lang->line('dashboard_email');?><i
+                                                                        class="hrsale-asterisk"><span
+                                                                            style="color:red">*</span></i></label>
+                                                                <input class="form-control"
+                                                                    placeholder="<?php echo $this->lang->line('dashboard_email');?>"
+                                                                    name="email" type="text"
+                                                                    value="<?php echo $email;?>">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -457,35 +526,48 @@
                                                                 <h4>Present Address</h4>
                                                                 <div class="form-group">
                                                                     <label for="address">Division</label>
-                                                                    <select name="div_id_pre" id="div_id_pre" class="form-control">
+                                                                    <select name="div_id_pre" id="div_id_pre"
+                                                                        class="form-control">
                                                                         <?php $emp_divisions=$this->db->select('*')->from('emp_divisions')->get()->result();
                                                                         foreach($emp_divisions as $division) { ?>
-                                                                        <option <?= $division->id == $div_id_pre?'selected':'' ?> value="<?php echo $division->id?>"> <?php echo $division->name_en?> </option>
+                                                                        <option
+                                                                            <?= $division->id == $div_id_pre?'selected':'' ?>
+                                                                            value="<?php echo $division->id?>">
+                                                                            <?php echo $division->name_en?> </option>
                                                                         <?php }?>
                                                                     </select>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="name_en">Select District</label>
-                                                                    <select name="dis_id_pre" id="dis_id_pre" class="form-control" required>
-                                                                        <option selected value="<?= $dis_id_pre ?>"></option>
+                                                                    <select name="dis_id_pre" id="dis_id_pre"
+                                                                        class="form-control" required>
+                                                                        <option selected value="<?= $dis_id_pre ?>">
+                                                                        </option>
                                                                     </select>
                                                                 </div>
 
                                                                 <div class="form-group">
                                                                     <label for="name_en">Select Upazila</label>
-                                                                    <select name="up_id_pre" id="up_id_pre" class="form-control" required>
-                                                                        <option selected value="<?= $up_id_pre ?>"></option>
+                                                                    <select name="up_id_pre" id="up_id_pre"
+                                                                        class="form-control" required>
+                                                                        <option selected value="<?= $up_id_pre ?>">
+                                                                        </option>
                                                                     </select>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="name_en">Select Post Office</label>
-                                                                    <select name="po_id_pre" id="po_id_pre" class="form-control">
-                                                                        <option selected value="<?= $po_id_pre ?>"></option>
+                                                                    <select name="po_id_pre" id="po_id_pre"
+                                                                        class="form-control">
+                                                                        <option selected value="<?= $po_id_pre ?>">
+                                                                        </option>
                                                                     </select>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="name_en">Village</label>
-                                                                    <input type="text" name="village_pre" id="village_pre" value="<?php echo $village_pre;?>" class="form-control">
+                                                                    <input type="text" name="village_pre"
+                                                                        id="village_pre"
+                                                                        value="<?php echo $village_pre;?>"
+                                                                        class="form-control">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -495,183 +577,281 @@
                                                                 <h4>Permanent Address</h4>
                                                                 <div class="form-group">
                                                                     <label for="address">Division</label>
-                                                                    <select name="div_id_per" id="div_id_per" class="form-control">
+                                                                    <select name="div_id_per" id="div_id_per"
+                                                                        class="form-control">
                                                                         <?php foreach($emp_divisions as $division) { ?>
-                                                                        <option <?= $division->id == $div_id_per?'selected':'' ?> value="<?php echo $division->id?>"> <?php echo $division->name_en?> </option>
+                                                                        <option
+                                                                            <?= $division->id == $div_id_per?'selected':'' ?>
+                                                                            value="<?php echo $division->id?>">
+                                                                            <?php echo $division->name_en?> </option>
                                                                         <?php } ?>
                                                                     </select>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="name_en">Select District</label>
-                                                                    <select name="dis_id_per" id="dis_id_per" class="form-control" required>
-                                                                        <option selected value="<?= $dis_id_per ?>"></option>
+                                                                    <select name="dis_id_per" id="dis_id_per"
+                                                                        class="form-control" required>
+                                                                        <option selected value="<?= $dis_id_per ?>">
+                                                                        </option>
                                                                     </select>
                                                                 </div>
 
                                                                 <div class="form-group">
                                                                     <label for="name_en">Select Upazila</label>
-                                                                    <select name="up_id_per" id="up_id_per" class="form-control" required>
-                                                                        <option selected value="<?= $up_id_per ?>"></option>
+                                                                    <select name="up_id_per" id="up_id_per"
+                                                                        class="form-control" required>
+                                                                        <option selected value="<?= $up_id_per ?>">
+                                                                        </option>
                                                                     </select>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="name_en">Select Post Office</label>
-                                                                    <select name="po_id_per" id="po_id_per" class="form-control" >
-                                                                        <option selected value="<?= $po_id_per ?>"></option>
+                                                                    <select name="po_id_per" id="po_id_per"
+                                                                        class="form-control">
+                                                                        <option selected value="<?= $po_id_per ?>">
+                                                                        </option>
                                                                     </select>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="name_en">Village</label>
-                                                                    <input type="text" name="village_per" id="village_per" value="<?php echo $village_per;?>" class="form-control">
+                                                                    <input type="text" name="village_per"
+                                                                        id="village_per"
+                                                                        value="<?php echo $village_per;?>"
+                                                                        class="form-control">
                                                                 </div>
                                                             </div>
                                                         </div>
 
                                                         <script>
-                                                            $(document).ready(function() {
-                                                                $('#div_id_pre').on('change', function() {
-                                                                    var div_id = $(this).val();
-                                                                    $.ajax({
-                                                                        type: 'POST',
-                                                                        url: '<?php echo site_url('api/Client_attendance/get_district') ?>',
-                                                                        data: {
-                                                                            division_id: div_id
-                                                                        },
-                                                                        success: function(data) {
-                                                                            emp_districts = data.data.emp_districts
-                                                                            $('#dis_id_pre').html(
-                                                                                '<option value="">Select</option>');
-                                                                            $.each(emp_districts, function(index, value) {
-                                                                                $('#dis_id_pre').append('<option value="' +
-                                                                                    value.id + '">' + value
-                                                                                    .name_en + '</option>');
+                                                        $(document).ready(function() {
+                                                            $('#div_id_pre').on('change', function() {
+                                                                var div_id = $(this).val();
+                                                                $.ajax({
+                                                                    type: 'POST',
+                                                                    url: '<?php echo site_url('api/Client_attendance/get_district') ?>',
+                                                                    data: {
+                                                                        division_id: div_id
+                                                                    },
+                                                                    success: function(data) {
+                                                                        emp_districts = data
+                                                                            .data
+                                                                            .emp_districts
+                                                                        $('#dis_id_pre')
+                                                                            .html(
+                                                                                '<option value="">Select</option>'
+                                                                                );
+                                                                        $.each(emp_districts,
+                                                                            function(
+                                                                                index,
+                                                                                value) {
+                                                                                $('#dis_id_pre')
+                                                                                    .append(
+                                                                                        '<option value="' +
+                                                                                        value
+                                                                                        .id +
+                                                                                        '">' +
+                                                                                        value
+                                                                                        .name_en +
+                                                                                        '</option>'
+                                                                                        );
                                                                             });
-                                                                        }
-                                                                    });
+                                                                    }
                                                                 });
-                                                                $('#dis_id_pre').on('change', function() {
-                                                                    var dis_id = $('#dis_id_pre').val();
-                                                                    var div_id = $('#div_id_pre').val();
+                                                            });
+                                                            $('#dis_id_pre').on('change', function() {
+                                                                var dis_id = $('#dis_id_pre').val();
+                                                                var div_id = $('#div_id_pre').val();
 
-                                                                    $.ajax({
-                                                                        type: 'POST',
-                                                                        url: '<?php echo site_url('api/Client_attendance/get_upazila') ?>',
-                                                                        data: {
-                                                                            district_id: dis_id,
-                                                                            division_id: div_id
-                                                                        },
-                                                                        success: function(data) {
-                                                                            emp_districts = data.data.emp_upazilas
-                                                                            $('#up_id_pre').html(
-                                                                            '<option value="">Select</option>');
-                                                                            $.each(emp_districts, function(index, value) {
-                                                                                $('#up_id_pre').append('<option value="' +
-                                                                                    value.id + '">' + value
-                                                                                    .name_en + '</option>');
+                                                                $.ajax({
+                                                                    type: 'POST',
+                                                                    url: '<?php echo site_url('api/Client_attendance/get_upazila') ?>',
+                                                                    data: {
+                                                                        district_id: dis_id,
+                                                                        division_id: div_id
+                                                                    },
+                                                                    success: function(data) {
+                                                                        emp_districts = data
+                                                                            .data
+                                                                            .emp_upazilas
+                                                                        $('#up_id_pre')
+                                                                            .html(
+                                                                                '<option value="">Select</option>'
+                                                                                );
+                                                                        $.each(emp_districts,
+                                                                            function(
+                                                                                index,
+                                                                                value) {
+                                                                                $('#up_id_pre')
+                                                                                    .append(
+                                                                                        '<option value="' +
+                                                                                        value
+                                                                                        .id +
+                                                                                        '">' +
+                                                                                        value
+                                                                                        .name_en +
+                                                                                        '</option>'
+                                                                                        );
                                                                             });
-                                                                        }
-                                                                    });
+                                                                    }
                                                                 });
-                                                                $('#up_id_pre').on('change', function() {
-                                                                    var dis_id = $('#dis_id_pre').val();
-                                                                    var div_id = $('#div_id_pre').val();
-                                                                    var up_id = $('#up_id_pre').val();
-                                                                    $.ajax({
-                                                                        type: 'POST',
-                                                                        url: '<?php echo site_url('api/Client_attendance/get_post_office') ?>',
-                                                                        data: {
-                                                                            district_id: dis_id,
-                                                                            division_id: div_id,
-                                                                            upazila_id: up_id
-                                                                        },
-                                                                        success: function(data) {
-                                                                            emp_districts = data.data.emp_post_offices
-                                                                            $('#po_id_pre').html(
-                                                                            '<option value="">Select</option>');
-                                                                            $.each(emp_districts, function(index, value) {
-                                                                                $('#po_id_pre').append('<option value="' +
-                                                                                    value.id + '">' + value
-                                                                                    .name_en + '</option>');
+                                                            });
+                                                            $('#up_id_pre').on('change', function() {
+                                                                var dis_id = $('#dis_id_pre').val();
+                                                                var div_id = $('#div_id_pre').val();
+                                                                var up_id = $('#up_id_pre').val();
+                                                                $.ajax({
+                                                                    type: 'POST',
+                                                                    url: '<?php echo site_url('api/Client_attendance/get_post_office') ?>',
+                                                                    data: {
+                                                                        district_id: dis_id,
+                                                                        division_id: div_id,
+                                                                        upazila_id: up_id
+                                                                    },
+                                                                    success: function(data) {
+                                                                        emp_districts = data
+                                                                            .data
+                                                                            .emp_post_offices
+                                                                        $('#po_id_pre')
+                                                                            .html(
+                                                                                '<option value="">Select</option>'
+                                                                                );
+                                                                        $.each(emp_districts,
+                                                                            function(
+                                                                                index,
+                                                                                value) {
+                                                                                $('#po_id_pre')
+                                                                                    .append(
+                                                                                        '<option value="' +
+                                                                                        value
+                                                                                        .id +
+                                                                                        '">' +
+                                                                                        value
+                                                                                        .name_en +
+                                                                                        '</option>'
+                                                                                        );
                                                                             });
-                                                                        }
-                                                                    });
+                                                                    }
                                                                 });
-                                                            })
+                                                            });
+                                                        })
                                                         </script>
                                                         <script>
-                                                            $(document).ready(function() {
-                                                                $('#div_id_per').on('change', function() {
-                                                                    var div_id = $(this).val();
-                                                                    $.ajax({
-                                                                        type: 'POST',
-                                                                        url: '<?php echo site_url('api/Client_attendance/get_district') ?>',
-                                                                        data: {
-                                                                            division_id: div_id
-                                                                        },
-                                                                        success: function(data) {
-                                                                            emp_districts = data.data.emp_districts
-                                                                            $('#dis_id_per').html(
-                                                                                '<option value="">Select</option>');
-                                                                            $.each(emp_districts, function(index, value) {
-                                                                                $('#dis_id_per').append('<option value="' +
-                                                                                    value.id + '">' + value
-                                                                                    .name_en + '</option>');
+                                                        $(document).ready(function() {
+                                                            $('#div_id_per').on('change', function() {
+                                                                var div_id = $(this).val();
+                                                                $.ajax({
+                                                                    type: 'POST',
+                                                                    url: '<?php echo site_url('api/Client_attendance/get_district') ?>',
+                                                                    data: {
+                                                                        division_id: div_id
+                                                                    },
+                                                                    success: function(data) {
+                                                                        emp_districts = data
+                                                                            .data
+                                                                            .emp_districts
+                                                                        $('#dis_id_per')
+                                                                            .html(
+                                                                                '<option value="">Select</option>'
+                                                                                );
+                                                                        $.each(emp_districts,
+                                                                            function(
+                                                                                index,
+                                                                                value) {
+                                                                                $('#dis_id_per')
+                                                                                    .append(
+                                                                                        '<option value="' +
+                                                                                        value
+                                                                                        .id +
+                                                                                        '">' +
+                                                                                        value
+                                                                                        .name_en +
+                                                                                        '</option>'
+                                                                                        );
                                                                             });
-                                                                        }
-                                                                    });
+                                                                    }
                                                                 });
-                                                                $('#dis_id_per').on('change', function() {
-                                                                    var dis_id = $('#dis_id_per').val();
-                                                                    var div_id = $('#div_id_per').val();
+                                                            });
+                                                            $('#dis_id_per').on('change', function() {
+                                                                var dis_id = $('#dis_id_per').val();
+                                                                var div_id = $('#div_id_per').val();
 
-                                                                    $.ajax({
-                                                                        type: 'POST',
-                                                                        url: '<?php echo site_url('api/Client_attendance/get_upazila') ?>',
-                                                                        data: {
-                                                                            district_id: dis_id,
-                                                                            division_id: div_id
-                                                                        },
-                                                                        success: function(data) {
-                                                                            emp_districts = data.data.emp_upazilas
-                                                                            $('#up_id_per').html(
-                                                                            '<option value="">Select</option>');
-                                                                            $.each(emp_districts, function(index, value) {
-                                                                                $('#up_id_per').append('<option value="' +
-                                                                                    value.id + '">' + value
-                                                                                    .name_en + '</option>');
+                                                                $.ajax({
+                                                                    type: 'POST',
+                                                                    url: '<?php echo site_url('api/Client_attendance/get_upazila') ?>',
+                                                                    data: {
+                                                                        district_id: dis_id,
+                                                                        division_id: div_id
+                                                                    },
+                                                                    success: function(data) {
+                                                                        emp_districts = data
+                                                                            .data
+                                                                            .emp_upazilas
+                                                                        $('#up_id_per')
+                                                                            .html(
+                                                                                '<option value="">Select</option>'
+                                                                                );
+                                                                        $.each(emp_districts,
+                                                                            function(
+                                                                                index,
+                                                                                value) {
+                                                                                $('#up_id_per')
+                                                                                    .append(
+                                                                                        '<option value="' +
+                                                                                        value
+                                                                                        .id +
+                                                                                        '">' +
+                                                                                        value
+                                                                                        .name_en +
+                                                                                        '</option>'
+                                                                                        );
                                                                             });
-                                                                        }
-                                                                    });
+                                                                    }
                                                                 });
-                                                                $('#up_id_per').on('change', function() {
-                                                                    var dis_id = $('#dis_id_per').val();
-                                                                    var div_id = $('#div_id_per').val();
-                                                                    var up_id = $('#up_id_per').val();
-                                                                    $.ajax({
-                                                                        type: 'POST',
-                                                                        url: '<?php echo site_url('api/Client_attendance/get_post_office') ?>',
-                                                                        data: {
-                                                                            district_id: dis_id,
-                                                                            division_id: div_id,
-                                                                            upazila_id: up_id
-                                                                        },
-                                                                        success: function(data) {
-                                                                            emp_districts = data.data.emp_post_offices
-                                                                            $('#po_id_per').html(
-                                                                            '<option value="">Select</option>');
-                                                                            $.each(emp_districts, function(index, value) {
-                                                                                $('#po_id_per').append('<option value="' +
-                                                                                    value.id + '">' + value
-                                                                                    .name_en + '</option>');
+                                                            });
+                                                            $('#up_id_per').on('change', function() {
+                                                                var dis_id = $('#dis_id_per').val();
+                                                                var div_id = $('#div_id_per').val();
+                                                                var up_id = $('#up_id_per').val();
+                                                                $.ajax({
+                                                                    type: 'POST',
+                                                                    url: '<?php echo site_url('api/Client_attendance/get_post_office') ?>',
+                                                                    data: {
+                                                                        district_id: dis_id,
+                                                                        division_id: div_id,
+                                                                        upazila_id: up_id
+                                                                    },
+                                                                    success: function(data) {
+                                                                        emp_districts = data
+                                                                            .data
+                                                                            .emp_post_offices
+                                                                        $('#po_id_per')
+                                                                            .html(
+                                                                                '<option value="">Select</option>'
+                                                                                );
+                                                                        $.each(emp_districts,
+                                                                            function(
+                                                                                index,
+                                                                                value) {
+                                                                                $('#po_id_per')
+                                                                                    .append(
+                                                                                        '<option value="' +
+                                                                                        value
+                                                                                        .id +
+                                                                                        '">' +
+                                                                                        value
+                                                                                        .name_en +
+                                                                                        '</option>'
+                                                                                        );
                                                                             });
-                                                                        }
-                                                                    });
+                                                                    }
                                                                 });
-                                                            })
+                                                            });
+                                                        })
                                                         </script>
                                                     </div>
 
-                                                    <input type="hidden" class="form-control" name="user_password" value="<?php echo $user_password;?>" />
+                                                    <input type="hidden" class="form-control" name="user_password"
+                                                        value="<?php echo $user_password;?>" />
                                                 </div>
 
                                                 <div class="form-actions box-footer">
@@ -1122,7 +1302,7 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6" >
+                                                    <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="date_of_expiry"
                                                                 class="control-label"><?php echo $this->lang->line('xin_e_details_doe');?><i
@@ -1310,13 +1490,13 @@
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="">Passing Year</label>
-                                                                    <input class="form-control"
-                                                                        name="passing_year" type="text">
+                                                                    <input class="form-control" name="passing_year"
+                                                                        type="text">
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label for="">Duration</label>
-                                                                    <input class="form-control"
-                                                                        name="duration" type="text">
+                                                                    <input class="form-control" name="duration"
+                                                                        type="text">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -2021,7 +2201,7 @@
                                                               );
                                                               echo form_input($data_usr);
                                                               ?>
-                                                                                              <?php
+                                            <?php
                                                                 $data_usr = array(
                                                                   'type'  => 'hidden',
                                                                   'name'  => 'session_id',
@@ -2844,20 +3024,23 @@
                                         </h3>
                                     </div>
                                     <div class="box-body pb-2">
-                                    <?php $attributes = array('name' => 'leave', 'id' => 'leave', 'autocomplete' => 'off');?>
+                                        <?php $attributes = array('name' => 'leave', 'id' => 'leave', 'autocomplete' => 'off');?>
                                         <?php echo form_open('admin/employees/leave_efected', $attributes);?>
                                         <input type="hidden" name="user_id" value="<?= $user_id?>">
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <label for=""> Select Status</label>
-                                                <select name="leave_start" id="leave_start" class='col-md-12 form-control'>
-                                                    <option value="0" <?=($is_leave_on==1)?'disabled':'selected'?> >No</option>
-                                                    <option value="1" <?=($is_leave_on==1)?'selected':''?> >Yes</option>
+                                                <select name="leave_start" id="leave_start"
+                                                    class='col-md-12 form-control'>
+                                                    <option value="0" <?=($is_leave_on==1)?'disabled':'selected'?>>No
+                                                    </option>
+                                                    <option value="1" <?=($is_leave_on==1)?'selected':''?>>Yes</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-3">
                                                 <label for="">Efective date</label>
-                                                <input type="date" class="form-control" name="leave_effective_date" value="<?=$leave_effective?>" <?=($is_leave_on==1)?'readonly':''?> >
+                                                <input type="date" class="form-control" name="leave_effective_date"
+                                                    value="<?=$leave_effective?>" <?=($is_leave_on==1)?'readonly':''?>>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
@@ -2955,12 +3138,13 @@
                                         <input type="hidden" name="user_id" value="<?= $user_id?>">
                                         <div class="row">
                                             <div class="col-md-12">
-                                              <a href="<?= base_url('uploads/profile/'). $note_file; ?>" target="_blank" class="btn btn-primary"> Previose File </a>
-                                              <div class='form-group'>
+                                                <a href="<?= base_url('uploads/profile/'). $note_file; ?>"
+                                                    target="_blank" class="btn btn-primary"> Previose File </a>
+                                                <div class='form-group'>
                                                     <fieldset class="form-group">
                                                         <label for="logo">Note</label>
-                                                        <input type="file" class="form-control-file" id="n_file" name="n_file"
-                                                            accept=".gif, .png, .jpg, .jpeg, .pdf">
+                                                        <input type="file" class="form-control-file" id="n_file"
+                                                            name="n_file" accept=".gif, .png, .jpg, .jpeg, .pdf">
                                                         <small><?php echo $this->lang->line('xin_e_details_picture_type');?></small>
                                                     </fieldset>
                                                 </div>
@@ -2997,46 +3181,53 @@
                                         <h3 class="box-title">Remarks</h3>
                                     </div>
                                     <div class="box-body pb-2">
-                                         <?php $attributes = array('name' => 'remarks_info', 'id' => 'remarks_info', 'autocomplete' => 'off');?>
+                                        <?php $attributes = array('name' => 'remarks_info', 'id' => 'remarks_info', 'autocomplete' => 'off');?>
                                         <?php echo form_open_multipart('admin/employees/salary_review_add', $attributes);?>
-                                            <input type="hidden" name="user_id" value="<?= $user_id?>">
+                                        <input type="hidden" name="user_id" value="<?= $user_id?>">
 
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group col-md-6">
-                                                        <select style="width: 199px;" onchange="getSalaryReview()" name="salary_review_is" id="salary_review_is">
-                                                            <option value="1" <?= isset($salary_review_is) && $salary_review_is == 1 ? 'selected' : ''?>>Yes</option>
-                                                            <option value="0" <?= isset($salary_review_is) && $salary_review_is == 0 ? 'selected' : ''?>>No</option>
-                                                        </select>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group col-md-6">
+                                                    <select style="width: 199px;" onchange="getSalaryReview()"
+                                                        name="salary_review_is" id="salary_review_is">
+                                                        <option value="1"
+                                                            <?= isset($salary_review_is) && $salary_review_is == 1 ? 'selected' : ''?>>
+                                                            Yes</option>
+                                                        <option value="0"
+                                                            <?= isset($salary_review_is) && $salary_review_is == 0 ? 'selected' : ''?>>
+                                                            No</option>
+                                                    </select>
 
-                                                       <input style="width: 199px;" type="date" value="<?= isset($salary_review_date) ? $salary_review_date : ''?>" name="salary_review_date" id="salary_review_date">
-                                                    </div>
+                                                    <input style="width: 199px;" type="date"
+                                                        value="<?= isset($salary_review_date) ? $salary_review_date : ''?>"
+                                                        name="salary_review_date" id="salary_review_date">
                                                 </div>
-
                                             </div>
-                                            <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <div class="form-actions box-footer">
-                                                                <?php echo form_button(array('name' => 'hrsale_form', 'type' => 'submit', 'class' => $this->Xin_model->form_button_class(), 'content' => '<i class="fa fa fa-check-square-o"></i> '.$this->lang->line('xin_save'))); ?>
-                                                            </div>
-                                                        </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <div class="form-actions box-footer">
+                                                        <?php echo form_button(array('name' => 'hrsale_form', 'type' => 'submit', 'class' => $this->Xin_model->form_button_class(), 'content' => '<i class="fa fa fa-check-square-o"></i> '.$this->lang->line('xin_save'))); ?>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
                                         <?php echo form_close(); ?>
                                         <script>
-                                            function getSalaryReview(){
-                                                var salary_review_is = $('#salary_review_is').val();
-                                                if (salary_review_is==1) {
-                                                    $('#salary_review_date').show();
-                                                }else{
-                                                    $('#salary_review_date').hide();
-                                                }
-
+                                        function getSalaryReview() {
+                                            var salary_review_is = $('#salary_review_is').val();
+                                            if (salary_review_is == 1) {
+                                                $('#salary_review_date').show();
+                                            } else {
+                                                $('#salary_review_date').hide();
                                             }
-                                            $(document).ready(function(){
-                                                getSalaryReview();
-                                            })
+
+                                        }
+                                        $(document).ready(function() {
+                                            getSalaryReview();
+                                        })
                                         </script>
                                     </div>
                                 </div>
@@ -3055,12 +3246,12 @@
                                     <div class="box-body pb-2">
                                         <?php $attributes = array('name' => 'team_lead', 'id' => 'team_leads', 'autocomplete' => 'off');?>
                                         <?php echo form_open('admin/employees/add_leads', $attributes);?>
-                                          <input type="hidden" name="user_id" value="<?= $user_id?>">
-                                            <!-- <div class="row"> -->
-                                                <div class="col-md-4">
-                                                    <select name="set_team_lead" id="team_lead" class="form-control">
-                                                        <option value="">Selecet</option>
-                                                        <?php $data = $this->db->select('user_id, first_name, last_name')
+                                        <input type="hidden" name="user_id" value="<?= $user_id?>">
+                                        <!-- <div class="row"> -->
+                                        <div class="col-md-4">
+                                            <select name="set_team_lead" id="team_lead" class="form-control">
+                                                <option value="">Selecet</option>
+                                                <?php $data = $this->db->select('user_id, first_name, last_name')
                                                                 ->where_in('status', [0,1])
                                                                 ->where('lead_user_id =', 0)
                                                                 ->where('is_emp_lead =', 2)
@@ -3069,12 +3260,14 @@
                                                                 ->result();
                                                             foreach($data as $row){
                                                         ?>
-                                                        <option value="<?php echo $row->user_id?>" <?php echo $row->user_id == $lead_user_id ? 'selected':''?>><?php echo $row->first_name.''.$row->last_name?></option>
-                                                        <?php }?>
-                                                    </select><br>
-                                                    <input type="submit" class="btn btn-sm btn-success" value="Save" name='btn'>
-                                                </div>
-                                            <!-- </div> -->
+                                                <option value="<?php echo $row->user_id?>"
+                                                    <?php echo $row->user_id == $lead_user_id ? 'selected':''?>>
+                                                    <?php echo $row->first_name.''.$row->last_name?></option>
+                                                <?php }?>
+                                            </select><br>
+                                            <input type="submit" class="btn btn-sm btn-success" value="Save" name='btn'>
+                                        </div>
+                                        <!-- </div> -->
                                         <?php echo form_close(); ?>
                                     </div>
                                 </div>
@@ -4134,78 +4327,78 @@
 
 
 <script>
-    $(document).ready(function() {
-        // Bind submit event of the form
-        $('#devicein').submit(function(e) {
-            e.preventDefault(); // Prevent form submission
+$(document).ready(function() {
+    // Bind submit event of the form
+    $('#devicein').submit(function(e) {
+        e.preventDefault(); // Prevent form submission
 
-            // Get the form data
-            var formData = $(this).serialize();
+        // Get the form data
+        var formData = $(this).serialize();
 
-            // Send AJAX request
-            $.ajax({
-                url: '<?php echo site_url("admin/Employees/add_device"); ?>',
-                type: 'POST',
-                data: formData,
-                dataType: 'json',
-                success: function(response) {
-                    // Handle the response from the server
-                    console.log(response);
-                    Swal.fire({
-                        title: 'Success!',
-                        text: response,
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                    });
-                },
-                error: function(xhr, status, error) {
-                    console.log(xhr.responseText);
-                }
-            });
+        // Send AJAX request
+        $.ajax({
+            url: '<?php echo site_url("admin/Employees/add_device"); ?>',
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                // Handle the response from the server
+                console.log(response);
+                Swal.fire({
+                    title: 'Success!',
+                    text: response,
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr.responseText);
+            }
         });
     });
+});
 </script>
 
 <script>
-    $(document).ready(function() {
-        // Bind submit event of the form
-        $('#nda_info').submit(function(e) {
-            e.preventDefault(); // Prevent form submission
-            // Get the form data
-            var formData = $(this).serialize();
-            // Send AJAX request
-            $.ajax({
-                url: '<?php echo site_url("admin/Employees/nda"); ?>',
-                type: 'POST',
-                data: formData,
-                success: function(response) {
-                    // Handle the response from the server
-                    console.log(response);
-                    Swal.fire({
-                        title: 'Success!',
-                        text: response,
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                    });
-                },
-                // error: function(xhr, status, error) {
-                //     console.log(xhr.responseText);
-                // }
-            });
+$(document).ready(function() {
+    // Bind submit event of the form
+    $('#nda_info').submit(function(e) {
+        e.preventDefault(); // Prevent form submission
+        // Get the form data
+        var formData = $(this).serialize();
+        // Send AJAX request
+        $.ajax({
+            url: '<?php echo site_url("admin/Employees/nda"); ?>',
+            type: 'POST',
+            data: formData,
+            success: function(response) {
+                // Handle the response from the server
+                console.log(response);
+                Swal.fire({
+                    title: 'Success!',
+                    text: response,
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+            },
+            // error: function(xhr, status, error) {
+            //     console.log(xhr.responseText);
+            // }
         });
     });
+});
 </script>
 
 <script>
-    function nda_update_click() {
-        var active = $('#nda_status').val();
-        if (active == 1) {
-            $('#nda_start').fadeIn(500);
-            $('#nda_end').fadeIn(500);
-        } else {
-            $('#nda_start').fadeOut(500);
-            $('#nda_end').fadeOut(500);
-        }
+function nda_update_click() {
+    var active = $('#nda_status').val();
+    if (active == 1) {
+        $('#nda_start').fadeIn(500);
+        $('#nda_end').fadeIn(500);
+    } else {
+        $('#nda_start').fadeOut(500);
+        $('#nda_end').fadeOut(500);
     }
-    nda_update_click()
+}
+nda_update_click()
 </script>
