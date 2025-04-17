@@ -85,7 +85,7 @@ function renderAttendanceCell($status, $current_date, $user_id, $db) {
 			echo "<tr class='text-center'><td>$j</td><td>{$r->user_id}</td><td>{$r->first_name} {$r->last_name}</td>";
 			for ($d = 1; $d <= $total_days; $d++) {
 				$current_date = date('Y-m-d', strtotime("$first_date +".($d - 1)." days"));
-				$status = $attendance_by_employee[$r->user_id][$current_date] ?? 'Absent';
+				$status = isset($attendance_by_employee[$r->user_id][$current_date]) ? $attendance_by_employee[$r->user_id][$current_date] : 'Absent';
 				renderAttendanceCell($status, $current_date, $r->user_id, $this->db);
 			}
 			echo '</tr>';
