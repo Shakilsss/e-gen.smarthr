@@ -53,6 +53,26 @@ if ( ! function_exists('vardump'))
 	}
 }
 
+if (!function_exists('encrypt_string')) {
+    function encrypt_string($plain_text)
+    {
+        $CI =& get_instance();
+        $CI->load->library('encryption');
+
+        return $CI->encryption->encrypt($plain_text);
+    }
+}
+
+if (!function_exists('decrypt_string')) {
+    function decrypt_string($encrypted_text)
+    {
+        $CI =& get_instance();
+        $CI->load->library('encryption');
+
+        return $CI->encryption->decrypt($encrypted_text);
+    }
+}
+
 
 /* End of file debug_helper.php */
 /* Location: ./application/helpers/debug_helper.php */
