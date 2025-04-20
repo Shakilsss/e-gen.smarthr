@@ -77,9 +77,9 @@ function renderAttendanceCell($status, $current_date, $user_id, $db) {
 
 		$j = 1;
 		foreach ($xin_employees as $r) {
-			if ($row_count > 0 && $row_count % 15 == 0) {
+			if ($row_count > 0 && $row_count % 16 == 0) {
 				echo '<div style="page-break-after: always;"></div>';
-				renderTableHeader($total_days);
+				// renderTableHeader($total_days);
 			}
 			$row_count++;
 			echo "<tr class='text-center'><td>$j</td><td>{$r->user_id}</td><td>{$r->first_name} {$r->last_name}</td>";

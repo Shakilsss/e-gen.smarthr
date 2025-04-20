@@ -36,27 +36,18 @@
 	</style>
 </head>
 <body>
-
-		<table class="company-header">
-			<!-- <tr>
-				<td>e.Gen Consultants Ltd</td>
-				<td>Attendance Report <br><span>(Duty Hour)</span></td>
-			</tr> -->
-		<tr>
-			<td colspan="<?= $total_days + 4 ?>">
-				<strong>Reporting Date:</strong> <?= date('Y-m-d', strtotime($first_date)) . ' to ' . date('Y-m-d', strtotime($second_date)) ?><br>
-				<strong>Report Generated Date:</strong> <?= date('d M Y') . ', ' . date('h:i:s A') ?>
-			</td>
-		</tr>
-		<tr class="header-row">
-			<th>SL.</th>
-			<th>ID</th>
-			<th>Name</th>
-			<?php for ($i = 1; $i <= $total_days; $i++) { ?>
-				<th><?= $i ?></th>
-			<?php } ?>
-			<th>Total Hours</th>
-		</tr>
+		<table>
+		<thead>
+			<tr>
+				<th>SL.</th>
+				<th>ID</th>
+				<th>Name</th>
+				<?php for ($i = 1; $i <= $total_days; $i++) { ?>
+					<th><?= $i ?></th>
+				<?php } ?>
+				<th style="whitespace:nowrap;">Total Hours</th>
+			</tr>
+		</thead>
 		<tbody>
 		<?php
 		$j = 1;
@@ -68,7 +59,7 @@
 			<tr>
 				<td><?= $j++ ?></td>
 				<td><?= $r->user_id ?></td>
-				<td><?= $r->first_name . ' ' . $r->last_name ?></td>
+				<td style="whitespace:nowrap;"><?= $r->first_name . ' ' . $r->last_name ?></td>
 				<?php
 				$total_minutes = 0;
 				for ($d = 1; $d <= $total_days; $d++) {
@@ -78,7 +69,7 @@
 						->where("employee_id", $r->user_id)
 						->get('xin_attendance_time')
 						->result();
-					echo '<td>';
+					echo '<td style="whitespace:nowrap;">';
 					if (empty($attendance_data)) {
 						echo '00:00';
 					} else {
@@ -116,3 +107,6 @@
 	</table>
 </body>
 </html>
+
+
+
