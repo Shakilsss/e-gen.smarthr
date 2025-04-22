@@ -380,152 +380,155 @@ $(document).ready(function() {
         $('#loading').show();
 
         $.ajax({
-            url: '<?php echo base_url('admin/attendance/generate_report/'); ?>',
-            type: 'post',
-            data: {
-                report_type: report_type,
-                org: org,
-                date_range: date_range,
-                employee: employee
-            },
-            dataType: 'json',
-            success: function(response) {
+        url: '<?php echo base_url('admin/attendance/generate_report/'); ?>',
+        type: 'post',
+        data: {
+            report_type: report_type,
+            org: org,
+            date_range: date_range,
+            employee: employee
+        },
+        dataType: 'json',
+        success: function(response) {
+            const dateArray = date_range ? date_range.split(' to ') : [];
+            const fromDate = dateArray[0] ? dateArray[0] : '';
+            const toDate = dateArray[1] ? dateArray[1] : '';
 
-                const dateArray = date_range ? date_range.split(' to ') : [];
-                const fromDate = dateArray[0] ? dateArray[0] : '';
-                const toDate = dateArray[1] ? dateArray[1] : '';
+            const formatDate = (dateStr) => {
+                if (!dateStr) return '';
+                const [year, month, day] = dateStr.split('-');
+                return `${day}-${month}-${year}`;
+            };
 
-                const formatDate = (dateStr) => {
-                    if (!dateStr) {
-                        return '';
-                    }
-                    const [year, month, day] = dateStr.split('-');
-                    return `${day}-${month}-${year}`;
-                };
+            const formattedRange = `${formatDate(fromDate)} to ${formatDate(toDate)}`;
 
-                const formattedRange = `${formatDate(fromDate)} to ${formatDate(toDate)}`;
+            $('#loading').hide();
+            if (doc_type.toLowerCase() == 'pdf') {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF('landscape', 'pt', 'a4');
+                const wrapper = document.createElement('div');
+                wrapper.innerHTML = response;
 
-                // console.log(formattedRange); 
-                $('#loading').hide();
-                if (doc_type.toLowerCase() == 'pdf') {
-                    const { jsPDF } = window.jspdf;
-                    const doc = new jsPDF('landscape', 'pt', 'a4');
-                    const wrapper = document.createElement('div');
-                    wrapper.innerHTML = response;
+                const table = wrapper.querySelector('table');
 
-                    const table = wrapper.querySelector('table');
+                if (table) {
+                    doc.autoTable({
+                        html: table,
+                        startY: (report_type == 'all' ? 160 : 140),
+                        margin: { top: (report_type == 'all' ? 160 : 140) },
+                        styles: {
+                            fontSize: 10,
+                            cellPadding: 5,
+                            halign: 'center',
+                            valign: 'middle',
+                            lineColor: [211, 211, 211],
+                            lineWidth: 0.5,
+                            font: 'helvetica',
+                        },
+                        headStyles: {
+                            fillColor: [255, 255, 255],
+                            textColor: 50,
+                            fontStyle: 'bold',
+                            halign: 'center',
+                        },
+                        theme: 'grid',
+                        columnStyles: {
+                            0: { cellWidth: 'auto', halign: 'left' },
+                            1: { cellWidth: 'auto', halign: 'center' },
+                        },
+                        didParseCell: function (data) {
+                            let cellText = Array.isArray(data.cell.text) ? data.cell.text[0] : data.cell.text;
+                            cellText = (cellText || '').toString().trim();
 
-                    if (table) {
-                        doc.autoTable({
-                            html: table,
-                            startY:  (report_type == 'late-in' ? 140 : 160),
-                            margin: { top: (report_type == 'late-in' ? 140 : 160 )} ,
-                            styles: {
-                                fontSize: 10,
-                                cellPadding: 5,
-                                halign: 'center',
-                                valign: 'middle',
-                                lineColor: [211, 211, 211],
-                                lineWidth: 0.5,
-                                font: 'helvetica',
-                            },
-                            headStyles: {
-                                fillColor: [255, 255, 255],
-                                textColor: 50,
-                                fontStyle: 'bold',
-                                halign: 'center',
-                            },
-                            theme: 'grid', 
-                            columnStyles: {
-                                0: { 
-                                    cellWidth: 'auto',
-                                    halign: 'left',
-                                },
-                                1: { 
-                                    cellWidth: 'auto',
-                                    halign: 'center',
-                                },
-                            },
-                            didDrawPage: function (data) {
-                                doc.setFontSize(20);
-                                doc.setFont('helvetica', 'bold');
-                                doc.text("e.Gen Consultants Ltd", 40, 50, { align: 'left' });
-
-                                if(report_type == 'all'){
-                                    doc.text("Attendance Report", 500, 50, { align: 'right' });
-                                    doc.text("(All)", 400, 70, { align: 'left' });
-                                    doc.setFontSize(10);
-                                    doc.text("Report Generated Date: 05 Mar 2025, 10:17 am", 40, 120, { align: 'left' });
-                                    doc.text("*Legend CL- Casual Leave,SL- Sick Leave,, StL - Station Leave,NL - Night Stay Leave , H- Holiday, A- Absent, P - Present, E - Early Leave, L - Late in", 40, 135, { align: 'left' });
-                                    doc.text("L/E - Early Leave and Late in", 45, 150, { align: 'left' });
-                                }
-
-
-                                if(report_type == 'late-in'){
-                                     doc.text("Attendance Report", 500, 50, { align: 'right' });
-                                     doc.text("(Late In)", 400, 70, { align: 'left' });
-                                }
-                                if(report_type == 'early-leave'){
-                                    doc.text("Attendance Report", 500, 50, { align: 'right' });
-                                    doc.text("(Early Leave)", 400, 70, { align: 'left' });
-                                }
-                                if(report_type == 'late-times'){
-                                     doc.text("Attendance Report", 500, 50, { align: 'right' });
-                                    doc.text("(Late Times)", 400, 70, { align: 'left' });
-                                }
-                                if(report_type == 'lwp'){
-                                    doc.text("Attendance Report", 500, 50, { align: 'right' });
-                                    doc.text("(LWP/Absent)", 400, 70, { align: 'left' });
-                                }
-                                if(report_type == 'duty-hour'){
-                                     doc.text("Attendance Report", 500, 50, { align: 'right' });
-                                    doc.text("(Duty Hour)", 400, 70, { align: 'left' });
-                                }
-                                if(report_type == 'duty-hour-details'){
-                                    doc.text("Attendance Report", 500, 50, { align: 'right' });
-                                    doc.text("(Duty Hour Details)", 400, 70, { align: 'left' });
-                                }
-                                var img = new Image();
-                                img.src = '<?php echo base_url()?>/skin/img/company_logo.jpg';
-                                doc.addImage(img, 'PNG', 700, 25, 100, 50);
-
-                                // Optional: set line thickness and color
-                                doc.setLineWidth(1);  // You can adjust this for a thicker line
-                                doc.setDrawColor(0);    // Black color
-                                doc.setLineDash([]);    // Ensure it's solid
-                                doc.line(40, 90, 800, 90);
-
-                                doc.setFontSize(12);
-                                doc.text("Reporting Date: " + formattedRange, 40, 105, { align: 'left' });
-
-
-
+                            if (cellText === 'W' || cellText === 'H') {
+                                data.cell.styles.fillColor = [255, 0, 0];
+                                data.cell.styles.textColor = [255, 255, 255];
+                                data.cell.styles.fontStyle = 'bold';
                             }
-                        });
-                        const pdfBlob = doc.output('blob');
-                        window.open(URL.createObjectURL(pdfBlob));
-                        // doc.save('attendance_report.pdf');
-                    } else {
-                        doc.text("No table data found", 10, 10);
-                        doc.save('attendance_report.pdf');
-                    }
-                } else if (doc_type.toLowerCase() == 'excel') {
-                    let worksheet = XLSX.utils.table_to_sheet($('<div>' + response +
-                        '</div>').find('table')[0]);
-                    let workbook = XLSX.utils.book_new();
-                    XLSX.utils.book_append_sheet(workbook, worksheet, "Report");
+                        },
+                        didDrawPage: function (data) {
+                            doc.setFontSize(20);
+                            doc.setFont('helvetica', 'bold');
+                            doc.text("e.Gen Consultants Ltd", 40, 50, { align: 'left' });
 
-                    XLSX.writeFile(workbook, 'attendance_report.xlsx');
-                } else if (doc_type.toLowerCase() == 'view') {
-                    $('#modalContent').html(response);
-                    $('#reportModal').show();
+                            if (report_type == 'all') {
+                                doc.text("Attendance Report", 500, 50, { align: 'right' });
+                                doc.setFontSize(12);
+                                doc.text("(All)", 400, 70, { align: 'left' });
+                                doc.setFontSize(10);
+                                doc.text("*Legend CL- Casual Leave,SL- Sick Leave,, StL - Station Leave,NL - Night Stay Leave , H- Holiday, A- Absent, P - Present, E - Early Leave, L - Late in", 40, 135, { align: 'left' });
+                                doc.text("L/E - Early Leave and Late in", 45, 150, { align: 'left' });
+                            }
+                            if (report_type == 'late-in') {
+                                doc.text("Attendance Report", 500, 50, { align: 'right' });
+                                doc.setFontSize(12);
+                                doc.text("(Late In)", 380, 70, { align: 'left' });
+                            }
+                            if (report_type == 'early-leave') {
+                                doc.text("Attendance Report", 500, 50, { align: 'right' });
+                                 doc.setFontSize(12);
+                                doc.text("(Early Leave)", 380, 70, { align: 'left' });
+                            }
+                            if (report_type == 'late-times') {
+                                doc.text("Attendance Report", 500, 50, { align: 'right' });
+                                doc.setFontSize(12);
+                                doc.text("(Late Times)", 380, 70, { align: 'left' });
+                            }
+                            if (report_type == 'lwp') {
+                                doc.text("Attendance Report", 500, 50, { align: 'right' });
+                                doc.setFontSize(12);
+                                doc.text("(LWP/Absent)", 380, 70, { align: 'left' });
+                            }
+                            if (report_type == 'duty-hour') {
+                                doc.text("Attendance Report", 500, 50, { align: 'right' });
+                                doc.setFontSize(12);
+                                doc.text("(Duty Hour)", 380, 70, { align: 'left' });
+                            }
+                            if (report_type == 'duty-hour-details') {
+                                doc.text("Attendance Report", 500, 50, { align: 'right' });
+                                doc.setFontSize(12);
+                                doc.text("(Duty Hour Details)", 400, 70, { align: 'left' });
+                            }
+
+                            var img = new Image();
+                            img.src = '<?php echo base_url()?>/skin/img/company_logo.jpg';
+                            doc.addImage(img, 'PNG', 700, 25, 100, 50);
+
+                            doc.setLineWidth(1);
+                            doc.setDrawColor(0);
+                            doc.setLineDash([]);
+                            doc.line(40, 90, 800, 90);
+
+                            doc.setFontSize(12);
+                            doc.text("Reporting Date: " + formattedRange, 40, 105, { align: 'left' });
+
+                            doc.setFontSize(10);
+                            doc.text("Report Generated Date: <?php echo date('d M Y').', '.date('h:i:s A')?>", 40, 120, { align: 'left' });
+                        }
+                    });
+
+                    const pdfBlob = doc.output('blob');
+                    window.open(URL.createObjectURL(pdfBlob));
+                } else {
+                    doc.text("No table data found", 10, 10);
+                    doc.save('attendance_report.pdf');
                 }
-            },
-            error: function(xhr, status, error) {
-                $('#loading').hide();
-                alert('Error: ' + error);
+            } else if (doc_type.toLowerCase() == 'excel') {
+                let worksheet = XLSX.utils.table_to_sheet($('<div>' + response + '</div>').find('table')[0]);
+                let workbook = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(workbook, worksheet, "Report");
+                XLSX.writeFile(workbook, 'attendance_report.xlsx');
+            } else if (doc_type.toLowerCase() == 'view') {
+                $('#modalContent').html(response);
+                $('#reportModal').show();
             }
-        });
+        },
+        error: function(xhr, status, error) {
+            $('#loading').hide();
+            alert('Error: ' + error);
+        }
+    });
+
     });
 });
 </script>

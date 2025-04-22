@@ -1573,7 +1573,6 @@ class Attendance extends MY_Controller
         $this->load->view('admin/layout/layout_main', $data); //page load
     }
     public function generate_report(){
-        // $doc_type = $this->input->post('doc_type');
         $report_type = $this->input->post('report_type');
         $org         = $this->input->post('org');
         $date_range  = $this->input->post('date_range');
@@ -1604,7 +1603,7 @@ class Attendance extends MY_Controller
             // $view_report = $this->load->view("admin/timesheet/monthly_report_all", $data, true);
         }
         if($report_type ==  'lwp'){
-            $view_report =  $this->load->view("admin/timesheet/monthly_report_lwp", $data, true);
+            $view_report =  $this->load->view("admin/timesheet/monthly_report_lwp_pdf", $data, true);
         }
         if($report_type ==  'duty-hour'){
             $view_report =  $this->load->view("admin/timesheet/duty_hour_pdf", $data, true);

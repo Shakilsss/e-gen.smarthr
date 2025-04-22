@@ -19,8 +19,8 @@ th td{
     <tr>
       <th class="text-center">SL</th>
       <th >Employee Name</th>
-      <th class="text-center">Is Department Head</th>
-      <th>Set Department Head</th>
+      <th class="text-center">Is Supervisor</th>
+      <th>Set Supervisor</th>
     </tr>
   </thead>
   <tbody>

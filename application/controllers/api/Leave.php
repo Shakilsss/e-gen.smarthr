@@ -48,15 +48,67 @@ class Leave extends API_Controller
             $this->db->order_by("from_date", "desc");
             $data['leavedata'] = $this->db->get('xin_leave_applications')->result();   
             
-            $this->db->where('emp_id',$userid);
-            $this->db->where('year',date('Y'));
-            $emp_leave=$this->db->get('leave_balanace')->row(); 
+       
 
-            $data['leave_cal']=$emp_leave;
+            $userid  = $user_data->user_id;
+            $unit_id  = $user_data->unit_id;
+
+
+            $date = date('Y-m-01');
+            $date1 = date('Y-12-31');
+            $latededuct = 0;
+
+
+            $this->db->select("
+            SUM(CASE WHEN leave_type = 'cl' THEN qty ELSE 0 END) AS cl,
+            SUM(CASE WHEN leave_type = 'sl' THEN qty ELSE 0 END) AS sl
+        ");
+        $this->db->where('employee_id', $userid)->where('status', 2);
+        $this->db->where('to_date >=', date('Y-01-01'));
+        $this->db->where('to_date <=', date('Y-12-31'));
+        $used_leave = $this->db->get('xin_leave_applications')->row();
+        
+    
+            $gearn = $this->db->where('type', 'cl')->get('xin_leave_type')->row()->days_per_year;
+            $gsick = $this->db->where('type', 'sl')->get('xin_leave_type')->row()->days_per_year;
+    
+            $this->db->where('month >=', $date)->where('month <=', $date1);
+            $query = $this->db->where('emp_id', $userid)->get('leave_late_deduct');
+            if ($query->num_rows() > 0) {
+                $latededuct = $query->num_rows();
+            }
+    
+            $earn = $gearn - $used_leave->cl - $latededuct;
+            $sick = $gsick - $used_leave->sl;
+
+            $rl_rule = $this->db->where('status', 1)->get('leave_settings')->row()->replace_leave;
+            $nfdate = date('Y-m-01', strtotime('-1 months'));
+            $nsdate = date('Y-m-t', strtotime($nfdate));
+    
+            $this->db->select("SUM(CASE WHEN e_status='Present' AND status='Off Day' THEN 1 ELSE 0 END) AS rl");
+            $this->db->where('employee_id', $userid);
+            $this->db->where('e_status', 'Present');
+            $this->db->where('status', 'Off Day');
+            $this->db->where('attendance_date >=', $nfdate);
+            $this->db->where('attendance_date <=', $nsdate);
+            $query = $this->db->get('xin_attendance_time')->row();
+            if (!empty($query) && $query->rl >= $rl_rule) {
+                $rlv = floor($query->rl / $rl_rule);
+            } else {
+                $rlv = 0;
+            }
+
+            $data['leave_cal']=array(
+                'available_earn_leave'=>$earn,
+                'available_sick_leave'=>$sick,
+                'available_replacement_leave'=>$rlv
+
+            );
          
             $data['leave_type']=array(
                 'Earn_leave'=>1,
                 'Sick_leave'=>2,
+                'Replacement'=>3
             );
 
             $this->api_return([
@@ -80,199 +132,122 @@ class Leave extends API_Controller
         if ($user_info['status'] == true) {
             $user_data=$user_info['user_info'];
             $userid=$user_data->user_id;
-            $d= $this->input->post();
-            $start_date=$d['start_date'];
-            $end_date=$d['end_date'];
+            $start_date = $this->input->post('start_date');
+		$end_date = $this->input->post('end_date');
+		$remarks = $this->input->post('remarks');
+		$emp_id = $this->input->post('employee_id');
+		// validate apply date check
+		if($start_date == '' || $end_date == ''){
+			$this->api_return([
+				'status' => false,
+				'message' => 'Please select from & to date.',
+				'data' => [],
+			], 200);
+		}
+		$prev_day = date('Y-m-d', strtotime('-1 days'. $start_date));
+		$next_day = date('Y-m-d', strtotime('+1 days'. $end_date));
 
-
-            if (empty($d['leave_type']) || empty($d['start_date']) || empty($d['end_date']) || empty($d['reason'])) {
-                $this->api_return([
-                    'status'  =>   false,
-                    'message'  =>   'Missing required fields',
-                    'data'     =>   [],
-                ], 404);
-                exit();
-            }
-
-
-            if($end_date<= date('Y-m-d',strtotime('-4 day'))){
+		// validate leave type
+		if($this->input->post('leave_type') === '') {
+			$this->api_return([
+				'status' => false,
+				'message' => 'Please select leave type.',
+				'data' => [],
+			], 200);
+		}
+		//get leave date of a employee ...
+		$leave_date = $this->db->select('*')->where('status !=',3)->where('employee_id',$emp_id)->get('xin_leave_applications')->result();
+		//check duplicate leave date
+		foreach($leave_date as $date){
+			if($date->from_date == $start_date || $date->to_date == $end_date) {
 				$this->api_return([
-                    'status'  =>   false,
-                    'message'  =>   'Leave start date must be greater than 3 days',
-                    'data'     =>   [],
-                ], 404);
-                exit();
+					'status' => false,
+					'message' => 'Leave date already exists.',
+					'data' => [],
+				], 200);
 			}
+		};
+
+		$datetime1 = new DateTime($this->input->post('start_date'));
+		$datetime2 = new DateTime($this->input->post('end_date'));
+		$interval = $datetime1->diff($datetime2);
+		$no_of_days = $interval->format('%a') + 1;
+		// check half day leave
+		if($this->input->post('leave_half_day') == 1 && $no_of_days > 1 ) {
+			$this->api_return([
+				'status' => false,
+				'message' => 'Please select only one day for half day leave.',
+				'data' => [],
+			], 200);
+		}
+		//  half day leave set
+		if($this->input->post('leave_half_day') == 1 && $no_of_days == 1 ) {
+			$no_of_days = 0.5;
+		}
+		// half day leave yes or no
+		if($this->input->post('leave_half_day') != 1){
+			$leave_half_day_opt = 0;
+		} else {
+			$leave_half_day_opt = $this->input->post('leave_half_day');
+		}
+
+		$lt = 'rl';
+		$type_name = " Replacement leave";
+		if ($this->input->post('leave_type') == 2) {
+			$type_name = " Sick leave";
+			$lt = 'sl';
+		} else {
+			$type_name = " Casual leave";
+			$lt = 'cl';
+		}
+
+		// check balance
+		$total = $this->cal_emp_leave($emp_id, $lt);
+		if($total < $no_of_days){
+			$this->api_return([
+				'status' => false,
+				'message' => 'You have only '.$total.' '.$type_name.' left.',
+				'data' => [],
+			], 200);
+		}
+
+		// attachment upload
+
+		if (isset($_POST['attachment'])) {
+            // Get the base64 encoded image string
+            $base64String = $_POST['attachment'];
+            // dd($base64String);
+            // Extract file type from base64 string
+            preg_match('/^data:image\/(.*);base64,/', $base64String, $output_array);      
+            // dd($output_array);
+            $fileExtension = $output_array[1];
+            // Remove data:image/...;base64, from the beginning of the string
+            $base64String = preg_replace('/^data:image\/(.*);base64,/', '', $base64String);
+            // Decode the base64 string
+            $imageData = base64_decode($base64String);
+            // Generate a unique filename for the image
+            $filename = 'image_' . time() . '.' . $fileExtension;
+            // Specify the path where you want to save the image
+            $imagePath = FCPATH . 'uploads/leave/' . $filename;
+            // Save the image to the specified path
+            file_put_contents($imagePath, $imageData);
+            $fileLocation = 'uploads/leave/' . $filename;
+        } else {
+            $fileLocation = '';
+        }
 
 
-            $this->db->where('emp_id',$userid);
-            $this->db->where('year',date('Y'));
-            $emp_leave=$this->db->get('leave_balanace')->row();
-
-            $this->db->where('user_id',$userid);
-            $is_leave=$this->db->get('xin_employees')->row();
-
-            if ($is_leave->is_leave_on==0) {
-                $this->api_return([
-                    'status'  =>   false,
-                    'message'  =>   'You Are Not Eligible For Leave',
-                    'data'     =>   [],
-                ], 404);
-                exit();
-            }
-
-
-           
-            $leave_date = $this->db->select('from_date,to_date')->where('employee_id',$userid)->get('xin_leave_applications')->result();
-			
-			//check duplicate leave date 
-			foreach($leave_date as $date){
-				if($date->from_date == $start_date && $date->to_date == $end_date) {
-                    $this->api_return([
-                        'status'  =>   false,
-                        'message'  =>   "Can't applied For This Date, Leave Already Have For This Date",
-                        'data'     =>   [],
-                    ], 404);
-                    exit();
-				}
-			}
-			
-			$datetime1 = new DateTime($this->input->post('start_date'));
-			$datetime2 = new DateTime($this->input->post('end_date'));
-			$interval = $datetime1->diff($datetime2);
-			$no_of_days = $interval->format('%a') + 1;
-
-			if($this->input->post('leave_half_day') == 1 && $no_of_days > 1 ) {
-                $this->api_return([
-                    'status'  =>   false,
-                    'message'  =>   "Half Leave Can't applied  more than 1 day",
-                    'data'     =>   [],
-                ], 404);
-                exit();
-			}
-
-			
-				
-			if($this->input->post('start_date')!=''){	
-				
-				if($this->input->post('leave_half_day') == 1 && $no_of_days == 1 ) {
-					$no_of_days = 0.5;
-				} 
-				
-				$total = get_cal_leave($userid, $this->input->post('leave_type'));
-					
-				if($this->input->post('leave_half_day') != 1){
-					if($no_of_days > $total){
-                        $this->api_return([
-                            'status'  =>   false,
-                            'message'  =>   "Half Leave Can't applied  more than 1 day",
-                            'data'     =>   [],
-                        ], 404);
-                        exit();
-					}
-				} else {
-					if(0.5 >  $total){
-                        $this->api_return([
-                            'status'  =>   false,
-                            'message'  =>   "Leave Can't applied  more than ".$total ."day",
-                            'data'     =>   [],
-                        ], 404);
-                        exit();
-					}
-				}
-
-				if ($this->input->post('leave_type') == 2) {
-					$type_name = " Sick leave";
-				} else {
-					$type_name = " Earn leave";
-				}
-				
-				if($total < 0.4){
-					$this->api_return([
-                        'status'  =>   false,
-                        'message'  =>   "Leave Can't applied For Leave ",
-                        'data'     =>   [],
-                    ], 404);
-                    exit();
-				}
-			}
-
-				
-
-			if($this->input->post('leave_half_day') != 1){
-				$leave_half_day_opt = 0;
-			} else {
-				$leave_half_day_opt = $this->input->post('leave_half_day');
-			}
-			
-            if ($_POST['attachment']) {
-                // Get the base64 encoded image string
-                $base64String = $_POST['attachment'];
-                // dd($base64String);
-                // Extract file type from base64 string
-                preg_match('/^data:image\/(.*);base64,/', $base64String, $output_array);      
-                // dd($output_array);
-                $fileExtension = $output_array[1];
-                // Remove data:image/...;base64, from the beginning of the string
-                $base64String = preg_replace('/^data:image\/(.*);base64,/', '', $base64String);
-                // Decode the base64 string
-                $imageData = base64_decode($base64String);
-                // Generate a unique filename for the image
-                $filename = 'image_' . time() . '.' . $fileExtension;
-                // Specify the path where you want to save the image
-                $imagePath = FCPATH . 'uploads/leave/' . $filename;
-                // Save the image to the specified path
-                file_put_contents($imagePath, $imageData);
-                $fileLocation = 'uploads/leave/' . $filename;
-            } else {
-                $fileLocation = '';
-            }
-
-
-
-            $ss=1;
-
-            if ($this->input->post('leave_type') == 2) {
-
-                if ($emp_leave->sl_balanace < $no_of_days) {
-                    $ss=0;
-                }else{
-                    $ss=1;
-                }
-                
-            } else {
-                if ($emp_leave->el_balanace < $no_of_days) {
-                    $ss=0;
-                }else{
-                    $ss=1;
-                }
-            }
-
-
-
-
-
-
-
-            if ($ss==0) {
-                $this->api_return([
-                    'status'  =>   false,
-                    'message'  =>   'You dont have This Type Leave',
-                    'data'     =>   [],
-                ], 404);
-                exit();
-            }
-			$data = array(
-			'employee_id' => $userid,
-			'company_id' => 1,
+		$data = array(
+			'employee_id' => $this->input->post('employee_id'),
+			'company_id' => $this->input->post('company_id'),
 			'leave_type_id' => $this->input->post('leave_type'),
-			'leave_type' => ($this->input->post('leave_type') == 1)? 'el':'sl',
-			'applyed_from_date' => date('Y-m-d', strtotime($this->input->post('start_date'))),
-			'applyed_to_date' => date('Y-m-d', strtotime($this->input->post('end_date'))),
-			'from_date' => date('Y-m-d', strtotime($this->input->post('start_date'))),
-			'to_date' => date('Y-m-d', strtotime($this->input->post('end_date'))),
+			'leave_type' => $lt,
+			'from_date' => $this->input->post('start_date'),
+			'to_date' => $this->input->post('end_date'),
+			'applyed_from_date' => $this->input->post('start_date'),
+			'applyed_to_date' => $this->input->post('end_date'),
 			'applied_on' => date('Y-m-d h:i:s'),
-			'reason' => $this->input->post('reason'),
+			'reason' => $this->input->post('remarks'),
 			'qty' => $no_of_days,
 			'leave_attachment' => $fileLocation,
 			'status' => '1',
@@ -280,29 +255,63 @@ class Leave extends API_Controller
 			'is_half_day' => $leave_half_day_opt,
 			'created_at' => date('Y-m-d h:i:s'),
 			'current_year' => date('Y'),
-			);
-			$result = $this->Timesheet_model->add_leave_record($data);
-            if ($result==true) {
-                $this->api_return([
-                    'status'    =>  true,
-                    'message'    =>  'successful',
-                    'data'       =>  [],
-                ], 200);
-            }else{
-                $this->api_return([
-                    'status'  =>   false,
-                    'message'  =>   'Unsuccessful',
-                    'data'     =>   [],
-                ], 404);
-            }
-        } else {
+		);
+		$result = $this->Timesheet_model->add_leave_record($data);
+
+		if ($result == TRUE) {
+			$this->api_return([
+				'status' => true,
+				'message' => 'Successfully Added',
+				'data' => [],
+			], 200);
+		} else {
+			$this->api_return([
+				'status' => false,
+				'message' => 'There is an error',
+				'data' => [],
+			], 200);
+		}
+        }else{
             $this->api_return([
                 'status' => false,
                 'message' => 'Unauthorized User',
                 'data' => [],
             ], 401);
         }
+    
     }
+    function cal_emp_leave($emp_id, $type) {
+		$sql = 'SELECT SUM(qty) as qty FROM xin_leave_applications WHERE employee_id = ? and leave_type_id = ? and status = ? and current_year = ?';
+        $binds = array($emp_id,$type,2,date("Y"));
+        $query = $this->db->query($sql, $binds);
+
+		if ($type != 'rl') {
+			$dleave = $this->db->where('type', $type)->get('xin_leave_type')->row()->days_per_year;
+			$qty = $dleave - $query->row()->qty;
+		} else {
+			$rl_rule = $this->db->where('status', 1)->get('leave_settings')->row()->replace_leave;
+			$nfdate = date('Y-m-01', strtotime('-1 months'));
+			$nsdate = date('Y-m-t', strtotime($nfdate));
+
+			$this->db->select("
+					SUM(CASE WHEN e_status='Present' AND status='Off Day' THEN 1 ELSE 0 END) AS rl
+				");
+			$this->db->where('employee_id', $emp_id);
+			$this->db->where('e_status', 'Present');
+			$this->db->where('status', 'Off Day');
+			$this->db->where('attendance_date >=', $nfdate);
+			$this->db->where('attendance_date <=', $nsdate);
+			$qqs = $this->db->get('xin_attendance_time')->row();
+			if (!empty($qqs) && $qqs->rl >= $rl_rule) {
+				$rlv = floor($qqs->rl / $rl_rule);
+				$qty = $rlv - $query->row()->qty;
+			} else {
+				$qty = 0;
+			}
+		}
+		return $qty;
+	}
+
     public function out_of_office_add()
     {
         $authorization = $this->input->get_request_header('Authorization');

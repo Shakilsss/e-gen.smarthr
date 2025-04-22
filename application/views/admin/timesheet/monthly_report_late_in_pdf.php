@@ -47,15 +47,18 @@
 
 			<table class="table table-bordered table-sm" style="border: 1px solid #ddd;">
 			
-				<tr class="text-center">
-					<td>SL.</td>
-					<td>ID</td>
-					<td>Date</td>
-					<td>Name</td>
-					<td>Designation</td>
-					<td>In Time</td>
-					<td>Status</td>
-				</tr>
+					<thead>
+						<tr class="text-center">
+							<td>SL.</td>
+							<td>ID</td>
+							<td>Date</td>
+							<td>Name</td>
+							<td>Designation</td>
+							<td>Leave</td>
+							<td>Time</td>
+							<td>Status</td>
+						</tr>
+					</thead>
 				<tbody>
 				<?php
 
@@ -79,18 +82,9 @@
 					->get('xin_designations')
 					->row('designation_name');
 
-					if ($row_count > 0 && $row_count % 11 == 0) {
+					if ($row_count > 0 && $row_count % 12 == 0) {
 						echo '<tr class="page-break" style="border:none;"></tr>';?> 
-						<tr class="text-center">
-							<td>SL.</td>
-							<td>ID</td>
-							<td>Date</td>
-							<td>Name</td>
-							<td>Designation</td>
-							<td>Leave</td>
-							<td>Time</td>
-							<td>Status</td>
-						</tr>
+
 					<?php }
 					$row_count++;
 				?>
@@ -127,21 +121,19 @@
 					<td style="vertical-align: middle;"><?php echo "N/A"?></td>
 				</tr>
 
-				<?php if($row_count % 11 == 0){?>
-					<tr  style='border:none !important'>
-						<td colspan="30" class="text-center" style='border:none !important;margin-bottom:15px !important'>Page <?php echo @$k=1+$k?></td>
-					</tr>
-				<?php }?>
+				<!-- < ?php if($row_count % 12 == 0){?>
+
+				< ?php }?> -->
 					
 				<?php 
 				} 
-				if ($row_count == $total_rows) { ?>
+				// if ($row_count == $total_rows) { 
+				
+				?>
 
-				<?php } ?>
+				<!-- < ?php } ?> -->
 
-				<tr style='border:none !important'>
-					<td colspan="30" class="text-center" style='border:none !important;margin-bottom:15px !important'>Page <?php echo @$k+1?></td>
-				</tr>
+
 				</tbody>
 			</table>
 
