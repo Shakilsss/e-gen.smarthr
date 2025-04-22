@@ -143,6 +143,7 @@ class Leave extends API_Controller
 				'message' => 'Please select from & to date.',
 				'data' => [],
 			], 200);
+            exit;
 		}
 		$prev_day = date('Y-m-d', strtotime('-1 days'. $start_date));
 		$next_day = date('Y-m-d', strtotime('+1 days'. $end_date));
@@ -154,6 +155,8 @@ class Leave extends API_Controller
 				'message' => 'Please select leave type.',
 				'data' => [],
 			], 200);
+            exit;
+
 		}
 		//get leave date of a employee ...
 		$leave_date = $this->db->select('*')->where('status !=',3)->where('employee_id',$emp_id)->get('xin_leave_applications')->result();
@@ -165,6 +168,8 @@ class Leave extends API_Controller
 					'message' => 'Leave date already exists.',
 					'data' => [],
 				], 200);
+                exit;
+
 			}
 		};
 
@@ -179,6 +184,8 @@ class Leave extends API_Controller
 				'message' => 'Please select only one day for half day leave.',
 				'data' => [],
 			], 200);
+            exit;
+
 		}
 		//  half day leave set
 		if($this->input->post('leave_half_day') == 1 && $no_of_days == 1 ) {
@@ -191,15 +198,19 @@ class Leave extends API_Controller
 			$leave_half_day_opt = $this->input->post('leave_half_day');
 		}
 
-		$lt = 'rl';
-		$type_name = " Replacement leave";
+		
+        $type_name = "Replacement leave";
+        $lt = 'rl';
 		if ($this->input->post('leave_type') == 2) {
 			$type_name = " Sick leave";
 			$lt = 'sl';
-		} else {
+		} elseif ($this->input->post('leave_type') == 1) {
 			$type_name = " Casual leave";
 			$lt = 'cl';
-		}
+        }else{
+            $type_name = "Replacement leave";
+            $lt = 'rl';
+        }
 
 		// check balance
 		$total = $this->cal_emp_leave($emp_id, $lt);
@@ -209,6 +220,8 @@ class Leave extends API_Controller
 				'message' => 'You have only '.$total.' '.$type_name.' left.',
 				'data' => [],
 			], 200);
+            exit;
+
 		}
 
 		// attachment upload
@@ -332,6 +345,14 @@ class Leave extends API_Controller
 				'emp_id' 			=> $userid,
 				'unit_id' 			=> $unit_id,
 			);
+
+            if(empty($in)){
+                unset($data['in_time']);
+            }
+            if(empty($ot)){
+                unset($data['out_time']);
+            }
+
 			// insert data
 			if ($this->db->insert('leave_out_off_office', $data)) {
                 $this->api_return([
