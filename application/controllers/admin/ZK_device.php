@@ -20,6 +20,15 @@ class ZK_device extends API_Controller
         $this->load->model('Attendance_model');
         $this->load->library('Zklibrary');
     }
+
+
+    public function get_device()
+    {
+        $devices=$this->db->where('status', 1)->get('attn_device_setup');
+        $devices = $query->result_array();
+        header('Content-Type: application/json');
+        echo json_encode($devices);
+    }
     public function get_data()
     {
         $date = date('Y-m-d');
