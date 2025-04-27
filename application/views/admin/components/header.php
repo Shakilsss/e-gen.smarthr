@@ -340,14 +340,11 @@
     <!-- Logo -->
     <a href="<?php echo site_url('admin/dashboard/');?>" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b><img alt="<?php echo $system[0]->application_name;?>"
-                    src="<?php echo base_url();?>uploads/logo/<?php echo $company_info[0]->logo;?>" class="brand-logo"
-                    style="width:32px;"></b></span>
+        <span class="logo-mini"><b><img src="<?php echo base_url();?>uploads/logo/<?php echo $system[0]->logo;?>" class="brand-logo"  style="width:32px;"></b></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><img alt="<?php echo $system[0]->application_name;?>"
-                src="<?php echo base_url();?>uploads/logo/<?php echo $company_info[0]->logo;?>" class="brand-logo"
-                style="width:32px;"> <b><?php echo $system[0]->application_name;?></b></span>
+        <span class="logo-lg"><img src="<?php echo base_url();?>uploads/logo/<?php echo $system[0]->logo;?>" class="brand-logo" style="width:32px;"> <b><?php echo $system[0]->application_name;?></b></span>
     </a>
+
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
         <!-- Sidebar toggle button-->

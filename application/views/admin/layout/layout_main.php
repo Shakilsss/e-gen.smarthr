@@ -1,7 +1,6 @@
 <?php
   $session = $this->session->userdata('username');
   $system = $this->Xin_model->read_setting_info(1);
-  $company_info = $this->Xin_model->read_company_setting_info(1);
   $layout = $this->Xin_model->system_layout();
   $user_info = $this->Xin_model->read_user_info($session['user_id']);
   //material-design
@@ -36,11 +35,7 @@
 <body class="hrsale-layout hold-transition sidebar-mini skin-blue <?php echo $fixed_header.' '.$boxed_wrapper.' '.$compact_sidebar;?>">
 
   <div class="wrapper">
-    <?php if($theme[0]->theme_option == 'template_2'): ?>
-      <?php $this->load->view('admin/components/header_template2'); ?>
-    <?php else: ?>
-    	<?php $this->load->view('admin/components/header');?>
-    <?php endif; ?>
+    <?php $this->load->view('admin/components/header');?>
 
     <!-- Left side column. contains the logo and sidebar -->
     <aside class="main-sidebar">
