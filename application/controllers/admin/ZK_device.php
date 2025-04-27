@@ -4,7 +4,7 @@
 
 require_once APPPATH . 'libraries/API_Controller.php';
 
-class ZK_device extends API_Controller
+class Zk_device extends API_Controller
 {
     public function __construct()
     {
