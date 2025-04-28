@@ -4,7 +4,7 @@
 
 require_once APPPATH . 'libraries/API_Controller.php';
 
-class ZK_device extends API_Controller
+class Zk_device extends API_Controller
 {
     public function __construct()
     {
@@ -19,6 +19,15 @@ class ZK_device extends API_Controller
         parent::__construct();
         $this->load->model('Attendance_model');
         $this->load->library('Zklibrary');
+    }
+
+
+    public function get_device()
+    {
+        $devices=$this->db->where('status', 1)->get('attn_device_setup');
+        $devices = $devices->result_array();
+        header('Content-Type: application/json');
+        echo json_encode($devices);
     }
     public function get_data()
     {
@@ -114,21 +123,17 @@ class ZK_device extends API_Controller
         }
 
         $this->load->model('Xin_model');
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('name', 'Device name', 'trim|required');
-        $this->form_validation->set_rules('ip', 'Device ip', 'trim|required');
-        $this->form_validation->set_rules('port', 'Device port', 'trim|required');
-        $this->form_validation->set_rules('type', 'Device type', 'trim|required');
+      
 
-        if ($this->form_validation->run() == TRUE) {
+        if (isset($_GET['name'])) {
             $data = array(
-                'name' => $this->input->post('name'),
-                'location' => $this->input->post('location'),
-                'model' => $this->input->post('model'),
-                'ip' => $this->input->post('ip'),
-                'port' => $this->input->post('port'),
-                'type' => $this->input->post('type'),
-                'status' => $this->input->post('status'),
+                'name' => $this->input->get('name'),
+                'location' => $this->input->get('location'),
+                'model' => $this->input->get('model'),
+                'ip' => $this->input->get('ip'),
+                'port' => $this->input->get('port'),
+                'type' => $this->input->get('type'),
+                'status' => $this->input->get('status'),
             );
 
             // insert data
@@ -155,21 +160,17 @@ class ZK_device extends API_Controller
         }
 
         $this->load->model('Xin_model');
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('name', 'Device name', 'trim|required');
-        $this->form_validation->set_rules('ip', 'Device ip', 'trim|required');
-        $this->form_validation->set_rules('port', 'Device port', 'trim|required');
-        $this->form_validation->set_rules('type', 'Device type', 'trim|required');
 
-        if ($this->form_validation->run() == TRUE) {
+
+        if (isset($_GET['name'])) {
             $data = array(
-                'name' => $this->input->post('name'),
-                'location' => $this->input->post('location'),
-                'model' => $this->input->post('model'),
-                'ip' => $this->input->post('ip'),
-                'port' => $this->input->post('port'),
-                'type' => $this->input->post('type'),
-                'status' => $this->input->post('status'),
+                'name' => $this->input->get('name'),
+                'location' => $this->input->get('location'),
+                'model' => $this->input->get('model'),
+                'ip' => $this->input->get('ip'),
+                'port' => $this->input->get('port'),
+                'type' => $this->input->get('type'),
+                'status' => $this->input->get('status'),
             );
 
             // insert data
