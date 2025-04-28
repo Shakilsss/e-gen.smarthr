@@ -24,9 +24,8 @@
 
                 <div id="add_form" class="collapse add-form <?php echo $get_animate;?>" data-parent="#accordion" style="">
                     <div class="box-body">
-                        <?php $attributes = array('name' => 'add_schedule', 'id' => 'xin-form', 'autocomplete' => 'off');?>
-                        <?php $hidden = array('_user' => $session['user_id']);?>
-                        <?php echo form_open_multipart(current_url(), $attributes, $hidden);?>
+                        <form action="<?= current_url(); ?>" method="get" enctype="multipart/form-data" name="add_schedule" id="xin-form" autocomplete="off">
+                            <input type="hidden" name="_user" value="<?= $session['user_id']; ?>">
 
                         <div class="form-body">
                             <div class="row">
@@ -91,7 +90,7 @@
                             </div>
                         </div>
                         <br>
-                        <?php echo form_close(); ?>
+                        </form>
                     </div>
                 </div>
             </div>
