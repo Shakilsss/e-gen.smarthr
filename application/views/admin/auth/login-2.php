@@ -75,14 +75,14 @@
       <div class="authfy-container col-xs-12 col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-2 col-lg-offset-3">
 
         <!-- panel left to logo -->
-        <div class="col-sm-5 authfy-panel-left">
+        <div class="col-sm-5 authfy-panel-left" style="background: #fff !important">
           <div class="brand-col">
             <div class="headline">
               <div class="brand-logo">
-                <img src="<?php echo base_url();?>uploads/logo/signin/<?php echo $company[0]->sign_in_logo; ?>" alt="hrsale-logo">
+                <img style="width: 100%;" src="<?php echo base_url('uploads/logo/logo.jpeg?'.time());?>" alt="hrsale-logo">
               </div>
               <div>
-                <p style="color: black;font-size: 18px;font-weight: bold;"><?= $system[0]->application_name?></p>
+                <!-- <p style="color: black;font-size: 18px;font-weight: bold;"><?= $system[0]->application_name?></p> -->
               </div>
               <p><?php echo $this->lang->line('xin_hrsale_hr_system_login_panel');?></p>
             </div>
