@@ -6,56 +6,35 @@ class Import extends CI_Controller {
 		parent::__construct();
 	}
 
-
-
-	// //this code work to advance salary insert of 01-04-2023
-	// function index(){
-	// 	date_default_timezone_set('Asia/Dhaka');
-
-	// 	$file_name = "import/salary.txt";
-
-	// 	if (file_exists($file_name)){
-	// 		$lines = file($file_name);
-	// 		foreach(array_values($lines)  as $line) {
-	// 			list($id, $amt) = preg_split('/\s+/', trim($line));
-	// 			$data= array(
-    //                 'grand_net_salary'      => $amt,
-    //                 'other_payment'         => 0,
-    //                 'total_other_payments'  => 0,
-    //                 'modify_salary'         => 0,
-    //                 'm_pay_day'             => 0,
-    //             );
-    //             $this->db->where('employee_id', $id);
-    //             $this->db->where('salary_month', '2023-01');
-    //             $this->db->update('xin_salary_payslips', $data);
-	// 		}
-	// 		echo "Upload successfully done";
-	// 	} else {
-	// 		echo "File not found";
-	// 	}
-	// }
-
-
 	function index(){
 		date_default_timezone_set('Asia/Dhaka');
-
-		$file_name = "import/password.txt";
+		$file_name = "import/egen.txt";
 
 		if (file_exists($file_name)){
 			$lines = file($file_name);
 			foreach(array_values($lines)  as $line) {
-				list($row, $id, $pass) = preg_split('/\s+/', trim($line));
-				if ($id=='no') {
-					continue;
-				}
-				$options = array('cost' => 12);
-				$password_hash = password_hash($pass, PASSWORD_BCRYPT, $options);
+				list($id, $fn, $email, $gen, $bg, $r, $dpt, $des, $unit, $doj, $mt) = preg_split('/\t+/', trim($line));
 				$data= array(
-                    'password'      => $password_hash,
+                    'punch_id'      	=> $id,
+                    'employee_id'   	=> $id,
+                    'office_shift_id'	=> 1,
+                    'first_name'      	=> $fn,
+                    'username'      	=> $email,
+                    'email'      		=> $email,
+                    'password'      	=> '$2y$12$gGHpt0lBhRlCyH3QCYsIz.cDAKszo.zc6vDhS6w8J0G9Z7aZkvdlO',
+                    'gender'      		=> $gen,
+                    'blood_group'      	=> $bg,
+                    'user_role_id'     	=> $r,
+                    'department_id'     => $dpt,
+                    'designation_id'    => $des,
+                    'company_id'      	=> $unit,
+                    'date_of_joining'   => date('Y-m-d', strtotime($doj)),
+                    'marital_status'    => $mt,
                 );
-                $this->db->where('user_id', $id);
-                $this->db->update('xin_employees', $data);
+                $this->db->insert('xin_employees', $data);
+				echo "<pre>"; print_r($this->db->last_query());
 			}
+			exit('check');
 			echo "Upload successfully done";
 		} else {
 			echo "File not found";

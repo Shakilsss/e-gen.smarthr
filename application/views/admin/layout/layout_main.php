@@ -6,21 +6,21 @@
   //material-design
   $theme = $this->Xin_model->read_theme_info(1);
   // set layout / fixed or static
-  if($user_info[0]->fixed_header=='fixed_layout_hrsale') {
-  	$fixed_header = 'fixed';
-  } else {
-  	$fixed_header = '';
-  }
-  if($user_info[0]->boxed_wrapper=='boxed_layout_hrsale') {
-  	$boxed_wrapper = 'layout-boxed';
-  } else {
-  	$boxed_wrapper = '';
-  }
-  if($user_info[0]->compact_sidebar=='sidebar_layout_hrsale') {
-  	$compact_sidebar = 'sidebar-collapse';
-  } else {
-  	$compact_sidebar = '';
-  }
+  $fixed_header = '';
+  $boxed_wrapper = '';
+  $compact_sidebar = '';
+  // if($user_info[0]->fixed_header=='fixed_layout_hrsale') {
+  //     $fixed_header = 'fixed';
+  //   } else {
+  //   }
+  //   if($user_info[0]->boxed_wrapper=='boxed_layout_hrsale') {
+  //     $boxed_wrapper = 'layout-boxed';
+  //   } else {
+  //   }
+  //   if($user_info[0]->compact_sidebar=='sidebar_layout_hrsale') {
+  //     $compact_sidebar = 'sidebar-collapse';
+  //   } else {
+  //   }
 
   $role_user = $this->Xin_model->read_user_role_info($user_info[0]->user_role_id);
   if(!is_null($role_user)){
