@@ -166,6 +166,7 @@
                 <?php $hidden = array('_user' => $session['user_id']);?>
                 <?php echo form_open_multipart('admin/employees/add_employee', $attributes, $hidden);?>
                 <div class="form-body">
+                    <!-- first row of name -->
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
@@ -200,16 +201,15 @@
 
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="proxi_id" class="control-label">Punch id<i class="hrsale-asterisk"><span
-                                            style="color:red">*</span></i></label>
-                                <input class="form-control" placeholder="Punch device id" name="proxi_id" type="text"
-                                    value="" required>
+                                <label for="proxi_id" class="control-label">Punch id</label>
+                                <input class="form-control" placeholder="Punch device id" name="proxi_id" type="text" value="">
                             </div>
                         </div>
 
                         <input type="hidden" name="company_id" value="1">
                         <input type="hidden" name="location_id" value="1">
                     </div>
+
                     <!-- department and designation row -->
                     <div class="row">
                         <input name="salary" type="hidden" value="0">
@@ -263,7 +263,7 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="date_of_birth"><?php echo $this->lang->line('xin_employee_dob');?><i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                <label for="date_of_birth"><?php echo $this->lang->line('xin_employee_dob');?></label>
                                 <input class="form-control date_of_birth" readonly placeholder="<?php echo $this->lang->line('xin_employee_dob');?>" name="date_of_birth" type="text" value="">
                             </div>
                         </div>
@@ -332,7 +332,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="floor_status">Floor Set<i class="hrsale-asterisk"><span style="color:red">*</span></i></label>
+                                <label for="floor_status">Floor Set </label>
                                 <select name="floor_status" id="floor_status" class="form-control">
                                     <option>Select Floor</option>
                                     <option value="3">3 <sup>rd</sup></option>

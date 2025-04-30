@@ -161,12 +161,9 @@
 
                                                         <div class="col-md-4">
                                                             <div class="form-group">
-                                                                <label for="employee_id">Proxi ID<i
-                                                                        class="hrsale-asterisk"><span
-                                                                            style="color:red">*</span></i></label>
+                                                                <label for="employee_id">Proxi ID </label>
                                                                 <input id="proxi_id" class="form-control"
-                                                                    placeholder="Proxi ID" name="proxi_id" type="text"
-                                                                    value="<?php echo $proxi_id?>">
+                                                                    placeholder="Proxi ID" name="proxi_id" type="text" value="<?php echo $proxi_id?>">
                                                             </div>
                                                         </div>
 
@@ -335,13 +332,9 @@
                                                         <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label
-                                                                    for="date_of_birth"><?php echo $this->lang->line('xin_employee_dob');?><i
-                                                                        class="hrsale-asterisk"><span
-                                                                            style="color:red">*</span></i></label>
+                                                                    for="date_of_birth"><?php echo $this->lang->line('xin_employee_dob');?> </label>
                                                                 <input class="form-control date" readonly
-                                                                    placeholder="<?php echo $this->lang->line('xin_employee_dob');?>"
-                                                                    name="date_of_birth" type="text"
-                                                                    value="<?php echo $date_of_birth;?>">
+                                                                    placeholder="<?php echo $this->lang->line('xin_employee_dob');?>"  name="date_of_birth" type="text" value="<?php echo $date_of_birth;?>">
                                                             </div>
                                                         </div>
 
@@ -360,7 +353,7 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        
+
 
                                                         <div class="col-md-3">
                                                             <div class="form-group">
@@ -389,24 +382,6 @@
                                                                         selected <?php endif; ?>>
                                                                         <?php echo $this->lang->line('xin_status_divorced_separated');?>
                                                                     </option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
-                                                                <label for="blood_group" class="control-label">Blood
-                                                                    Group</label>
-                                                                <select class="form-control" name="blood_group"
-                                                                    data-plugin="select_hrm"
-                                                                    data-placeholder="Blood Group">
-                                                                    <option value="A+" <?= $blood_group=="A+"?"selected":""?> >A+</option>
-                                                                    <option value="A-" <?= $blood_group=="A-"?"selected":""?> >A-</option>
-                                                                    <option value="B+" <?= $blood_group=="B+"?"selected":""?> >B+</option>
-                                                                    <option value="B-" <?= $blood_group=="B-"?"selected":""?> >B-</option>
-                                                                    <option value="AB+" <?= $blood_group=="AB+"?"selected":""?> >AB+</option>
-                                                                    <option value="AB-" <?= $blood_group=="AB-"?"selected":""?> >AB-</option>
-                                                                    <option value="O+" <?= $blood_group=="O+"?"selected":""?> >O+</option>
-                                                                    <option value="O-" <?= $blood_group=="O-"?"selected":""?> >O-</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -442,9 +417,7 @@
 
                                                         <div class="col-md-3">
                                                             <div class="form-group">
-                                                                <label for="floor_status">Floor Set<i
-                                                                        class="hrsale-asterisk"><span
-                                                                            style="color:red">*</span></i></label>
+                                                                <label for="floor_status">Floor Set </label>
                                                                 <select name="floor_status" id="floor_status"
                                                                     class="form-control">
                                                                     <option>-- Select Floor --</option>
@@ -474,7 +447,7 @@
 
                                                     <!-- contact number row -->
                                                     <div class="row">
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label for="contact_no"
                                                                     class="control-label"><?php echo $this->lang->line('xin_contact_number');?><i
@@ -486,7 +459,25 @@
                                                                     value="<?php echo $contact_no;?>">
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="blood_group" class="control-label">Blood
+                                                                    Group</label>
+                                                                <select class="form-control" name="blood_group"
+                                                                    data-plugin="select_hrm"
+                                                                    data-placeholder="Blood Group">
+                                                                    <option value="A+" <?= $blood_group=="A+"?"selected":""?> >A+</option>
+                                                                    <option value="A-" <?= $blood_group=="A-"?"selected":""?> >A-</option>
+                                                                    <option value="B+" <?= $blood_group=="B+"?"selected":""?> >B+</option>
+                                                                    <option value="B-" <?= $blood_group=="B-"?"selected":""?> >B-</option>
+                                                                    <option value="AB+" <?= $blood_group=="AB+"?"selected":""?> >AB+</option>
+                                                                    <option value="AB-" <?= $blood_group=="AB-"?"selected":""?> >AB-</option>
+                                                                    <option value="O+" <?= $blood_group=="O+"?"selected":""?> >O+</option>
+                                                                    <option value="O-" <?= $blood_group=="O-"?"selected":""?> >O-</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label for="is_active" class="control-label">active
                                                                     status</label>
@@ -504,7 +495,7 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label for="date_of_leaving"
                                                                     class="control-label"><?php echo $this->lang->line('xin_employee_dol');?></label>
@@ -4327,78 +4318,78 @@
 
 
 <script>
-$(document).ready(function() {
-    // Bind submit event of the form
-    $('#devicein').submit(function(e) {
-        e.preventDefault(); // Prevent form submission
+    $(document).ready(function() {
+        // Bind submit event of the form
+        $('#devicein').submit(function(e) {
+            e.preventDefault(); // Prevent form submission
 
-        // Get the form data
-        var formData = $(this).serialize();
+            // Get the form data
+            var formData = $(this).serialize();
 
-        // Send AJAX request
-        $.ajax({
-            url: '<?php echo site_url("admin/Employees/add_device"); ?>',
-            type: 'POST',
-            data: formData,
-            dataType: 'json',
-            success: function(response) {
-                // Handle the response from the server
-                console.log(response);
-                Swal.fire({
-                    title: 'Success!',
-                    text: response,
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                });
-            },
-            error: function(xhr, status, error) {
-                console.log(xhr.responseText);
-            }
+            // Send AJAX request
+            $.ajax({
+                url: '<?php echo site_url("admin/Employees/add_device"); ?>',
+                type: 'POST',
+                data: formData,
+                dataType: 'json',
+                success: function(response) {
+                    // Handle the response from the server
+                    console.log(response);
+                    Swal.fire({
+                        title: 'Success!',
+                        text: response,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                }
+            });
         });
     });
-});
 </script>
 
 <script>
-$(document).ready(function() {
-    // Bind submit event of the form
-    $('#nda_info').submit(function(e) {
-        e.preventDefault(); // Prevent form submission
-        // Get the form data
-        var formData = $(this).serialize();
-        // Send AJAX request
-        $.ajax({
-            url: '<?php echo site_url("admin/Employees/nda"); ?>',
-            type: 'POST',
-            data: formData,
-            success: function(response) {
-                // Handle the response from the server
-                console.log(response);
-                Swal.fire({
-                    title: 'Success!',
-                    text: response,
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                });
-            },
-            // error: function(xhr, status, error) {
-            //     console.log(xhr.responseText);
-            // }
+    $(document).ready(function() {
+        // Bind submit event of the form
+        $('#nda_info').submit(function(e) {
+            e.preventDefault(); // Prevent form submission
+            // Get the form data
+            var formData = $(this).serialize();
+            // Send AJAX request
+            $.ajax({
+                url: '<?php echo site_url("admin/Employees/nda"); ?>',
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    // Handle the response from the server
+                    console.log(response);
+                    Swal.fire({
+                        title: 'Success!',
+                        text: response,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                },
+                // error: function(xhr, status, error) {
+                //     console.log(xhr.responseText);
+                // }
+            });
         });
     });
-});
 </script>
 
 <script>
-function nda_update_click() {
-    var active = $('#nda_status').val();
-    if (active == 1) {
-        $('#nda_start').fadeIn(500);
-        $('#nda_end').fadeIn(500);
-    } else {
-        $('#nda_start').fadeOut(500);
-        $('#nda_end').fadeOut(500);
+    function nda_update_click() {
+        var active = $('#nda_status').val();
+        if (active == 1) {
+            $('#nda_start').fadeIn(500);
+            $('#nda_end').fadeIn(500);
+        } else {
+            $('#nda_start').fadeOut(500);
+            $('#nda_end').fadeOut(500);
+        }
     }
-}
-nda_update_click()
+    nda_update_click()
 </script>
