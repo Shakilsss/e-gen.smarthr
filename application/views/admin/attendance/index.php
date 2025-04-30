@@ -217,40 +217,34 @@
         <!-- daily, monthly and continuously report -->
         <div class="box-body" id="emp_report">
             <ul class="nav nav-tabs " id="myTab" role="tablist">
-                <li class="nav-item active">
+                <!-- <li class="nav-item active">
                     <a class="nav-link " id="daily-tab" data-toggle="tab" href="#daily" role="tab" aria-controls="daily" aria-selected="true">Daily</a>
-                </li>
-                <li class="nav-item">
+                </li> -->
+                <!-- <li class="nav-item">
                     <a class="nav-link" id="monthly-tab" data-toggle="tab" href="#monthly" role="tab"
-                        aria-controls="monthly" aria-selected="false">Monthly</a>
-                </li>
-                <li class="nav-item">
+                        aria-controls="monthly" aria-selected="false">Report</a>
+                </li> -->
+                <!-- <li class="nav-item">
                     <a class="nav-link" id="continuously-tab" data-toggle="tab" href="#continuously" role="tab"
                         aria-controls="continuously" aria-selected="false">Continuously</a>
-                </li>
+                </li> -->
             </ul>
 
             <div class="tab-content" id="myTabContent">
                 <!-- daily report button -->
-                <div class="tab-pane fade active in" id="daily" role="tabpanel" aria-labelledby="daily-tab"
+                <div class="tab-pane fade" id="daily" role="tabpanel" aria-labelledby="daily-tab"
                     style="margin-top: 30px;">
-                    <!-- <button class="btn btn-sm mr-5 sbtn" onclick="latecomment('latecomment')">Daily Late comment</button> -->
                     <button class="btn btn-sm mr-5 sbtn mt-2" onclick="daily_report('all')">All</button>
                     <button class="btn btn-sm mr-5 sbtn mt-2" onclick="daily_report('Present')">Present</button>
                     <button class="btn btn-sm mr-5 sbtn mt-2" onclick="daily_report('Absent')">Absent</button>
                     <button class="btn btn-sm mr-5 sbtn mt-2" onclick="daily_report('Present',1)">Late</button>
                     <button class="btn btn-sm mr-5 sbtn mt-2" onclick="early_out_report('Early Out')">Early Out</button>
-                    <!-- <br> -->
-                    <!-- <button class="btn btn-sm mr-5 sbtn mt-2" onclick="lunch_report('Lunch in/out')">Lunch In/Out</button> -->
                     <button class="btn btn-sm mr-5 sbtn mt-2" onclick="lunch_report('Lunch Late',1)">Lunch Late</button>
-                    <!-- <button class="btn btn-sm mr-5 sbtn mt-2" onclick="movement_report('Movement')">Movement</button> -->
                     <button class="btn btn-sm mr-5 sbtn" onclick="leavecal(1,[1,2,3,4])">Leave Applyed</button>
-                    <!-- <button class="btn btn-sm mr-5 sbtn" onclick="floor_movement()">Floor Movement</button> -->
-
                 </div>
 
                 <!-- monthly report button -->
-                <div class="tab-pane fade" id="monthly" role="tabpanel" aria-labelledby="monthly-tab" style="margin-top: 30px;">
+                <div class="tab-pane fade active in" id="monthly" role="tabpanel" aria-labelledby="monthly-tab" style="margin-top: 30px;">
                     <button class="btn btn-sm mr-5 sbtn mt-2" onclick="monthly_report(1)">Attendance Status (All Report)</button>
                     <button class="btn btn-sm mr-5 sbtn mt-2" onclick="monthly_report(2)">Attendance Status (Duty Hour)</button>
                     <button class="btn btn-sm mr-5 sbtn mt-2" onclick="monthly_report(3)">Attendance Status (Duty Hour Details)</button>
