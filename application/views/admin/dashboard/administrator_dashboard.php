@@ -262,7 +262,7 @@
             $.each(res.results, function(k, v) {
               recs += '<tr>';
               recs += '<td>' + (k+1) + '</td>';
-              recs += '<td>' + v.first_name + ' ' + v.last_name + '</td>';
+              recs += '<td>' + (v.first_name !== null ? v.first_name : '') + ' ' + (v.last_name !== null ? v.last_name : '') + '</td>';
               recs += '<td>' + v.designation_name + '</td>';
               recs += '<td>' + v.name + '</td>';
               recs += '<td>' + v.attendance_date + '</td>';
