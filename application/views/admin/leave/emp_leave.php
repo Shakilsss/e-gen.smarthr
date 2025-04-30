@@ -107,8 +107,8 @@
         $date1 = date('Y-12-31');
         $latededuct = 0;
 
-        $gearn = $this->db->where('type', 'cl')->get('xin_leave_type')->row()->days_per_year;
-        $gsick = $this->db->where('type', 'sl')->get('xin_leave_type')->row()->days_per_year;
+        $gearn = $this->db->where('type', 'cl')->get('leave_type')->row()->balance;
+        $gsick = $this->db->where('type', 'sl')->get('leave_type')->row()->balance;
 
         $this->db->where('month >=', $date)->where('month <=', $date1);
         $query = $this->db->where('emp_id', $userid)->get('leave_late_deduct');
@@ -229,7 +229,7 @@
     <!-- leave balance card -->
     <div class="divrow col-md-12" style="margin-bottom: 27px;margin-top: -15px!important;">
         <div class="divstats-info col-md-3" style="background-color: #d1ecf1;">
-            <div class="heading">Total Earn Leave</div>
+            <div class="heading">Total Casual Leave</div>
             <div class="heading2"><?= $gearn ?></div>
         </div>
 
@@ -238,7 +238,7 @@
             <div class="heading2"><?= $gsick ?></div>
         </div>
         <div class="divstats-info col-md-3" style="background-color: #E5E5E5;">
-            <div class="heading">Remaining Earn Leave</div>
+            <div class="heading">Remaining Casual Leave</div>
             <div class="heading2"><?= $earn ?></div>
         </div>
         <div class="divstats-info col-md-3" style="background-color: #D2F9EE;">
