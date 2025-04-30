@@ -372,11 +372,11 @@ class Leave extends MY_Controller
 		}
 
 		// check balance
-		$total = $this->cal_emp_leave($emp_id, $lt);
-		if($total < $no_of_days){
-			$this->session->set_flashdata('error', 'You have only '.$total.' '.$type_name.' left.');
-			redirect('admin/leave/emp_leave');
-		}
+		// $total = $this->cal_emp_leave($emp_id, $lt);
+		// if($total < $no_of_days){
+		// 	$this->session->set_flashdata('error', 'You have only '.$total.' '.$type_name.' left.');
+		// 	redirect('admin/leave/emp_leave');
+		// }
 
 		// attachment upload
 		if($_FILES['attachment']['tmp_name']!='') {
@@ -428,7 +428,7 @@ class Leave extends MY_Controller
         $query = $this->db->query($sql, $binds);
 
 		if ($type != 'rl') {
-			$dleave = $this->db->where('type', $type)->get('xin_leave_type')->row()->days_per_year;
+			$dleave = $this->db->where('type', $type)->get('leave_type')->row()->days_per_year;
 			$qty = $dleave - $query->row()->qty;
 		} else {
 			$rl_rule = $this->db->where('status', 1)->get('leave_settings')->row()->replace_leave;
