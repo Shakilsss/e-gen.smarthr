@@ -467,7 +467,7 @@ class Employees_model extends CI_Model {
 
 	// get all office shifts
 	public function all_office_shifts() {
-	  $query = $this->db->query("SELECT * from xin_office_shift");
+	  $query = $this->db->query("SELECT * from emp_shift_manage");
   	  return $query->result();
 	}
 
