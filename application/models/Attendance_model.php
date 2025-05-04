@@ -10,6 +10,14 @@ class Attendance_model extends CI_Model
         $this->load->library('Zklibrary');
     }
 
+    function delete_duplicate_entry($emp_id, $date) {
+        $this->db->select('COUNT(employee_id) as total')->where('attendance_date', $date);
+        $de = $this->db->where('employee_id', $emp_id)->having('total >', 1)->get('xin_attendance_time')->row();
+        if ($de->total > 1) {
+        $this->db->where('attendance_date',$date)->where('employee_id',$emp_id)->delete('xin_attendance_time');
+        }
+    }
+
     public function attn_process($process_date = null, $emp_ids = null, $status = null){
         // If process date is empty then current date will go to the core process
         if (empty($process_date)) {
@@ -30,6 +38,9 @@ class Attendance_model extends CI_Model
             $unit_id     = $row->company_id;
             $shift_id    = $row->shift_id;
             $punch_id    = $row->punch_id;
+
+            // Check for duplicate entries.
+            $this->delete_duplicate_entry($emp_id, $process_date);
 
             // If Punch ID Is Empty Then Will Not Go To The Core Process
             if (empty($punch_id)) {
