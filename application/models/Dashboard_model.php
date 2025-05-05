@@ -32,7 +32,7 @@ class Dashboard_model extends CI_Model {
     }
 
     // get attendance log
-    function get_attn_logs($date, $unit_id = null)
+    function get_attn_logs($date, $unit_id = null, $att_type = null, $type = null)
     {
         $this->db->select("log.*, e.first_name, e.last_name, d.designation_name, c.name");
         $query = $this->db->from('xin_attendance_time as log');
@@ -43,6 +43,19 @@ class Dashboard_model extends CI_Model {
         $this->db->where("log.attendance_date", $date);
         if (!empty($unit_id)) {
             $this->db->where('log.unit_id', $unit_id);
+        }
+        if (!empty($att_type) && !empty($type) && $att_type == 'Present' && $type == 1) {
+            $this->db->where('log.status', $att_type);
+            $this->db->where('log.office_out', 1);
+        } else if (!empty($att_type) && !empty($type) && $att_type == 'Present' && $type == 0) {
+            $this->db->where('log.status', $att_type);
+            $this->db->where('log.office_out', 0);
+        } else if (!empty($att_type) && $att_type == 'late_status') {
+            $this->db->where('log.late_status', 1);
+        } else if (!empty($att_type) && $att_type == 'early_status') {
+            $this->db->where('log.early_status', 1);
+        } else if (!empty($att_type)) {
+            $this->db->where('log.status', $att_type);
         }
 
         $query = $this->db->get();

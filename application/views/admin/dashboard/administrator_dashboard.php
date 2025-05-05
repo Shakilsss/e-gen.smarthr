@@ -52,151 +52,135 @@
 
   <!-- Card Section -->
   <?php $res = $this->Dashboard_model->count_attendance_status_wise(date('Y-m-d'), null); ?>
-  <div class="row" style="box-shadow: 0 0px 2px 1px rgba(0, 0, 0, 0.2) !important;">
+  <div class="row">
 
     <!-- total employees -->
     <div class="col-md-3">
-      <div class="card p-3">
-        <a href="<?php echo site_url('admin/employees/increment_pro_list'); ?>">
-          <div class="d-flex align-items-center">
-            <span class="stamp-hrsale-4 stamp-hrsale-md bg-hrsale-success-4 mr-3"> <i class="fa fa-user"></i></span>
-            <div>
-              <h5 class="mb-1">
-                  <span class="ctt"> Employees ( Regular ) </span> <br>
-                  <span id="reg_emp"> <?= isset($res->counts) ? $res->counts : 0; ?> </span>
-              </h5>
-            </div>
+      <div class="card p-3" onclick="get_ajax_data()">
+        <div class="d-flex align-items-center">
+          <span class="stamp-hrsale-4 stamp-hrsale-md bg-hrsale-success-4 mr-3"> <i class="fa fa-user"></i></span>
+          <div>
+            <h5 class="mb-1">
+                <span class="ctt"> Employees ( Regular ) </span> <br>
+                <span id="reg_emp"> <?= isset($res->counts) ? $res->counts : 0; ?> </span>
+            </h5>
           </div>
-        </a>
+        </div>
       </div>
     </div>
 
     <!-- In Office present employees -->
     <div class="col-md-3">
-      <div class="card p-3">
-        <a href="<?php echo site_url('admin/employees/increment_pro_list'); ?>">
-          <div class="d-flex align-items-center">
-            <span class="stamp-hrsale-4 stamp-hrsale-md bg-hrsale-warning-4 mr-3"><i class="fa fa-user"></i> </span>
-            <div>
-              <h5 class="mb-1">
-                  <span class="ctt"> In Office ( Present ) </span> <br>
-                  <span id="in_office"> <?= isset($res->office_in) ? $res->office_in : 0; ?> </span>
-              </h5>
-            </div>
+      <div class="card p-3" onclick="get_ajax_data('Present', 0)" style="cursor: pointer;">
+        <div class="d-flex align-items-center">
+          <span class="stamp-hrsale-4 stamp-hrsale-md bg-hrsale-warning-4 mr-3"><i class="fa fa-user"></i> </span>
+          <div>
+            <h5 class="mb-1">
+                <span class="ctt"> In Office ( Present ) </span> <br>
+                <span id="in_office"> <?= isset($res->office_in) ? $res->office_in : 0; ?> </span>
+            </h5>
           </div>
-        </a>
+        </div>
       </div>
     </div>
 
     <!-- Out Office present employees -->
     <div class="col-md-3">
-      <div class="card p-3">
-        <a href="<?php echo site_url('admin/employees'); ?>">
-          <div class="d-flex align-items-center">
-            <span class="stamp-hrsale-4 stamp-hrsale-md bg-hrsale-secondary mr-3">
-              <i class="fa fa-user"></i>
-            </span>
-            <div>
-              <h5 class="mb-1">
-                  <span class="ctt"> Out Office ( Present ) </span> <br>
-                  <span id="out_office"> <?= isset($res->office_out) ? $res->office_out : 0; ?> </span>
-              </h5>
-            </div>
+      <div class="card p-3" onclick="get_ajax_data('Present', 1)" style="cursor: pointer;">
+        <div class="d-flex align-items-center">
+          <span class="stamp-hrsale-4 stamp-hrsale-md bg-hrsale-secondary mr-3">
+            <i class="fa fa-user"></i>
+          </span>
+          <div>
+            <h5 class="mb-1">
+                <span class="ctt"> Out Office ( Present ) </span> <br>
+                <span id="out_office"> <?= isset($res->office_out) ? $res->office_out : 0; ?> </span>
+            </h5>
           </div>
-        </a>
+        </div>
       </div>
     </div>
 
     <!-- absent employees -->
     <div class="col-md-3">
-      <div class="card p-3">
-        <a href="<?php echo site_url('admin/timesheet/leave'); ?>">
-          <div class="d-flex align-items-center">
-            <span class="stamp-hrsale-4 stamp-hrsale-md bg-hrsale-danger-4 mr-3">
-              <i class="fa fa-calendar"></i>
-            </span>
+      <div class="card p-3" onclick="get_ajax_data('Absent')" style="cursor: pointer;">
+        <div class="d-flex align-items-center">
+          <span class="stamp-hrsale-4 stamp-hrsale-md bg-hrsale-danger-4 mr-3">
+            <i class="fa fa-calendar"></i>
+          </span>
 
-            <div>
-              <h5 class="mb-1">
-                  <span class="ctt"> On Absent </span> <br>
-                  <span id="absent"> <?= isset($res->absent) ? $res->absent : 0; ?> </span>
-              </h5>
-            </div>
+          <div>
+            <h5 class="mb-1">
+                <span class="ctt"> On Absent </span> <br>
+                <span id="absent"> <?= isset($res->absent) ? $res->absent : 0; ?> </span>
+            </h5>
           </div>
-        </a>
+        </div>
       </div>
     </div>
 
     <!-- On Leave employees -->
     <div class="col-md-3">
-      <div class="card p-3">
-        <a href="<?php echo site_url('admin/employees'); ?>">
-          <div class="d-flex align-items-center">
-            <span class="stamp-hrsale-4 stamp-hrsale-md bg-hrsale-warning-4 mr-3">
-              <i class="fa fa-user"></i>
-            </span>
-            <div>
-              <h5 class="mb-1">
-                <span class="ctt"> On Leave </span> <br>
-                <span id="leaves"> <?= isset($res->leaves) ? $res->leaves : 0; ?> </span>
-              </h5>
-            </div>
+      <div class="card p-3" onclick="get_ajax_data('Leave')" style="cursor: pointer;">
+        <div class="d-flex align-items-center">
+          <span class="stamp-hrsale-4 stamp-hrsale-md bg-hrsale-warning-4 mr-3">
+            <i class="fa fa-user"></i>
+          </span>
+          <div>
+            <h5 class="mb-1">
+              <span class="ctt"> On Leave </span> <br>
+              <span id="leaves"> <?= isset($res->leaves) ? $res->leaves : 0; ?> </span>
+            </h5>
           </div>
-        </a>
+        </div>
       </div>
     </div>
 
     <!-- Out Station Leave -->
     <div class="col-md-3">
-      <div class="card p-3">
-        <a href="<?php echo site_url('admin/timesheet/leave'); ?>">
-          <div class="d-flex align-items-center">
-            <span class="stamp-hrsale-4 stamp-hrsale-md bg-hrsale-success-4 mr-3">
-              <i class="fa fa-calendar"></i>
-            </span>
+      <div class="card p-3" onclick="get_ajax_data('sLeave')" style="cursor: pointer;">
+        <div class="d-flex align-items-center">
+          <span class="stamp-hrsale-4 stamp-hrsale-md bg-hrsale-success-4 mr-3">
+            <i class="fa fa-calendar"></i>
+          </span>
 
-            <div>
-              <h5 class="mb-1">
-                  <span class="ctt"> Out Station Leave </span> <br>
-                  <span id="out_station"> <?= isset($res->out_station) ? $res->out_station : 0; ?> </span>
-              </h5>
-            </div>
+          <div>
+            <h5 class="mb-1">
+                <span class="ctt"> Out Station Leave </span> <br>
+                <span id="out_station"> <?= isset($res->out_station) ? $res->out_station : 0; ?> </span>
+            </h5>
           </div>
-        </a>
+        </div>
       </div>
     </div>
 
     <!-- Late Office In -->
     <div class="col-md-3">
-      <div class="card p-3">
-        <a href="<?php echo site_url('admin/employees/increment_pro_list'); ?>">
-          <div class="d-flex align-items-center">
-            <span class="stamp-hrsale-4 stamp-hrsale-md bg-hrsale-danger-4 mr-3"> <i class="fa fa-lock"></i> </span>
-            <div>
-              <h5 class="mb-1">
-                  <span class="ctt"> Late Office In </span> <br>
-                  <span id="late_office"> <?= isset($res->late_status) ? $res->late_status : 0; ?> </span>
-              </h5>
-            </div>
+      <div class="card p-3" onclick="get_ajax_data('late_status')" style="cursor: pointer;">
+        <div class="d-flex align-items-center">
+          <span class="stamp-hrsale-4 stamp-hrsale-md bg-hrsale-danger-4 mr-3"> <i class="fa fa-lock"></i> </span>
+          <div>
+            <h5 class="mb-1">
+                <span class="ctt"> Late Office In </span> <br>
+                <span id="late_office"> <?= isset($res->late_status) ? $res->late_status : 0; ?> </span>
+            </h5>
           </div>
-        </a>
+        </div>
       </div>
     </div>
 
     <!-- Early Office Leave -->
     <div class="col-md-3">
-      <div class="card p-3">
-        <a href="<?php echo site_url('admin/employees/increment_pro_list'); ?>">
-          <div class="d-flex align-items-center">
-            <span class="stamp-hrsale-4 stamp-hrsale-md bg-hrsale-secondary-4 mr-3"> <i class="fa fa-lock"></i> </span>
-            <div>
-              <h5 class="mb-1">
-                  <span class="ctt"> Early Leave </span> <br>
-                  <span id="early_leave"> <?= isset($res->early_status) ? $res->early_status : 0; ?> </span>
-              </h5>
-            </div>
+      <div class="card p-3" onclick="get_ajax_data('early_status')" style="cursor: pointer;">
+        <div class="d-flex align-items-center">
+          <span class="stamp-hrsale-4 stamp-hrsale-md bg-hrsale-secondary-4 mr-3"> <i class="fa fa-lock"></i> </span>
+          <div>
+            <h5 class="mb-1">
+                <span class="ctt"> Early Leave </span> <br>
+                <span id="early_leave"> <?= isset($res->early_status) ? $res->early_status : 0; ?> </span>
+            </h5>
           </div>
-        </a>
+        </div>
       </div>
     </div>
 
@@ -238,14 +222,14 @@
   </div>
 
   <script>
-    function get_ajax_data() {
+    function get_ajax_data(att_type = null, type = null) {
       var unit_id = $('#unit_id').val();
       var date = $('#date').val();
 
       $.ajax({
         type: "POST",
         url: "<?php echo site_url('admin/dashboard/get_ajax_data'); ?>",
-        data: {unit_id: unit_id, date: date},
+        data: {unit_id: unit_id, date: date, att_type: att_type, type: type},
         dataType: "json",
         success: function(res) {
           $('#reg_emp').html(res.rc.counts !== null && res.rc.counts !== '' ? res.rc.counts : 0);

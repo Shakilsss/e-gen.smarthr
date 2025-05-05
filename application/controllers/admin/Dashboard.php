@@ -73,8 +73,10 @@ class Dashboard extends MY_Controller {
 	function get_ajax_data() {
 		$unit_id = $this->input->post('unit_id');
 		$date    = $this->input->post('date');
+		$att_type = $this->input->post('att_type');
+		$type    = $this->input->post('type');
 		$data['rc'] = $this->Dashboard_model->count_attendance_status_wise($date, $unit_id);
-		$data['results'] = $this->Dashboard_model->get_attn_logs($date, $unit_id);
+		$data['results'] = $this->Dashboard_model->get_attn_logs($date, $unit_id, $att_type, $type);
 		return $this->output($data);
 	}
 
