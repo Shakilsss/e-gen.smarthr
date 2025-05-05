@@ -1574,18 +1574,23 @@ class Attendance extends MY_Controller
     }
     public function generate_report(){
         $report_type = $this->input->post('report_type');
-        // $org         = ;
         if($this->input->post('org') == 'E-GEN'){
             $org = 1;
         }elseif($this->input->post('org') == 'IPAG'){
             $org = 2;
-        }
+        }else{
+            $org = 'all';        }
         $date_range  = $this->input->post('date_range');
         $employee    = $this->input->post('employee');
         $decoded_range = urldecode($date_range);
         $dates         = explode(' to ', $decoded_range);
-        $data['first_date']  = $dates[0];
-        $data['second_date'] = isset($dates[1]) ? $dates[1] : $dates[0];
+        $first_date = $dates[0];
+        $second_date = isset($dates[1]) ? $dates[1] : $dates[0];
+
+        $data['first_date']  = date('Y-m-d', strtotime($first_date));
+        $data['second_date'] = date('Y-m-d', strtotime($second_date));
+        $data['total_days']  = date('d', strtotime($second_date));
+        // dd($total_days);
         if($employee == null){
             $data['xin_employees'] = $this->db->distinct()
             ->select('user_id,first_name,last_name')

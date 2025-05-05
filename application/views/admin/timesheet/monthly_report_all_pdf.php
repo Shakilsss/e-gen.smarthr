@@ -1,9 +1,5 @@
 <?php
-$first_date  = date('Y-m-01', strtotime($first_date));
-$second_date = date('Y-m-t', strtotime($first_date));
-$total_days = date('t', strtotime($first_date));
 $row_count = 0;
-
 // Fetch attendance data
 $attendance_data = $this->db->select('employee_id, attendance_date, status')
 	->where("attendance_date >=", $first_date)

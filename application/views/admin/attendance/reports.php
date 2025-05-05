@@ -366,6 +366,21 @@ $(document).ready(function() {
         var report_type = $('input[name="report_type"]:checked').val();
         var org = $('input[name="orgTab"]:checked').val();
         var date_range = $('#dateRange').val();
+        // console.log(date_range); return false;
+        if (date_range) {
+            var dates = date_range.split(' to ');
+            var startDate = new Date(dates[0]);
+            var endDate = new Date(dates[1]);
+            
+            if (startDate.getMonth() !== endDate.getMonth() || startDate.getFullYear() !== endDate.getFullYear()) {
+                alert('Please select a date range within the same month.');
+                return false;
+            }
+        } else {
+            alert('Date range is required.');
+            return false;
+        }
+
         var employee = $('select[name="employee"]').val();
 
         if (!report_type) {

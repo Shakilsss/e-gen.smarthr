@@ -342,7 +342,7 @@
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b><img src="<?php echo base_url();?>uploads/logo/<?php echo $system[0]->logo;?>" class="brand-logo"  style="width:50px;"></b></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><img src="<?php echo base_url();?>uploads/logo/<?php echo $system[0]->logo;?>" class="brand-logo" style="width:50px;"> <b><?php echo $system[0]->application_name;?></b></span>
+        <span class="logo-lg"><img src="<?php echo base_url();?>uploads/logo/<?php echo @$system[0]->logo;?>" class="brand-logo" style="width:50px;"> <b><?php echo @$system[0]->application_name;?></b></span>
     </a>
 
     <!-- Header Navbar: style can be found in header.less -->
