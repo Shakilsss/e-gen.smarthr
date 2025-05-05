@@ -249,7 +249,7 @@
                 let time = hours + 'h ' + minutes + 'm ago';
                 in_html += `<tr>
                     <td><span class="badge badge-custom">${emp.full_name}</span></td>
-                    <td><img src="<?= base_url('uploads/users/') ?>${emp.profile_picture}" /></td>
+                    <td><img src="<?= base_url('uploads/profile/') ?>${emp.profile_picture}" /></td>
                     <td>${time}</td>
                 </tr>`;
             });
@@ -262,10 +262,10 @@
                 let diff = Math.abs(now - emp_date);
                 let hours = Math.floor(diff / (1000 * 60 * 60));
                 let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                let time = hours + 'h ' + minutes + 'm ago';                
+                let time = hours + 'h ' + minutes + 'm ago';
                 out_html += `<tr>
                     <td><span class="badge badge-custom">${emp.full_name}</span></td>
-                    <td><img src="<?= base_url('uploads/users/') ?>${emp.profile_picture}" /></td>
+                    <td><img src="<?= base_url('uploads/profile/') ?>${emp.profile_picture}" /></td>
                     <td>${time}</td>
                 </tr>`;
             });
@@ -275,7 +275,7 @@
             res.leave.forEach(emp => {
                 leave_html += `<tr>
                     <td><span class="badge badge-custom">${emp.first_name} ${emp.last_name}</span></td>
-                    <td><img src="<?= base_url('uploads/users/') ?>${emp.profile_picture}" /></td>
+                    <td><img src="<?= base_url('uploads/profile/') ?>${emp.profile_picture}" /></td>
                 </tr>`;
             });
             $('#leave_table').html(leave_html);

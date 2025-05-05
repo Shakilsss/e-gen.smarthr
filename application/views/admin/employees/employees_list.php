@@ -299,7 +299,7 @@
                                 <select class="form-control" name="office_shift_id" data-plugin="select_hrm"
                                     data-placeholder="<?php echo $this->lang->line('xin_employee_office_shift');?>">
                                     <?php foreach($all_office_shifts as $shift) {?>
-                                    <option value="<?php echo $shift->office_shift_id?>"><?php echo $shift->shift_name?>
+                                    <option value="<?php echo $shift->id?>"><?php echo $shift->shift_name?>
                                     </option>
                                     <?php } ?>
                                 </select>

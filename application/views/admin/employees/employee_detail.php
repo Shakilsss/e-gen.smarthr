@@ -406,8 +406,8 @@
                                                                     data-plugin="select_hrm"
                                                                     data-placeholder="<?php echo $this->lang->line ('xin_employee_office_shift');?>">
                                                                     <?php foreach($all_office_shifts as $shift) {?>
-                                                                    <option value="<?php echo $shift->office_shift_id?>"
-                                                                        <?php if($office_shift_id == $shift->office_shift_id):?>
+                                                                    <option value="<?php echo $shift->id?>"
+                                                                        <?php if($office_shift_id == $shift->id):?>
                                                                         selected="selected" <?php endif; ?>>
                                                                         <?php echo $shift->shift_name?></option>
                                                                     <?php } ?>

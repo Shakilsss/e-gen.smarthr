@@ -121,7 +121,7 @@ class Dashboard extends MY_Controller {
                 $emp = $this->db->select('first_name, last_name, profile_picture')->where('punch_id', $value)->get('xin_employees')->row();
 
                 $masin->full_name = $emp ? $emp->first_name . ' ' . $emp->last_name : 'Unknown';
-                $masin->profile_picture = $emp && file_exists(FCPATH . 'uploads/users/' . $emp->profile_picture)
+                $masin->profile_picture = !empty($emp->profile_picture) && file_exists(FCPATH . 'uploads/profile/' . $emp->profile_picture)
                     ? $emp->profile_picture
                     : 'default_male.jpg';
 
@@ -139,7 +139,7 @@ class Dashboard extends MY_Controller {
         foreach ($emp_data_l as $value) {
             $leavedata = $this->Attendance_model->leave_chech(date('Y-m-d'), $value->user_id);
             if ($leavedata['leave'] == true) {
-                $value->profile_picture = file_exists(FCPATH . 'uploads/users/' . $value->profile_picture) ? $value->profile_picture : 'default_male.jpg';
+                $value->profile_picture = !empty($value->profile_picture) && file_exists(FCPATH . 'uploads/profile/' . $value->profile_picture) ? $value->profile_picture : 'default_male.jpg';
                 $leave[] = $value;
             }
         }
