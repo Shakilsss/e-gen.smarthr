@@ -112,7 +112,7 @@
 								$leave_type = $this->db->get('xin_leave_applications')->row("leave_type");
 								echo strtoupper($leave_type);
 							} else {
-								echo 'A';
+								echo 'A'; 
 							}
 						}
 					}
