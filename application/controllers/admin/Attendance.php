@@ -1579,7 +1579,8 @@ class Attendance extends MY_Controller
         }elseif($this->input->post('org') == 'IPAG'){
             $org = 2;
         }else{
-            $org = 'all';        }
+            $org = [1,2];
+        }
         $date_range  = $this->input->post('date_range');
         $employee    = $this->input->post('employee');
         $decoded_range = urldecode($date_range);
@@ -1595,7 +1596,8 @@ class Attendance extends MY_Controller
             $data['xin_employees'] = $this->db->distinct()
             ->select('user_id,first_name,last_name')
             ->where('is_active', 1)
-            ->where('company_id', $org)
+            ->where("user_role_id", 3)
+            ->where_in('company_id', $org)
             ->get('xin_employees')
             ->result();
         }

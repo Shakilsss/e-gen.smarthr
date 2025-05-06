@@ -306,8 +306,7 @@ h2 {
                     <label for="status-duty-hour" class="duty-hour"><i data-lucide="briefcase"></i> DUTY HOUR</label>
 
                     <input type="radio" id="status-duty-hour-details" name="report_type" value="duty-hour-details">
-                    <label for="status-duty-hour-details" class="duty-hour-details"><i data-lucide="file-text"></i> DUTY
-                        HOUR (DETAILS)</label>
+                    <label for="status-duty-hour-details" class="duty-hour-details"><i data-lucide="file-text"></i> DUTY HOUR (DETAILS)</label>
                 </div>
             </div>
         </div>
@@ -405,9 +404,9 @@ $(document).ready(function() {
         },
         dataType: 'json',
         success: function(response) {
-            const dateArray = date_range ? date_range.split(' to ') : [];
+            const dateArray= date_range   ? date_range.split(' to ') : [];
             const fromDate = dateArray[0] ? dateArray[0] : '';
-            const toDate = dateArray[1] ? dateArray[1] : '';
+            const toDate   = dateArray[1] ? dateArray[1] : '';
 
             const formatDate = (dateStr) => {
                 if (!dateStr) return '';
@@ -416,6 +415,7 @@ $(document).ready(function() {
             };
 
             const formattedRange = `${formatDate(fromDate)} to ${formatDate(toDate)}`;
+            const singleDate = `${formatDate(fromDate)}`;
 
             $('#loading').hide();
             if (doc_type.toLowerCase() == 'pdf') {
@@ -432,7 +432,7 @@ $(document).ready(function() {
                         startY: (report_type == 'all' ? 160 : 140),
                         margin: { top: (report_type == 'all' ? 160 : 140) },
                         styles: {
-                            fontSize: 10,
+                            fontSize: 9,
                             cellPadding: 5,
                             halign: 'center',
                             valign: 'middle',
@@ -502,7 +502,7 @@ $(document).ready(function() {
                             if (report_type == 'duty-hour-details') {
                                 doc.text("Attendance Report", 500, 50, { align: 'right' });
                                 doc.setFontSize(12);
-                                doc.text("(Duty Hour Details)", 400, 70, { align: 'left' });
+                                doc.text("(Duty Hour Details)", 370, 70, { align: 'left' });
                             }
 
                             var img = new Image();
@@ -526,7 +526,7 @@ $(document).ready(function() {
                     window.open(URL.createObjectURL(pdfBlob));
                 } else {
                     doc.text("No table data found", 10, 10);
-                    doc.save('attendance_report.pdf');
+                    doc.save(report_type+'_report.pdf');
                 }
             } else if (doc_type.toLowerCase() == 'excel') {
                 let worksheet = XLSX.utils.table_to_sheet($('<div>' + response + '</div>').find('table')[0]);

@@ -18,7 +18,7 @@
 			border: 1px solid black;
 		}
 		th, td {
-			font-size: 12px;
+			font-size: 9px;
 			text-align: center;
 			padding: 5px;
 		}
@@ -45,7 +45,7 @@
 				<?php for ($i = 1; $i <= $total_days; $i++) { ?>
 					<th><?= $i ?></th>
 				<?php } ?>
-				<th style="whitespace:nowrap;">Total Hours</th>
+				<th ;">Total Hours</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -59,7 +59,7 @@
 			<tr>
 				<td><?= $j++ ?></td>
 				<td><?= $r->user_id ?></td>
-				<td style="whitespace:nowrap;"><?= $r->first_name . ' ' . $r->last_name ?></td>
+				<td><?= $r->first_name . ' ' . $r->last_name ?></td>
 				<?php
 				$total_minutes = 0;
 				for ($d = 1; $d <= $total_days; $d++) {
@@ -107,6 +107,3 @@
 	</table>
 </body>
 </html>
-
-
-

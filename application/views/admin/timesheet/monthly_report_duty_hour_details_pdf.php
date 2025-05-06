@@ -1,8 +1,8 @@
 <?php
-	$first_date  = date('Y-m-01', strtotime($first_date));
-	$second_date = date('Y-m-t', strtotime($first_date));
-	$total_days = date('t', strtotime($first_date));
-	$row_count = 0;
+	// $first_date  = date('Y-m-01', strtotime($first_date));
+	// $second_date = date('Y-m-t', strtotime($first_date));
+	// $total_days = date('t', strtotime($first_date));
+	// $row_count = 0;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +13,7 @@
 	<style>
 		body {
 			font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-			font-size: 10px;
+			font-size: 9px;
 			line-height: 1.2em;
 		}
 		table {
@@ -37,35 +37,38 @@
 				margin: 0;
 				padding: 0;
 			}
+			tr.page-break {
+				page-break-after: always;
+			}
 		}
 	</style>
 </head>
 <body>
 	<table>
-		<tr>
-			<th style="width: 20px;">SL.</th>
-			<th style="width: 100px;">ID</th>
-			<th style="width: 200px;">Name</th>
-			<?php for ($i = 1; $i <= $total_days; $i++) { ?>
-				<th style="width: 50px;"><?php echo $i?></th>
-			<?php } ?>
-			<th style="width: 100px; whitespace:nowrap">Total Hours</th>
-		</tr>
+		<thead>
+			<tr>
+				<th>SL.</th>
+				<th>ID</th>
+				<th>Name</th>
+				<?php for ($i = 1; $i <= $total_days; $i++) { ?>
+					<th><?php echo $i?></th>
+				<?php } ?>
+				<th>Total Hours</th>
+			</tr>
+		</thead>
 		<tbody>
 		<?php
 		$j = 1;
 		$row_count = 0;
-		$total_rows = count($xin_employees);
 		foreach ($xin_employees as $r) { 
-			if ($row_count > 0 && $row_count % 10 == 0) {
-				echo '<tr style="page-break-before: always;"></tr>';
-			}
 			$row_count++;
+			// Add page-break class every 5 rows
+			$row_class = ($row_count % 5 == 0) ? 'always' : '';
 		?>
-			<tr>
-				<td style="text-align: center; vertical-align: middle;whitespace:nowrap"><?= $j++ ?></td>
-				<td style="text-align: center; vertical-align: middle;"><?= $r->user_id ?></td>
-				<td style="text-align: left; vertical-align: middle;"><?= $r->first_name . ' ' . $r->last_name ?></td>
+			<tr style="page-break-after:<?= $row_class ?>">
+				<td><?= $j++ ?></td>
+				<td><?= $r->user_id ?></td>
+				<td><?= $r->first_name . ' ' . $r->last_name ?></td>
 				<?php
 				$total_minutes = 0;
 				for ($d = 1; $d <= $total_days; $d++) {
@@ -75,19 +78,19 @@
 						->where("employee_id", $r->user_id)
 						->get('xin_attendance_time')
 						->result();
-					echo '<td style="text-align: center; vertical-align: middle;">';
+					echo '<td>';
 					if (empty($attendance_data)) {
 						echo '';
 					} else {
 						$day_minutes = 0;
 						foreach ($attendance_data as $data) {
 							if (!empty($data->clock_in) && !empty($data->clock_out)) {
-								$clock_in_time = strtotime($data->clock_in);
-								$clock_out_time = strtotime($data->clock_out);
+								$clock_in_time   = strtotime($data->clock_in);
+								$clock_out_time  = strtotime($data->clock_out);
 								$time_difference = $clock_out_time - $clock_in_time;
-								$hours = floor($time_difference / 3600);
-								$minutes = floor(($time_difference % 3600) / 60);
-								$day_minutes += ($hours * 60) + $minutes;
+								$hours           = floor($time_difference / 3600);
+								$minutes         = floor(($time_difference % 3600) / 60);
+								$day_minutes     += ($hours * 60) + $minutes;
 							}
 						}
 						if ($day_minutes > 0) {
@@ -118,7 +121,7 @@
 				$total_hours_final = floor($total_minutes / 60);
 				$total_minutes_final = $total_minutes % 60;
 				?>
-				<td style="text-align: center; vertical-align: middle;"><strong><?= sprintf("%02d:%02d", $total_hours_final, $total_minutes_final) ?></strong></td>
+				<td style=""> <?= sprintf("%02d:%02d", $total_hours_final, $total_minutes_final) ?></td>
 			</tr>		
 		<?php } ?>
 		</tbody>

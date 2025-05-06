@@ -54,8 +54,7 @@
 							<td>Date</td>
 							<td>Name</td>
 							<td>Designation</td>
-							<td>Leave</td>
-							<td>Time</td>
+							<td>In Time</td>
 							<td>Status</td>
 						</tr>
 					</thead>
@@ -66,21 +65,29 @@
 				$row_count = 0;
 				$total_rows = count($xin_employees);
 				foreach ($xin_employees as $r) { 
+					// dd($r);
 					$late_start = $this->db->select('late_start')
 					->get('emp_shift_schedule')
 					->row('late_start');
-					$attendance_data = $this->db->select('clock_in, clock_out, status')
+					$attendance_data = $this->db->select('employee_id,clock_in, clock_out, status,attendance_date')
 					->where("attendance_date >=", $first_date)
 					->where("attendance_date <=", $second_date) 
 					->where('employee_id', $r->user_id)
+					->where('late_status', 1)
 					->where('TIME(clock_in) >=', date('h:i:01', strtotime($late_start)))
 					->get('xin_attendance_time')
 					->row();
 
+					// dd($this->db->last_query());
+					if($attendance_data == '' || $attendance_data == null) {
+						continue;
+					}
+
+
 					$user_designation = $this->db->select('designation_name')
-					->where('designation_id', $r->designation_id)
-					->get('xin_designations')
-					->row('designation_name');
+						->where('designation_id', $r->designation_id)
+						->get('xin_designations')
+						->row('designation_name');
 
 					if ($row_count > 0 && $row_count % 12 == 0) {
 						echo '<tr class="page-break" style="border:none;"></tr>';?> 
@@ -92,7 +99,7 @@
 				<tr class="text-center">
 					<td style="vertical-align: middle;"><?= $j++ ?></td>
 					<td style="vertical-align: middle;"><?= $r->user_id ?></td>
-					<td style="vertical-align: middle;"><?= date('Y-m-d')?></td>
+					<td style="vertical-align: middle;"><?= $attendance_data->attendance_date == null ? '' : date('Y-m-d',strtotime($attendance_data->attendance_date))?></td>
 					<td style="vertical-align: middle;"><?= $r->first_name . ' ' . $r->last_name ?></td>
 					<td style="vertical-align: middle;"><?= $user_designation ?></td>
 					<td style="vertical-align: middle;">

@@ -131,7 +131,7 @@
 			}
 			?>
 
-			<!-- <td style="vertical-align: middle;">< ?= @$count ?></td> -->
+			<td style="vertical-align: middle;"><?= @$count ?></td>
 		</tr>
 
 		<?php if($row_count % 19 == 0){?>
